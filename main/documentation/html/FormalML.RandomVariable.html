@@ -1,0 +1,132 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.RandomVariable</title>
+<meta name="description" content="Documentation of Coq module FormalML.RandomVariable" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.RandomVariable</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.utils.BasicUtils.html">BasicUtils</a></span> <span class="id"><a href="FormalML.ProbSpace.html">ProbSpace</a></span>.<br/>
+<br/>
+<span class="kwd">Import</span> <span class="id">ListNotations</span>.<br/>
+<br/>
+<span class="kwd">Class</span> <span class="id"><a name="RandomVariable">RandomVariable</a></span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} {<span class="id">Td</span>:<span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cod</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Td</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span>: <span class="id">Ts</span> -&gt; <span class="id">Td</span>)<br/>
+&nbsp;&nbsp;:=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="rv_preimage">rv_preimage</a></span>: <span class="kwd">forall</span> (<span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id">Td</span>), <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rv_X</span> <span class="id">B</span>).<br/>
+<br/>
+<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="RandomVariable_proper">RandomVariable_proper</a></span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} {<span class="id">Td</span>:<span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cod</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Td</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) (<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id">cod</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2770')">Proof.</div>
+<div class="proofscript" id="proof2770">
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span> <span class="id">y</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">rewrite</span> &lt;- <span class="id">eqq</span>; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">eqq</span>; <span class="tactic">auto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="Const">Const</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>}.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Class</span> <span class="id"><a name="ConstantRandomVariable">ConstantRandomVariable</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariable.html#Const.Ts">Ts</a></span> -&gt; <span class="id"><a href="FormalML.RandomVariable.html#Const.Td">Td</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="srv_val">srv_val</a></span> : <span class="id"><a href="FormalML.RandomVariable.html#Const.Td">Td</a></span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="srv_val_complete">srv_val_complete</a></span> : <span class="kwd">forall</span> <span class="id">x</span>, <span class="id">rv_X</span> <span class="id">x</span> = <span class="id">srv_val</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="crvconst">crvconst</a></span> <span class="id">c</span> : <span class="id"><a href="FormalML.RandomVariable.html#ConstantRandomVariable">ConstantRandomVariable</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= { <span class="id"><a href="FormalML.RandomVariable.html#srv_val">srv_val</a></span> := <span class="id">c</span> }.<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> (<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.RandomVariable.html#Const.Ts">Ts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cod</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.RandomVariable.html#Const.Td">Td</a></span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="rvconst">rvconst</a></span> <span class="id">c</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariable.html#Const.dom">dom</a></span> <span class="id"><a href="FormalML.RandomVariable.html#Const.cod">cod</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2771')">Proof.</div>
+<div class="proofscript" id="proof2771">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.ProbSpace.html#sa_dec">sa_dec</a></span> <span class="id">H</span> <span class="id">c</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="id">_</span> : <span class="id"><a href="FormalML.RandomVariable.html#Const.Ts">Ts</a></span> =&gt; <span class="id">B</span> <span class="id">c</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">_</span> : <span class="id"><a href="FormalML.RandomVariable.html#Const.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="id">_</span> : <span class="id"><a href="FormalML.RandomVariable.html#Const.Ts">Ts</a></span> =&gt; <span class="id">B</span> <span class="id">c</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#event_none">event_none</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_none">sa_none</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariable.html#Const">Const</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="Simple">Simple</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} {<span class="id">Td</span>:<span class="kwd">Type</span>}.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Class</span> <span class="id"><a name="SimpleRandomVariable">SimpleRandomVariable</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariable.html#Simple.Ts">Ts</a></span>-&gt;<span class="id"><a href="FormalML.RandomVariable.html#Simple.Td">Td</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= { <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="srv_vals">srv_vals</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.RandomVariable.html#Simple.Td">Td</a></span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="srv_vals_complete">srv_vals_complete</a></span> : <span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id">rv_X</span> <span class="id">x</span>) <span class="id">srv_vals</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="srv_crv">srv_crv</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariable.html#Simple.Ts">Ts</a></span>-&gt;<span class="id"><a href="FormalML.RandomVariable.html#Simple.Td">Td</a></span>) {<span class="id">crv</span>:<span class="id"><a href="FormalML.RandomVariable.html#ConstantRandomVariable">ConstantRandomVariable</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">rv_X</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#srv_vals">srv_vals</a></span> := [<span class="id"><a href="FormalML.RandomVariable.html#srv_val">srv_val</a></span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2772')">Next Obligation.</div>
+<div class="proofscript" id="proof2772">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> (@<span class="id"><a href="FormalML.RandomVariable.html#srv_val_complete">srv_val_complete</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">crv</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="srvconst">srvconst</a></span> <span class="id">c</span> : <span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.RandomVariable.html#srv_crv">srv_crv</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="nodup_simple_random_variable">nodup_simple_random_variable</a></span> (<span class="id">dec</span>:<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">y</span>:<span class="id"><a href="FormalML.RandomVariable.html#Simple.Td">Td</a></span>), {<span class="id">x</span> = <span class="id">y</span>} + {<span class="id">x</span> &lt;&gt; <span class="id">y</span>})<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariable.html#Simple.Ts">Ts</a></span>-&gt;<span class="id"><a href="FormalML.RandomVariable.html#Simple.Td">Td</a></span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">srv</span>:<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">rv_X</span>) : <span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">rv_X</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= { <span class="id"><a href="FormalML.RandomVariable.html#srv_vals">srv_vals</a></span> := <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">dec</span> <span class="id"><a href="FormalML.RandomVariable.html#srv_vals">srv_vals</a></span> }.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2773')">Next Obligation.</div>
+<div class="proofscript" id="proof2773">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#nodup_In">nodup_In</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariable.html#srv_vals_complete">srv_vals_complete</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="nodup_simple_random_variable_NoDup">nodup_simple_random_variable_NoDup</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">dec</span>:<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">y</span>:<span class="id"><a href="FormalML.RandomVariable.html#Simple.Td">Td</a></span>), {<span class="id">x</span> = <span class="id">y</span>} + {<span class="id">x</span> &lt;&gt; <span class="id">y</span>})<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv_X</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">srv</span>:<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">rv_X</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#NoDup">NoDup</a></span> (<span class="id"><a href="FormalML.RandomVariable.html#srv_vals">srv_vals</a></span> (<span class="id">SimpleRandomVariable</span>:=<span class="id"><a href="FormalML.RandomVariable.html#nodup_simple_random_variable">nodup_simple_random_variable</a></span> <span class="id">dec</span> <span class="id">srv</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2774')">Proof.</div>
+<div class="proofscript" id="proof2774">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#NoDup_nodup">NoDup_nodup</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariable.html#Simple">Simple</a></span>.<br/>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>

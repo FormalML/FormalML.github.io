@@ -1,0 +1,448 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.BorelSigmaAlgebra</title>
+<meta name="description" content="Documentation of Coq module FormalML.BorelSigmaAlgebra" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.BorelSigmaAlgebra</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.ProbSpace.html">ProbSpace</a></span> <span class="id"><a href="FormalML.SigmaAlgebras.html">SigmaAlgebras</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.micromega.Lra.html">Lra</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.micromega.Lia.html">Lia</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">Utils</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.NumberIso.html">NumberIso</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Equivalence.html">Equivalence</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="kwd">Program</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.QArith.html">QArith</a></span>.<br/>
+<br/>
+<span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="kwd">Strict</span> <span class="id">Subproofs</span>".<br/>
+<br/>
+<br/>
+<span class="kwd">Instance</span> <span class="id"><a name="open_borel_sa">open_borel_sa</a></span> : <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span><br/>
+&nbsp;&nbsp;:= <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span>.<br/>
+<br/>
+<span class="kwd">Instance</span> <span class="id"><a name="borel_sa">borel_sa</a></span> : <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span><br/>
+&nbsp;&nbsp;:= <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa">generated_sa</a></span> (<span class="kwd">fun</span> (<span class="id">s</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>-&gt;<span class="kwd">Prop</span>) =&gt; <span class="id">exists</span> <span class="id">r</span>, <span class="kwd">forall</span> <span class="id">m</span>, <span class="id">m</span> &lt;= <span class="id">r</span> &lt;-&gt; <span class="id">s</span> <span class="id">m</span>)%<span class="id">R</span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="Borel">Borel</a></span>.<br/>
+<br/>
+<span class="kwd">Local</span> <span class="kwd">Open</span> <span class="kwd">Scope</span> <span class="id">R</span>.<br/>
+<br/>
+<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}.<br/>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="borel_sa_preimage">borel_sa_preimage</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvx</span>: <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">pf_pre</span>: <span class="kwd">forall</span> <span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span>:<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">rvx</span> <span class="tactic">omega</span>) &lt;= <span class="id">r</span>)%<span class="id">R</span>) :<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rvx</span> <span class="id">B</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2205')">Proof.</div>
+<div class="proofscript" id="proof2205">
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa_closure">generated_sa_closure</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> *.  <br/>
+&nbsp;&nbsp;<span class="tactic">dependent</span> <span class="tactic">induction</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id">pf_pre</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_proper">sa_proper</a></span>; <span class="tactic">intros</span> <span class="id">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> (<span class="id">rvx</span> <span class="id">xx</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_countable_union">sa_countable_union</a></span>. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>; <span class="tactic">eauto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="borel_sa_preimage2">borel_sa_preimage2</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvx</span>: <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>):<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span>:<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">rvx</span> <span class="tactic">omega</span>) &lt;= <span class="id">r</span>)%<span class="id">R</span>) &lt;-&gt; <br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> <span class="id">B</span> -&gt; (<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rvx</span> <span class="id">B</span>))).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2206')">Proof.</div>
+<div class="proofscript" id="proof2206">
+&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa_preimage">borel_sa_preimage</a></span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id">H</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> &lt;= <span class="id">r</span>)%<span class="id">R</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa_sub">generated_sa_sub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">r</span>; <span class="tactic">intuition</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="open_borel_sa_preimage">open_borel_sa_preimage</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvx</span>: <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">pf_pre</span>: <span class="kwd">forall</span> <span class="id">B</span>:<span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rvx</span> <span class="id">B</span>)%<span class="id">R</span>) :<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, (@<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#open_borel_sa">open_borel_sa</a></span> <span class="id">B</span>) -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rvx</span> <span class="id">B</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2207')">Proof.</div>
+<div class="proofscript" id="proof2207">
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa_closure">generated_sa_closure</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> *.  <br/>
+&nbsp;&nbsp;<span class="tactic">dependent</span> <span class="tactic">induction</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">generalize</span> (<span class="id">pf_pre</span> <span class="id">q</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_countable_union">sa_countable_union</a></span>. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>; <span class="tactic">eauto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="open_borel_sa_preimage2">open_borel_sa_preimage2</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvx</span>: <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>):<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>:<span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rvx</span> <span class="id">B</span>)%<span class="id">R</span>) &lt;-&gt;<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, (@<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#open_borel_sa">open_borel_sa</a></span> <span class="id">B</span>) -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">rvx</span> <span class="id">B</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2208')">Proof.</div>
+<div class="proofscript" id="proof2208">
+&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#open_borel_sa_preimage">open_borel_sa_preimage</a></span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id">H</span> <span class="id">B</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa_sub">generated_sa_sub</a></span>.<br/>
+Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="equiv_le_lt">equiv_le_lt</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#union_of_collection">union_of_collection</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> (<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) =&gt; (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span> - / (1 + <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>)))).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2209')">Proof.</div>
+<div class="proofscript" id="proof2209">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#union_of_collection">union_of_collection</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span> ; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#archimed_cor1">archimed_cor1</a></span> (<span class="id">r</span> - <span class="id">f</span> <span class="id">x</span>)) ; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">r</span> - <span class="id">f</span> <span class="id">x</span> &gt; 0) <span class="tactic">by</span> <span class="id">lra</span>. <span class="id">specialize</span> (<span class="id">H0</span> <span class="id">H1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">clear</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [<span class="id">N</span> [<span class="id">HNf</span> <span class="id">HN</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">N</span>. <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (1 + <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">N</span>) <span class="kwd">with</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">N</span>)) <span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#S_O_plus_INR">S_O_plus_INR</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">f</span> <span class="id">x</span> &lt; <span class="id">r</span> - / <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">N</span>) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rlt_trans">Rlt_trans</a></span> ; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rminus">Rminus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_lt_compat_l">Rplus_lt_compat_l</a></span>. <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Ropp_lt_contravar">Ropp_lt_contravar</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_lt_contravar">Rinv_lt_contravar</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;-<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mult_INR">mult_INR</a></span>. <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#lt_0_INR">lt_0_INR</a></span> ; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#lt_INR">lt_INR</a></span> ; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (0 &lt; / <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x0</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_0_lt_compat">Rinv_0_lt_compat</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span>  <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#lt_0_INR">lt_0_INR</a></span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (1 + <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">x0</span>) <span class="kwd">with</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x0</span>)) <span class="kwd">in</span> <span class="id">H</span> <span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#S_O_plus_INR">S_O_plus_INR</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_gt">sa_le_gt</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt; <span class="id">r</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2210')">Proof.</div>
+<div class="proofscript" id="proof2210">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt; <span class="id">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_ge">sa_le_ge</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt;= <span class="id">r</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2211')">Proof.</div>
+<div class="proofscript" id="proof2211">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt;= <span class="id">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#equiv_le_lt">equiv_le_lt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_countable_union">sa_countable_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_lt">sa_le_lt</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2212')">Proof.</div>
+<div class="proofscript" id="proof2212">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt;= <span class="id">r</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_ge">sa_le_ge</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_closed_intervals">sa_closed_intervals</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">l</span> <span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt;= <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2213')">Proof.</div>
+<div class="proofscript" id="proof2213">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt;= <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_inter">event_inter</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt;= <span class="id">f</span> <span class="tactic">omega</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#event_inter">event_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_inter">sa_inter</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt;= <span class="id">f</span> <span class="tactic">omega</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt;= <span class="id">l</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">intros</span>; <span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_ge">sa_le_ge</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_open_intervals">sa_open_intervals</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">l</span> <span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2214')">Proof.</div>
+<div class="proofscript" id="proof2214">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_inter">event_inter</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt; <span class="id">f</span> <span class="tactic">omega</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt; <span class="id">r</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#event_inter">event_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_inter">sa_inter</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">l</span> &lt; <span class="id">f</span> <span class="tactic">omega</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt; <span class="id">l</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">intros</span>; <span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_gt">sa_le_gt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_lt">sa_le_lt</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_pt">sa_le_pt</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">pt</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">pt</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2215')">Proof.</div>
+<div class="proofscript" id="proof2215">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">pt</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_inter">event_inter</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">pt</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> &gt;= <span class="id">pt</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#event_inter">event_inter</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_inter">sa_inter</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_ge">sa_le_ge</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="Q_interval">Q_interval</a></span> (<span class="id">l</span> <span class="id">r</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span>) (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : <span class="kwd">Prop</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> <span class="id">l</span> &lt; <span class="id">x</span> &lt; <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> <span class="id">r</span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Axiom</span> <span class="id"><a name="Q_dense">Q_dense</a></span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span> <span class="id">r</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">l</span> &lt; <span class="id">r</span>)%<span class="id">R</span> -&gt; (<span class="id">exists</span> (<span class="id">m</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span>), <span class="id">l</span> &lt; <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> <span class="id">m</span> &lt; <span class="id">r</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Q_neighborhood_included">Q_neighborhood_included</a></span> (<span class="id">D</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="kwd">Prop</span>) (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#neighbourhood">neighbourhood</a></span> <span class="id">D</span> <span class="id">x</span> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">l</span> <span class="id">r</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span>), <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span> <span class="id">l</span> <span class="id">r</span> <span class="id">x</span> /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span> <span class="id">l</span> <span class="id">r</span>) <span class="id">D</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2216')">Proof.</div>
+<div class="proofscript" id="proof2216">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#neighbourhood">neighbourhood</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#disc">disc</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">eps</span> <span class="id">H</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> <span class="id">eps</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">x</span> &lt; <span class="id">x</span>+<span class="id">eps</span>)%<span class="id">R</span> <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">x</span> - <span class="id">eps</span> &lt; <span class="id">x</span>)%<span class="id">R</span> <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_dense">Q_dense</a></span> (<span class="id">x</span>-<span class="id">eps</span>) <span class="id">x</span> <span class="id">H2</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_dense">Q_dense</a></span> <span class="id">x</span> (<span class="id">x</span> + <span class="id">eps</span>) <span class="id">H1</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H3</span> <span class="kwd">as</span> [<span class="id">l0</span> <span class="id">H3</span>].      <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H4</span> <span class="kwd">as</span> [<span class="id">r0</span> <span class="id">H4</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">l0</span>; <span class="id">exists</span> <span class="id">r0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; [<span class="id">lra</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>;  <span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">Rcomplements.Rabs_lt_between</span>'; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Q_open_set">Q_open_set</a></span> (<span class="id">D</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span> <span class="id">D</span> &lt;-&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id">D</span> <span class="id">x</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">l</span> <span class="id">r</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span>), <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span> <span class="id">l</span> <span class="id">r</span> <span class="id">x</span> /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span> <span class="id">l</span> <span class="id">r</span>) <span class="id">D</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2217')">Proof.</div>
+<div class="proofscript" id="proof2217">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_neighborhood_included">Q_neighborhood_included</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#neighbourhood">neighbourhood</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">x</span> <span class="id">H0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">l0</span> <span class="id">H</span>]; <span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">r0</span> <span class="id">H</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span>,<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#disc">disc</a></span>,<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (0 &lt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span> (<span class="id">x</span> - <span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> <span class="id">l0</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> <span class="id">r0</span> - <span class="id">x</span>))%<span class="id">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin_pos">Rmin_pos</a></span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">exists</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id">H2</span>); <span class="tactic">intros</span>; <span class="tactic">apply</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">Rcomplements.Rabs_lt_between</span> <span class="kwd">in</span> <span class="id">H3</span>; <span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Ropp_lt_contravar">Ropp_lt_contravar</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Ropp_involutive">Ropp_involutive</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin_Rgt_l">Rmin_Rgt_l</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin_Rgt_l">Rmin_Rgt_l</a></span> <span class="kwd">in</span> <span class="id">H4</span>.        <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_open_set">sa_le_open_set</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)%<span class="id">R</span>)) -&gt;      <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">f</span> <span class="id">B</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2218')">Proof.</div>
+<div class="proofscript" id="proof2218">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_open_set">Q_open_set</a></span> <span class="id">B</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; <span class="id">B</span> (<span class="id">f</span> <span class="tactic">omega</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#union_of_collection">union_of_collection</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> (<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) =&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">n12</span> := (@<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id"><a href="FormalML.utils.PairEncoding.html#nat_pair_encoder">nat_pair_encoder</a></span>) <span class="id">n</span> <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">qint</span> := <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span> <span class="id">n12</span>)) (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#snd">snd</a></span> <span class="id">n12</span>)) <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">qint</span> (<span class="id">f</span> <span class="tactic">omega</span>)) /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span> <span class="id">qint</span> <span class="id">B</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#union_of_collection">union_of_collection</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">specialize</span> (<span class="id">H1</span> <span class="id">H0</span> (<span class="id">f</span> <span class="id">x</span>) <span class="id">H3</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [<span class="id">l0</span> [<span class="id">r0</span> <span class="id">H1</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span> ((<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span> <span class="id">l0</span>), (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span> <span class="id">r0</span>)) ).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b_f">iso_b_f</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#snd">snd</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">do</span> 2 <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b_f">iso_b_f</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">specialize</span> (<span class="id">H4</span> (<span class="id">f</span> <span class="id">x</span>) <span class="id">H3</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_countable_union">sa_countable_union</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_open_intervals">sa_open_intervals</a></span> <span class="id">f</span> <span class="id">H</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Q_interval">Q_interval</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H4</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span> (@<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">_</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> <span class="id"><a href="FormalML.utils.PairEncoding.html#nat_pair_encoder">nat_pair_encoder</a></span> <span class="id">n</span>))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Qreals.Q2R</a></span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#snd">snd</a></span> (@<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">_</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> <span class="id"><a href="FormalML.utils.PairEncoding.html#nat_pair_encoder">nat_pair_encoder</a></span> <span class="id">n</span>))))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_inter">sa_inter</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma_const_classic">sa_sigma_const_classic</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_open_set_le">sa_open_set_le</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">f</span> <span class="id">B</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)%<span class="id">R</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2219')">Proof.</div>
+<div class="proofscript" id="proof2219">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)%<span class="id">R</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span> &gt; <span class="id">r</span>)%<span class="id">R</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#neighbourhood">neighbourhood</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>; <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#disc">disc</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (0 &lt; (<span class="id">x</span>-<span class="id">r</span>)/2)%<span class="id">R</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id">H2</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_def2">Rabs_def2</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_open_iff_le">sa_open_iff_le</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">B</span>: <span class="id"><a href="FormalML.ProbSpace.html#event">event</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#open_set">open_set</a></span> <span class="id">B</span> -&gt; <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span> <span class="id">f</span> <span class="id">B</span>)) &lt;-&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),  <span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel.Ts">Ts</a></span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span> &lt;= <span class="id">r</span>)%<span class="id">R</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2220')">Proof.</div>
+<div class="proofscript" id="proof2220">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_open_set_le">sa_open_set_le</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_open_set">sa_le_open_set</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#Borel">Borel</a></span>.<br/>
+<br/>
+<span class="kwd">Local</span> <span class="kwd">Open</span> <span class="kwd">Scope</span> <span class="id">equiv_scope</span>.<br/>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="sa_borel_open_le_sub1">sa_borel_open_le_sub1</a></span> : <span class="id"><a href="FormalML.ProbSpace.html#sa_sub">sa_sub</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#open_borel_sa">open_borel_sa</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2221')">Proof.</div>
+<div class="proofscript" id="proof2221">
+&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_open_iff_le">sa_open_iff_le</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#id">id</a></span>).<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#id">id</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">e</span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.SigmaAlgebras.html#all_included">all_included</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">HH</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">red</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa_preimage2">borel_sa_preimage2</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_preimage">event_preimage</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">auto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="sa_borel_open_le_sub2">sa_borel_open_le_sub2</a></span> : <span class="id"><a href="FormalML.ProbSpace.html#sa_sub">sa_sub</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#open_borel_sa">open_borel_sa</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2222')">Proof.</div>
+<div class="proofscript" id="proof2222">
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">e</span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span> <span class="id">Hs</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.SigmaAlgebras.html#generated_sa_closure">generated_sa_closure</a></span> <span class="kwd">in</span> <span class="id">Hs</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;<span class="tactic">dependent</span> <span class="tactic">induction</span> <span class="id">Hs</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">r</span> <span class="id">Hr</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">eqq</span>:<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> <span class="id">q</span> (<span class="kwd">fun</span> <span class="id">m</span> =&gt; (<span class="id">m</span> &lt;= <span class="id">r</span>)%<span class="id">R</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="tactic">red</span>; <span class="tactic">intros</span>; <span class="tactic">symmetry</span>; <span class="tactic">trivial</span>. }<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">clear</span> <span class="id">Hr</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">HH2</span>:(<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="id">m</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> =&gt; <span class="id">m</span> &lt;= <span class="id">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span> (<span class="kwd">fun</span> <span class="id">m</span> =&gt; <span class="id">m</span> &gt; <span class="id">r</span>)))%<span class="id">R</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span>; <span class="tactic">intros</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">HH2</span>; <span class="tactic">clear</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span> <span class="id">xgt</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#included">included</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtopology.html#disc">disc</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">HH</span>:(0 &lt; (<span class="id">x</span>-<span class="id">r</span>)/2)%<span class="id">R</span>) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id">HH</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_def2">Rabs_def2</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_countable_union">sa_countable_union</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>; <span class="tactic">eauto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Theorem</span> <span class="id"><a name="sa_borel_open_le_equiv">sa_borel_open_le_equiv</a></span> : <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#open_borel_sa">open_borel_sa</a></span> === <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2223')">Proof.</div>
+<div class="proofscript" id="proof2223">
+&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_borel_open_le_sub1">sa_borel_open_le_sub1</a></span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_borel_open_le_sub2">sa_borel_open_le_sub2</a></span>.<br/>
+Qed.</div>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>

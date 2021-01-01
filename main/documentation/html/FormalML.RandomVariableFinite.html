@@ -1,0 +1,873 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.RandomVariableFinite</title>
+<meta name="description" content="Documentation of Coq module FormalML.RandomVariableFinite" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.RandomVariableFinite</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Equivalence.html">Equivalence</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.micromega.Lra.html">Lra</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.Classical.html">Classical</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html">FunctionalExtensionality</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.converge.LM.hilbert.html">hilbert</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.Expectation.html">Expectation</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.quotient_space.html">quotient_space</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.AlmostEqual.html">AlmostEqual</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">utils.Utils</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html">List</a></span>.<br/>
+<br/>
+<span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="kwd">Strict</span> <span class="id">Subproofs</span>".<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="fe">fe</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbSpace.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>).<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Class</span> <span class="id"><a name="IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a name="is_finite_expectation">is_finite_expectation</a></span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">_</span>) =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> | <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">x</span>)}.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2853')">Proof.</div>
+<div class="proofscript" id="proof2853">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span> <span class="kwd">in</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">r</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="FiniteExpectation">FiniteExpectation</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span> <span class="id">rv_X</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Ltac</span> <span class="id">simpl_finite</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="tactic">repeat</span> <span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [|- <span class="id">context</span> [<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> ?<span class="id">x</span>]] =&gt; <span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">simpl</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [<span class="id">H</span>: <span class="id">context</span> [<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> ?<span class="id">x</span>] |- <span class="id">_</span>] =&gt; <span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_Expectation">FiniteExpectation_Expectation</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2854')">Proof.</div>
+<div class="proofscript" id="proof2854">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="Expectation_IsFiniteExpectation">Expectation_IsFiniteExpectation</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id">n</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">n</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2855')">Proof.</div>
+<div class="proofscript" id="proof2855">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Expectation_FiniteExpectation">Expectation_FiniteExpectation</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id">n</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">n</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span> = <span class="id">n</span>.<br/>
+&nbsp;&nbsp;<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2856')">Proof.</div>
+<div class="proofscript" id="proof2856">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span> <span class="id">rv_X</span>); <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">Expectation_FiniteExpectation</span>' (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id">n</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">eqq</span>:<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">n</span>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#Expectation_IsFiniteExpectation">Expectation_IsFiniteExpectation</a></span> <span class="id">rv_X</span> <span class="id">n</span> <span class="id">eqq</span>) = <span class="id">n</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2857')">Proof.</div>
+<div class="proofscript" id="proof2857">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span> <span class="id">rv_X</span>); <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_pf_irrel">FiniteExpectation_pf_irrel</a></span> <span class="id">rv_X</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span> <span class="id">isfe1</span> = @<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span> <span class="id">isfe2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2858')">Proof.</div>
+<div class="proofscript" id="proof2858">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_ext">FiniteExpectation_ext</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">eqq</span>: <span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X1</span> <span class="id">isfe1</span> = @<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X2</span> <span class="id">isfe2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2859')">Proof.</div>
+<div class="proofscript" id="proof2859">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">eqq</span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_proper">IsFiniteExpectation_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2860')">Proof.</div>
+<div class="proofscript" id="proof2860">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span> <span class="id">y</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_const">IsFiniteExpectation_const</a></span> <span class="id">c</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2861')">Proof.</div>
+<div class="proofscript" id="proof2861">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_const">Expectation_const</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_const">FiniteExpectation_const</a></span> <span class="id">c</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>) = <span class="id">c</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2862')">Proof.</div>
+<div class="proofscript" id="proof2862">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>; <span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_const">Expectation_const</a></span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_const">FiniteExpectation_const</a></span> : <span class="id">prob</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_plus">IsFiniteExpectation_plus</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2863')">Proof.</div>
+<div class="proofscript" id="proof2863">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span> <span class="kwd">in</span> <span class="id">isfe1</span>, <span class="id">isfe2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_sum_finite">Expectation_sum_finite</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="id">match_destr_in</span> <span class="id">isfe1</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="id">match_destr_in</span> <span class="id">isfe2</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> (<span class="id">HH</span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>)).<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_plus">FiniteExpectation_plus</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X1</span> + <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2864')">Proof.</div>
+<div class="proofscript" id="proof2864">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span> <span class="id">rv_X1</span>) <span class="kwd">as</span> [<span class="id">r1</span> <span class="id">e1</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span> <span class="id">rv_X2</span>) <span class="kwd">as</span> [<span class="id">r2</span> <span class="id">e2</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_sum_finite">Expectation_sum_finite</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">r1</span> <span class="id">r2</span> <span class="id">e1</span> <span class="id">e2</span>); <span class="tactic">trivial</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_Expectation">FiniteExpectation_Expectation</a></span> <span class="kwd">in</span> <span class="id">e1</span>,<span class="id">e2</span>,<span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">e1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">e2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H0</span>, <span class="id">H1</span>, <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_plus">FiniteExpectation_plus</a></span> : <span class="id">prob</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_scale">IsFiniteExpectation_scale</a></span> (<span class="id">c</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">c</span> <span class="id">rv_X</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2865')">Proof.</div>
+<div class="proofscript" id="proof2865">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id">c</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_ext">Expectation_ext</a></span> (<span class="id">rv_X2</span>:=(<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_const">Expectation_const</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> ?; <span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_scale">Expectation_scale</a></span> <span class="id">c</span> <span class="id">rv_X</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_scale_inv">IsFiniteExpectation_scale_inv</a></span> <span class="id">c</span> <span class="id">rv_X</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">c</span> <span class="id">rv_X</span>)} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> &lt;&gt; 0 -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2866')">Proof.</div>
+<div class="proofscript" id="proof2866">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_proper">IsFiniteExpectation_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="tactic">eapply</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_scale">IsFiniteExpectation_scale</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rinv">Rinv</a></span> <span class="id">c</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">field</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_scale">FiniteExpectation_scale</a></span> <span class="id">c</span>  <span class="id">rv_X</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">c</span> <span class="id">rv_X</span>) = <span class="id">c</span> * <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2867')">Proof.</div>
+<div class="proofscript" id="proof2867">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id">c</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_ext">FiniteExpectation_ext</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span> 0 <span class="id">rv_X</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">autorewrite</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> ?; <span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>; <span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_scale">Expectation_scale</a></span> <span class="id">c</span> <span class="id">rv_X</span> <span class="id">n</span>) <span class="kwd">in</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="id">match_destr_in</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_scale">FiniteExpectation_scale</a></span> : <span class="id">prob</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_opp">IsFiniteExpectation_opp</a></span> <span class="id">rv_X</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">rv_X</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2868')">Proof.</div>
+<div class="proofscript" id="proof2868">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_scale">IsFiniteExpectation_scale</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_opp_inv">IsFiniteExpectation_opp_inv</a></span> <span class="id">rv_X</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">rv_X</span>)} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2869')">Proof.</div>
+<div class="proofscript" id="proof2869">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_scale_inv">IsFiniteExpectation_scale_inv</a></span> (-1))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_opp">FiniteExpectation_opp</a></span> <span class="id">rv_X</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">rv_X</span>) = -1 * <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2870')">Proof.</div>
+<div class="proofscript" id="proof2870">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_scale">FiniteExpectation_scale</a></span> (-1) <span class="id">rv_X</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">erewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_pf_irrel">FiniteExpectation_pf_irrel</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_opp">FiniteExpectation_opp</a></span> : <span class="id">prob</span>.<br/>
+<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_minus">IsFiniteExpectation_minus</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2871')">Proof.</div>
+<div class="proofscript" id="proof2871">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_minus">FiniteExpectation_minus</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X1</span> - <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2872')">Proof.</div>
+<div class="proofscript" id="proof2872">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_pf_irrel">FiniteExpectation_pf_irrel</a></span> <span class="tactic">at</span> 1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_plus">FiniteExpectation_plus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_opp">FiniteExpectation_opp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_plus">FiniteExpectation_plus</a></span> : <span class="id">prob</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="pos_fun_part_proper_almost">pos_fun_part_proper_almost</a></span> <span class="id">x</span> <span class="id">y</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvx</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvy</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">y</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x</span> <span class="id">y</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>)) (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">y</span> <span class="id">x0</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2873')">Proof.</div>
+<div class="proofscript" id="proof2873">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span>; <span class="tactic">intros</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_antisym">Rle_antisym</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_le1">ps_le1</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#positive_part_rv">positive_part_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> &lt;- <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_sub">ps_sub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> (<span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> (<span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#positive_part_rv">positive_part_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> <span class="id">a</span>; <span class="tactic">intros</span> <span class="id">eqq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="neg_fun_part_proper_almost">neg_fun_part_proper_almost</a></span> <span class="id">x</span> <span class="id">y</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvx</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvy</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">y</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x</span> <span class="id">y</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>)) (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">y</span> <span class="id">x0</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2874')">Proof.</div>
+<div class="proofscript" id="proof2874">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span>; <span class="tactic">intros</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_antisym">Rle_antisym</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_le1">ps_le1</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#negative_part_rv">negative_part_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> &lt;- <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_sub">ps_sub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> (<span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> (<span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#negative_part_rv">negative_part_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> <span class="id">a</span>; <span class="tactic">intros</span> <span class="id">eqq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_sum0_is0">list_sum0_is0</a></span> <span class="id">l</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 0) <span class="id">l</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">RealAdd.list_sum</a></span> <span class="id">l</span> = 0%<span class="id">R</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2875')">Proof.</div>
+<div class="proofscript" id="proof2875">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">inversion</span> 1; <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">IHl</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="SimplePosExpectation_pos_zero">SimplePosExpectation_pos_zero</a></span> <span class="id">x</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvx</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">xsrv</span>:<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">x</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> <span class="id">x</span> = 0.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2876')">Proof.</div>
+<div class="proofscript" id="proof2876">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#list_sum0_is0">list_sum0_is0</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">List.Forall_forall</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ? <span class="id">inn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">inn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">inn</span> <span class="kwd">as</span> [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span> <span class="kwd">in</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id">x1</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">replace</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="tactic">omega</span> = <span class="id">x1</span>)) <span class="kwd">with</span> 0 <span class="kwd">in</span> <span class="id">H</span>; [<span class="id">lra</span> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_antisym">Rle_antisym</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_pos">ps_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_sub">event_sub</a></span>  (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="id">x0</span> = 0) (<span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="tactic">omega</span> = <span class="id">x1</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_complement">event_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_sub">ps_sub</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>) <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_complement">ps_complement</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">rewrite</span> <span class="id">eqq</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">eapply</span> <span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">eapply</span> <span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.AlmostEqual.html#Hsigma_borel_eq_pf">Hsigma_borel_eq_pf</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Expectation_simple_proper_almost">Expectation_simple_proper_almost</a></span> <span class="id">x</span> <span class="id">y</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvx</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvy</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">y</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">xsrv</span>:<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">ysrv</span>:<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">y</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x</span> <span class="id">y</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> <span class="id">y</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2877')">Proof.</div>
+<div class="proofscript" id="proof2877">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#SimplePosExpectation_pos_zero">SimplePosExpectation_pos_zero</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">x</span> <span class="id">y</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation_pf_irrel">SimpleExpectation_pf_irrel</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.SimpleExpectation.html#sumSimpleExpectation">sumSimpleExpectation</a></span> <span class="kwd">with</span> (<span class="id">srv1</span>:=<span class="id">xsrv</span>) (<span class="id">srv2</span>:=<span class="id"><a href="FormalML.RealRandomVariable.html#srvopp">srvopp</a></span>) <span class="kwd">in</span> <span class="id">HH</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> (@<span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation_pf_irrel">SimpleExpectation_pf_irrel</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span> (-1) <span class="id">y</span>)) <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.SimpleExpectation.html#scaleSimpleExpectation">scaleSimpleExpectation</a></span> <span class="kwd">with</span> (<span class="id">srv</span>:=<span class="id">ysrv</span>) <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">clear</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Expectation_posRV_almost_0">Expectation_posRV_almost_0</a></span> <span class="id">x</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvx</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">x</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span> <span class="id">x</span> = 0.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2878')">Proof.</div>
+<div class="proofscript" id="proof2878">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span>, <span class="id"><a href="FormalML.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Lub_Rbar</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[|- <span class="id">context</span> [<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> ?<span class="id">x</span>]] =&gt; <span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">simpl</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">i</span> <span class="kwd">as</span> [<span class="id">xub</span> <span class="id">xlub</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">is_ub_Rbar</span> <span class="kwd">in</span> <span class="id">xub</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">xub</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">xlub</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">is_ub_Rbar</span> <span class="kwd">in</span> <span class="id">xlub</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">xub</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">cut_to</span> <span class="id">xlub</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#BoundedPositiveRandomVariable">BoundedPositiveRandomVariable</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [? [? [? [[? ?] ?]]]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x2</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_sub">event_sub</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="id">x0</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x5</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x2</span> <span class="id">x5</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x5</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_sub">event_sub</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">x5</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> <span class="id">x5</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa_preimage2">borel_sa_preimage2</a></span> <span class="kwd">in</span> <span class="id">rvx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa_preimage2">borel_sa_preimage2</a></span> <span class="kwd">in</span> <span class="id">x3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">x5</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x2</span> <span class="id">x5</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x5</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_pt">sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">x5</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="id">x5</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x5</span>)).    <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_pt">sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** <span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_sub">ps_sub</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>) <span class="kwd">in</span> <span class="id">H3</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_le1">ps_le1</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x5</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x2</span> <span class="id">x5</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x5</span>) <span class="id">H4</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#SimplePosExpectation_pos_zero">SimplePosExpectation_pos_zero</a></span> <span class="id">x2</span> <span class="id">H3</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H4</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">exists</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0); <span class="id">exists</span> (<span class="id"><a href="FormalML.RandomVariable.html#rvconst">rvconst</a></span> <span class="id">_</span> <span class="id">_</span> 0); <span class="id">exists</span> (<span class="id"><a href="FormalML.RandomVariable.html#srvconst">srvconst</a></span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#BoundedPositiveRandomVariable">BoundedPositiveRandomVariable</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#prvconst">prvconst</a></span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id">prv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="FormalML.SimpleExpectation.html#SimpleExpectation_const">SimpleExpectation_const</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Expectation_almost_0">Expectation_almost_0</a></span> <span class="id">x</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvx</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">x</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">x</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> 0).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2879')">Proof.</div>
+<div class="proofscript" id="proof2879">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#positive_part_rv">positive_part_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#negative_part_rv">negative_part_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="kwd">in</span> <span class="id">rvx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa_preimage2">borel_sa_preimage2</a></span> <span class="kwd">in</span> <span class="id">rvx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) = 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_pt">sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rv_measurable">rv_measurable</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) = 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_pt">sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rv_measurable">rv_measurable</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="tactic">omega</span>)) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_sub">event_sub</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="id">x0</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>; <span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_sub">ps_sub</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>) <span class="kwd">in</span> <span class="id">H4</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_le1">ps_le1</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H5</span> <span class="id">H2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_pt">sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="tactic">omega</span>)) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_sub">event_sub</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">x</span> <span class="id">x0</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>; <span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_sub">ps_sub</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span>) <span class="kwd">in</span> <span class="id">H5</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_le1">ps_le1</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x0</span>)); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> <span class="id">H6</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H6</span> <span class="id">H3</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_pt">sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#Expectation_posRV_almost_0">Expectation_posRV_almost_0</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) <span class="id">H4</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#Expectation_posRV_almost_0">Expectation_posRV_almost_0</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) <span class="id">H5</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>; <span class="tactic">f_equal</span>; <span class="tactic">f_equal</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_proper_almost">IsFiniteExpectation_proper_almost</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rrv1</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rrv2</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2880')">Proof.</div>
+<div class="proofscript" id="proof2880">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#Expectation_almost_0">Expectation_almost_0</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">by</span> (<span class="id">now</span> <span class="tactic">red</span>; <span class="tactic">rewrite</span> <span class="id">HH</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">isfe3</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">by</span> <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_opp">IsFiniteExpectation_opp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">isfe4</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_plus">IsFiniteExpectation_plus</a></span>; <span class="tactic">trivial</span>; <span class="tactic">try</span> <span class="id">typeclasses</span> <span class="tactic">eauto</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_proper">IsFiniteExpectation_proper</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">isfe4</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">x0</span> = 0) (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">rv_X1</span> <span class="id">x0</span> = <span class="id">rv_X2</span> <span class="id">x0</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_proper_almost">FiniteExpectation_proper_almost</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rrv1</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rrv2</span>:<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.prts">prts</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
+<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2881')">Proof.</div>
+<div class="proofscript" id="proof2881">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#Expectation_almost_0">Expectation_almost_0</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> (<span class="id"><a href="FormalML.RandomVariableFinite.html#Expectation_FiniteExpectation">Expectation_FiniteExpectation</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id">isfe</span>:=<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_minus">IsFiniteExpectation_minus</a></span> <span class="id">_</span> <span class="id">_</span>)) <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_minus">FiniteExpectation_minus</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#rv_almost_eq">rv_almost_eq</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_equiv">event_equiv</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">x0</span> = 0) (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id">rv_X1</span> <span class="id">x0</span> = <span class="id">rv_X2</span> <span class="id">x0</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_le">FiniteExpectation_le</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.FunctionsToReal.html#rv_le">rv_le</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X1</span> &lt;= <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2882')">Proof.</div>
+<div class="proofscript" id="proof2882">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_le">Expectation_le</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">_</span> <span class="id">_</span> <span class="id">e</span> <span class="id">e0</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_bounded">IsFiniteExpectation_bounded</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">rv_X3</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X3</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.FunctionsToReal.html#rv_le">rv_le</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.FunctionsToReal.html#rv_le">rv_le</a></span> <span class="id">rv_X2</span> <span class="id">rv_X3</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2883')">Proof.</div>
+<div class="proofscript" id="proof2883">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_minus</span>' <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">isfe1</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqq1</span> | <span class="tactic">intros</span> <span class="id">eqq1</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqq1</span> <span class="kwd">in</span> <span class="id">isfe1</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">isfe2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqq2</span> | <span class="tactic">intros</span> <span class="id">eqq2</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqq2</span> <span class="kwd">in</span> <span class="id">isfe2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe1</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe2</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqq1</span> <span class="kwd">as</span> [<span class="id">eqq1pos</span> <span class="id">eqq1neg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqq2</span> <span class="kwd">as</span> [<span class="id">eqq2pos</span> <span class="id">eqq2neg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rv_le_pos_fun_part">rv_le_pos_fun_part</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">H0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rv_le_neg_fun_part">rv_le_neg_fun_part</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Finite_Rbar_opp">Finite_Rbar_opp</a></span> <span class="kwd">in</span> <span class="id">eqq1neg</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- (<span class="id"><a href="FormalML.Expectation.html#Finite_Expectation_posRV_le">Finite_Expectation_posRV_le</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H1</span>); <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- (<span class="id"><a href="FormalML.Expectation.html#Finite_Expectation_posRV_le">Finite_Expectation_posRV_le</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H2</span>); <span class="tactic">simpl</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_min">IsFiniteExpectation_min</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2884')">Proof.</div>
+<div class="proofscript" id="proof2884">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">isfep</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)) <span class="tactic">by</span> <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_minus</span>' <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">isfe1</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqq1</span> | <span class="tactic">intros</span> <span class="id">eqq1</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqq1</span> <span class="kwd">in</span> <span class="id">isfe1</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">isfe2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqq2</span> | <span class="tactic">intros</span> <span class="id">eqq2</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqq2</span> <span class="kwd">in</span> <span class="id">isfe2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe1</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe2</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqq1</span> <span class="kwd">as</span> [<span class="id">eqq1pos</span> <span class="id">eqq1neg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqq2</span> <span class="kwd">as</span> [<span class="id">eqq2pos</span> <span class="id">eqq2neg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- (<span class="id"><a href="FormalML.Expectation.html#Finite_Expectation_posRV_le">Finite_Expectation_posRV_le</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#positive_part_prv">positive_part_prv</a></span> <span class="id">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#positive_part_prv">positive_part_prv</a></span> <span class="id">_</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- (<span class="id"><a href="FormalML.Expectation.html#Finite_Expectation_posRV_le">Finite_Expectation_posRV_le</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X1</span> <span class="id">x</span>) (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X2</span> <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#negative_part_prv">negative_part_prv</a></span> <span class="id">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> ( <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> (<span class="id">rv_X1</span> <span class="id">a</span>) (<span class="id">rv_X2</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">repeat</span> <span class="id">match_destr</span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_posRV_sum">Expectation_posRV_sum</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Finite_Rbar_opp">Finite_Rbar_opp</a></span> <span class="kwd">in</span> <span class="id">eqq1neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Finite_Rbar_opp">Finite_Rbar_opp</a></span> <span class="kwd">in</span> <span class="id">eqq2neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq1neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq2neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> ( <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> (<span class="id">rv_X1</span> <span class="id">a</span>) (<span class="id">rv_X2</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">repeat</span> <span class="id">match_destr</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_case_in</span> <span class="id">isfep</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqqp</span> | <span class="tactic">intros</span> <span class="id">eqqp</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqqp</span> <span class="kwd">in</span> <span class="id">isfep</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfep</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqqp</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqqp</span> <span class="kwd">as</span> [<span class="id">eqqppos</span> <span class="id">eqqpneg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_max">IsFiniteExpectation_max</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2885')">Proof.</div>
+<div class="proofscript" id="proof2885">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">isfep</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)) <span class="tactic">by</span> <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_minus</span>' <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">isfe1</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqq1</span> | <span class="tactic">intros</span> <span class="id">eqq1</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqq1</span> <span class="kwd">in</span> <span class="id">isfe1</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">isfe2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [ <span class="tactic">intros</span> ? <span class="id">eqq2</span> | <span class="tactic">intros</span> <span class="id">eqq2</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">rewrite</span> <span class="id">eqq2</span> <span class="kwd">in</span> <span class="id">isfe2</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe1</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe2</span>; <span class="tactic">try</span> <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">Finite_Rbar_plus</span>' <span class="kwd">in</span> <span class="id">eqq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqq1</span> <span class="kwd">as</span> [<span class="id">eqq1pos</span> <span class="id">eqq1neg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eqq2</span> <span class="kwd">as</span> [<span class="id">eqq2pos</span> <span class="id">eqq2neg</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- (<span class="id"><a href="FormalML.Expectation.html#Finite_Expectation_posRV_le">Finite_Expectation_posRV_le</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X1</span> <span class="id">x</span>) (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X2</span> <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#positive_part_prv">positive_part_prv</a></span> <span class="id">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- (<span class="id"><a href="FormalML.Expectation.html#Finite_Expectation_posRV_le">Finite_Expectation_posRV_le</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X1</span> <span class="id">x</span>) (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X2</span> <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#negative_part_prv">negative_part_prv</a></span> <span class="id">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> ( <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> (<span class="id">rv_X1</span> <span class="id">a</span>) (<span class="id">rv_X2</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">repeat</span> <span class="id">match_destr</span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_posRV_sum">Expectation_posRV_sum</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Finite_Rbar_opp">Finite_Rbar_opp</a></span> <span class="kwd">in</span> <span class="id">eqq1neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Finite_Rbar_opp">Finite_Rbar_opp</a></span> <span class="kwd">in</span> <span class="id">eqq2neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq1neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq2neg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> ( <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> (<span class="id">rv_X1</span> <span class="id">a</span>) (<span class="id">rv_X2</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">repeat</span> <span class="id">match_destr</span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_posRV_sum">Expectation_posRV_sum</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span> &lt;- <span class="id">eqq1pos</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq2pos</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiniteExpectation_case">IsFiniteExpectation_case</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">c</span>: <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#bool">bool</a></span>) (<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvchoice">rvchoice</a></span> <span class="id">c</span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2886')">Proof.</div>
+<div class="proofscript" id="proof2886">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation_bounded">IsFiniteExpectation_bounded</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvchoice_le_min">rvchoice_le_min</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvchoice_le_max">rvchoice_le_max</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_pos">FiniteExpectation_pos</a></span>  (<span class="id">rv_X</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">rv_X</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2887')">Proof.</div>
+<div class="proofscript" id="proof2887">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation_posRV_pos">Expectation_posRV_pos</a></span> <span class="id">rv_X</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_pos_posRV">Expectation_pos_posRV</a></span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FiniteExpectation_zero_pos">FiniteExpectation_zero_pos</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X</span> : <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">posrv</span> :<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">X</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">X</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">X</span> = 0%<span class="id">R</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">X</span> <span class="tactic">omega</span> = 0) = 1.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2888')">Proof.</div>
+<div class="proofscript" id="proof2888">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl_finite</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>; <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_zero_pos">Expectation_zero_pos</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#fe">fe</a></span>.<br/>
+<br/>
+<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_const">FiniteExpectation_const</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_plus">FiniteExpectation_plus</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_scale">FiniteExpectation_scale</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_opp">FiniteExpectation_opp</a></span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_minus">FiniteExpectation_minus</a></span>: <span class="id">prob</span>.<br/>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>
