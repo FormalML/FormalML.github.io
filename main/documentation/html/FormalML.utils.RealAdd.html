@@ -2023,7 +2023,76 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="power_ineq_convex">power_ineq_convex</a></span> <span class="id">p</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;1 &lt;= <span class="id">p</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), 0 &lt; <span class="id">x</span> -&gt; 0 &lt; <span class="id">y</span> -&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> (<span class="id">x</span> + <span class="id">y</span>) <span class="id">p</span> &lt;= (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 (<span class="id">p</span>-1))*(<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> <span class="id">x</span> <span class="id">p</span> + <span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> <span class="id">y</span> <span class="id">p</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1784')">Proof.</div>
+<div class="proofscript" id="proof1784">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">pbig</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (0 &lt;= (/2) &lt;= 1) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power_convex_pos">power_convex_pos</a></span> <span class="id">p</span> <span class="id">pbig</span> <span class="id">x</span> <span class="id">y</span> <span class="id">_</span> <span class="id">H</span> <span class="id">H0</span> <span class="id">H1</span>); <span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (1 - /2) <span class="kwd">with</span> (/2) <span class="kwd">in</span> <span class="id">HH</span> <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> &lt;- <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_plus_distr_l">Rmult_plus_distr_l</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.RealAdd.html#power_mult_distr">power_mult_distr</a></span> <span class="kwd">in</span> <span class="id">HH</span> <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_l">Rmult_le_compat_l</a></span> <span class="kwd">with</span> (<span class="id">r</span> := <span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 <span class="id">p</span>) <span class="kwd">in</span> <span class="id">HH</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; [| <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_nonneg">power_nonneg</a></span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> &lt;- <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_assoc">Rmult_assoc</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 <span class="id">p</span> * <span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> (/2) <span class="id">p</span>) <span class="kwd">with</span> (1) <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">replace</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 <span class="id">p</span> * (/2)) <span class="kwd">with</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 (<span class="id">p</span> - 1)) <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_1_l">Rmult_1_l</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">replace</span> (/2) <span class="kwd">with</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 ((<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Ropp">Ropp</a></span> 1))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">now</span> <span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.RealAdd.html#power_plus">power_plus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_Ropp">power_Ropp</a></span> <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_1">power_1</a></span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_mult_distr">power_mult_distr</a></span> <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (2 * /2) <span class="kwd">with</span> (1) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_base_1">power_base_1</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="power_abs_ineq">power_abs_ineq</a></span> (<span class="id">p</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id">p</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">x</span> + <span class="id">y</span>)) <span class="id">p</span> &lt;= (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> 2 <span class="id">p</span>)*(<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span>) <span class="id">p</span> + <span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">y</span>) <span class="id">p</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1785')">Proof.</div>
+<div class="proofscript" id="proof1785">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">pnneg</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">m</span>:=<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">y</span>)).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">eqq</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">x</span> + <span class="id">y</span>) &lt;= 2*<span class="id">m</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">m</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">Rcomplements.Rplus_le_Rmax</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_triang">Rabs_triang</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="tactic">apply</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Rle_power_l">Rle_power_l</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">x</span> + <span class="id">y</span>)) (2 * <span class="id">m</span>) <span class="id">p</span>); <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos">Rabs_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.RealAdd.html#power_mult_distr">power_mult_distr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_l">Rmult_le_compat_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_nonneg">power_nonneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">unfold</span> <span class="id">m</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power_nonneg">power_nonneg</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span>) <span class="id">p</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power_nonneg">power_nonneg</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">y</span>) <span class="id">p</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">unfold</span> <span class="id">m</span>; <span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; [| <span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_l">Rmax_l</a></span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos">Rabs_pos</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_minkowski">power_minkowski</a></span>.<br/>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_pos_finite">Rbar_pos_finite</a></span> (<span class="id">r</span> : <span class="id">Rbar</span>):<br/>
+&nbsp;&nbsp;0 &lt; <span class="id">r</span> -&gt; <span class="id">is_finite</span> <span class="id">r</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1786')">Proof.</div>
+<div class="proofscript" id="proof1786">
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">r</span>.<br/>
+&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id">is_finite</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">lra</span>.<br/>
+Qed.</div>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
