@@ -118,11 +118,41 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">now</span> <span class="tactic">destruct</span> <span class="id">v</span>; <span class="tactic">simpl</span>.<br/>
 Qed.</div>
 <br/>
+<span class="kwd">Program</span> <span class="kwd">Fixpoint</span> <span class="id"><a name="map_onto">map_onto</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">f</span>:<span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">a</span> <span class="id">l</span> -&gt; <span class="id">B</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">B</span><br/>
+&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">l</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [] =&gt; []<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">x</span>::<span class="id">l</span>' =&gt; <span class="id">f</span> <span class="id">x</span> <span class="id">_</span> :: <span class="id">map_onto</span> <span class="id">l</span>' (<span class="kwd">fun</span> <span class="id">a</span> <span class="id">pf</span> =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">_</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1993')">Next Obligation.</div>
+<div class="proofscript" id="proof1993">
+&nbsp;&nbsp;<span class="tactic">simpl</span>; <span class="tactic">auto</span>.<br/>
+Qed.</div>
+<div class="toggleproof" onclick="toggleDisplay('proof1994')">Next Obligation.</div>
+<div class="proofscript" id="proof1994">
+&nbsp;&nbsp;<span class="tactic">simpl</span>; <span class="tactic">auto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="map_onto_length">map_onto_length</a></span>  {<span class="id">A</span> <span class="id">B</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">f</span>:<span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">a</span> <span class="id">l</span> -&gt; <span class="id">B</span>) :<br/>
+&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#map_onto">map_onto</a></span> <span class="id">l</span> <span class="id">f</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1995')">Proof.</div>
+<div class="proofscript" id="proof1995">
+&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">congruence</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_map_onto">vector_map_onto</a></span> {<span class="id">A</span> <span class="id">B</span>:<span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) (<span class="id">f</span>:<span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">a</span> <span class="id">v</span>-&gt;<span class="id">B</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">B</span> <span class="id">n</span><br/>
+&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.DVector.html#map_onto">map_onto</a></span> <span class="id">v</span> <span class="id">f</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1996')">Next Obligation.</div>
+<div class="proofscript" id="proof1996">
+&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#map_onto_length">map_onto_length</a></span>.<br/>
+&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">destruct</span> <span class="id">v</span>; <span class="tactic">simpl</span>.<br/>
+Qed.</div>
+<br/>
 <span class="kwd">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_zip">vector_zip</a></span> {<span class="id">A</span> <span class="id">B</span>:<span class="kwd">Type</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v1</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) (<span class="id">v2</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">B</span> <span class="id">n</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> (<span class="id">A</span>*<span class="id">B</span>) <span class="id">n</span><br/>
 &nbsp;&nbsp;:= <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#combine">combine</a></span> <span class="id">v1</span> <span class="id">v2</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1993')">Next Obligation.</div>
-<div class="proofscript" id="proof1993">
+<div class="toggleproof" onclick="toggleDisplay('proof1997')">Next Obligation.</div>
+<div class="proofscript" id="proof1997">
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#combine_length">combine_length</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_length">vector_length</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Arith.Min.html#min_idempotent">Min.min_idempotent</a></span>.<br/>
