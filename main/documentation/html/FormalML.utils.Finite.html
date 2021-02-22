@@ -282,19 +282,68 @@ Qed.</div>
 &nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.Finite.html#finite">finite</a></span>.<br/>
 Qed.</div>
 <br/>
+<span class="kwd">Fixpoint</span> <span class="id"><a name="list_dep_prod">list_dep_prod</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} {<span class="id">B</span> : <span class="id">A</span> -&gt; <span class="kwd">Type</span>}(<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">l</span>': <span class="kwd">forall</span> <span class="id">a</span>:<span class="id">A</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id">B</span> <span class="id">a</span>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id">B</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">l</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#cons">cons</a></span> <span class="id">x</span> <span class="id">t</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">y</span>: <span class="id">B</span> <span class="id">x</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">y</span>) (<span class="id">l</span>' <span class="id">x</span>) ++(<span class="id">list_dep_prod</span> <span class="id">t</span> <span class="id">l</span>')<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="in_dep_prod_aux">in_dep_prod_aux</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} {<span class="id">B</span> : <span class="id">A</span> -&gt; <span class="kwd">Type</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span>:<span class="id">A</span>) (<span class="id">y</span>:<span class="id">B</span> <span class="id">x</span>) (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id">B</span> <span class="id">x</span>)),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">y</span> <span class="id">l</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">y</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">y0</span>:<span class="id">B</span> <span class="id">x</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">y0</span>) <span class="id">l</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1481')">Proof.</div>
+<div class="proofscript" id="proof1481">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>;<br/>
+&nbsp;[ <span class="tactic">simpl</span>; <span class="tactic">auto</span><br/>
+&nbsp;&nbsp;&nbsp;| <span class="tactic">simpl</span>; <span class="tactic">destruct</span> 1 <span class="kwd">as</span> [<span class="id">H1</span>| ];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ <span class="id">left</span>; <span class="tactic">rewrite</span> <span class="id">H1</span>; <span class="tactic">trivial</span> | <span class="id">right</span>; <span class="tactic">auto</span> ] ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="in_dep_prod">in_dep_prod</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} {<span class="id">B</span> : <span class="id">A</span> -&gt; <span class="kwd">Type</span>}:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">l</span>':<span class="kwd">forall</span> <span class="id">a</span>:<span class="id">A</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id">B</span> <span class="id">a</span>)) (<span class="id">x</span>:<span class="id">A</span>) (<span class="id">y</span>:<span class="id">B</span> <span class="id">x</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">y</span> (<span class="id">l</span>' <span class="id">x</span>) -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">y</span>) (<span class="id"><a href="FormalML.utils.Finite.html#list_dep_prod">list_dep_prod</a></span> <span class="id">l</span> <span class="id">l</span>').<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1482')">Proof.</div>
+<div class="proofscript" id="proof1482">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ <span class="tactic">simpl</span>; <span class="tactic">tauto</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="tactic">simpl</span>; <span class="tactic">intros</span>; <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_or_app">in_or_app</a></span>; <span class="tactic">destruct</span> <span class="id">H</span>];<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ <span class="id">left</span>; <span class="tactic">rewrite</span> <span class="id">H</span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.Finite.html#in_dep_prod_aux">in_dep_prod_aux</a></span>; <span class="tactic">auto</span> | <span class="id">right</span>; <span class="tactic">auto</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="in_dep_prod_iff">in_dep_prod_iff</a></span> {<span class="id">A</span>:<span class="kwd">Type</span>} {<span class="id">B</span> : <span class="id">A</span> -&gt; <span class="kwd">Type</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>)(<span class="id">l</span>':<span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id">B</span> <span class="id">a</span>))(<span class="id">x</span>:<span class="id">A</span>)(<span class="id">y</span>:<span class="id">B</span> <span class="id">x</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">y</span>) (<span class="id"><a href="FormalML.utils.Finite.html#list_dep_prod">list_dep_prod</a></span> <span class="id">l</span> <span class="id">l</span>') &lt;-&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l</span> /\ <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">y</span> (<span class="id">l</span>' <span class="id">x</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1483')">Proof.</div>
+<div class="proofscript" id="proof1483">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; [ | <span class="tactic">intros</span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.Finite.html#in_dep_prod">in_dep_prod</a></span>; <span class="tactic">intuition</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_app_or">in_app_or</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>); <span class="tactic">clear</span> <span class="id">H</span> ; <span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> (<span class="kwd">fun</span> <span class="id">y</span> : <span class="id">B</span> <span class="id">a</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">a</span> <span class="id">y</span>) (<span class="id">l</span>' <span class="id">a</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">y</span>)) <span class="kwd">as</span> (<span class="id">H1</span>,<span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">H1</span> <span class="id">H0</span>) <span class="kwd">as</span> (<span class="id">z</span>,(<span class="id">H2</span>,<span class="id">H3</span>)); <span class="tactic">clear</span> <span class="id">H0</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">injection</span> <span class="id">H2</span>; <span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+<br/>
 <span class="kwd">Global</span> <span class="kwd">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="finite_dep_prod">finite_dep_prod</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">finA</span> : <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">A</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">finB</span> : <span class="kwd">forall</span> <span class="id">a</span>:<span class="id">A</span>, <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> (<span class="id">B</span> <span class="id">a</span>))<br/>
 &nbsp;&nbsp;: <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id">B</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1481')">Next Obligation.</div>
-<div class="proofscript" id="proof1481">
-Admitted.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof1482')">Next Obligation.</div>
-<div class="proofscript" id="proof1482">
+<div class="toggleproof" onclick="toggleDisplay('proof1484')">Next Obligation.</div>
+<div class="proofscript" id="proof1484">
+<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.Finite.html#list_dep_prod">list_dep_prod</a></span>.<br/>
++ <span class="tactic">destruct</span> <span class="id">finA</span> ; <span class="tactic">auto</span>.<br/>
++ <span class="tactic">intros</span> <span class="id">a</span>. <span class="tactic">destruct</span> (<span class="id">finB</span> <span class="id">a</span>); <span class="tactic">auto</span>.<br/>
+Qed.</div>
+<div class="toggleproof" onclick="toggleDisplay('proof1485')">Next Obligation.</div>
+<div class="proofscript" id="proof1485">
+&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">finA</span> <span class="kwd">as</span> [<span class="id">la</span> <span class="id">Hla</span>].<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">finB</span> <span class="id">x</span>) <span class="kwd">as</span> [<span class="id">lb</span> <span class="id">Hlb</span>].<br/>
 Admitted.</div>
 <br/>
 <span class="kwd">Definition</span> <span class="id"><a name="bounded_nat_finite_list">bounded_nat_finite_list</a></span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> {<span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> | (<span class="id">x</span> &lt; <span class="id">n</span>)%<span class="id">nat</span>}.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1483')">Proof.</div>
-<div class="proofscript" id="proof1483">
+<div class="toggleproof" onclick="toggleDisplay('proof1486')">Proof.</div>
+<div class="proofscript" id="proof1486">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">exact</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#cons">cons</a></span>.<br/>
@@ -305,8 +354,8 @@ Admitted.</div>
 Defined.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bounded_nat_finite_list_proj">bounded_nat_finite_list_proj</a></span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">_</span> <span class="id">_</span>) (<span class="id"><a href="FormalML.utils.Finite.html#bounded_nat_finite_list">bounded_nat_finite_list</a></span> <span class="id">n</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#rev">rev</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1484')">Proof.</div>
-<div class="proofscript" id="proof1484">
+<div class="toggleproof" onclick="toggleDisplay('proof1487')">Proof.</div>
+<div class="proofscript" id="proof1487">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">n</span>; <span class="tactic">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#seq_Sn">ListAdd.seq_Sn</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#rev_app_distr">List.rev_app_distr</a></span>.<br/>
@@ -322,8 +371,8 @@ Qed.</div>
 &nbsp;&nbsp;:= {|<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span> := <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#rev">rev</a></span> (<span class="id"><a href="FormalML.utils.Finite.html#bounded_nat_finite_list">bounded_nat_finite_list</a></span> <span class="id">n</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;|}.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1485')">Next Obligation.</div>
-<div class="proofscript" id="proof1485">
+<div class="toggleproof" onclick="toggleDisplay('proof1488')">Next Obligation.</div>
+<div class="proofscript" id="proof1488">
 &nbsp;&nbsp;<span class="tactic">apply</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_rev">in_rev</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">inn</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#rev">rev</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n</span>))).<br/>
 &nbsp;&nbsp;- <span class="tactic">apply</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_rev">in_rev</a></span>.<br/>
