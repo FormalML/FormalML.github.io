@@ -1158,10 +1158,17 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.converge.mdp.html#act_expt_reward">act_expt_reward</a></span> <span class="id">s</span> <span class="id">a</span> +<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;γ*<span class="id"><a href="FormalML.converge.pmf_monad.html#expt_value">expt_value</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#t">t</a></span> <span class="id">s</span> <span class="id">a</span>)(<span class="kwd">fun</span> <span class="id">s</span>' =&gt; <span class="id">Max_</span>{<span class="id"><a href="FormalML.converge.mdp.html#act_list">act_list</a></span> <span class="id">s</span>'}(<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id">W</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s</span>' <span class="id">a</span>) ) ).<br/>
 <br/>
-<span class="kwd">Theorem</span> <span class="id"><a name="is_contraction_bellmanQ">is_contraction_bellmanQ</a></span> :<br/>
-&nbsp;@<span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#act">act</a></span>))) (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#act">act</a></span>))) <span class="id"><a href="FormalML.converge.mdp.html#bellmanQ">bellmanQ</a></span>.<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rabs_helper">Rabs_helper</a></span> : <span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span> <span class="id">c</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> ( (<span class="id">a</span> + <span class="id">b</span>) + -(<span class="id">a</span> + <span class="id">c</span>)) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">b</span> - <span class="id">c</span>).<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2181')">Proof.</div>
 <div class="proofscript" id="proof2181">
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">f_equal</span>. <span class="id">lra</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Theorem</span> <span class="id"><a name="is_contraction_bellmanQ">is_contraction_bellmanQ</a></span> :<br/>
+&nbsp;@<span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#act">act</a></span>))) (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#act">act</a></span>))) <span class="id"><a href="FormalML.converge.mdp.html#bellmanQ">bellmanQ</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2182')">Proof.</div>
+<div class="proofscript" id="proof2182">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> γ 0).<br/>
 &nbsp;&nbsp;++ <span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellmanQ">bellmanQ</a></span>.<br/>
@@ -1197,16 +1204,44 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">now</span> <span class="tactic">destruct</span> <span class="id">h</span>γ.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">intros</span> <span class="id">f</span> <span class="id">g</span> <span class="id">r</span> <span class="id">Hr</span> <span class="id">Hx</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">red</span> <span class="kwd">in</span> <span class="id">Hx</span>. <span class="tactic">repeat</span> <span class="tactic">red</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#Rmax_norm">Rmax_norm</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.converge.mdp.html#act_finite">act_finite</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>).<br/>
-Admitted.</div>
-<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">red</span> <span class="kwd">in</span> <span class="id">Hx</span> |-.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#Rmax_ball">Rmax_ball</a></span>, <span class="id"><a href="FormalML.converge.mdp.html#Rmax_norm">Rmax_norm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.converge.mdp.html#act_finite">act_finite</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>) <span class="kwd">as</span> [<span class="id">la</span> <span class="id">Hla</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_lt_iff">Rmax_list_lt_iff</a></span>; <span class="tactic">intros</span>; <span class="tactic">try</span>(<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#map_not_nil">map_not_nil</a></span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">sa</span> [<span class="id">Q</span> <span class="id">HQ</span>]]; <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">minus</span>, <span class="id">plus</span>, <span class="id">opp</span>. <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellmanQ">bellmanQ</a></span>; <span class="tactic">destruct</span> <span class="id">sa</span>. <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.converge.mdp.html#Rabs_helper">Rabs_helper</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;-<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_minus_distr_l">Rmult_minus_distr_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_mult">Rabs_mult</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">Hr</span>γ : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> γ = γ) <span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span>; <span class="id">lra</span>). <span class="tactic">rewrite</span> <span class="id">Hr</span>γ.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_lt_compat_l">Rmult_lt_compat_l</a></span>; <span class="tactic">try</span> (<span class="tactic">destruct</span> <span class="id">h</span>γ; <span class="id">lra</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;-<span class="id"><a href="FormalML.converge.pmf_monad.html#expt_value_sub">expt_value_sub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_lt_trans">Rle_lt_trans</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#Rmax_norm">Rmax_norm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>. <span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.pmf_monad.html#expt_value_Rabs_Rle">expt_value_Rabs_Rle</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.pmf_monad.html#expt_value_bdd">expt_value_bdd</a></span>; <span class="tactic">intro</span> <span class="id">s0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#act_list">act_list</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span> <span class="id">s0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>. <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_minus_le_abs">Rmax_list_minus_le_abs</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_le_iff">Rmax_list_le_iff</a></span>; <span class="tactic">try</span> (<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#map_not_nil">map_not_nil</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">r</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">a0</span> [<span class="id">Ha0</span> <span class="id">Helms</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">subst</span>. <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_spec">Rmax_spec</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s0</span> <span class="id">a0</span>); <span class="id">now</span> <span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.converge.mdp.html#na">na</a></span> <span class="id">_</span> <span class="id">s0</span>); <span class="tactic">intros</span> <span class="id">a0</span>; <span class="id">now</span> <span class="id">exists</span> <span class="id">a0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.converge.mdp.html#ne">ne</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>); <span class="tactic">intros</span> <span class="id">s0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.converge.mdp.html#na">na</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>); <span class="tactic">intros</span> <span class="id">a0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">a0</span> <span class="id">s0</span>). <span class="id">now</span> <span class="id">exists</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s0</span> <span class="id">a0</span>).<br/>
+Qed.</div>
 <br/>
 <span class="kwd">Theorem</span> <span class="id"><a name="is_contraction_bellman_op">is_contraction_bellman_op</a></span> (π : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>) :<br/>
 &nbsp;@<span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>)) (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>)) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> π).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2182')">Proof.</div>
-<div class="proofscript" id="proof2182">
+<div class="toggleproof" onclick="toggleDisplay('proof2183')">Proof.</div>
+<div class="proofscript" id="proof2183">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> γ 0). <br/>
 &nbsp;&nbsp;++ <span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>.<br/>
@@ -1262,8 +1297,8 @@ Admitted.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ltv_bellman_eq_ltv">ltv_bellman_eq_ltv</a></span> : <span class="kwd">forall</span> π, <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ π = <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> π (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ π).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2183')">Proof.</div>
-<div class="proofscript" id="proof2183">
+<div class="toggleproof" onclick="toggleDisplay('proof2184')">Proof.</div>
+<div class="proofscript" id="proof2184">
 &nbsp;&nbsp;<span class="tactic">intro</span> π.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>. <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">functional_extensionality</a></span>.<br/>
@@ -1272,8 +1307,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ltv_bellman_op_fixpt">ltv_bellman_op_fixpt</a></span> : <span class="kwd">forall</span> π <span class="id">init</span>, <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ π = <span class="id"><a href="FormalML.converge.mdp.html#fixpt">fixpt</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> π) <span class="id">init</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2184')">Proof.</div>
-<div class="proofscript" id="proof2184">
+<div class="toggleproof" onclick="toggleDisplay('proof2185')">Proof.</div>
+<div class="proofscript" id="proof2185">
 &nbsp;&nbsp;<span class="tactic">intros</span> π <span class="id">init</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.converge.mdp.html#fixpt_is_unique">fixpt_is_unique</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#is_contraction_bellman_op">is_contraction_bellman_op</a></span> π) (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>)) ; <span class="tactic">trivial</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id">closed_true</span>.<br/>
@@ -1282,8 +1317,8 @@ Qed.</div>
 <br/>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bellman_op_monotone_le">bellman_op_monotone_le</a></span> (π : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>) : <span class="id"><a href="FormalML.converge.mdp.html#monotone_le">monotone_le</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> π). <br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2185')">Proof.</div>
-<div class="proofscript" id="proof2185">
+<div class="toggleproof" onclick="toggleDisplay('proof2186')">Proof.</div>
+<div class="proofscript" id="proof2186">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">W1</span> <span class="id">W2</span> <span class="id">HW1W2</span> <span class="id">s</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>. <br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat_l">Rplus_le_compat_l</a></span>.<br/>
@@ -1292,8 +1327,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bellman_op_monotone_ge">bellman_op_monotone_ge</a></span> (π : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>) : <span class="id"><a href="FormalML.converge.mdp.html#monotone_ge">monotone_ge</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> π). <br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2186')">Proof.</div>
-<div class="proofscript" id="proof2186">
+<div class="toggleproof" onclick="toggleDisplay('proof2187')">Proof.</div>
+<div class="proofscript" id="proof2187">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">W1</span> <span class="id">W2</span> <span class="id">HW1W2</span> <span class="id">s</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_ge">Rle_ge</a></span>.<br/>
@@ -1311,8 +1346,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bellman_max_op_monotone_le">bellman_max_op_monotone_le</a></span> :<br/>
 &nbsp;&nbsp;(<span class="id"><a href="FormalML.converge.mdp.html#monotone_le">monotone_le</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>)).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2187')">Proof.</div>
-<div class="proofscript" id="proof2187">
+<div class="toggleproof" onclick="toggleDisplay('proof2188')">Proof.</div>
+<div class="proofscript" id="proof2188">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">W1</span> <span class="id">W2</span> <span class="id">HW1W2</span> <span class="id">s</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>. <span class="tactic">destruct</span> (<span class="id"><a href="FormalML.converge.mdp.html#fa">fa</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span> <span class="id">s</span>) <span class="kwd">as</span> [<span class="id">la</span> <span class="id">Hla</span>]. <br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_fun_le">Rmax_list_fun_le</a></span> ; <span class="tactic">auto</span>. <br/>
@@ -1324,8 +1359,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bellman_max_op_monotone_ge">bellman_max_op_monotone_ge</a></span> :<br/>
 &nbsp;&nbsp;(<span class="id"><a href="FormalML.converge.mdp.html#monotone_ge">monotone_ge</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) <span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2188')">Proof.</div>
-<div class="proofscript" id="proof2188">
+<div class="toggleproof" onclick="toggleDisplay('proof2189')">Proof.</div>
+<div class="proofscript" id="proof2189">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">W1</span> <span class="id">W2</span> <span class="id">HW1W2</span> <span class="id">s</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;-<span class="id"><a href="FormalML.converge.mdp.html#Rfct_le_ge_symm">Rfct_le_ge_symm</a></span> <span class="kwd">in</span> <span class="id">HW1W2</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_ge">Rle_ge</a></span>.<br/>
@@ -1340,8 +1375,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bellman_op_bellman_max_le">bellman_op_bellman_max_le</a></span> (π : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">W</span>, <span class="id"><a href="FormalML.converge.mdp.html#Rfct_le">Rfct_le</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> π <span class="id">W</span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span> <span class="id">W</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2189')">Proof.</div>
-<div class="proofscript" id="proof2189">
+<div class="toggleproof" onclick="toggleDisplay('proof2190')">Proof.</div>
+<div class="proofscript" id="proof2190">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">W</span> <span class="id">s</span>.  <br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>. <br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>.<br/>
@@ -1354,8 +1389,8 @@ Qed.</div>
 <span class="kwd">Theorem</span> <span class="id"><a name="is_contraction_bellman_max_op">is_contraction_bellman_max_op</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;@<span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>)) (<span class="id"><a href="FormalML.converge.mdp.html#Rfct_UniformSpace">Rfct_UniformSpace</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>)) <span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2190')">Proof.</div>
-<div class="proofscript" id="proof2190">
+<div class="toggleproof" onclick="toggleDisplay('proof2191')">Proof.</div>
+<div class="proofscript" id="proof2191">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.LM.fixed_point.html#is_contraction">is_contraction</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> γ 0).<br/>
 &nbsp;&nbsp;&nbsp;+++ <span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>.<br/>
@@ -1428,8 +1463,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ltv_Rfct_le_fixpt">ltv_Rfct_le_fixpt</a></span> (π : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>) :<br/>
 &nbsp;<span class="kwd">forall</span> <span class="id">init</span>, <span class="id"><a href="FormalML.converge.mdp.html#Rfct_le">Rfct_le</a></span> <span class="id"><a href="FormalML.converge.mdp.html#operator.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ π) (<span class="id"><a href="FormalML.converge.mdp.html#fixpt">fixpt</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>) <span class="id">init</span>). <br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2191')">Proof.</div>
-<div class="proofscript" id="proof2191">
+<div class="toggleproof" onclick="toggleDisplay('proof2192')">Proof.</div>
+<div class="proofscript" id="proof2192">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">init</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">contraction_coinduction_Rfct_ge</span>'.<br/>
 &nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.mdp.html#is_contraction_bellman_max_op">is_contraction_bellman_max_op</a></span>.<br/>
@@ -1451,8 +1486,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">V</span>' :=  <span class="id"><a href="FormalML.converge.mdp.html#fixpt">fixpt</a></span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span> <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="kwd">let</span> σ' := <span class="id"><a href="FormalML.converge.mdp.html#greedy">greedy</a></span> <span class="id">init</span> <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> σ' (<span class="id">V</span>' <span class="id">init</span>) = <span class="id">V</span>' <span class="id">init</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2192')">Proof.</div>
-<div class="proofscript" id="proof2192">
+<div class="toggleproof" onclick="toggleDisplay('proof2193')">Proof.</div>
+<div class="proofscript" id="proof2193">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">init</span> <span class="id">V</span>' σ'.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">functional_extensionality</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">s0</span>.<br/>
@@ -1473,8 +1508,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">V</span>' :=  <span class="id"><a href="FormalML.converge.mdp.html#fixpt">fixpt</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span>) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="kwd">let</span> σ' := <span class="id"><a href="FormalML.converge.mdp.html#greedy">greedy</a></span> <span class="id">init</span> <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ' = <span class="id">V</span>' <span class="id">init</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2193')">Proof.</div>
-<div class="proofscript" id="proof2193">
+<div class="toggleproof" onclick="toggleDisplay('proof2194')">Proof.</div>
+<div class="proofscript" id="proof2194">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">init</span> <span class="id">V</span>' σ'.<br/>
 &nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.converge.mdp.html#Rfct_le_antisym">Rfct_le_antisym</a></span>; <span class="tactic">split</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">eapply</span> <span class="id"><a href="FormalML.converge.mdp.html#ltv_Rfct_le_fixpt">ltv_Rfct_le_fixpt</a></span>.<br/>
@@ -1501,8 +1536,8 @@ Qed.</div>
 &nbsp;&nbsp;:= <span class="kwd">forall</span> <span class="id">s</span>, (@<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span> γ σ <span class="id">s</span>) = (@<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span> γ τ <span class="id">s</span>).<br/>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="policy_eq_equiv">policy_eq_equiv</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id"><a href="FormalML.converge.mdp.html#policy_eq">policy_eq</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2194')">Proof.</div>
-<div class="proofscript" id="proof2194">
+<div class="toggleproof" onclick="toggleDisplay('proof2195')">Proof.</div>
+<div class="proofscript" id="proof2195">
 &nbsp;&nbsp;<span class="id">constructor</span>; <span class="tactic">repeat</span> <span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="tactic">symmetry</span>.<br/>
@@ -1513,22 +1548,22 @@ Qed.</div>
 &nbsp;&nbsp;:= <span class="kwd">forall</span> <span class="id">s</span>, (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ <span class="id">s</span>) &lt;= (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ τ <span class="id">s</span>).<br/>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="policy_equiv_sub">policy_equiv_sub</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> <span class="id"><a href="FormalML.converge.mdp.html#policy_eq">policy_eq</a></span> <span class="id"><a href="FormalML.converge.mdp.html#policy_le">policy_le</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2195')">Proof.</div>
-<div class="proofscript" id="proof2195">
+<div class="toggleproof" onclick="toggleDisplay('proof2196')">Proof.</div>
+<div class="proofscript" id="proof2196">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#policy_eq">policy_eq</a></span>, <span class="id"><a href="FormalML.converge.mdp.html#policy_le">policy_le</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">s</span>); <span class="id">lra</span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="Rle_trans">Rle_trans</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2196')">Proof.</div>
-<div class="proofscript" id="proof2196">
+<div class="toggleproof" onclick="toggleDisplay('proof2197')">Proof.</div>
+<div class="proofscript" id="proof2197">
 &nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; <span class="tactic">eauto</span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="policy_le_pre">policy_le_pre</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id"><a href="FormalML.converge.mdp.html#policy_le">policy_le</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2197')">Proof.</div>
-<div class="proofscript" id="proof2197">
+<div class="toggleproof" onclick="toggleDisplay('proof2198')">Proof.</div>
+<div class="proofscript" id="proof2198">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#policy_eq">policy_eq</a></span>, <span class="id"><a href="FormalML.converge.mdp.html#policy_le">policy_le</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">constructor</span>; <span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;- <span class="id">lra</span>.<br/>
@@ -1536,8 +1571,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="policy_le_part">policy_le_part</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> <span class="id"><a href="FormalML.converge.mdp.html#policy_eq">policy_eq</a></span> <span class="id"><a href="FormalML.converge.mdp.html#policy_le">policy_le</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2198')">Proof.</div>
-<div class="proofscript" id="proof2198">
+<div class="toggleproof" onclick="toggleDisplay('proof2199')">Proof.</div>
+<div class="proofscript" id="proof2199">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#policy_eq">policy_eq</a></span>, <span class="id"><a href="FormalML.converge.mdp.html#policy_le">policy_le</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#relation_equivalence">relation_equivalence</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#predicate_equivalence">predicate_equivalence</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#relation_conjunction">relation_conjunction</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#flip">Basics.flip</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#predicate_intersection">predicate_intersection</a></span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
@@ -1550,8 +1585,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Theorem</span> <span class="id"><a name="max_ltv_eq_fixpt">max_ltv_eq_fixpt</a></span> :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">init</span>, <span class="id"><a href="FormalML.converge.mdp.html#fixpt">fixpt</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span> γ) <span class="id">init</span> = <span class="id"><a href="FormalML.converge.mdp.html#max_ltv">max_ltv</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2199')">Proof.</div>
-<div class="proofscript" id="proof2199">
+<div class="toggleproof" onclick="toggleDisplay('proof2200')">Proof.</div>
+<div class="proofscript" id="proof2200">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">init</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">functional_extensionality</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">s0</span>. <br/>
@@ -1577,8 +1612,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">init</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.converge.LM.fixed_point.html#lim">lim</a></span> (<span class="kwd">fun</span> <span class="id">P</span> =&gt; <span class="id">eventually</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">P</span> (@<span class="id"><a href="FormalML.converge.LM.fixed_point.html#iter">fixed_point.iter</a></span> (<span class="id">CompleteNormedModule.UniformSpace</span> <span class="id">R_AbsRing</span> (@<span class="id"><a href="FormalML.converge.mdp.html#Rfct_CompleteNormedModule">Rfct_CompleteNormedModule</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>)))<br/>
 &nbsp;(<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span> γ) <span class="id">n</span> <span class="id">init</span>))) = <span class="id"><a href="FormalML.converge.mdp.html#max_ltv">max_ltv</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2200')">Proof.</div>
-<div class="proofscript" id="proof2200">
+<div class="toggleproof" onclick="toggleDisplay('proof2201')">Proof.</div>
+<div class="proofscript" id="proof2201">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">init</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">h1</span> : <span class="kwd">forall</span> <span class="id">x</span> : <span class="id"><a href="FormalML.converge.mdp.html#Rfct">Rfct</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>), (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>) <span class="id">x</span> -&gt; (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_max_op">bellman_max_op</a></span> γ <span class="id">x</span>)) <span class="tactic">by</span> <span class="tactic">trivial</span>. <br/>
 &nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">h2</span> : <span class="id">exists</span> <span class="id">a</span> : @<span class="id"><a href="FormalML.converge.mdp.html#Rfct">Rfct</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>), (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>) <span class="id">a</span>) <span class="tactic">by</span> (<span class="tactic">split</span> ; <span class="tactic">trivial</span>).<br/>
@@ -1595,8 +1630,8 @@ Qed.</div>
 <span class="kwd">Theorem</span> <span class="id"><a name="bellman_op_iterate">bellman_op_iterate</a></span> :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">init</span> π,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.converge.LM.fixed_point.html#lim">lim</a></span> (<span class="kwd">fun</span> <span class="id">P</span> =&gt; <span class="id">eventually</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">P</span> (@<span class="id"><a href="FormalML.converge.LM.fixed_point.html#iter">fixed_point.iter</a></span> (<span class="id">CompleteNormedModule.UniformSpace</span> <span class="id">R_AbsRing</span> (@<span class="id"><a href="FormalML.converge.mdp.html#Rfct_CompleteNormedModule">Rfct_CompleteNormedModule</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>))) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ π) <span class="id">n</span> <span class="id">init</span>))) = <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ π.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2201')">Proof.</div>
-<div class="proofscript" id="proof2201">
+<div class="toggleproof" onclick="toggleDisplay('proof2202')">Proof.</div>
+<div class="proofscript" id="proof2202">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">init</span> π.<br/>
 &nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">h1</span> : <span class="kwd">forall</span> <span class="id">x</span> : <span class="id"><a href="FormalML.converge.mdp.html#Rfct">Rfct</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>), (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>) <span class="id">x</span> -&gt; (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ π <span class="id">x</span>)) <span class="tactic">by</span> <span class="tactic">trivial</span>. <br/>
 &nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">h2</span> : <span class="id">exists</span> <span class="id">a</span> : @<span class="id"><a href="FormalML.converge.mdp.html#Rfct">Rfct</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>.(<span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span>) (<span class="id"><a href="FormalML.converge.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.converge.mdp.html#order.M">M</a></span>), (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>) <span class="id">a</span>) <span class="tactic">by</span> (<span class="tactic">split</span> ; <span class="tactic">trivial</span>).<br/>
@@ -1626,8 +1661,8 @@ Qed.</div>
 <span class="kwd">Theorem</span> <span class="id"><a name="policy_improvement_1">policy_improvement_1</a></span> (σ τ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ τ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span> &gt;= <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ σ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span>)<br/>
 &nbsp;&nbsp;-&gt; <span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ τ <span class="id">s</span> &gt;= <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ <span class="id">s</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2202')">Proof.</div>
-<div class="proofscript" id="proof2202">
+<div class="toggleproof" onclick="toggleDisplay('proof2203')">Proof.</div>
+<div class="proofscript" id="proof2203">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">Hexpt</span>. <span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> <span class="kwd">in</span> <span class="id">Hexpt</span>. <span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#step_expt_reward">step_expt_reward</a></span> <span class="kwd">in</span> <span class="id">Hexpt</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">set</span> (<span class="id">H</span>τ := <span class="id"><a href="FormalML.converge.mdp.html#ltv_bellman_op_fixpt">ltv_bellman_op_fixpt</a></span> γ <span class="id">h</span>γ τ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ τ)).<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>τ.<br/>
@@ -1643,8 +1678,8 @@ Qed.</div>
 <span class="kwd">Theorem</span> <span class="id"><a name="policy_improvement_2">policy_improvement_2</a></span> (σ τ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ τ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span> &lt;= <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ σ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span>)<br/>
 &nbsp;&nbsp;-&gt; <span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ τ <span class="id">s</span> &lt;= <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ <span class="id">s</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2203')">Proof.</div>
-<div class="proofscript" id="proof2203">
+<div class="toggleproof" onclick="toggleDisplay('proof2204')">Proof.</div>
+<div class="proofscript" id="proof2204">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">Hexpt</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">set</span> (<span class="id">H</span>τ := <span class="id"><a href="FormalML.converge.mdp.html#ltv_bellman_op_fixpt">ltv_bellman_op_fixpt</a></span> γ <span class="id">h</span>γ τ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ τ)).<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>τ.<br/>
@@ -1663,8 +1698,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="improved_is_better_aux">improved_is_better_aux</a></span> (σ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>) <span class="id">la</span> (<span class="id">hla</span> : <span class="kwd">forall</span> <span class="id">s</span>, [] &lt;&gt; <span class="id">la</span> <span class="id">s</span>) :<br/>
 &nbsp;<span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ (<span class="id"><a href="FormalML.converge.mdp.html#improved">improved</a></span> σ <span class="id">hla</span>) (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span> = <span class="id">Max_</span>{ <span class="id">la</span> <span class="id">s</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id"><a href="FormalML.converge.mdp.html#act">act</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span> <span class="id">s</span> =&gt; <span class="id"><a href="FormalML.converge.pmf_monad.html#expt_value">expt_value</a></span> (<span class="id"><a href="FormalML.converge.mdp.html#t">t</a></span> <span class="id">s</span> <span class="id">a</span>) (<span class="kwd">fun</span> <span class="id">s</span>' : <span class="id"><a href="FormalML.converge.mdp.html#state">state</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span> =&gt; <span class="id"><a href="FormalML.converge.mdp.html#reward">reward</a></span> <span class="id">s</span> <span class="id">a</span> <span class="id">s</span>' + γ * <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ <span class="id">s</span>')).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2204')">Proof.</div>
-<div class="proofscript" id="proof2204">
+<div class="toggleproof" onclick="toggleDisplay('proof2205')">Proof.</div>
+<div class="proofscript" id="proof2205">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">s</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#step_expt_reward">step_expt_reward</a></span>.<br/>
@@ -1677,8 +1712,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="improved_is_better">improved_is_better</a></span> (σ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>) <span class="id">la</span> (<span class="id">hla</span> : <span class="kwd">forall</span> <span class="id">s</span>, [] &lt;&gt; <span class="id">la</span> <span class="id">s</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H</span> : <span class="kwd">forall</span> σ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>, <span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (σ <span class="id">s</span>) (<span class="id">la</span> <span class="id">s</span>)):<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">s</span>, <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ (<span class="id"><a href="FormalML.converge.mdp.html#improved">improved</a></span> σ <span class="id">hla</span>) (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span> &gt;= <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ σ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2205')">Proof.</div>
-<div class="proofscript" id="proof2205">
+<div class="toggleproof" onclick="toggleDisplay('proof2206')">Proof.</div>
+<div class="proofscript" id="proof2206">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">s</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.converge.mdp.html#improved_is_better_aux">improved_is_better_aux</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_ge">Rle_ge</a></span>. <span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span>.<br/>
@@ -1695,8 +1730,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="improved_tot_better">improved_tot_better</a></span> (σ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>) : <span class="kwd">forall</span> <span class="id">s</span>, <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ (<span class="id"><a href="FormalML.converge.mdp.html#improved_tot">improved_tot</a></span> σ) (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span> &gt;= <span class="id"><a href="FormalML.converge.mdp.html#bellman_op">bellman_op</a></span> γ σ (<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ) <span class="id">s</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2206')">Proof.</div>
-<div class="proofscript" id="proof2206">
+<div class="toggleproof" onclick="toggleDisplay('proof2207')">Proof.</div>
+<div class="proofscript" id="proof2207">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#improved_tot">improved_tot</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.mdp.html#improved_is_better">improved_is_better</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.converge.mdp.html#act_list">act_list</a></span>. <span class="tactic">intros</span> σ0 <span class="id">s</span>.<br/>
@@ -1705,8 +1740,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Theorem</span> <span class="id"><a name="improved_has_better_value">improved_has_better_value</a></span> (σ : <span class="id"><a href="FormalML.converge.mdp.html#dec_rule">dec_rule</a></span> <span class="id"><a href="FormalML.converge.mdp.html#improve.M">M</a></span>) : <span class="kwd">forall</span> <span class="id">s</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ (<span class="id"><a href="FormalML.converge.mdp.html#improved_tot">improved_tot</a></span> σ) <span class="id">s</span> &gt;= <span class="id"><a href="FormalML.converge.mdp.html#ltv">ltv</a></span> γ σ <span class="id">s</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2207')">Proof.</div>
-<div class="proofscript" id="proof2207">
+<div class="toggleproof" onclick="toggleDisplay('proof2208')">Proof.</div>
+<div class="proofscript" id="proof2208">
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.mdp.html#policy_improvement_1">policy_improvement_1</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.mdp.html#improved_tot_better">improved_tot_better</a></span>.<br/>
 Qed.</div>
