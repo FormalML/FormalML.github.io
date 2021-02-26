@@ -25,6 +25,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rtrigo_calc.html">Reals.Rtrigo_calc</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.micromega.Lra.html">Lra</a></span>.<br/>
 <br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.converge.LM.fixed_point.html">fixed_point</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span>.<br/>
 <br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="kwd">Strict</span> <span class="id">Subproofs</span>".<br/>
@@ -481,6 +482,45 @@ Qed.</div>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">ball_le</span> <span class="kwd">with</span> (<span class="id">e1</span> := 0).<br/>
 &nbsp;&nbsp;+ <span class="id">left</span>. <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
 &nbsp;&nbsp;+ <span class="tactic">assumption</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rlt_forall_le">Rlt_forall_le</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : (<span class="kwd">forall</span> <span class="id">eps</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>, <span class="id">a</span> &lt; <span class="id">b</span> + <span class="id">eps</span>) -&gt; <span class="id">a</span> &lt;= <span class="id">b</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1306')">Proof.</div>
+<div class="proofscript" id="proof1306">
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> <span class="id">a</span> <span class="id">b</span>); <span class="tactic">intros</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="id">exfalso</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rnot_le_lt">Rnot_le_lt</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">n</span>); <span class="tactic">intros</span> <span class="id">Hab</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">clear</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">Hpos</span> : 0 &lt; (<span class="id">a</span> - <span class="id">b</span>)/2) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">abs</span> := <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> ((<span class="id">a</span> - <span class="id">b</span>)/2) <span class="id">Hpos</span>).<br/>
+&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">abs</span>).<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span> ; <span class="tactic">clear</span> <span class="id">abs</span>.<br/>
+&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="is_Lipschitz_cond">is_Lipschitz_cond</a></span> {<span class="id">X</span> <span class="id">Y</span> : <span class="id">NormedModule</span> <span class="id">R_AbsRing</span>} {<span class="id">F</span> : <span class="id">X</span> -&gt; <span class="id">Y</span>} (γ : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>):<br/>
+&nbsp;&nbsp;(0 &lt; γ &lt; 1) -&gt;<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">y</span> : <span class="id">X</span>) (<span class="id">r</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id">norm</span>(<span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>) &lt; <span class="id">r</span> -&gt; <span class="id">norm</span>(<span class="id">minus</span> (<span class="id">F</span> <span class="id">y</span>) (<span class="id">F</span> <span class="id">x</span>)) &lt; γ*<span class="id">r</span>) -&gt;<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">y</span> : <span class="id">X</span>), <span class="id">norm</span> (<span class="id">minus</span> (<span class="id">F</span> <span class="id">y</span>) (<span class="id">F</span> <span class="id">x</span>)) &lt;= γ*<span class="id">norm</span>( <span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>)).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1307')">Proof.</div>
+<div class="proofscript" id="proof1307">
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">H</span>γ <span class="id">H</span> <span class="id">x</span> <span class="id">y</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.CoquelicotAdd.html#Rlt_forall_le">Rlt_forall_le</a></span>; <span class="tactic">intros</span> <span class="id">eps</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">eps</span> <span class="kwd">as</span> [<span class="id">eps</span> <span class="id">Heps</span>].<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span>γ <span class="kwd">as</span> [<span class="id">H1</span> <span class="id">H2</span>].<br/>
+&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">generalize</span> <span class="id">Rle_mult_Rlt</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id">enough</span> (<span class="id">Hxy</span> : <span class="id">norm</span> (<span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>) &lt; <span class="id">norm</span> (<span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>) + <span class="id">eps</span>).<br/>
+&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">x</span> <span class="id">y</span> (<span class="id">norm</span> (<span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>) + <span class="id">eps</span>) <span class="id">Hxy</span>).<br/>
+&nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id">eps</span>) <span class="kwd">with</span> (1*<span class="id">eps</span>) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rlt_trans">Rlt_trans</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_plus_distr_l">Rmult_plus_distr_l</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_lt_compat_l">Rplus_lt_compat_l</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_lt_compat_r">Rmult_lt_compat_r</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_comm">Rplus_comm</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;-<span class="id">Rlt_minus_l</span>.<br/>
+&nbsp;&nbsp;<span class="id">now</span> <span class="id">ring_simplify</span>.<br/>
 Qed.</div>
 
 </div>
