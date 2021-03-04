@@ -1464,18 +1464,16 @@ Defined.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forallt_cons">Forallt_cons</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">l</span> <span class="id">px</span> <span class="id">pl</span> =&gt; <span class="id">f</span> <span class="id">x</span> <span class="id">px</span> :: <span class="id">Forallt_map</span> <span class="id">f</span> <span class="id">pl</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
-<span class="kwd">Lemma</span> <span class="id">map_nil</span>' {<span class="id">A</span> <span class="id">B</span>} (<span class="id">f</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) <span class="id">l</span> :<br/>
-&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> <span class="id">f</span> <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> &lt;-&gt; <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>.<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Forallt_map_length">Forallt_map_length</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">X</span>:<span class="id">A</span>-&gt;<span class="kwd">Type</span>} (<span class="id">f</span>:<span class="kwd">forall</span> <span class="id">a</span> : <span class="id">A</span>, <span class="id">X</span> <span class="id">a</span> -&gt; <span class="id">B</span>) (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">ft</span>:<span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forallt">Forallt</a></span> <span class="id">X</span> <span class="id">l</span>) :<br/>
+&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="FormalML.utils.ListAdd.html#Forallt_map">Forallt_map</a></span> <span class="id">f</span> <span class="id">ft</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof1445')">Proof.</div>
 <div class="proofscript" id="proof1445">
-&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">try</span> <span class="tactic">reflexivity</span>; <span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H</span>; <span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">ft</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">IHft</span>.<br/>
 Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="map_nil">map_nil</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span>) (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
-&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> <span class="id">f</span> <span class="id">l</span> = (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> <span class="id">B</span>) &lt;-&gt; <span class="id">l</span> = (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> <span class="id">A</span>).<br/>
+<span class="kwd">Lemma</span> <span class="id">map_nil</span>' {<span class="id">A</span> <span class="id">B</span>} (<span class="id">f</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) <span class="id">l</span> :<br/>
+&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> <span class="id">f</span> <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> &lt;-&gt; <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof1446')">Proof.</div>
 <div class="proofscript" id="proof1446">
 &nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
@@ -1484,10 +1482,20 @@ Qed.</div>
 &nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H</span>; <span class="tactic">reflexivity</span>.<br/>
 Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="map_not_nil">map_not_nil</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span>):<br/>
-&nbsp;&nbsp;[] &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> <span class="id">f</span> <span class="id">l</span> &lt;-&gt; [] &lt;&gt; <span class="id">l</span>.  <br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="map_nil">map_nil</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span>) (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
+&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> <span class="id">f</span> <span class="id">l</span> = (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> <span class="id">B</span>) &lt;-&gt; <span class="id">l</span> = (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> <span class="id">A</span>).<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof1447')">Proof.</div>
 <div class="proofscript" id="proof1447">
+&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">try</span> <span class="tactic">reflexivity</span>; <span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H</span>; <span class="tactic">reflexivity</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="map_not_nil">map_not_nil</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span>):<br/>
+&nbsp;&nbsp;[] &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> <span class="id">f</span> <span class="id">l</span> &lt;-&gt; [] &lt;&gt; <span class="id">l</span>.  <br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1448')">Proof.</div>
+<div class="proofscript" id="proof1448">
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.BasicUtils.html#ne_symm">ne_symm</a></span> ; <span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#ne_symm">ne_symm</a></span> <span class="id">_</span> <span class="id">l</span>).<br/>
 &nbsp;&nbsp;<span class="tactic">split</span> ; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;* <span class="tactic">intro</span> <span class="id">Hl</span>. <span class="tactic">rewrite</span> &lt;-(<span class="id"><a href="FormalML.utils.ListAdd.html#map_nil">map_nil</a></span> <span class="id">f</span>) <span class="kwd">in</span> <span class="id">Hl</span> ; <span class="tactic">firstorder</span>.<br/>
@@ -1497,8 +1505,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="not_nil_exists">not_nil_exists</a></span> {<span class="id">A</span>} (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;[] &lt;&gt; <span class="id">l</span> &lt;-&gt; <span class="id">exists</span> <span class="id">a</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">a</span> <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1448')">Proof.</div>
-<div class="proofscript" id="proof1448">
+<div class="toggleproof" onclick="toggleDisplay('proof1449')">Proof.</div>
+<div class="proofscript" id="proof1449">
 &nbsp;&nbsp;<span class="tactic">split</span>.<br/>
 &nbsp;&nbsp;* <span class="tactic">intros</span> <span class="id">Hl</span>. <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>.<br/>
@@ -1513,8 +1521,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="list_prod_not_nil">list_prod_not_nil</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">la</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>} {<span class="id">lb</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">B</span>}(<span class="id">Hla</span> : [] &lt;&gt; <span class="id">la</span>) (<span class="id">Hlb</span> : [] &lt;&gt; <span class="id">lb</span>) :<br/>
 &nbsp;&nbsp;[] &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> <span class="id">la</span> <span class="id">lb</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1449')">Proof.</div>
-<div class="proofscript" id="proof1449">
+<div class="toggleproof" onclick="toggleDisplay('proof1450')">Proof.</div>
+<div class="proofscript" id="proof1450">
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span> <span class="kwd">in</span> <span class="id">Hla</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span> <span class="kwd">in</span> <span class="id">Hlb</span>.<br/>
@@ -1532,8 +1540,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="concat_map_map">concat_map_map</a></span> {<span class="id">A</span>} (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span>(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>)) (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#concat">concat</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">f</span>) <span class="id">l</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">f</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#concat">concat</a></span> <span class="id">l</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1450')">Proof.</div>
-<div class="proofscript" id="proof1450">
+<div class="toggleproof" onclick="toggleDisplay('proof1451')">Proof.</div>
+<div class="proofscript" id="proof1451">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>. <br/>
 &nbsp;&nbsp;<span class="tactic">simpl</span> ; <span class="tactic">reflexivity</span>. <br/>
 &nbsp;&nbsp;<span class="tactic">simpl</span>. <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map_app">map_app</a></span>. <span class="tactic">rewrite</span> <span class="id">IHl</span>. <br/>
@@ -1542,8 +1550,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ForallPairs_filter">ForallPairs_filter</a></span> {<span class="id">A</span>} <span class="id">R</span> (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">p</span> : <span class="id">A</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#bool">bool</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallPairs">ForallPairs</a></span> <span class="id">R</span> <span class="id">l</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallPairs">ForallPairs</a></span> <span class="id">R</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> <span class="id">p</span> <span class="id">l</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1451')">Proof.</div>
-<div class="proofscript" id="proof1451">
+<div class="toggleproof" onclick="toggleDisplay('proof1452')">Proof.</div>
+<div class="proofscript" id="proof1452">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">H</span>. <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallPairs">ForallPairs</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a</span> <span class="id">b</span> <span class="id">Ha</span> <span class="id">Hb</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#filter_In">filter_In</a></span> <span class="kwd">in</span> <span class="id">Ha</span>.<br/>
@@ -1553,8 +1561,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ForallOrdPairs_filter">ForallOrdPairs_filter</a></span> {<span class="id">A</span>} <span class="id">R</span> (<span class="id">l</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">p</span> : <span class="id">A</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#bool">bool</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallOrdPairs">ForallOrdPairs</a></span> <span class="id">R</span> <span class="id">l</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallOrdPairs">ForallOrdPairs</a></span> <span class="id">R</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> <span class="id">p</span> <span class="id">l</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1452')">Proof.</div>
-<div class="proofscript" id="proof1452">
+<div class="toggleproof" onclick="toggleDisplay('proof1453')">Proof.</div>
+<div class="proofscript" id="proof1453">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>. <br/>
 &nbsp;&nbsp;- <span class="tactic">simpl</span> ; <span class="id">constructor</span>.<br/>
@@ -1572,8 +1580,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallOrdPairs">ForallOrdPairs</a></span> <span class="id">R</span> <span class="id">l2</span> -&gt;<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l1</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">y</span> <span class="id">l2</span> -&gt; <span class="id">R</span> <span class="id">x</span> <span class="id">y</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallOrdPairs">ForallOrdPairs</a></span> <span class="id">R</span> (<span class="id">l1</span> ++ <span class="id">l2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1453')">Proof.</div>
-<div class="proofscript" id="proof1453">
+<div class="toggleproof" onclick="toggleDisplay('proof1454')">Proof.</div>
+<div class="proofscript" id="proof1454">
 &nbsp;&nbsp;<span class="id">revert</span> <span class="id">l2</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l1</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H</span>.<br/>
@@ -1589,8 +1597,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ForallOrdPairs_app_in">ForallOrdPairs_app_in</a></span> {<span class="id">A</span> <span class="id">R</span>} {<span class="id">l1</span> <span class="id">l2</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>} : <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallOrdPairs">ForallOrdPairs</a></span> <span class="id">R</span> (<span class="id">l1</span> ++ <span class="id">l2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l1</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">y</span> <span class="id">l2</span> -&gt; <span class="id">R</span> <span class="id">x</span> <span class="id">y</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1454')">Proof.</div>
-<div class="proofscript" id="proof1454">
+<div class="toggleproof" onclick="toggleDisplay('proof1455')">Proof.</div>
+<div class="proofscript" id="proof1455">
 &nbsp;&nbsp;<span class="id">revert</span> <span class="id">l2</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l1</span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">intuition</span>.<br/>
@@ -1603,16 +1611,16 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="filter_true">filter_true</a></span> {<span class="id">A</span>} :  <span class="kwd">forall</span> <span class="id">p</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span>) <span class="id">p</span> = <span class="id">p</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1455')">Proof.</div>
-<div class="proofscript" id="proof1455">
+<div class="toggleproof" onclick="toggleDisplay('proof1456')">Proof.</div>
+<div class="proofscript" id="proof1456">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">p</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">simpl</span>; <span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">simpl</span>. <span class="tactic">rewrite</span> <span class="id">IHp</span>. <span class="tactic">reflexivity</span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="filter_false">filter_false</a></span> {<span class="id">A</span>} :  <span class="kwd">forall</span> <span class="id">p</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#false">false</a></span>) <span class="id">p</span> = [].<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1456')">Proof.</div>
-<div class="proofscript" id="proof1456">
+<div class="toggleproof" onclick="toggleDisplay('proof1457')">Proof.</div>
+<div class="proofscript" id="proof1457">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">p</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">simpl</span>; <span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">simpl</span>. <span class="tactic">rewrite</span> <span class="id">IHp</span>. <span class="tactic">reflexivity</span>.<br/>
@@ -1621,8 +1629,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Forall2_refl_in">Forall2_refl_in</a></span> {<span class="id">A</span>} <span class="id">R</span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">R</span> <span class="id">x</span> <span class="id">x</span>) <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> <span class="id">R</span> <span class="id">l</span> <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1457')">Proof.</div>
-<div class="proofscript" id="proof1457">
+<div class="toggleproof" onclick="toggleDisplay('proof1458')">Proof.</div>
+<div class="proofscript" id="proof1458">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">HH</span>; <span class="id">invcs</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;<span class="id">constructor</span>; <span class="tactic">auto</span>.<br/>
@@ -1633,8 +1641,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">l1</span> <span class="id">l1</span>' -&gt;<br/>
 &nbsp;&nbsp;<span class="id">exists</span> <span class="id">l2</span>', <span class="id"><a href="http://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">l2</span> <span class="id">l2</span>' /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> <span class="id">R</span> <span class="id">l1</span>' <span class="id">l2</span>'.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1458')">Proof.</div>
-<div class="proofscript" id="proof1458">
+<div class="toggleproof" onclick="toggleDisplay('proof1459')">Proof.</div>
+<div class="proofscript" id="proof1459">
 &nbsp;&nbsp;<span class="id">revert</span> <span class="id">l2</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">cut</span> (<span class="kwd">forall</span> (<span class="id">l1</span> <span class="id">l1</span>':<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">l1</span> <span class="id">l1</span>' -&gt;<br/>
@@ -1667,8 +1675,8 @@ Qed.</div>
 <br/>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ForallPairs_sublist">ForallPairs_sublist</a></span> {<span class="id">A</span>} {<span class="id">R</span>} : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist">sublist</a></span> --&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#impl">Basics.impl</a></span>) (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallPairs">ForallPairs</a></span> <span class="id">A</span> <span class="id">R</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1459')">Proof.</div>
-<div class="proofscript" id="proof1459">
+<div class="toggleproof" onclick="toggleDisplay('proof1460')">Proof.</div>
+<div class="proofscript" id="proof1460">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#respectful">respectful</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#impl">Basics.impl</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#ForallPairs">ForallPairs</a></span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist_In">sublist_In</a></span>; <span class="tactic">eauto</span>.<br/>
@@ -1678,8 +1686,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x1</span> <span class="id">x2</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x1</span> <span class="id">l1</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x2</span> <span class="id">l2</span> -&gt; <span class="id">R</span> <span class="id">x1</span> <span class="id">x2</span> -&gt; <span class="id">f</span> <span class="id">x1</span> = <span class="id">f</span> <span class="id">x2</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> <span class="id">R</span> <span class="id">l1</span> <span class="id">l2</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">f</span> <span class="id">l1</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">f</span> <span class="id">l2</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1460')">Proof.</div>
-<div class="proofscript" id="proof1460">
+<div class="toggleproof" onclick="toggleDisplay('proof1461')">Proof.</div>
+<div class="proofscript" id="proof1461">
 &nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">H</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">simpl</span> ; <span class="tactic">reflexivity</span>.<br/>
@@ -1699,8 +1707,8 @@ Qed.</div>
 <span class="kwd">Section</span> <span class="id"><a name="equivlist">equivlist</a></span>.<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="app_equivlist_proper">app_equivlist_proper</a></span> {<span class="id">A</span>} : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span>) (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#app">app</a></span> <span class="id">A</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1461')">Proof.</div>
-<div class="proofscript" id="proof1461">
+<div class="toggleproof" onclick="toggleDisplay('proof1462')">Proof.</div>
+<div class="proofscript" id="proof1462">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span> <span class="id">inn</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_app_iff">in_app_iff</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_app_iff">in_app_iff</a></span> <span class="kwd">in</span> <span class="id">inn</span>.<br/>
@@ -1715,8 +1723,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="equivlist_const">equivlist_const</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">b</span>:<span class="id">B</span>) (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">l</span> &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> -&gt; <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">b</span>) <span class="id">l</span>) (<span class="id">b</span>::<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1462')">Proof.</div>
-<div class="proofscript" id="proof1462">
+<div class="toggleproof" onclick="toggleDisplay('proof1463')">Proof.</div>
+<div class="proofscript" id="proof1463">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">congruence</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">l</span>; <span class="tactic">simpl</span>.<br/>
@@ -1727,8 +1735,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_prod_fst_equiv">list_prod_fst_equiv</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">a</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">b</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">B</span>) : <span class="id">b</span> &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> -&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> <span class="id">a</span> <span class="id">b</span>)) <span class="id">a</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1463')">Proof.</div>
-<div class="proofscript" id="proof1463">
+<div class="toggleproof" onclick="toggleDisplay('proof1464')">Proof.</div>
+<div class="proofscript" id="proof1464">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">a</span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">reflexivity</span>.<br/>
@@ -1742,8 +1750,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_prod_snd_equiv">list_prod_snd_equiv</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">a</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) (<span class="id">b</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">B</span>) : <span class="id">a</span> &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> -&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#snd">snd</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> <span class="id">a</span> <span class="id">b</span>)) <span class="id">b</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1464')">Proof.</div>
-<div class="proofscript" id="proof1464">
+<div class="toggleproof" onclick="toggleDisplay('proof1465')">Proof.</div>
+<div class="proofscript" id="proof1465">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_prod_swap">ListAdd.list_prod_swap</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map_map">map_map</a></span>; <span class="tactic">simpl</span>.<br/>
@@ -1754,8 +1762,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="list_prod_equivlist">list_prod_equivlist</a></span> {<span class="id">A</span> <span class="id">B</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span>) (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> <span class="id">A</span> <span class="id">B</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1465')">Proof.</div>
-<div class="proofscript" id="proof1465">
+<div class="toggleproof" onclick="toggleDisplay('proof1466')">Proof.</div>
+<div class="proofscript" id="proof1466">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">cut</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; @<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#incl">incl</a></span> <span class="id">_</span>) (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> <span class="id">A</span> <span class="id">B</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#respectful">respectful</a></span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist_incls">equivlist_incls</a></span>.<br/>
@@ -1769,8 +1777,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="map_equivlist_proper">map_equivlist_proper</a></span> {<span class="id">A</span> <span class="id">B</span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span> ==&gt; <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span>) (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">A</span> <span class="id">B</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1466')">Proof.</div>
-<div class="proofscript" id="proof1466">
+<div class="toggleproof" onclick="toggleDisplay('proof1467')">Proof.</div>
+<div class="proofscript" id="proof1467">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#respectful">respectful</a></span>, <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#equivlist">equivlist</a></span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -1788,8 +1796,8 @@ Qed.</div>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.ListAdd.html#equivlist">equivlist</a></span>.<br/>
 <br/>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="nodup_perm">nodup_perm</a></span> {<span class="id">A</span>} <span class="id">dec</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">A</span> ==&gt; @<span class="id"><a href="http://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">A</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">dec</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1467')">Proof.</div>
-<div class="proofscript" id="proof1467">
+<div class="toggleproof" onclick="toggleDisplay('proof1468')">Proof.</div>
+<div class="proofscript" id="proof1468">
 &nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">red</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">revert</span> <span class="id">x</span> <span class="id">y</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation_ind_bis">Permutation_ind_bis</a></span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
@@ -1829,8 +1837,8 @@ Qed.</div>
 <br/>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Forall_nodup">Forall_nodup</a></span> {<span class="id">A</span>} <span class="id">dec</span> <span class="id">P</span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> <span class="id">P</span> <span class="id">l</span> &lt;-&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> <span class="id">P</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">dec</span> <span class="id">l</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1468')">Proof.</div>
-<div class="proofscript" id="proof1468">
+<div class="toggleproof" onclick="toggleDisplay('proof1469')">Proof.</div>
+<div class="proofscript" id="proof1469">
 &nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#nodup_In">nodup_In</a></span> <span class="id">dec</span>).<br/>
 &nbsp;&nbsp;<span class="tactic">firstorder</span>.<br/>
@@ -1839,8 +1847,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="fold_right_ext">fold_right_ext</a></span> {<span class="id">A</span> <span class="id">B</span>:<span class="kwd">Type</span>} (<span class="id">f1</span> <span class="id">f2</span> : <span class="id">B</span> -&gt; <span class="id">A</span> -&gt; <span class="id">A</span>) (<span class="id">init</span> : <span class="id">A</span>) (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">B</span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">b</span> <span class="id">l</span> -&gt; <span class="id">f1</span> <span class="id">b</span> <span class="id">a</span> = <span class="id">f2</span> <span class="id">b</span> <span class="id">a</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_right">fold_right</a></span> <span class="id">f1</span> <span class="id">init</span> <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_right">fold_right</a></span> <span class="id">f2</span> <span class="id">init</span> <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1469')">Proof.</div>
-<div class="proofscript" id="proof1469">
+<div class="toggleproof" onclick="toggleDisplay('proof1470')">Proof.</div>
+<div class="proofscript" id="proof1470">
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">IHl</span>; <span class="tactic">auto</span>.<br/>
 Qed.</div>
@@ -1848,8 +1856,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="listo_to_olist_length">listo_to_olist_length</a></span> {<span class="id">A</span>:<span class="kwd">Type</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#option">option</a></span> <span class="id">A</span>)) (<span class="id">r</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>)<br/>
 &nbsp;&nbsp;: <span class="id"><a href="FormalML.lib_utils.LibUtilsLiftIterators.html#listo_to_olist">listo_to_olist</a></span> <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">r</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">r</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1470')">Proof.</div>
-<div class="proofscript" id="proof1470">
+<div class="toggleproof" onclick="toggleDisplay('proof1471')">Proof.</div>
+<div class="proofscript" id="proof1471">
 &nbsp;&nbsp;<span class="id">revert</span> <span class="id">r</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;- <span class="id">now</span> <span class="id">invcs</span> <span class="id">H</span>; <span class="tactic">simpl</span>.<br/>
@@ -1877,8 +1885,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_cross_product_length">list_cross_product_length</a></span> {<span class="id">T</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>)) (<span class="id">lnnil</span>:<span class="id">l</span> &lt;&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span> <span class="id">l</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_left">fold_left</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Peano.html#mult">Peano.mult</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">T</span>) <span class="id">l</span>) 1%<span class="id">nat</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1471')">Proof.</div>
-<div class="proofscript" id="proof1471">
+<div class="toggleproof" onclick="toggleDisplay('proof1472')">Proof.</div>
+<div class="proofscript" id="proof1472">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">l</span>; <span class="tactic">try</span> <span class="tactic">congruence</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">clear</span> <span class="id">lnnil</span>.<br/>
@@ -1896,8 +1904,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_cross_product_inner_length">list_cross_product_inner_length</a></span> {<span class="id">T</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">x</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>) (<span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span> <span class="id">l</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1472')">Proof.</div>
-<div class="proofscript" id="proof1472">
+<div class="toggleproof" onclick="toggleDisplay('proof1473')">Proof.</div>
+<div class="proofscript" id="proof1473">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">cut</span> (<span class="kwd">forall</span> <span class="id">acc</span> <span class="id">n</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">x</span> = <span class="id">n</span>) <span class="id">acc</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">x</span> = <span class="id">n</span> + <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l0</span>)<br/>
@@ -1931,8 +1939,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="in_list_cross_product">in_list_cross_product</a></span> {<span class="id">T</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>)) (<span class="id">nnil</span>:<span class="id">l</span>&lt;&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>) (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span> <span class="id">l</span>) -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">T</span>) <span class="id">x</span> <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1473')">Proof.</div>
-<div class="proofscript" id="proof1473">
+<div class="toggleproof" onclick="toggleDisplay('proof1474')">Proof.</div>
+<div class="proofscript" id="proof1474">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">l</span>; <span class="tactic">simpl</span>; [<span class="tactic">congruence</span> | <span class="tactic">clear</span> <span class="id">nnil</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l0</span> <span class="kwd">using</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#rev_ind">rev_ind</a></span>; <span class="tactic">simpl</span>.<br/>
@@ -1953,8 +1961,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_cross_product_in">list_cross_product_in</a></span> {<span class="id">T</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>)) (<span class="id">nnil</span>:<span class="id">l</span>&lt;&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>) (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">T</span>) <span class="id">x</span> <span class="id">l</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span> <span class="id">l</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1474')">Proof.</div>
-<div class="proofscript" id="proof1474">
+<div class="toggleproof" onclick="toggleDisplay('proof1475')">Proof.</div>
+<div class="proofscript" id="proof1475">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">l</span>; <span class="tactic">simpl</span>; [<span class="tactic">congruence</span> | <span class="tactic">clear</span> <span class="id">nnil</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l0</span> <span class="kwd">using</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#rev_ind">rev_ind</a></span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span> <span class="id">xx</span> <span class="id">HH</span>.<br/>
@@ -1980,8 +1988,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_cross_product_in_iff">list_cross_product_in_iff</a></span> {<span class="id">T</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>)) (<span class="id">nnil</span>:<span class="id">l</span>&lt;&gt;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>) (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span> <span class="id">l</span>) &lt;-&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">T</span>) <span class="id">x</span> <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1475')">Proof.</div>
-<div class="proofscript" id="proof1475">
+<div class="toggleproof" onclick="toggleDisplay('proof1476')">Proof.</div>
+<div class="proofscript" id="proof1476">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#in_list_cross_product">in_list_cross_product</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product_in">list_cross_product_in</a></span>.<br/>
@@ -1998,19 +2006,19 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">x</span>::<span class="id">l</span>' =&gt; <span class="kwd">fun</span> <span class="id">fp</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">x</span> <span class="id">_</span> ::<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">list_dep_zip</span> <span class="id">l</span>' <span class="id">_</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1476')">Next Obligation.</div>
-<div class="proofscript" id="proof1476">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">invcs</span> <span class="id">fp</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
 <div class="toggleproof" onclick="toggleDisplay('proof1477')">Next Obligation.</div>
 <div class="proofscript" id="proof1477">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">invcs</span> <span class="id">fp</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<div class="toggleproof" onclick="toggleDisplay('proof1478')">Next Obligation.</div>
+<div class="proofscript" id="proof1478">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">invcs</span> <span class="id">fp</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_dep_zip_map1">list_dep_zip_map1</a></span> {<span class="id">T</span>} {<span class="id">P</span>:<span class="id">T</span>-&gt;<span class="kwd">Prop</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) <span class="id">Fp</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (@<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">_</span> <span class="id">P</span>) (<span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip">list_dep_zip</a></span> <span class="id">l</span> <span class="id">Fp</span>) = <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1478')">Proof.</div>
-<div class="proofscript" id="proof1478">
+<div class="toggleproof" onclick="toggleDisplay('proof1479')">Proof.</div>
+<div class="proofscript" id="proof1479">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">Fp</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">trivial</span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">IHl</span>.<br/>
@@ -2018,8 +2026,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_dep_zip_length">list_dep_zip_length</a></span> {<span class="id">T</span>} {<span class="id">P</span>:<span class="id">T</span>-&gt;<span class="kwd">Prop</span>} (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) (<span class="id">Fp</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> <span class="id">P</span> <span class="id">l</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip">list_dep_zip</a></span> <span class="id">l</span> <span class="id">Fp</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1479')">Proof.</div>
-<div class="proofscript" id="proof1479">
+<div class="toggleproof" onclick="toggleDisplay('proof1480')">Proof.</div>
+<div class="proofscript" id="proof1480">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> &lt;- <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map_length">map_length</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip_map1">list_dep_zip_map1</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
