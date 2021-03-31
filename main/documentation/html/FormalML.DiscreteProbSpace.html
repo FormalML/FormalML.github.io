@@ -29,7 +29,7 @@
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">Utils</a></span> <span class="id"><a href="FormalML.utils.DVector.html">DVector</a></span>.<br/>
 <span class="kwd">Import</span> <span class="id">ListNotations</span>.<br/>
-<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.Event.html">Event</a></span> <span class="id"><a href="FormalML.SigmaAlgebras.html">SigmaAlgebras</a></span> <span class="id"><a href="FormalML.ProbSpace.html">ProbSpace</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.Event.html">Event</a></span> <span class="id"><a href="FormalML.SigmaAlgebras.html">SigmaAlgebras</a></span> <span class="id"><a href="FormalML.ProbSpace.html">ProbSpace</a></span> <span class="id"><a href="FormalML.RandomVariable.html">RandomVariable</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Coquelicot</span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html">ClassicalDescription</a></span>.<br/>
 <br/>
@@ -2162,7 +2162,90 @@
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#unit_pmf">unit_pmf</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#prod_prob_mass_fun">prod_prob_mass_fun</a></span>; <span class="tactic">eauto</span>.<br/>
 &nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Record</span> <span class="id"><a name="bundled_function">bundled_function</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="bf_dom">bf_dom</a></span>:<span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="bf_cod">bf_cod</a></span>:<span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="bf_map">bf_map</a></span>:<span class="id">bf_dom</span> -&gt; <span class="id">bf_cod</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="bf_dom_prod">bf_dom_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#bundled_function">bundled_function</a></span>): <span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.DiscreteProbSpace.html#iter_prod">iter_prod</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_dom">bf_dom</a></span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="bf_cod_prod">bf_cod_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#bundled_function">bundled_function</a></span>): <span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.DiscreteProbSpace.html#iter_prod">iter_prod</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_cod">bf_cod</a></span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="bf_map_prod">bf_map_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#bundled_function">bundled_function</a></span>) : <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_dom_prod">bf_dom_prod</a></span> <span class="id">l</span> -&gt; <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_cod_prod">bf_cod_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">l</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">x</span>::<span class="id">l</span>' =&gt; <span class="kwd">fun</span> '(<span class="id">d</span>,<span class="id">dl</span>) =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x</span>.(<span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_map">bf_map</a></span>) <span class="id">d</span>, <span class="id">bf_map_prod</span> <span class="id">l</span>' <span class="id">dl</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="bf_prod">bf_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#bundled_function">bundled_function</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= {|<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_dom">bf_dom</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_dom_prod">bf_dom_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_cod">bf_cod</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_cod_prod">bf_cod_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_map">bf_map</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#bf_map_prod">bf_map_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|}.<br/>
 &nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="map_prod">map_prod</a></span> {<span class="id">Ts1</span> <span class="id">Ts2</span> : <span class="kwd">Type</span>} {<span class="id">Td1</span> <span class="id">Td2</span> : <span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> : <span class="id">Ts1</span> -&gt; <span class="id">Td1</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X2</span> : <span class="id">Ts2</span> -&gt; <span class="id">Td2</span>) : ((<span class="id">Ts1</span> * <span class="id">Ts2</span>) -&gt; (<span class="id">Td1</span> * <span class="id">Td2</span>)) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> '(<span class="id">a</span>,<span class="id">b</span>) =&gt; ((<span class="id">rv_X1</span> <span class="id">a</span>), (<span class="id">rv_X2</span> <span class="id">b</span>))).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="discrete_rvprod">discrete_rvprod</a></span> {<span class="id">Ts1</span> <span class="id">Ts2</span> : <span class="kwd">Type</span>} {<span class="id">Td1</span> <span class="id">Td2</span> : <span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">cod1</span> : <span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Td1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">cod2</span> : <span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Td2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv_X1</span> : <span class="id">Ts1</span> -&gt; <span class="id">Td1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv_X2</span> : <span class="id">Ts2</span> -&gt; <span class="id">Td2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv1</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> <span class="id">Ts1</span>) <span class="id">cod1</span> <span class="id">rv_X1</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> <span class="id">Ts2</span>) <span class="id">cod2</span> <span class="id">rv_X2</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> (<span class="id">Ts1</span> * <span class="id">Ts2</span>)) (<span class="id"><a href="FormalML.SigmaAlgebras.html#product_sa">product_sa</a></span> <span class="id">cod1</span> <span class="id">cod2</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.DiscreteProbSpace.html#map_prod">map_prod</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Record</span> <span class="id"><a name="discrete_bundled_rv">discrete_bundled_rv</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="db_dom">db_dom</a></span>:<span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="db_cod">db_cod</a></span>:<span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="db_sa_cod">db_sa_cod</a></span> : <span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">db_cod</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="db_map">db_map</a></span>: <span class="id">db_dom</span> -&gt; <span class="id">db_cod</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="db_rv">db_rv</a></span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> <span class="id">db_dom</span>) <span class="id">db_sa_cod</span> <span class="id">db_map</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="db_dom_prod">db_dom_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span>): <span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.DiscreteProbSpace.html#iter_prod">iter_prod</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_dom">db_dom</a></span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="db_cod_prod">db_cod_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span>): <span class="kwd">Type</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.DiscreteProbSpace.html#iter_prod">iter_prod</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_cod">db_cod</a></span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="db_map_prod">db_map_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span>) : <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_dom_prod">db_dom_prod</a></span> <span class="id">l</span> -&gt; <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_cod_prod">db_cod_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">l</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">x</span>::<span class="id">l</span>' =&gt; <span class="kwd">fun</span> '(<span class="id">d</span>,<span class="id">dl</span>) =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x</span>.(<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_map">db_map</a></span>) <span class="id">d</span>, <span class="id">db_map_prod</span> <span class="id">l</span>' <span class="id">dl</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="db_sa_prod">db_sa_prod</a></span>  (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span>) : <span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> (<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_cod_prod">db_cod_prod</a></span> <span class="id">l</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">l</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> =&gt; <span class="id"><a href="FormalML.SigmaAlgebras.html#trivial_sa">trivial_sa</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#unit">unit</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">x</span>::<span class="id">l</span>' =&gt; <span class="id"><a href="FormalML.SigmaAlgebras.html#product_sa">product_sa</a></span> <span class="id">x</span>.(<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_sa_cod">db_sa_cod</a></span>) (<span class="id">db_sa_prod</span> <span class="id">l</span>')<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Program</span> <span class="kwd">Fixpoint</span> <span class="id"><a name="db_rv_prod">db_rv_prod</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span>) : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> (<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_dom_prod">db_dom_prod</a></span> <span class="id">l</span>)) (<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_sa_prod">db_sa_prod</a></span> <span class="id">l</span>) (<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_map_prod">db_map_prod</a></span> <span class="id">l</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">l</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> =&gt; <span class="id">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">x</span>::<span class="id">l</span>' =&gt; <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_rvprod">discrete_rvprod</a></span> <span class="id">x</span>.(<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_rv">db_rv</a></span>) (<span class="id">db_rv_prod</span> <span class="id">l</span>')<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2870')">Next Obligation.</div>
+<div class="proofscript" id="proof2870">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span>, <span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="db_prod_bundled_rv">db_prod_bundled_rv</a></span> (<span class="id">l</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span>) : <span class="id"><a href="FormalML.DiscreteProbSpace.html#discrete_bundled_rv">discrete_bundled_rv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= {|<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.DiscreteProbSpace.html#db_dom">db_dom</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_dom_prod">db_dom_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_cod">db_cod</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_cod_prod">db_cod_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_sa_cod">db_sa_cod</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_sa_prod">db_sa_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_map">db_map</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_map_prod">db_map_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_rv">db_rv</a></span> := <span class="id"><a href="FormalML.DiscreteProbSpace.html#db_rv_prod">db_rv_prod</a></span> <span class="id">l</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|}.<br/>
+<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.DiscreteProbSpace.html#countable_products">countable_products</a></span>.<br/>
 <br/>
 
