@@ -2968,6 +2968,57 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">now</span> <span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span> <span class="kwd">in</span> <span class="id">H2</span> <span class="tactic">by</span> <span class="tactic">trivial</span>.<br/>
 Qed.</div>
 <br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rabs_sqr">Rabs_sqr</a></span> (<span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : <span class="id">x</span>² = <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">x</span>²).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1879')">Proof.</div>
+<div class="proofscript" id="proof1879">
+&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_0_sqr">Rle_0_sqr</a></span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="fold_left_Rmax_init_le">fold_left_Rmax_init_le</a></span> <span class="id">l</span> <span class="id">d</span> :<br/>
+&nbsp;&nbsp;<span class="id">d</span> &lt;= <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_left">fold_left</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">l</span> <span class="id">d</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1880')">Proof.</div>
+<div class="proofscript" id="proof1880">
+&nbsp;&nbsp;<span class="id">revert</span> <span class="id">d</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;- <span class="id">specialize</span> (<span class="id">IHl</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">d</span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">IHl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_l">Rmax_l</a></span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="fold_left_Rmax_le">fold_left_Rmax_le</a></span> <span class="id">l</span> <span class="id">d</span> <span class="id">x</span> :<br/>
+&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l</span> -&gt;<br/>
+&nbsp;&nbsp;<span class="id">x</span> &lt;= <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_left">fold_left</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">l</span> <span class="id">d</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1881')">Proof.</div>
+<div class="proofscript" id="proof1881">
+&nbsp;&nbsp;<span class="id">revert</span> <span class="id">d</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">try</span> <span class="tactic">eapply</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#fold_left_Rmax_init_le">fold_left_Rmax_init_le</a></span> <span class="id">l</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">d</span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_r">Rmax_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">eapply</span> <span class="id">IHl</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="fold_left_lub">fold_left_lub</a></span> <span class="id">l</span> <span class="id">d</span> <span class="id">r</span>:<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l</span> -&gt; <span class="id">x</span> &lt;= <span class="id">r</span>) -&gt;<br/>
+&nbsp;&nbsp;<span class="id">d</span> &lt;= <span class="id">r</span> -&gt;<br/>
+&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_left">fold_left</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">l</span> <span class="id">d</span> &lt;= <span class="id">r</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1882')">Proof.</div>
+<div class="proofscript" id="proof1882">
+&nbsp;&nbsp;<span class="id">revert</span> <span class="id">d</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">IHl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_lub">Rmax_lub</a></span>; <span class="tactic">eauto</span>.<br/>
+Qed.</div>
+<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
