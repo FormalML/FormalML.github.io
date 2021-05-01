@@ -1437,13 +1437,35 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_0_sqr">Rle_0_sqr</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="prvlim">prvlim</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">posrv</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#rvlim">rvlim</a></span> <span class="id">Xn</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3313')">Proof.</div>
+<div class="proofscript" id="proof3313">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span>, <span class="id"><a href="FormalML.RealRandomVariable.html#rvlim">rvlim</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="kwd">in</span> <span class="id">posrv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id">Lim_seq_le_loc</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">x</span>)); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">Lim_seq_const</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.Classical_Prop.html#classic">classic</a></span> (<span class="id">is_finite</span> (<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">x</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span> &lt;- <span class="id">H0</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">unfold</span> <span class="id">real</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">exists</span> 0%<span class="id">nat</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>; <span class="tactic">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">posrv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="rvpow_prv">rvpow_prv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">k</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prv</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvpow">rvpow</a></span> <span class="id">rv_X</span> <span class="id">k</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3313')">Proof.</div>
-<div class="proofscript" id="proof3313">
+<div class="toggleproof" onclick="toggleDisplay('proof3314')">Proof.</div>
+<div class="proofscript" id="proof3314">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvpow">rvpow</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="kwd">in</span> <span class="id">prv</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
@@ -1453,8 +1475,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="rvpower_prv">rvpower_prv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3314')">Proof.</div>
-<div class="proofscript" id="proof3314">
+<div class="toggleproof" onclick="toggleDisplay('proof3315')">Proof.</div>
+<div class="proofscript" id="proof3315">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#power_nonneg">power_nonneg</a></span>.<br/>
@@ -1466,8 +1488,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X2</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv1</span>: <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X1</span>}:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3315')">Proof.</div>
-<div class="proofscript" id="proof3315">
+<div class="toggleproof" onclick="toggleDisplay('proof3316')">Proof.</div>
+<div class="proofscript" id="proof3316">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#measurable_rv">measurable_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rvpower_measurable">rvpower_measurable</a></span>; <span class="tactic">trivial</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rv_measurable">rv_measurable</a></span>; <span class="tactic">trivial</span>.<br/>
@@ -1481,8 +1503,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">xpos</span>: <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#RealMeasurable">RealMeasurable</a></span> <span class="id">rv_X</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#RealMeasurable">RealMeasurable</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#rvsqrt">rvsqrt</a></span> <span class="id">rv_X</span> <span class="id">xpos</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3316')">Proof.</div>
-<div class="proofscript" id="proof3316">
+<div class="toggleproof" onclick="toggleDisplay('proof3317')">Proof.</div>
+<div class="proofscript" id="proof3317">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealMeasurable_proper">RealMeasurable_proper</a></span> <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x</span> := <span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mknonnegreal">mknonnegreal</a></span> (<span class="id">rv_X</span> <span class="id">x</span>) (<span class="id">xpos</span> <span class="id">x</span>)) (<span class="kwd">fun</span> <span class="id">_</span> =&gt; / 2)).<br/>
@@ -1498,8 +1520,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv</span>: <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X</span>}:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#rvsqrt">rvsqrt</a></span> <span class="id">rv_X</span> <span class="id">prv</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3317')">Proof.</div>
-<div class="proofscript" id="proof3317">
+<div class="toggleproof" onclick="toggleDisplay('proof3318')">Proof.</div>
+<div class="proofscript" id="proof3318">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#measurable_rv">measurable_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rvsqrt_measurable">rvsqrt_measurable</a></span>; <span class="tactic">trivial</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rv_measurable">rv_measurable</a></span>; <span class="tactic">trivial</span>.<br/>
@@ -1517,8 +1539,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv</span>: <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">srv</span>:<span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">rv_X</span>} : <span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#rvsqrt">rvsqrt</a></span> <span class="id">rv_X</span> <span class="id">prv</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= { <span class="id"><a href="FormalML.RandomVariable.html#srv_vals">srv_vals</a></span> := <span class="id"><a href="FormalML.RealRandomVariable.html#srvsqrt_simplemapping">srvsqrt_simplemapping</a></span> <span class="id"><a href="FormalML.RandomVariable.html#srv_vals">srv_vals</a></span> }.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3318')">Next Obligation.</div>
-<div class="proofscript" id="proof3318">
+<div class="toggleproof" onclick="toggleDisplay('proof3319')">Next Obligation.</div>
+<div class="proofscript" id="proof3319">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#srvsqrt_simplemapping">srvsqrt_simplemapping</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rvsqrt">rvsqrt</a></span>; <span class="tactic">simpl</span>.<br/>
@@ -1536,8 +1558,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv1</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X1</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv2</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X2</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvchoice">rvchoice</a></span> <span class="id">c</span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3319')">Proof.</div>
-<div class="proofscript" id="proof3319">
+<div class="toggleproof" onclick="toggleDisplay('proof3320')">Proof.</div>
+<div class="proofscript" id="proof3320">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvchoice">rvchoice</a></span>.<br/>
@@ -1548,8 +1570,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv1</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X1</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv2</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X2</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3320')">Proof.</div>
-<div class="proofscript" id="proof3320">
+<div class="toggleproof" onclick="toggleDisplay('proof3321')">Proof.</div>
+<div class="proofscript" id="proof3321">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvmin">rvmin</a></span>.<br/>
@@ -1558,8 +1580,8 @@
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="prvmax_l">prvmax_l</a></span>  (<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv1</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X1</span>} : <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3321')">Proof.</div>
-<div class="proofscript" id="proof3321">
+<div class="toggleproof" onclick="toggleDisplay('proof3322')">Proof.</div>
+<div class="proofscript" id="proof3322">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> (<span class="id">prv1</span> <span class="id">x</span>).<br/>
@@ -1568,8 +1590,8 @@
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="prvmax_r">prvmax_r</a></span>  (<span class="id">rv_X1</span> <span class="id">rv_X2</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">prv1</span>:<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">rv_X2</span>} : <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3322')">Proof.</div>
-<div class="proofscript" id="proof3322">
+<div class="toggleproof" onclick="toggleDisplay('proof3323')">Proof.</div>
+<div class="proofscript" id="proof3323">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvmax">rvmax</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> (<span class="id">prv1</span> <span class="id">x</span>).<br/>
@@ -1579,8 +1601,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="positive_part_prv">positive_part_prv</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3323')">Proof.</div>
-<div class="proofscript" id="proof3323">
+<div class="toggleproof" onclick="toggleDisplay('proof3324')">Proof.</div>
+<div class="proofscript" id="proof3324">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
@@ -1591,8 +1613,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="negative_part_prv">negative_part_prv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3324')">Proof.</div>
-<div class="proofscript" id="proof3324">
+<div class="toggleproof" onclick="toggleDisplay('proof3325')">Proof.</div>
+<div class="proofscript" id="proof3325">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
@@ -1605,8 +1627,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvx</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">srvx</span> : <span class="id"><a href="FormalML.RandomVariable.html#SimpleRandomVariable">SimpleRandomVariable</a></span> <span class="id">x</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> <span class="id">u</span> =&gt; <span class="id">f</span> (<span class="id">x</span> <span class="id">u</span>)).    <br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3325')">Proof.</div>
-<div class="proofscript" id="proof3325">
+<div class="toggleproof" onclick="toggleDisplay('proof3326')">Proof.</div>
+<div class="proofscript" id="proof3326">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.RandomVariable.html#rv_fun_simple">rv_fun_simple</a></span>; <span class="tactic">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariable.html#sa_preimage_singleton">sa_preimage_singleton</a></span>.<br/>
@@ -1615,8 +1637,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_ge_rv">sa_le_ge_rv</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) {<span class="id">rv</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X</span>} <span class="id">x</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">rv_X</span> <span class="tactic">omega</span> &gt;= <span class="id">x</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3326')">Proof.</div>
-<div class="proofscript" id="proof3326">
+<div class="toggleproof" onclick="toggleDisplay('proof3327')">Proof.</div>
+<div class="proofscript" id="proof3327">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#sa_le_ge">sa_le_ge</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rv_measurable">rv_measurable</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -1629,8 +1651,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_le_le_rv">sa_le_le_rv</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) {<span class="id">rv</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.RealRandomVariable.html#RealRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X</span>} <span class="id">x</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">rv_X</span> <span class="tactic">omega</span> &lt;= <span class="id">x</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3327')">Proof.</div>
-<div class="proofscript" id="proof3327">
+<div class="toggleproof" onclick="toggleDisplay('proof3328')">Proof.</div>
+<div class="proofscript" id="proof3328">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RealRandomVariable.html#rv_measurable">rv_measurable</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1645,8 +1667,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">e</span>:<span class="id"><a href="FormalML.Event.html#event">event</a></span> <span class="id">dom</span>) (<span class="id">f</span> : <span class="id">Ts</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prv</span>: <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="id">f</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">e</span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3328')">Proof.</div>
-<div class="proofscript" id="proof3328">
+<div class="toggleproof" onclick="toggleDisplay('proof3329')">Proof.</div>
+<div class="proofscript" id="proof3329">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RealRandomVariable.html#PositiveRandomVariable">PositiveRandomVariable</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">prv</span>.<br/>
