@@ -659,6 +659,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">field_simplify</span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_lt_trans">Rle_lt_trans</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV_norm_plus">LpRRV_norm_plus</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#big2">big2</a></span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus">LpRRVminus</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> <span class="id">x</span> <span class="id">x1</span>) (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus">LpRRVminus</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> <span class="id">x1</span> <span class="id">y</span>)); <span class="tactic">intros</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus_plus">LpRRVminus_plus</a></span> <span class="kwd">in</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus_plus">LpRRVminus_plus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lim_filter_cauchy">lim_filter_cauchy</a></span> <br/>
@@ -766,14 +769,59 @@
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableL2.html#cauchy_filter_sum_abs0">cauchy_filter_sum_abs0</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_power_le">Rbar_power_le</a></span> (<span class="id">x</span> <span class="id">y</span> <span class="id">p</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id">p</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> 0 <span class="id">x</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> <span class="id">x</span> <span class="id">y</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#Rbar_power">Rbar_power</a></span> (<span class="id">p</span>:=<span class="id">p</span>) <span class="id">x</span>) (<span class="id"><a href="FormalML.RandomVariableLpR.html#Rbar_power">Rbar_power</a></span> (<span class="id">p</span> := <span class="id">p</span>) <span class="id">y</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3440')">Proof.</div>
+<div class="proofscript" id="proof3440">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">destruct</span> <span class="id">y</span>; <span class="tactic">simpl</span> <span class="kwd">in</span> *; <span class="tactic">trivial</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rle_power_l">Rle_power_l</a></span>; <span class="tactic">trivial</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_abs_nneg">Rbar_abs_nneg</a></span> (<span class="id">x</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> 0 (<span class="id">Rbar_abs</span> <span class="id">x</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3441')">Proof.</div>
+<div class="proofscript" id="proof3441">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_abs</span>; <span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">simpl</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos">Rabs_pos</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="cauchy_filter_sum">cauchy_filter_sum</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV_UniformSpace">LpRRV_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#big2">big2</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLpR.html#IsLp_Rbar">IsLp_Rbar</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> (<span class="id">p</span>:=2)  <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RbarExpectation.html#Rbar_rvlim">Rbar_rvlim</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.FunctionsToReal.html#rvsum">rvsum</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">n</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus">LpRRVminus</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_picker">L2RRV_lim_picker</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_picker">L2RRV_lim_picker</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))))).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3442')">Proof.</div>
+<div class="proofscript" id="proof3442">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableL2.html#cauchy_filter_sum_abs">cauchy_filter_sum_abs</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#IsLp_Rbar">IsLp_Rbar</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> (<span class="id"><a href="FormalML.RbarExpectation.html#is_finite_Rbar_Expectation_posRV_le">is_finite_Rbar_Expectation_posRV_le</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RbarExpectation.html#Rbar_rvlim">Rbar_rvlim</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableL2.html#Rbar_power_le">Rbar_power_le</a></span> <span class="kwd">with</span> (<span class="id">p</span> := 2); [<span class="tactic">simpl</span>; <span class="id">lra</span> | <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableL2.html#Rbar_abs_nneg">Rbar_abs_nneg</a></span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;Admitted.</div>
+<br/>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="L2RRV_lim_with_conditions">L2RRV_lim_with_conditions</a></span> (<span class="id">lim</span> : (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV_UniformSpace">LpRRV_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#big2">big2</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">lim</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">lim</span>) : <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV">LpRRV</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> 2.<br/>
 &nbsp;&nbsp;Admitted.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="L2RRV_lim">L2RRV_lim</a></span> (<span class="id">lim</span> : ((<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV">LpRRV</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> 2 -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)) : <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV">LpRRV</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> 2.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3440')">Proof.</div>
-<div class="proofscript" id="proof3440">
+<div class="toggleproof" onclick="toggleDisplay('proof3443')">Proof.</div>
+<div class="proofscript" id="proof3443">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">excluded_middle_informative</a></span> (<span class="id">ProperFilter</span> <span class="id">lim</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">excluded_middle_informative</a></span> (<span class="id">cauchy</span> (<span class="id">T</span>:= <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV_UniformSpace">LpRRV_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2.prts">prts</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#big2">big2</a></span>) <span class="id">lim</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">exact</span> (<span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_with_conditions">L2RRV_lim_with_conditions</a></span> <span class="id">_</span> <span class="id">p</span> <span class="id">c</span>).<br/>
