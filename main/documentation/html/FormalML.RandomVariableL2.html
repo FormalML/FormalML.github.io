@@ -4072,11 +4072,26 @@
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#pow2_pos">pow2_pos</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Npow_eps">Npow_eps</a></span> (<span class="id">eps</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">N</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), 2 / (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rpow_def.html#pow">pow</a></span> 2 <span class="id">N</span>) &lt; <span class="id">eps</span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof3582')">Proof.</div>
 <div class="proofscript" id="proof3582">
-&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> <span class="id">eps</span>); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (0 &lt; <span class="id">eps</span>/2) <span class="tactic">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableL2.html#inv_two_pow_lt">inv_two_pow_lt</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id">H0</span>)); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [<span class="id">N</span> ?].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">N</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rdiv">Rdiv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_comm">Rmult_comm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_lt_reg_r">Rmult_lt_reg_r</a></span> <span class="kwd">with</span> (<span class="id">r</span> := /2).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_0_lt_compat">Rinv_0_lt_compat</a></span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_assoc">Rmult_assoc</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_r_sym">Rinv_r_sym</a></span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_1_r">Rmult_1_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rdiv">Rdiv</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LpRRVnorm_rvminus_rvlim_almost">LpRRVnorm_rvminus_rvlim_almost</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV_UniformSpace">LpRRV_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#big2">big2</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
