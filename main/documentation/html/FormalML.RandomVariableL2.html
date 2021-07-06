@@ -4349,155 +4349,48 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">P</span> [<span class="id">dec</span> ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [? [? ?]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eexists</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">eps</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [<span class="id">N</span> ?].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">N</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">n</span> <span class="id">H2</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim">L2RRV_lim</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">do</span> 2 <span class="tactic">red</span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_with_conditions">L2RRV_lim_with_conditions</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVball">LpRRVball</a></span>, <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVnorm">LpRRVnorm</a></span>, <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus">LpRRVminus</a></span>; <span class="tactic">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableL2.html#cauchy_rvlim_fun">cauchy_rvlim_fun</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="id">match_destr_in</span> <span class="id">e</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">a</span> <span class="kwd">as</span> [<span class="id">x2_p1</span> [<span class="id">x2fin</span> <span class="id">x2islp</span>]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_pos_posRV">Expectation_pos_posRV</a></span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">inversion</span> <span class="id">e</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> <span class="id">eps</span>); <span class="tactic">intro</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#pos">pos</a></span> <span class="id">eps</span>) <span class="kwd">with</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#power">power</a></span> <span class="id">eps</span> 2) (/2)) <span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#inv_power_cancel">inv_power_cancel</a></span>; <span class="id">lra</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rlt_power_l">Rlt_power_l</a></span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">Rbar_le</span> 0 <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVball">LpRRVball</a></span>, <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVnorm">LpRRVnorm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVnorm">LpRRVnorm</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#bignneg">bignneg</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> ((<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> (<span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_picker">L2RRV_lim_picker</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.RandomVariableL2.html#cauchy_rvlim_fun">cauchy_rvlim_fun</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> <span class="id">F</span> <span class="id">p</span> <span class="id">c</span>))) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 2))) =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus">LpRRVminus</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLpR.html#pack_LpRRV">pack_LpRRV</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#rvlim">rvlim</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.FunctionsToReal.html#rvmult">rvmult</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>) (<span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_picker">L2RRV_lim_picker</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableL2.html#LpRRVindicator">LpRRVindicator</a></span> <span class="id">dec</span> (<span class="id"><a href="FormalML.RandomVariableL2.html#L2RRV_lim_picker">L2RRV_lim_picker</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))))) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 2)))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">H4</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_posRV_pos">Expectation_posRV_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableFinite.html#FiniteExpectation_proper_almost">FiniteExpectation_proper_almost</a></span>.       <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.AlmostEqual.html#almost">almost</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">P</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvpower">rvpower</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span>, <span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRVminus">LpRRVminus</a></span>, <span class="id"><a href="FormalML.RandomVariableLpR.html#pack_LpRRV">pack_LpRRV</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>, <span class="id"><a href="FormalML.RandomVariableL2.html#cauchy_rvlim_fun">cauchy_rvlim_fun</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [<span class="id">x2_p1</span> [<span class="id">x2fin</span> <span class="id">x2islp</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvmult">rvmult</a></span>, <span class="id"><a href="FormalML.RealRandomVariable.html#rvlim">rvlim</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
-<span class="comment">(*<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(nrvl&nbsp;:&nbsp;RandomVariable&nbsp;dom&nbsp;borel_sa&nbsp;(rvlim&nbsp;(fun&nbsp;n&nbsp;:&nbsp;nat&nbsp;=&gt;&nbsp;L2RRV_lim_picker&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF&nbsp;(S&nbsp;n)))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;rvlim_rv.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;typeclasses&nbsp;eauto.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;omega;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;H0.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;Expectation<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 <br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;cauchy_rvlim_fun.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;pack_LpRRV;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;repeat&nbsp;red;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;red.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;Hierarchy.ball.<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admitted.<br/>
-<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(H9&nbsp;(mkposreal&nbsp;_&nbsp;H5)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(H10&nbsp;(mkposreal&nbsp;_&nbsp;H5)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;H9&nbsp;as&nbsp;[N2&nbsp;?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;H10&nbsp;as&nbsp;[N3&nbsp;?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(H9&nbsp;(max&nbsp;N2&nbsp;N3)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(H10&nbsp;(max&nbsp;N2&nbsp;N3)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut_to&nbsp;H9;&nbsp;try&nbsp;lia.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut_to&nbsp;H10;&nbsp;try&nbsp;lia.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(Hierarchy.ball_triangle&nbsp;(M:=&nbsp;LpRRV_UniformSpace&nbsp;prts&nbsp;big2)&nbsp;_&nbsp;_&nbsp;_&nbsp;_&nbsp;_&nbsp;H9&nbsp;H10).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace&nbsp;((mkposreal&nbsp;_&nbsp;H5)&nbsp;+&nbsp;(mkposreal&nbsp;_&nbsp;H5))&nbsp;with&nbsp;(pos&nbsp;eps)&nbsp;by&nbsp;(simpl;&nbsp;lra).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;(proof_irrelevance&nbsp;_&nbsp;PF&nbsp;p).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;rewrite&nbsp;(proof_irrelevance&nbsp;_&nbsp;cF&nbsp;c).<br/>
-*)</span><br/>
-<br/>
-<span class="comment">(*&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;cauchy&nbsp;in&nbsp;cF.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(cauchy_filter_rvlim_finite2&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF);&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;X&nbsp;as&nbsp;[P&nbsp;[dec&nbsp;[?&nbsp;[?&nbsp;?]]]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;IsLp_down_le&nbsp;with&nbsp;(n&nbsp;:=&nbsp;1)&nbsp;in&nbsp;H1;&nbsp;[|&nbsp;apply&nbsp;rvlim_rv;&nbsp;[typeclasses&nbsp;eauto&nbsp;|&nbsp;apply&nbsp;H0]&nbsp;|&nbsp;lra].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;IsL1_abs_Finite&nbsp;in&nbsp;H1.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;IsFiniteExpectation_Finite&nbsp;in&nbsp;H1.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;H1.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;erewrite&nbsp;Expectation_pos_posRV&nbsp;in&nbsp;e.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;invcs&nbsp;e.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;rvlim&nbsp;in&nbsp;H2.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(lim_picker_center_included&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF);&nbsp;intros.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;simpl&nbsp;in&nbsp;H1.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(inv_two_pow_lt&nbsp;eps);&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;H3&nbsp;as&nbsp;[N&nbsp;?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(H1&nbsp;N).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;pose&nbsp;(x0&nbsp;:=&nbsp;(L2RRV_lim_ball_center_center&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF&nbsp;N)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;exists&nbsp;(proj1_sig&nbsp;x0).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;split.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;generalize&nbsp;(ball_le&nbsp;(M:=&nbsp;LpRRV_UniformSpace&nbsp;prts&nbsp;big2)&nbsp;(proj1_sig&nbsp;x0)&nbsp;(mkposreal&nbsp;_&nbsp;(inv_pow_2_pos&nbsp;N))&nbsp;eps);&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;x0.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut_to&nbsp;H4.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;apply&nbsp;(filter_imp&nbsp;_&nbsp;_&nbsp;H4).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;f.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;left;&nbsp;apply&nbsp;H3.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;assert&nbsp;(forall&nbsp;x,&nbsp;ex_lim_seq_cauchy&nbsp;(fun&nbsp;n&nbsp;:&nbsp;nat&nbsp;=&gt;&nbsp;rvmult&nbsp;(EventIndicator&nbsp;dec)&nbsp;(L2RRV_lim_picker&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF&nbsp;(S&nbsp;n))&nbsp;x)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;rewrite&nbsp;&lt;-&nbsp;ex_lim_seq_cauchy_corr.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(lim_filter_cauchy&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF);&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(0&nbsp;&lt;&nbsp;eps/2).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;Rlt_div_r;&nbsp;try&nbsp;lra.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;Rmult_0_l.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;cond_pos.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(inv_two_pow_lt&nbsp;(mkposreal&nbsp;_&nbsp;H5));&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;H6&nbsp;as&nbsp;[N&nbsp;?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;cauchy_distance;&nbsp;intros.<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simpl&nbsp;in&nbsp;H7.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simpl&nbsp;in&nbsp;H8.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(forall&nbsp;eps,<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exists&nbsp;(N:nat),<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forall&nbsp;(n:nat),&nbsp;(n&nbsp;&gt;=&nbsp;N)%nat&nbsp;-&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hierarchy.ball&nbsp;x0&nbsp;eps&nbsp;&nbsp;(L2RRV_lim_picker&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF&nbsp;(S&nbsp;n))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-admit.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(forall&nbsp;eps,<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exists&nbsp;(N:nat),<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forall&nbsp;(n:nat),&nbsp;(n&nbsp;&gt;=&nbsp;N)%nat&nbsp;-&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hierarchy.ball&nbsp;(M:=&nbsp;LpRRV_UniformSpace&nbsp;prts&nbsp;big2)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(L2RRV_lim_picker&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF&nbsp;(S&nbsp;n))&nbsp;eps<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pack_LpRRV&nbsp;prts&nbsp;(cauchy_rvlim_fun&nbsp;prts&nbsp;F&nbsp;PF&nbsp;cF))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;cauchy_rvlim_fun.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;pack_LpRRV;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;Hierarchy.ball.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;UniformSpace.ball;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;LpRRVball,&nbsp;LpRRVnorm,&nbsp;LpRRVminus;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eexists;&nbsp;intros;&nbsp;simpl.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;FiniteExpectation,&nbsp;proj1_sig.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;match_destr.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat&nbsp;match_destr_in&nbsp;e.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;a&nbsp;as&nbsp;[x2_p1&nbsp;[x2fin&nbsp;x2islp]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;admit.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;apply&nbsp;rvlim_rv.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typeclasses&nbsp;eauto.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;H0.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unshelve.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;prvabs.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exact&nbsp;(0%nat).<br/>
-&nbsp;*)</span><br/>
-&nbsp;&nbsp;Admitted.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LpRRVnorm_L2RRV_lim">LpRRVnorm_L2RRV_lim</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLpR.html#LpRRV_UniformSpace">LpRRV_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#L2_complete.prts">prts</a></span> <span class="id"><a href="FormalML.RandomVariableL2.html#big2">big2</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
