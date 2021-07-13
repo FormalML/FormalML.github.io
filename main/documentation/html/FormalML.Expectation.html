@@ -3899,7 +3899,72 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_1_r">Rmult_1_r</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rsqr_pos">rsqr_pos</a></span> (<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) : (0 &lt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4166')">Proof.</div>
+<div class="proofscript" id="proof4166">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_0_sqr">Rlt_0_sqr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rgt_not_eq">Rgt_not_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rabs_Rsqr_ge">Rabs_Rsqr_ge</a></span> (<span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span> &gt;= <span class="id">a</span> &lt;-&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">x</span> &gt;= <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4167')">Proof.</div>
+<div class="proofscript" id="proof4167">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#pos">pos</a></span> <span class="id">a</span>) <span class="kwd">with</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">a</span>) <span class="tactic">at</span> 1 <span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_right">Rabs_right</a></span>; <span class="id">left</span>; <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_ge">Rle_ge</a></span>; <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rge_le">Rge_le</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_le_abs_1">Rsqr_le_abs_1</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_le_abs_0">Rsqr_le_abs_0</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Chebyshev_ineq_div_mean">Chebyshev_ineq_div_mean</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X</span> : <span class="id"><a href="FormalML.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.Expectation.html#Expectation.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">mean</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>))) <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Rbar_div_pos</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.Expectation.html#rsqr_pos">rsqr_pos</a></span> <span class="id">a</span>))).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4168')">Proof.</div>
+<div class="proofscript" id="proof4168">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.Event.html#event_equiv">event_equiv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>))) <span class="id">a</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{| <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#pos">pos</a></span> := <span class="id">a</span>²; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> := <span class="id"><a href="FormalML.Expectation.html#rsqr_pos">rsqr_pos</a></span> <span class="id">a</span> |})).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvsqr">rvsqr</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Expectation.html#Rabs_Rsqr_ge">Rabs_Rsqr_ge</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Markov_ineq_div">Markov_ineq_div</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Chebyshev_ineq_div">Chebyshev_ineq_div</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X</span> : <span class="id"><a href="FormalML.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv</span> : <span class="id"><a href="FormalML.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.Expectation.html#Expectation.dom">dom</a></span> <span class="id"><a href="FormalML.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">X</span>) <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">mean</span>) =&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>))) <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Rbar_div_pos</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.Expectation.html#rsqr_pos">rsqr_pos</a></span> <span class="id">a</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4169')">Proof.</div>
+<div class="proofscript" id="proof4169">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case_eq</span> (<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">X</span>); <span class="tactic">intros</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Expectation.html#Chebyshev_ineq_div_mean">Chebyshev_ineq_div_mean</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span>.<br/>
+<br/>
+<br/>
 <span class="kwd">Section</span> <span class="id"><a name="EventRestricted">EventRestricted</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
@@ -3910,8 +3975,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.Ts">Ts</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.dom">dom</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">f</span> <span class="id">prv</span> = <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_prob_space">event_restricted_prob_space</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">P</span> <span class="id">pf</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> <span class="id">f</span>) <span class="id">_</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof4166')">Proof.</div>
-<div class="proofscript" id="proof4166">
+<div class="toggleproof" onclick="toggleDisplay('proof4170')">Proof.</div>
+<div class="proofscript" id="proof4170">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation_posRV">Expectation_posRV</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Lub_Rbar</span>.<br/>
@@ -3982,8 +4047,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.Ts">Ts</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.dom">dom</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">f</span> = <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_prob_space">event_restricted_prob_space</a></span> <span class="id"><a href="FormalML.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">P</span> <span class="id">pf</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof4167')">Proof.</div>
-<div class="proofscript" id="proof4167">
+<div class="toggleproof" onclick="toggleDisplay('proof4171')">Proof.</div>
+<div class="proofscript" id="proof4171">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Expectation.html#Expectation">Expectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.Expectation.html#event_restricted_Expectation_posRV">event_restricted_Expectation_posRV</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">P</span> <span class="id">pf1</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">f</span>) <span class="id">_</span>); <span class="tactic">intros</span>.<br/>
