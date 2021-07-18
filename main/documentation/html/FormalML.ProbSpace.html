@@ -23,6 +23,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span>.<br/>
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.Classical.html">Classical</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalFacts.html">ClassicalFacts</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalChoice.html">ClassicalChoice</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ProofIrrelevance.html">ProofIrrelevance</a></span>.<br/>
 <span class="kwd">Require</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Sets.Ensembles.html">Ensembles</a></span>.<br/>
 <br/>
@@ -781,7 +782,44 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_complement">ps_complement</a></span>, <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
-&nbsp;Qed.</div>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="double_countable_inter_ps_one">double_countable_inter_ps_one</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>:<span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} (<span class="id">prts</span>:<span class="id"><a href="FormalML.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">T</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span> <span class="id">m</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">P</span> : <span class="id"><a href="FormalML.Event.html#event">event</a></span> <span class="id">dom</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">P</span> = 1 /\ <span class="kwd">forall</span> (<span class="id">x</span> : <span class="id">T</span>), <span class="id">P</span> <span class="id">x</span> -&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">m</span> <span class="id">x</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">P</span> : <span class="id"><a href="FormalML.Event.html#event">event</a></span> <span class="id">dom</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">P</span> = 1 /\ <span class="kwd">forall</span> (<span class="id">n</span> <span class="id">m</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="kwd">forall</span> (<span class="id">x</span> : <span class="id">T</span>), <span class="id">P</span> <span class="id">x</span> -&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">m</span> <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3173')">Proof.</div>
+<div class="proofscript" id="proof3173">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">HH</span>: <span class="kwd">forall</span> (<span class="id">nm</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">P</span> : <span class="id"><a href="FormalML.Event.html#event">event</a></span> <span class="id">dom</span>, <span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">P</span> = 1 /\ (<span class="kwd">forall</span> <span class="id">x</span> : <span class="id">T</span>, <span class="id">P</span> <span class="id">x</span> -&gt; (<span class="kwd">let</span> '(<span class="id">n</span>,<span class="id">m</span>) := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">nm</span> <span class="kwd">in</span> <span class="id">f</span> <span class="id">n</span> <span class="id">m</span> <span class="id">x</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">nm</span>)) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#snd">snd</a></span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">nm</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalChoice.html#choice">choice</a></span> <span class="id">_</span> <span class="id">HH</span>) <span class="kwd">as</span> [<span class="id">coll</span> <span class="id">collp</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="FormalML.Event.html#inter_of_collection">inter_of_collection</a></span> <span class="id">coll</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_one_countable_inter">ps_one_countable_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">destruct</span> (<span class="id">collp</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">n</span> <span class="id">m</span> <span class="id">x</span> <span class="id">ic</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">collp</span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span> (<span class="id">n</span>,<span class="id">m</span>))) <span class="kwd">as</span> [<span class="id">_</span> <span class="id">HH2</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">eqq1</span> <span class="kwd">in</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b_f">iso_b_f</a></span> <span class="kwd">in</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">ic</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
 <span class="kwd">Section</span> <span class="id"><a name="conditional_probability">conditional_probability</a></span>.<br/>
 <br/>
@@ -794,8 +832,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">infinite_sum</span>'<span class="id">_scal_r</span> {<span class="id">f1</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} {<span class="id">sum1</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">c</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">infinite_sum</span>' <span class="id">f1</span> <span class="id">sum1</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">infinite_sum</span>' (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f1</span> <span class="id">x</span> * <span class="id">c</span>) (<span class="id">sum1</span> * <span class="id">c</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3173')">Proof.</div>
-<div class="proofscript" id="proof3173">
+<div class="toggleproof" onclick="toggleDisplay('proof3174')">Proof.</div>
+<div class="proofscript" id="proof3174">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_comm">Rmult_comm</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id">infinite_sum</span>'<span class="id">_ext</span><br/>
@@ -806,15 +844,15 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">infinite_sum</span>'<span class="id">_scal_div</span> {<span class="id">f1</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} {<span class="id">sum1</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">c</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">infinite_sum</span>' <span class="id">f1</span> <span class="id">sum1</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">infinite_sum</span>' (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f1</span> <span class="id">x</span> / <span class="id">c</span>) (<span class="id">sum1</span> / <span class="id">c</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3174')">Proof.</div>
-<div class="proofscript" id="proof3174">
+<div class="toggleproof" onclick="toggleDisplay('proof3175')">Proof.</div>
+<div class="proofscript" id="proof3175">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">infinite_sum</span>'<span class="id">_scal_r</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="event_inter_countable_union_distr_r">event_inter_countable_union_distr_r</a></span>  (<span class="id">A</span>:<span class="id"><a href="FormalML.Event.html#event">event</a></span> σ) (<span class="id">coll</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.Event.html#event">event</a></span> σ) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#union_of_collection">union_of_collection</a></span> <span class="id">coll</span> ∩ <span class="id">A</span> === <span class="id"><a href="FormalML.Event.html#union_of_collection">union_of_collection</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">coll</span> <span class="id">n</span>) ∩ <span class="id">A</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3175')">Proof.</div>
-<div class="proofscript" id="proof3175">
+<div class="toggleproof" onclick="toggleDisplay('proof3176')">Proof.</div>
+<div class="proofscript" id="proof3176">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">firstorder</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -822,14 +860,14 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:= {<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">A</span> := <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span> <span class="id">A</span> <span class="id">B</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3176')">Next Obligation.</div>
-<div class="proofscript" id="proof3176">
+<div class="toggleproof" onclick="toggleDisplay('proof3177')">Next Obligation.</div>
+<div class="proofscript" id="proof3177">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3177')">Next Obligation.</div>
-<div class="proofscript" id="proof3177">
+<div class="toggleproof" onclick="toggleDisplay('proof3178')">Next Obligation.</div>
+<div class="proofscript" id="proof3178">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">infinite_sum</span>'<span class="id">_scal_div</span>.<br/>
@@ -839,14 +877,14 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eauto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3178')">Next Obligation.</div>
-<div class="proofscript" id="proof3178">
+<div class="toggleproof" onclick="toggleDisplay('proof3179')">Next Obligation.</div>
+<div class="proofscript" id="proof3179">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">autorewrite</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">field_simplify</span>; <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3179')">Next Obligation.</div>
-<div class="proofscript" id="proof3179">
+<div class="toggleproof" onclick="toggleDisplay('proof3180')">Next Obligation.</div>
+<div class="proofscript" id="proof3180">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_pos">Rmult_le_pos</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_pos">ps_pos</a></span>.<br/>
@@ -859,8 +897,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="event_restricted_domain_ext">event_restricted_domain_ext</a></span> (<span class="id">e1</span> <span class="id">e2</span>:<span class="id"><a href="FormalML.Event.html#event">event</a></span> σ) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">e1</span> = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">e2</span> -&gt; <span class="id">e1</span> = <span class="id">e2</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3180')">Proof.</div>
-<div class="proofscript" id="proof3180">
+<div class="toggleproof" onclick="toggleDisplay('proof3181')">Proof.</div>
+<div class="proofscript" id="proof3181">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">e1</span>; <span class="tactic">destruct</span> <span class="id">e2</span>; <span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ProofIrrelevance.html#ProofIrrelevanceTheory.subset_eq_compat">subset_eq_compat</a></span>.<br/>
@@ -871,8 +909,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">A</span>:<span class="id"><a href="FormalML.Event.html#pre_event">pre_event</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">e</span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">a</span>:<span class="id"><a href="FormalML.ProbSpace.html#conditional_probability.T">T</a></span> =&gt; <span class="id">exists</span> (<span class="id">a</span>':<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">e</span>), <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">a</span>' = <span class="id">a</span> /\ <span class="id">A</span> (<span class="id">a</span>'))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3181')">Next Obligation.</div>
-<div class="proofscript" id="proof3181">
+<div class="toggleproof" onclick="toggleDisplay('proof3182')">Next Obligation.</div>
+<div class="proofscript" id="proof3182">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Event.html#sa_countable_union">sa_countable_union</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.Event.html#sa_proper">sa_proper</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
@@ -885,8 +923,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>; <span class="tactic">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3182')">Next Obligation.</div>
-<div class="proofscript" id="proof3182">
+<div class="toggleproof" onclick="toggleDisplay('proof3183')">Next Obligation.</div>
+<div class="proofscript" id="proof3183">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Event.html#sa_complement">sa_complement</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.Event.html#sa_inter">sa_inter</a></span> <span class="id">H</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> <span class="id">e</span>)); <span class="tactic">clear</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.Event.html#sa_proper">sa_proper</a></span>.<br/>
@@ -912,8 +950,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eexists</span>; <span class="tactic">split</span>; <span class="tactic">try</span> <span class="tactic">apply</span> <span class="id">HH3</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3183')">Next Obligation.</div>
-<div class="proofscript" id="proof3183">
+<div class="toggleproof" onclick="toggleDisplay('proof3184')">Next Obligation.</div>
+<div class="proofscript" id="proof3184">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.Event.html#sa_proper">sa_proper</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> <span class="id">e</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">pre_</span>Ω; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>; <span class="tactic">simpl</span>.<br/>
@@ -931,8 +969,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_pre_event_restricted_event_lift">sa_pre_event_restricted_event_lift</a></span>  (<span class="id">e</span>:<span class="id"><a href="FormalML.Event.html#event">event</a></span> σ) (<span class="id">A</span>:<span class="id"><a href="FormalML.Event.html#event">event</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_sigma">event_restricted_sigma</a></span> <span class="id">e</span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">a</span>:<span class="id"><a href="FormalML.ProbSpace.html#conditional_probability.T">T</a></span> =&gt; <span class="id">exists</span> (<span class="id">a</span>':<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">e</span>), <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">a</span>' = <span class="id">a</span> /\ <span class="id">A</span> (<span class="id">a</span>')).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3184')">Proof.</div>
-<div class="proofscript" id="proof3184">
+<div class="toggleproof" onclick="toggleDisplay('proof3185')">Proof.</div>
+<div class="proofscript" id="proof3185">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> <span class="id">A</span>).<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -945,8 +983,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_pre_event_restricted_event">sa_pre_event_restricted_event</a></span> (<span class="id">e</span> <span class="id">f</span> :<span class="id"><a href="FormalML.Event.html#event">event</a></span> σ) : <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_pre_event">event_restricted_pre_event</a></span> <span class="id">e</span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3185')">Proof.</div>
-<div class="proofscript" id="proof3185">
+<div class="toggleproof" onclick="toggleDisplay('proof3186')">Proof.</div>
+<div class="proofscript" id="proof3186">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Event.html#sa_sigma">sa_sigma</a></span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.Event.html#sa_proper">sa_proper</a></span> <span class="kwd">with</span> (<span class="id">x</span> := <span class="id"><a href="FormalML.Event.html#event_inter">event_inter</a></span> <span class="id">e</span> <span class="id">f</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -977,8 +1015,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">fun</span> <span class="id">a</span>' =&gt; <span class="id">f</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">a</span>').<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="event_restricted_event_lift_proper">event_restricted_event_lift_proper</a></span> <span class="id">e</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.Event.html#event_equiv">event_equiv</a></span> ==&gt; <span class="id"><a href="FormalML.Event.html#event_equiv">event_equiv</a></span>) (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span> <span class="id">e</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3186')">Proof.</div>
-<div class="proofscript" id="proof3186">
+<div class="toggleproof" onclick="toggleDisplay('proof3187')">Proof.</div>
+<div class="proofscript" id="proof3187">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? <span class="id">eqq</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#pre_event_restricted_pre_event_lift">pre_event_restricted_pre_event_lift</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
@@ -992,8 +1030,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="event_restricted_event_lift_disjoint">event_restricted_event_lift_disjoint</a></span> <span class="id">e</span> <span class="id">collection</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#collection_is_pairwise_disjoint">collection_is_pairwise_disjoint</a></span> <span class="id">collection</span> -&gt;  <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#collection_is_pairwise_disjoint">collection_is_pairwise_disjoint</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span> <span class="id">e</span> (<span class="id">collection</span> <span class="id">n</span>)).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3187')">Proof.</div>
-<div class="proofscript" id="proof3187">
+<div class="toggleproof" onclick="toggleDisplay('proof3188')">Proof.</div>
+<div class="proofscript" id="proof3188">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#pre_event_restricted_pre_event_lift">pre_event_restricted_pre_event_lift</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">disj</span> <span class="id">n1</span> <span class="id">n2</span> <span class="id">neq</span> <span class="id">x</span> [[<span class="id">x1</span> ?] [??]] [[<span class="id">x2</span> ?] [??]]; <span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id">disj</span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">neq</span>; <span class="tactic">subst</span> <span class="id">x</span>.<br/>
@@ -1006,8 +1044,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="event_restricted_event_lift_collection">event_restricted_event_lift_collection</a></span> <span class="id">e</span> <span class="id">collection</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#event_equiv">event_equiv</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span> <span class="id">e</span> (<span class="id"><a href="FormalML.Event.html#union_of_collection">union_of_collection</a></span> <span class="id">collection</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.Event.html#union_of_collection">union_of_collection</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span> <span class="id">e</span> (<span class="id">collection</span> <span class="id">n</span>))).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3188')">Proof.</div>
-<div class="proofscript" id="proof3188">
+<div class="toggleproof" onclick="toggleDisplay('proof3189')">Proof.</div>
+<div class="proofscript" id="proof3189">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span>, <span class="id"><a href="FormalML.ProbSpace.html#pre_event_restricted_pre_event_lift">pre_event_restricted_pre_event_lift</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.Event.html#union_of_collection">union_of_collection</a></span>, <span class="id"><a href="FormalML.Event.html#pre_union_of_collection">pre_union_of_collection</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>; <span class="tactic">simpl</span>.<br/>
@@ -1023,8 +1061,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">event_restricted_event_lift_</span>Ω <span class="id">e</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.Event.html#event_equiv">event_equiv</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span> <span class="id">e</span> Ω) <span class="id">e</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3189')">Proof.</div>
-<div class="proofscript" id="proof3189">
+<div class="toggleproof" onclick="toggleDisplay('proof3190')">Proof.</div>
+<div class="proofscript" id="proof3190">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> [[??][??]]; <span class="tactic">simpl</span> <span class="kwd">in</span> *; <span class="tactic">subst</span>; <span class="tactic">trivial</span>.<br/>
@@ -1040,15 +1078,15 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:= {<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">A</span> := <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span> (<span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift">event_restricted_event_lift</a></span> <span class="id">e</span> <span class="id">A</span>) <span class="id">e</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3190')">Next Obligation.</div>
-<div class="proofscript" id="proof3190">
+<div class="toggleproof" onclick="toggleDisplay('proof3191')">Next Obligation.</div>
+<div class="proofscript" id="proof3191">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3191')">Next Obligation.</div>
-<div class="proofscript" id="proof3191">
+<div class="toggleproof" onclick="toggleDisplay('proof3192')">Next Obligation.</div>
+<div class="proofscript" id="proof3192">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">red</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">infinite_sum</span>'<span class="id">_scal_div</span>.<br/>
@@ -1070,16 +1108,16 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eauto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#event_restricted_event_lift_disjoint">event_restricted_event_lift_disjoint</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3192')">Next Obligation.</div>
-<div class="proofscript" id="proof3192">
+<div class="toggleproof" onclick="toggleDisplay('proof3193')">Next Obligation.</div>
+<div class="proofscript" id="proof3193">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">event_restricted_event_lift_</span>Ω.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.Event.html#event_inter_self">event_inter_self</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_r">Rinv_r</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<div class="toggleproof" onclick="toggleDisplay('proof3193')">Next Obligation.</div>
-<div class="proofscript" id="proof3193">
+<div class="toggleproof" onclick="toggleDisplay('proof3194')">Next Obligation.</div>
+<div class="proofscript" id="proof3194">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbSpace.html#cond_prob">cond_prob</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_pos">Rmult_le_pos</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbSpace.html#ps_pos">ps_pos</a></span>.<br/>
