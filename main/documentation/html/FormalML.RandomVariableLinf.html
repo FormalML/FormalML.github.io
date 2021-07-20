@@ -1398,6 +1398,97 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVpoint">LiRRVpoint</a></span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV">LiRRV</a></span> := <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVconst">LiRRVconst</a></span> 0.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVball">LiRRVball</a></span> (<span class="id">x</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV">LiRRV</a></span>) (<span class="id">e</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">y</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV">LiRRV</a></span>): <span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm">LiRRVnorm</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span> <span class="id">x</span> <span class="id">y</span>) &lt; <span class="id">e</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Ltac</span> <span class="id">LiRRV_simpl</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::= <span class="tactic">repeat</span> <span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [<span class="id">H</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV">LiRRV</a></span> |- <span class="id">_</span> ] =&gt; <span class="tactic">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [???]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span>, <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm">LiRRVnorm</a></span>, <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVplus">LiRRVplus</a></span>, <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span>, <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVopp">LiRRVopp</a></span>, <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVscale">LiRRVscale</a></span>, <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm">LiRRVnorm</a></span> <span class="kwd">in</span> *<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="tactic">simpl</span> <span class="id">pack_LiRRV</span>; <span class="tactic">simpl</span> <span class="id">LiRRV_rv_X</span> <span class="kwd">in</span> *.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="LiRRV_ball_sproper">LiRRV_ball_sproper</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_seq">LiRRV_seq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_seq">LiRRV_seq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3959')">Proof.</div>
+<div class="proofscript" id="proof3959">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? <span class="id">eqq1</span> ?? <span class="id">eqq2</span> ?? <span class="id">eqq3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq1</span>, &lt;- <span class="id">eqq2</span>, &lt;- <span class="id">eqq3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="LiRRV_ball_proper">LiRRV_ball_proper</a></span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_eq">LiRRV_eq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_eq">LiRRV_eq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3960')">Proof.</div>
+<div class="proofscript" id="proof3960">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? <span class="id">eqq1</span> ?? <span class="id">eqq2</span> ?? <span class="id">eqq3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id">eqq1</span>, &lt;- <span class="id">eqq2</span>, &lt;- <span class="id">eqq3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRV_ball_refl">LiRRV_ball_refl</a></span> <span class="id">x</span> (<span class="id">e</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> <span class="id">e</span> <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3961')">Proof.</div>
+<div class="proofscript" id="proof3961">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRV_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#Linfty_norm_almost_eq">Linfty_norm_almost_eq</a></span> <span class="id">_</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#Linfty_norm_const">Linfty_norm_const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_R0">Rabs_R0</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.AlmostEqual.html#almost_eq_subr">almost_eq_subr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvminus_self">rvminus_self</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRV_ball_sym">LiRRV_ball_sym</a></span> <span class="id">x</span> <span class="id">y</span> <span class="id">e</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> <span class="id">e</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">y</span> <span class="id">e</span> <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3962')">Proof.</div>
+<div class="proofscript" id="proof3962">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRV_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.RandomVariableLinf.html#Linfty_norm_abs">Linfty_norm_abs</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.RandomVariableLinf.html#Linfty_norm_abs">Linfty_norm_abs</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#Linfty_norm_almost_eq">Linfty_norm_almost_eq</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">LiRRV_rv_X1</span> <span class="id">LiRRV_rv_X0</span>))); <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.AlmostEqual.html#almost_eq_subr">almost_eq_subr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.FunctionsToReal.html#rvabs_rvminus_sym">rvabs_rvminus_sym</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRV_ball_trans">LiRRV_ball_trans</a></span> <span class="id">x</span> <span class="id">y</span> <span class="id">z</span> <span class="id">e1</span> <span class="id">e2</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> <span class="id">e1</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">y</span> <span class="id">e2</span> <span class="id">z</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> (<span class="id">e1</span>+<span class="id">e2</span>) <span class="id">z</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3963')">Proof.</div>
+<div class="proofscript" id="proof3963">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm_plus">LiRRV_norm_plus</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span> <span class="id">x</span> <span class="id">y</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span> <span class="id">y</span> <span class="id">z</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRV_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#Linfty_norm_almost_eq">Linfty_norm_almost_eq</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">LiRRV_rv_X2</span> <span class="id">LiRRV_rv_X1</span>) (<span class="id"><a href="FormalML.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">LiRRV_rv_X1</span> <span class="id">LiRRV_rv_X0</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">eapply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_lt_trans">Rle_lt_trans</a></span>; <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id"><a href="FormalML.AlmostEqual.html#almost_eq_subr">almost_eq_subr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>; <span class="tactic">intros</span> ?; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRV_close_close">LiRRV_close_close</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV">LiRRV</a></span>) (<span class="id">eps</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm">LiRRVnorm</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span> <span class="id">y</span> <span class="id">x</span>) &lt; <span class="id">eps</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> <span class="id">eps</span> <span class="id">y</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3964')">Proof.</div>
+<div class="proofscript" id="proof3964">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_ball_sym">LiRRV_ball_sym</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRV_norm_ball_compat">LiRRV_norm_ball_compat</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV">LiRRV</a></span>) (<span class="id">eps</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> <span class="id">eps</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm">LiRRVnorm</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span> <span class="id">y</span> <span class="id">x</span>) &lt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm_factor">LiRRVnorm_factor</a></span> * <span class="id">eps</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3965')">Proof.</div>
+<div class="proofscript" id="proof3965">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_ball_sym">LiRRV_ball_sym</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm_factor">LiRRVnorm_factor</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">field_simplify</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Section</span> <span class="id"><a name="Linf.packed.quoted">quoted</a></span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq">LiRRVq</a></span> : <span class="kwd">Type</span> := <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_eq">LiRRV_eq</a></span>.<br/>
@@ -1405,8 +1496,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_const">LiRRVq_const</a></span> (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> := <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVconst">LiRRVconst</a></span> <span class="id">x</span>).<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_constE">LiRRVq_constE</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_const">LiRRVq_const</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVconst">LiRRVconst</a></span> <span class="id">x</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3959')">Proof.</div>
-<div class="proofscript" id="proof3959">
+<div class="toggleproof" onclick="toggleDisplay('proof3966')">Proof.</div>
+<div class="proofscript" id="proof3966">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1415,8 +1506,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_zero">LiRRVq_zero</a></span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> := <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_const">LiRRVq_const</a></span> 0.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_zeroE">LiRRVq_zeroE</a></span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_zero">LiRRVq_zero</a></span> = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_const">LiRRVq_const</a></span> 0.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3960')">Proof.</div>
-<div class="proofscript" id="proof3960">
+<div class="toggleproof" onclick="toggleDisplay('proof3967')">Proof.</div>
+<div class="proofscript" id="proof3967">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1426,8 +1517,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift">quot_lift</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVscale">LiRRVscale</a></span> <span class="id">x</span>).<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_scaleE">LiRRVq_scaleE</a></span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">y</span>)  = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVscale">LiRRVscale</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3961')">Proof.</div>
-<div class="proofscript" id="proof3961">
+<div class="toggleproof" onclick="toggleDisplay('proof3968')">Proof.</div>
+<div class="proofscript" id="proof3968">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_liftE">quot_liftE</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1437,8 +1528,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift">quot_lift</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVopp">LiRRVopp</a></span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_oppE">LiRRVq_oppE</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_opp">LiRRVq_opp</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">x</span>)  = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVopp">LiRRVopp</a></span> <span class="id">x</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3962')">Proof.</div>
-<div class="proofscript" id="proof3962">
+<div class="toggleproof" onclick="toggleDisplay('proof3969')">Proof.</div>
+<div class="proofscript" id="proof3969">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_liftE">quot_liftE</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1448,8 +1539,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift">quot_lift</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVabs">LiRRVabs</a></span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_absE">LiRRVq_absE</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_abs">LiRRVq_abs</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">x</span>)  = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVabs">LiRRVabs</a></span> <span class="id">x</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3963')">Proof.</div>
-<div class="proofscript" id="proof3963">
+<div class="toggleproof" onclick="toggleDisplay('proof3970')">Proof.</div>
+<div class="proofscript" id="proof3970">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_liftE">quot_liftE</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1459,8 +1550,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2">quot_lift2</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVplus">LiRRVplus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_plusE">LiRRVq_plusE</a></span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">x</span>) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">y</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVplus">LiRRVplus</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3964')">Proof.</div>
-<div class="proofscript" id="proof3964">
+<div class="toggleproof" onclick="toggleDisplay('proof3971')">Proof.</div>
+<div class="proofscript" id="proof3971">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2E">quot_lift2E</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1470,8 +1561,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2">quot_lift2</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_minusE">LiRRVq_minusE</a></span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_minus">LiRRVq_minus</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">x</span>) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">y</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus">LiRRVminus</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3965')">Proof.</div>
-<div class="proofscript" id="proof3965">
+<div class="toggleproof" onclick="toggleDisplay('proof3972')">Proof.</div>
+<div class="proofscript" id="proof3972">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2E">quot_lift2E</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
@@ -1487,45 +1578,45 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_minus_plus">LiRRVq_minus_plus</a></span> (<span class="id">rv1</span> <span class="id">rv2</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_minus">LiRRVq_minus</a></span> <span class="id">rv1</span> <span class="id">rv2</span> = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">rv1</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_opp">LiRRVq_opp</a></span> <span class="id">rv2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3966')">Proof.</div>
-<div class="proofscript" id="proof3966">
+<div class="toggleproof" onclick="toggleDisplay('proof3973')">Proof.</div>
+<div class="proofscript" id="proof3973">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus_plus">LiRRVminus_plus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_opp_scale">LiRRVq_opp_scale</a></span> (<span class="id">rv</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_opp">LiRRVq_opp</a></span> <span class="id">rv</span> = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> (-1) <span class="id">rv</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3967')">Proof.</div>
-<div class="proofscript" id="proof3967">
+<div class="toggleproof" onclick="toggleDisplay('proof3974')">Proof.</div>
+<div class="proofscript" id="proof3974">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVopp_scale">LiRRVopp_scale</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_plus_comm">LiRRVq_plus_comm</a></span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">x</span> <span class="id">y</span> = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">y</span> <span class="id">x</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3968')">Proof.</div>
-<div class="proofscript" id="proof3968">
+<div class="toggleproof" onclick="toggleDisplay('proof3975')">Proof.</div>
+<div class="proofscript" id="proof3975">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_plus_comm">LiRRV_plus_comm</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_plus_assoc">LiRRVq_plus_assoc</a></span> (<span class="id">x</span> <span class="id">y</span> <span class="id">z</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">y</span> <span class="id">z</span>) = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">x</span> <span class="id">y</span>) <span class="id">z</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3969')">Proof.</div>
-<div class="proofscript" id="proof3969">
+<div class="toggleproof" onclick="toggleDisplay('proof3976')">Proof.</div>
+<div class="proofscript" id="proof3976">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_plus_assoc">LiRRV_plus_assoc</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_plus_zero">LiRRVq_plus_zero</a></span> (<span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">x</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_zero">LiRRVq_zero</a></span> = <span class="id">x</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3970')">Proof.</div>
-<div class="proofscript" id="proof3970">
+<div class="toggleproof" onclick="toggleDisplay('proof3977')">Proof.</div>
+<div class="proofscript" id="proof3977">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_plus_zero">LiRRV_plus_zero</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_plus_inv">LiRRVq_plus_inv</a></span> (<span class="id">x</span>: <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_opp">LiRRVq_opp</a></span> <span class="id">x</span>) = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_zero">LiRRVq_zero</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3971')">Proof.</div>
-<div class="proofscript" id="proof3971">
+<div class="toggleproof" onclick="toggleDisplay('proof3978')">Proof.</div>
+<div class="proofscript" id="proof3978">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_plus_inv">LiRRV_plus_inv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
@@ -1550,32 +1641,32 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_scale_scale">LiRRVq_scale_scale</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id">R_Ring</span>) (<span class="id">u</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_AbelianGroup">LiRRVq_AbelianGroup</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">y</span> <span class="id">u</span>) = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> (<span class="id">x</span> * <span class="id">y</span>) <span class="id">u</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3972')">Proof.</div>
-<div class="proofscript" id="proof3972">
+<div class="toggleproof" onclick="toggleDisplay('proof3979')">Proof.</div>
+<div class="proofscript" id="proof3979">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_scale_scale">LiRRV_scale_scale</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_scale1">LiRRVq_scale1</a></span> (<span class="id">u</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_AbelianGroup">LiRRVq_AbelianGroup</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">one</span> <span class="id">u</span> = <span class="id">u</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3973')">Proof.</div>
-<div class="proofscript" id="proof3973">
+<div class="toggleproof" onclick="toggleDisplay('proof3980')">Proof.</div>
+<div class="proofscript" id="proof3980">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_scale1">LiRRV_scale1</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_scale_plus_l">LiRRVq_scale_plus_l</a></span> (<span class="id">x</span> : <span class="id">R_Ring</span>) (<span class="id">u</span> <span class="id">v</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_AbelianGroup">LiRRVq_AbelianGroup</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> (<span class="id">plus</span> <span class="id">u</span> <span class="id">v</span>) = <span class="id">plus</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> <span class="id">u</span>) (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> <span class="id">v</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3974')">Proof.</div>
-<div class="proofscript" id="proof3974">
+<div class="toggleproof" onclick="toggleDisplay('proof3981')">Proof.</div>
+<div class="proofscript" id="proof3981">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_scale_plus_l">LiRRV_scale_plus_l</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_scale_plus_r">LiRRVq_scale_plus_r</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id">R_Ring</span>) (<span class="id">u</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_AbelianGroup">LiRRVq_AbelianGroup</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> (<span class="id">plus</span> <span class="id">x</span> <span class="id">y</span>) <span class="id">u</span> = <span class="id">plus</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> <span class="id">u</span>) (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">y</span> <span class="id">u</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3975')">Proof.</div>
-<div class="proofscript" id="proof3975">
+<div class="toggleproof" onclick="toggleDisplay('proof3982')">Proof.</div>
+<div class="proofscript" id="proof3982">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_scale_plus_r">LiRRV_scale_plus_r</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
@@ -1592,43 +1683,146 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm_proper">LiRRV_norm_proper</a></span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_normE">LiRRVq_normE</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">x</span>)  = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm">LiRRVnorm</a></span> <span class="id">x</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3976')">Proof.</div>
-<div class="proofscript" id="proof3976">
+<div class="toggleproof" onclick="toggleDisplay('proof3983')">Proof.</div>
+<div class="proofscript" id="proof3983">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_normE">LiRRVq_normE</a></span> : <span class="id">quot</span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_norm_plus">LiRRVq_norm_plus</a></span> (<span class="id">x</span> <span class="id">y</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_plus">LiRRVq_plus</a></span> <span class="id">x</span> <span class="id">y</span>) &lt;= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> <span class="id">x</span> + <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> <span class="id">y</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3977')">Proof.</div>
-<div class="proofscript" id="proof3977">
+<div class="toggleproof" onclick="toggleDisplay('proof3984')">Proof.</div>
+<div class="proofscript" id="proof3984">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm_plus">LiRRV_norm_plus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_norm_scal_strong">LiRRVq_norm_scal_strong</a></span> (<span class="id">x</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">y</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> <span class="id">y</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span> * <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> <span class="id">y</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3978')">Proof.</div>
-<div class="proofscript" id="proof3978">
+<div class="toggleproof" onclick="toggleDisplay('proof3985')">Proof.</div>
+<div class="proofscript" id="proof3985">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm_scal_strong">LiRRV_norm_scal_strong</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_norm_scal">LiRRVq_norm_scal</a></span> <span class="id">x</span> (<span class="id">y</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_scale">LiRRVq_scale</a></span> <span class="id">x</span> <span class="id">y</span>) &lt;= <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span> * <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> <span class="id">y</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3979')">Proof.</div>
-<div class="proofscript" id="proof3979">
+<div class="toggleproof" onclick="toggleDisplay('proof3986')">Proof.</div>
+<div class="proofscript" id="proof3986">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm_scal">LiRRV_norm_scal</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_norm0">LiRRVq_norm0</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> <span class="id">x</span> = 0 -&gt; <span class="id">x</span> = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_zero">LiRRVq_zero</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3980')">Proof.</div>
-<div class="proofscript" id="proof3980">
+<div class="toggleproof" onclick="toggleDisplay('proof3987')">Proof.</div>
+<div class="proofscript" id="proof3987">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">autorewrite</span> <span class="kwd">with</span> <span class="id">quot</span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm0">LiRRV_norm0</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_ball">LiRRVq_ball</a></span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> -&gt; <span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift_ball">quot_lift_ball</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_eq">LiRRV_eq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_ballE">LiRRVq_ballE</a></span> <span class="id">x</span> <span class="id">e</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">x</span>) <span class="id">e</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">y</span>)  = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVball">LiRRVball</a></span> <span class="id">x</span> <span class="id">e</span> <span class="id">y</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3988')">Proof.</div>
+<div class="proofscript" id="proof3988">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift_ballE">quot_lift_ballE</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Hint</span> <span class="id">Rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ballE">LiRRVq_ballE</a></span> : <span class="id">quot</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_point">LiRRVq_point</a></span>: <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVpoint">LiRRVpoint</a></span>).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_ball_refl">LiRRVq_ball_refl</a></span> <span class="id">x</span> (<span class="id">e</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">x</span> <span class="id">e</span> <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3989')">Proof.</div>
+<div class="proofscript" id="proof3989">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_ball_refl">LiRRV_ball_refl</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_ball_sym">LiRRVq_ball_sym</a></span> <span class="id">x</span> <span class="id">y</span> <span class="id">e</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">x</span> <span class="id">e</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">y</span> <span class="id">e</span> <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3990')">Proof.</div>
+<div class="proofscript" id="proof3990">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_ball_sym">LiRRV_ball_sym</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_ball_trans">LiRRVq_ball_trans</a></span> <span class="id">x</span> <span class="id">y</span> <span class="id">z</span> <span class="id">e1</span> <span class="id">e2</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">x</span> <span class="id">e1</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">y</span> <span class="id">e2</span> <span class="id">z</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">x</span> (<span class="id">e1</span>+<span class="id">e2</span>) <span class="id">z</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3991')">Proof.</div>
+<div class="proofscript" id="proof3991">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_ball_trans">LiRRV_ball_trans</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_minus_minus">LiRRVq_minus_minus</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">minus</span> <span class="id">x</span> <span class="id">y</span> = <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_minus">LiRRVq_minus</a></span> <span class="id">x</span> <span class="id">y</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3992')">Proof.</div>
+<div class="proofscript" id="proof3992">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">minus</span>, <span class="id">plus</span>, <span class="id">opp</span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVminus_plus">LiRRVminus_plus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_close_close">LiRRVq_close_close</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) (<span class="id">eps</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> (<span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>) &lt; <span class="id">eps</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">x</span> <span class="id">eps</span> <span class="id">y</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3993')">Proof.</div>
+<div class="proofscript" id="proof3993">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_minus_minus">LiRRVq_minus_minus</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">autorewrite</span> <span class="kwd">with</span> <span class="id">quot</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_close_close">LiRRV_close_close</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_norm_ball_compat">LiRRVq_norm_ball_compat</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>) (<span class="id">eps</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span> <span class="id">x</span> <span class="id">eps</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span> (<span class="id">minus</span> <span class="id">y</span> <span class="id">x</span>) &lt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm_factor">LiRRVnorm_factor</a></span> * <span class="id">eps</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3994')">Proof.</div>
+<div class="proofscript" id="proof3994">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_minus_minus">LiRRVq_minus_minus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LiRRVq_simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">autorewrite</span> <span class="kwd">with</span> <span class="id">quot</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRV_norm_ball_compat">LiRRV_norm_ball_compat</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_UniformSpace_mixin">LiRRVq_UniformSpace_mixin</a></span> : <span class="id">UniformSpace.mixin_of</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id">UniformSpace.Mixin</span>  <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_point">LiRRVq_point</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball">LiRRVq_ball</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball_refl">LiRRVq_ball_refl</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball_sym">LiRRVq_ball_sym</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ball_trans">LiRRVq_ball_trans</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Canonical</span> <span class="id"><a name="LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">UniformSpace.Pack</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace_mixin">LiRRVq_UniformSpace_mixin</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Canonical</span> <span class="id"><a name="LiRRVq_NormedModuleAux">LiRRVq_NormedModuleAux</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">NormedModuleAux.Pack</span> <span class="id">R_AbsRing</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">NormedModuleAux.Class</span> <span class="id">R_AbsRing</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">ModuleSpace.class</span> <span class="id">_</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_ModuleSpace">LiRRVq_ModuleSpace</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace_mixin">LiRRVq_UniformSpace_mixin</a></span>)) <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>.<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_NormedModule_mixin">LiRRVq_NormedModule_mixin</a></span> : <span class="id">NormedModule.mixin_of</span> <span class="id">R_AbsRing</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_NormedModuleAux">LiRRVq_NormedModuleAux</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id">NormedModule.Mixin</span> <span class="id">R_AbsRing</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_NormedModuleAux">LiRRVq_NormedModuleAux</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm">LiRRVq_norm</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVnorm_factor">LiRRVnorm_factor</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm_plus">LiRRVq_norm_plus</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm_scal">LiRRVq_norm_scal</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_close_close">LiRRVq_close_close</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm_ball_compat">LiRRVq_norm_ball_compat</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_norm0">LiRRVq_norm0</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Canonical</span> <span class="id"><a name="LiRRVq_NormedModule">LiRRVq_NormedModule</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">NormedModule.Pack</span> <span class="id">R_AbsRing</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">NormedModule.Class</span> <span class="id">R_AbsRing</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">NormedModuleAux.class</span> <span class="id">_</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_NormedModuleAux">LiRRVq_NormedModuleAux</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_NormedModule_mixin">LiRRVq_NormedModule_mixin</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span>.<br/>
+<br/>
+<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#Linf.packed.quoted">quoted</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#Linf.packed">packed</a></span>.<br/>
