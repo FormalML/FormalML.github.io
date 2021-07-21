@@ -21,6 +21,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html">FunctionalExtensionality</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Coquelicot</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html">IndefiniteDescription</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html">ClassicalDescription</a></span>.<br/>
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.RandomVariableFinite.html">RandomVariableFinite</a></span> <span class="id"><a href="FormalML.RandomVariableLpR.html">RandomVariableLpR</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.quotient_space.html">quotient_space</a></span>.<br/>
@@ -28,7 +29,6 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.AlmostEqual.html">AlmostEqual</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">utils.Utils</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html">List</a></span>.<br/>
-&nbsp;&nbsp;<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Finite.html">Finite</a></span>.<br/>
 <br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="kwd">Strict</span> <span class="id">Subproofs</span>".<br/>
 <br/>
@@ -2279,6 +2279,183 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#Linf2">Linf2</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Section</span> <span class="id"><a name="complete">complete</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_lim_ball_center_center">LiRRVq_lim_ball_center_center</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ProperFilter</span> <span class="id">F</span> -&gt; <span class="id">cauchy</span> <span class="id">F</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">b</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> |<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">F</span> (<span class="id">Hierarchy.ball</span> (<span class="id">M</span>:= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>) <span class="id">b</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span> <span class="id">n</span>)))}.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4009')">Proof.</div>
+<div class="proofscript" id="proof4009">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">Pf</span> <span class="id">cF</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> ( ϵ := / (2 ^ <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (ϵ<span class="id">pos</span> : 0 &lt; ϵ) <span class="tactic">by</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html#constructive_indefinite_description">constructive_indefinite_description</a></span> <span class="id">_</span> (<span class="id">cF</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> ϵ ϵ<span class="id">pos</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">as</span> [<span class="id">x</span> <span class="id">Fx</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">exists</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_lim_ball_center">LiRRVq_lim_ball_center</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ProperFilter</span> <span class="id">F</span> -&gt; <span class="id">cauchy</span> <span class="id">F</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), {<span class="id">b</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt;<span class="kwd">Prop</span> | <span class="id">F</span> <span class="id">b</span>}.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4010')">Proof.</div>
+<div class="proofscript" id="proof4010">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">Pf</span> <span class="id">cF</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> ( ϵ := / (2 ^ <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (ϵ<span class="id">pos</span> : 0 &lt; ϵ) <span class="tactic">by</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html#constructive_indefinite_description">constructive_indefinite_description</a></span> <span class="id">_</span> (<span class="id">cF</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> ϵ ϵ<span class="id">pos</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">as</span> [<span class="id">x</span> <span class="id">Fx</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">exists</span>  (<span class="id">Hierarchy.ball</span> (<span class="id">M</span>:= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>) <span class="id">x</span> ϵ).<br/>
+&nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_lim_ball_cumulative">LiRRVq_lim_ball_cumulative</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) : {<span class="id">x</span>:<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>-&gt;<span class="kwd">Prop</span> | <span class="id">F</span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#fold_right">fold_right</a></span> (<span class="kwd">fun</span> <span class="id">x</span> <span class="id">y</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id">Hierarchy.filter_and</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> <span class="id">x</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> <span class="id">y</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">Hierarchy.filter_true</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center">LiRRVq_lim_ball_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span>) (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_lim_picker">LiRRVq_lim_picker</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html#constructive_indefinite_description">constructive_indefinite_description</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">filter_ex</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_cumulative">LiRRVq_lim_ball_cumulative</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>))))).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_lim_picker_ext0">LiRRVq_lim_picker_ext0</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0 =&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_zero">LiRRVq_zero</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>' =&gt; <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker">LiRRVq_lim_picker</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_lim_picker_cumulative_included">LiRRVq_lim_picker_cumulative_included</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">N</span> <span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">N</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_cumulative">LiRRVq_lim_ball_cumulative</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>) <span class="id">x</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center">LiRRVq_lim_ball_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">N</span>)) <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4011')">Proof.</div>
+<div class="proofscript" id="proof4011">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_cumulative">LiRRVq_lim_ball_cumulative</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">inn</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">N</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#in_seq">in_seq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">inn</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">clear</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">induction</span> <span class="id">l</span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> [<span class="id">eqq</span> | <span class="id">inn</span>]; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> (<span class="id">IHl</span> <span class="id">inn</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_lim_picker_included">LiRRVq_lim_picker_included</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>  -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">N</span> <span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">N</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center">LiRRVq_lim_ball_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">N</span>)) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker">LiRRVq_lim_picker</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4012')">Proof.</div>
+<div class="proofscript" id="proof4012">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker">LiRRVq_lim_picker</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="tactic">at</span> 2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker_cumulative_included">LiRRVq_lim_picker_cumulative_included</a></span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_lim_ball_center_ball_center_center">LiRRVq_lim_ball_center_ball_center_center</a></span>  (<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span>:<span class="id">UniformSpace.sort</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Hierarchy.ball</span> (<span class="id">M</span>:= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center_center">LiRRVq_lim_ball_center_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span> <span class="id">n</span>))) <span class="id">x</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;-&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center">LiRRVq_lim_ball_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>) <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4013')">Proof.</div>
+<div class="proofscript" id="proof4013">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center">LiRRVq_lim_ball_center</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center_center">LiRRVq_lim_ball_center_center</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> ( <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html#constructive_indefinite_description">constructive_indefinite_description</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> =&gt; <span class="id">F</span> (<span class="id">Hierarchy.ball</span> <span class="id">x0</span> (/ 2 ^ <span class="id">n</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span> {| <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#pos">pos</a></span> := / 2 ^ <span class="id">n</span>; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> := <span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span> <span class="id">n</span> |})); <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_lim_picker_center_included">LiRRVq_lim_picker_center_included</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Hierarchy.ball</span> (<span class="id">M</span>:= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center_center">LiRRVq_lim_ball_center_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span> <span class="id">n</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker">LiRRVq_lim_picker</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4014')">Proof.</div>
+<div class="proofscript" id="proof4014">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center_ball_center_center">LiRRVq_lim_ball_center_ball_center_center</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker_included">LiRRVq_lim_picker_included</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_lim_picker_center_included2">LiRRVq_lim_picker_center_included2</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">F</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">PF</span>:<span class="id">ProperFilter</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">cF</span>:<span class="id">cauchy</span> <span class="id">F</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">N</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span> &gt;= <span class="id">N</span>)%<span class="id">nat</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Hierarchy.ball</span> (<span class="id">M</span>:= <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center_center">LiRRVq_lim_ball_center_center</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">N</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLpR.html#inv_pow_2_pos">inv_pow_2_pos</a></span> <span class="id">N</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker">LiRRVq_lim_picker</a></span> <span class="id">F</span> <span class="id">PF</span> <span class="id">cF</span> <span class="id">n</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4015')">Proof.</div>
+<div class="proofscript" id="proof4015">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_ball_center_ball_center_center">LiRRVq_lim_ball_center_ball_center_center</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_picker_included">LiRRVq_lim_picker_included</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete">complete</a></span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
