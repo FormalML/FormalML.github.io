@@ -22,6 +22,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html">FunctionalExtensionality</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Coquelicot</span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html">IndefiniteDescription</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html">ClassicalDescription</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalChoice.html">ClassicalChoice</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.converge.LM.hilbert.html">hilbert</a></span>.<br/>
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.RandomVariableFinite.html">RandomVariableFinite</a></span> <span class="id"><a href="FormalML.RandomVariableLpR.html">RandomVariableLpR</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.quotient_space.html">quotient_space</a></span>.<br/>
@@ -2777,7 +2778,45 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LiRRVq_lim_close">LiRRVq_lim_close</a></span> (<span class="id">F1</span> <span class="id">F2</span> : (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span> -&gt; <span class="kwd">Prop</span>) -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">filter_le</span> <span class="id">F1</span> <span class="id">F2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">filter_le</span> <span class="id">F2</span> <span class="id">F1</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id">close</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>) (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim">LiRRVq_lim</a></span> <span class="id">F1</span>) (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim">LiRRVq_lim</a></span> <span class="id">F2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof4030')">Proof.</div>
+<div class="proofscript" id="proof4030">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> <span class="id">F1</span> <span class="kwd">with</span> <span class="id">F2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">close_refl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">functional_extensionality</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">filter_le</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.converge.LM.hilbert.html#prop_extensionality">prop_extensionality</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="LiRRVq_Complete_mixin">LiRRVq_Complete_mixin</a></span> : <span class="id">CompleteSpace.mixin_of</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id">CompleteSpace.Mixin</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace">LiRRVq_UniformSpace</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim">LiRRVq_lim</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_complete">LiRRVq_lim_complete</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_lim_close">LiRRVq_lim_close</a></span>.<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Canonical</span> <span class="id"><a name="LiRRVq_Complete">LiRRVq_Complete</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">CompleteSpace.Pack</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">CompleteSpace.Class</span> <span class="id">_</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_UniformSpace_mixin">LiRRVq_UniformSpace_mixin</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_Complete_mixin">LiRRVq_Complete_mixin</a></span>)       <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Canonical</span> <span class="id"><a name="LiRRVq_CompleteNormedModule">LiRRVq_CompleteNormedModule</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">CompleteNormedModule.Pack</span> <span class="id">R_AbsRing</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">CompleteNormedModule.Class</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">R_AbsRing</span> (<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">NormedModule.class</span> <span class="id">R_AbsRing</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_NormedModule">LiRRVq_NormedModule</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq_Complete_mixin">LiRRVq_Complete_mixin</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.RandomVariableLinf.html#LiRRVq">LiRRVq</a></span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete.prts">prts</a></span>).<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.RandomVariableLinf.html#complete">complete</a></span>.<br/>
 
