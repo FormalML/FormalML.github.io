@@ -4186,21 +4186,22 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">compute</span>.<br/>
 Qed.</div>
 <br/>
-<br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_LimSup_shift_0">is_lim_seq_LimSup_shift_0</a></span> {<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
-&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">m</span> =&gt; <span class="id">LimSup_seq</span> (<span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>)))) 0.<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="LimSup_seq_series">LimSup_seq_series</a></span> {<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
+&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, <span class="id">LimSup_seq</span> (<span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>)) = <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span>(<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>).<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof1978')">Proof.</div>
 <div class="proofscript" id="proof1978">
-&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="kwd">forall</span> <span class="id">m</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id">LimSup_seq</span> (<span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>)) = <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span>(<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>)).<br/>
-&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">m</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">ex_series_incr_n</span> <span class="kwd">with</span> (<span class="id">n</span>:=<span class="id">m</span>) <span class="kwd">in</span> <span class="id">ha</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">ha</span>' : <span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id">k</span> + <span class="id">m</span>)%<span class="id">nat</span>))<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">m</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">ex_series_incr_n</span> <span class="kwd">with</span> (<span class="id">n</span>:=<span class="id">m</span>) <span class="kwd">in</span> <span class="id">ha</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">ha</span>' : <span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id">k</span> + <span class="id">m</span>)%<span class="id">nat</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">by</span> (<span class="tactic">apply</span> <span class="id">ex_series_ext</span> <span class="kwd">with</span> (<span class="id">a0</span> := (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id">m</span>+<span class="id">k</span>)%<span class="id">nat</span>)); [<span class="tactic">intros</span>; <span class="tactic">f_equal</span>; <span class="id">lia</span>|<span class="tactic">trivial</span>]).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#ex_series_is_lim_seq">ex_series_is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>) <span class="id">ha</span>'); <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">is_LimSup_seq_unique</span>. <span class="id">now</span> <span class="tactic">apply</span> <span class="id">is_lim_LimSup_seq</span>.<br/>
-&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;<span class="tactic">setoid_rewrite</span> <span class="id">H</span>; <span class="tactic">clear</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#ex_series_is_lim_seq">ex_series_is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>) <span class="id">ha</span>'); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">is_LimSup_seq_unique</span>. <span class="id">now</span> <span class="tactic">apply</span> <span class="id">is_lim_LimSup_seq</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_series_shift_0">is_lim_seq_series_shift_0</a></span> {<span class="id">a</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
+&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">m</span> =&gt; <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>))) 0.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1979')">Proof.</div>
+<div class="proofscript" id="proof1979">
 &nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#zerotails">zerotails</a></span> <span class="id">a</span> <span class="id">ha</span>); <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">is_lim_seq_incr_1</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">is_lim_seq_ext</span> <span class="kwd">with</span> (<span class="id">u</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>))); [|<span class="tactic">trivial</span>].<br/>
@@ -4208,10 +4209,11 @@ Qed.</div>
 &nbsp;&nbsp;<span class="tactic">intros</span>; <span class="tactic">f_equal</span>; <span class="id">lia</span>.<br/>
 Qed.</div>
 <br/>
+<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Lim_seq_sup_le">Lim_seq_sup_le</a></span> (<span class="id">f</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Lim_seq</span> <span class="id">f</span>) (<span class="id">LimSup_seq</span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof1979')">Proof.</div>
-<div class="proofscript" id="proof1979">
+<div class="toggleproof" onclick="toggleDisplay('proof1980')">Proof.</div>
+<div class="proofscript" id="proof1980">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Lim_seq</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id">LimSup_LimInf_seq_le</span> <span class="id">f</span>); <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id">LimSup_seq</span> <span class="id">f</span>) <span class="kwd">with</span> (<span class="id">Rbar_div_pos</span> (<span class="id">Rbar_plus</span> (<span class="id">LimSup_seq</span> <span class="id">f</span>) (<span class="id">LimSup_seq</span> <span class="id">f</span>))<br/>
