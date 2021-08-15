@@ -94,6 +94,12 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">reflexivity</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="not_impl_contr">not_impl_contr</a></span> (<span class="id">p</span> <span class="id">q</span> : <span class="kwd">Prop</span>) : (~<span class="id">q</span> -&gt; ~<span class="id">p</span>) &lt;-&gt; (<span class="id">p</span> -&gt; <span class="id">q</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2196')">Proof.</div>
+<div class="proofscript" id="proof2196">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="tactic">try</span> (<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.Classical_Prop.html#NNPP">NNPP</a></span>); <span class="tactic">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.PushNeg.html#rewrites">rewrites</a></span>.<br/>
 <br/>
 <span class="kwd">Ltac</span> <span class="id">push_neg</span> :=<br/>
@@ -127,6 +133,23 @@
 &nbsp;&nbsp;| <span class="id">context</span>[~ (<span class="kwd">forall</span> <span class="id">_</span>, <span class="id">_</span>)] =&gt; <span class="tactic">setoid_rewrite</span> <span class="id"><a href="FormalML.utils.PushNeg.html#not_forall">not_forall</a></span> <span class="kwd">in</span> <span class="id">H</span><br/>
 &nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
+<span class="kwd">Ltac</span> <span class="id">contrapose</span> :=<br/>
+&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+| [ |- ~ (<span class="id">_</span> -&gt; <span class="id">_</span>)] =&gt; <span class="tactic">setoid_rewrite</span> <span class="id"><a href="FormalML.utils.PushNeg.html#not_impl_contr">not_impl_contr</a></span><br/>
+| [ |- (<span class="id">_</span> -&gt; <span class="id">_</span>)] =&gt; <span class="tactic">setoid_rewrite</span> &lt;-<span class="id"><a href="FormalML.utils.PushNeg.html#not_impl_contr">not_impl_contr</a></span><br/>
+&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+<br/>
+<span class="kwd">Ltac</span> <span class="id">contrapose_in</span> <span class="id">H</span> :=<br/>
+&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">type</span> <span class="id">of</span> <span class="id">H</span> <span class="kwd">with</span><br/>
+| ~ (<span class="id">_</span> -&gt; <span class="id">_</span>) =&gt; <span class="tactic">setoid_rewrite</span> <span class="id"><a href="FormalML.utils.PushNeg.html#not_impl_contr">not_impl_contr</a></span> <span class="kwd">in</span> <span class="id">H</span><br/>
+| (<span class="id">_</span> -&gt; <span class="id">_</span>) =&gt; <span class="tactic">setoid_rewrite</span> &lt;-<span class="id"><a href="FormalML.utils.PushNeg.html#not_impl_contr">not_impl_contr</a></span> <span class="kwd">in</span> <span class="id">H</span><br/>
+&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+<span class="kwd">Ltac</span> <span class="id">contra_neg</span> := <span class="id">contrapose</span>; <span class="id">push_neg</span>.<br/>
+<br/>
+<span class="kwd">Ltac</span> <span class="id">contra_neg_in</span> <span class="id">H</span> := <span class="id">contrapose_in</span> <span class="id">H</span> ; <span class="id">push_neg_in</span> <span class="id">H</span>.<br/>
+<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="tests1">tests1</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">p</span> <span class="id">q</span> : <span class="kwd">Prop</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">P</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="kwd">Prop</span>) (<span class="id">x</span> <span class="id">y</span> <span class="id">z</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
@@ -139,8 +162,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H7</span> : ~ (<span class="id">p</span> -&gt; (<span class="id">p</span> -&gt; <span class="id">q</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H8</span> : ~ (<span class="id">p</span> /\ <span class="id">q</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H9</span> : ~ (<span class="id">p</span> \/ <span class="id">q</span>)): <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2196')">Proof.</div>
-<div class="proofscript" id="proof2196">
+<div class="toggleproof" onclick="toggleDisplay('proof2197')">Proof.</div>
+<div class="proofscript" id="proof2197">
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H1</span>.<br/>
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H2</span>.<br/>
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H3</span>.<br/>
@@ -158,8 +181,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H2</span> : ~ <span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id">x</span> = <span class="id">y</span> /\ <span class="id">y</span> = <span class="id">x</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H3</span> : ~(<span class="kwd">forall</span> <span class="id">eps</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id">exists</span> <span class="id">N</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="kwd">forall</span> <span class="id">m</span> <span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id">m</span> &gt;= <span class="id">N</span> -&gt; <span class="id">n</span> &gt;= <span class="id">N</span> -&gt; (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">x</span> <span class="id">n</span> - <span class="id">x</span> <span class="id">m</span>)%<span class="id">R</span> &lt;= <span class="id">eps</span>)%<span class="id">R</span>))<br/>
 &nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2197')">Proof.</div>
-<div class="proofscript" id="proof2197">
+<div class="toggleproof" onclick="toggleDisplay('proof2198')">Proof.</div>
+<div class="proofscript" id="proof2198">
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H1</span>.<br/>
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H2</span>.<br/>
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H3</span>.<br/>
@@ -169,10 +192,27 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="test3">test3</a></span> {<span class="id">f</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">x0</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">H</span> : ~ (<span class="kwd">forall</span> ϵ:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>, <span class="id">exists</span> δ:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>, <span class="kwd">forall</span> <span class="id">x</span>, (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span>(<span class="id">x</span> - <span class="id">x0</span>) &lt;= δ)%<span class="id">R</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">f</span> <span class="id">x</span> - <span class="id">f</span> <span class="id">x0</span>))&lt; ϵ)%<span class="id">R</span>)) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2198')">Proof.</div>
-<div class="proofscript" id="proof2198">
+<div class="toggleproof" onclick="toggleDisplay('proof2199')">Proof.</div>
+<div class="proofscript" id="proof2199">
 &nbsp;&nbsp;<span class="id">push_neg_in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">trivial</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="test4">test4</a></span> {<span class="id">p</span> <span class="id">q</span> : <span class="kwd">Prop</span>} (<span class="id">Hpq1</span> : (<span class="id">p</span> -&gt; <span class="id">q</span>)) (<span class="id">Hpq2</span> : ~<span class="id">q</span> -&gt; ~<span class="id">p</span>) : (~<span class="id">q</span> -&gt; ~<span class="id">p</span>) /\ (<span class="id">p</span> -&gt; <span class="id">q</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2200')">Proof.</div>
+<div class="proofscript" id="proof2200">
+&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;+ <span class="tactic">clear</span> <span class="id">Hpq2</span>. <span class="id">contrapose_in</span> <span class="id">Hpq1</span>. <span class="tactic">exact</span> <span class="id">Hpq1</span>.<br/>
+&nbsp;&nbsp;+ <span class="tactic">clear</span> <span class="id">Hpq1</span>. <span class="id">contrapose_in</span> <span class="id">Hpq2</span>. <span class="id">push_neg_in</span> <span class="id">Hpq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">exact</span> <span class="id">Hpq2</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="test5">test5</a></span> {<span class="id">p</span> <span class="id">q</span> : <span class="kwd">Prop</span>} (<span class="id">Hpq1</span> : (<span class="id">p</span> -&gt; <span class="id">q</span>)) (<span class="id">Hpq2</span> : ~<span class="id">q</span> -&gt; ~<span class="id">p</span>) : (~<span class="id">q</span> -&gt; ~<span class="id">p</span>) /\ (<span class="id">p</span> -&gt; <span class="id">q</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2201')">Proof.</div>
+<div class="proofscript" id="proof2201">
+&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;+ <span class="tactic">clear</span> <span class="id">Hpq2</span>. <span class="id">now</span> <span class="id">contra_neg</span>.<br/>
+&nbsp;&nbsp;+ <span class="tactic">clear</span> <span class="id">Hpq1</span>. <span class="id">now</span> <span class="id">contra_neg_in</span> <span class="id">Hpq2</span>.<br/>
 Qed.</div>
 
 </div>
