@@ -284,21 +284,34 @@ Admitted.</div>
 &nbsp;&nbsp;<span class="tactic">f_equal</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#map_ext">map_ext</a></span>; <span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">f_equal</span>.<br/>
-&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<br/>
-Admitted.</div>
+&nbsp;&nbsp;<span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span> ?.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#preimage_singleton">preimage_singleton</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="NonnegExpectation_prob_space_sa_sub">NonnegExpectation_prob_space_sa_sub</a></span><br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="NonnegExpectation_prob_space_sa_sub_le">NonnegExpectation_prob_space_sa_sub_le</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">dom2</span> <span class="id">sub</span> <span class="id">x</span><br/>
-&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>} :<br/>
-&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.prts">prts</a></span> <span class="id">x</span> = <br/>
-&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span> <span class="id">dom2</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id">dom2</span> <span class="id">sub</span>) <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">pofrf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">x</span>}<br/>
+&nbsp;&nbsp;:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span> <span class="id">dom2</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id">dom2</span> <span class="id">sub</span>) <span class="id">x</span> <span class="id">pofrf</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.prts">prts</a></span> <span class="id">x</span> <span class="id">pofrf</span>).<br/>
+<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof3931')">Proof.</div>
 <div class="proofscript" id="proof3931">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span>.<br/>
-&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="id">dom2</span> <span class="id">sub</span> <span class="id">x</span>); <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id">is_lub_Rbar_subset</span>; [| <span class="tactic">try</span> <span class="tactic">eapply</span> <span class="id">Lub_Rbar_correct</span>..]; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">intros</span> ? [? [? [? [??]]]].<br/>
+&nbsp;&nbsp;<span class="id">exists</span> <span class="id">x1</span>.<br/>
+&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="id">_</span> <span class="id">sub</span> <span class="id">x1</span>).<br/>
+&nbsp;&nbsp;<span class="id">exists</span> <span class="id">x3</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#SimpleExpectation_prob_space_sa_sub">SimpleExpectation_prob_space_sa_sub</a></span>; <span class="tactic">eauto</span>.<br/>
+Qed.</div>
+<br/>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="IsLp_prob_space_sa_sub">IsLp_prob_space_sa_sub</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">p</span> <span class="id">dom2</span> <span class="id">sub</span> <span class="id">x</span><br/>
@@ -312,8 +325,12 @@ Admitted.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_pos_pofrf">Expectation_pos_pofrf</a></span> <span class="kwd">with</span> (<span class="id">nnf</span> := <span class="id">H0</span>).<br/>
 &nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_pos_pofrf">Expectation_pos_pofrf</a></span> <span class="kwd">with</span> (<span class="id">nnf</span> := <span class="id">H0</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonnegExpectation_prob_space_sa_sub">NonnegExpectation_prob_space_sa_sub</a></span>; <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonnegExpectation_prob_space_sa_sub_le">NonnegExpectation_prob_space_sa_sub_le</a></span> <span class="id">_</span> <span class="id">sub</span> <span class="id">_</span> (<span class="id">pofrf</span>:=<span class="id">H0</span>))<br/>
+&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation_pos">NonnegExpectation_pos</a></span> <span class="id">_</span> (<span class="id">Prts</span>:=<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id">dom2</span> <span class="id">sub</span>) (<span class="id">nnf</span>:=<span class="id">H0</span>))<br/>
+&nbsp;&nbsp;; <span class="tactic">intros</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Definition</span> <span class="id"><a name="prob_space_sa_sub_set_lift">prob_space_sa_sub_set_lift</a></span><br/>
@@ -330,7 +347,6 @@ Qed.</div>
 &nbsp;&nbsp;- <span class="tactic">exact</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span>.<br/>
 Qed.</div>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="ortho_phi_complete">ortho_phi_complete</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">dom2</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.dom">dom</a></span>) :<br/>
