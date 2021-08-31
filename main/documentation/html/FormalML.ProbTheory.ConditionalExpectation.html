@@ -1315,6 +1315,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvf</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">f</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvce</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">ce</span>}<br/>
 &nbsp;&nbsp;:= <span class="kwd">forall</span> <span class="id">P</span> (<span class="id">dec</span>:<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#dec_pre_event">dec_pre_event</a></span> <span class="id">P</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">SigmaAlgebra</span> := <span class="id">dom2</span>) <span class="id">P</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">ce</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)).<br/>
 <br/>
@@ -1411,7 +1412,10 @@ Admitted.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">rewrite</span> <span class="id">eqq</span> <span class="kwd">in</span> <span class="id">isce</span>.<br/>
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">isce</span> <span class="kwd">in</span> <span class="id">isf</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">isce</span> <span class="kwd">in</span> <span class="id">isf</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">apply</span> <span class="id">isf</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id">FiniteExpectation_plus</span>':<br/>
@@ -1490,8 +1494,9 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">eqq2</span>:<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">ce1</span> (<span class="id">In</span> <span class="id">n</span>)) = <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">ce2</span> (<span class="id">In</span> <span class="id">n</span>) )).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span>, <span class="id">Dn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;congruence.&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">isfee</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">ce1</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> (/ (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))))) (<span class="id">In</span> <span class="id">n</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -1625,7 +1630,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">le1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">Nlt</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
-Qed.</div>
+Admitted.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_conditional_expectation_eq">is_conditional_expectation_eq</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom2</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span>}<br/>
@@ -1647,6 +1652,9 @@ Qed.</div>
 Qed.</div>
 <br/>
 <br/>
+<span class="id">Locate</span> <span class="id">EventIndicator_rv</span>.<br/>
+<br/>
+<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="conditional_expectation_L2fun_eq3">conditional_expectation_L2fun_eq3</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom2</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.dom">dom</a></span>)<br/>
@@ -1658,19 +1666,21 @@ Qed.</div>
 <div class="proofscript" id="proof3980">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#is_conditional_expectation">is_conditional_expectation</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)) <span class="tactic">by</span> <span class="id">admit</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)) <span class="tactic">by</span> <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#EventIndicator_pre_rv">EventIndicator_pre_rv</a></span>.<br/>
 &nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)) <span class="tactic">by</span> <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="kwd">with</span> (<span class="id">dom2</span> := <span class="id">dom2</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#conditional_expectation_L2fun_eq2">conditional_expectation_L2fun_eq2</a></span> <span class="id">f</span> <span class="id">sub</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#pack_LpRRV">pack_LpRRV</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)) <span class="id">H</span>); <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableL2.html#L2RRVinner">L2RRVinner</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">symmetry</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">do</span> 2 <span class="id">match_destr_in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">subst</span>.<br/>
-&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_ext">Expectation_ext</a></span>; [<span class="tactic">rewrite</span> <span class="id">e</span> | <span class="tactic">reflexivity</span>].<br/>
-&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_ext">Expectation_ext</a></span>; [<span class="tactic">rewrite</span> <span class="id">e0</span> | <span class="tactic">reflexivity</span>].<br/>
-&nbsp;&nbsp;<span class="tactic">trivial</span>.<br/>
-Admitted.</div>
+&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#conditional_expectation_L2fun_eq2">conditional_expectation_L2fun_eq2</a></span> <span class="id">f</span> <span class="id">sub</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#pack_LpRRV">pack_LpRRV</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>))); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;- <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableL2.html#L2RRVinner">L2RRVinner</a></span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">symmetry</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">do</span> 2 <span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_ext">Expectation_ext</a></span>; [<span class="tactic">rewrite</span> <span class="id">e</span> | <span class="tactic">reflexivity</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_ext">Expectation_ext</a></span>; [<span class="tactic">rewrite</span> <span class="id">e0</span> | <span class="tactic">reflexivity</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#EventIndicator_pre_rv">EventIndicator_pre_rv</a></span>.<br/>
+Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="conditional_expectation_L2fun_unique">conditional_expectation_L2fun_unique</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#cond_exp.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
