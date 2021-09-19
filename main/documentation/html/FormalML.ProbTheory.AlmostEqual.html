@@ -116,6 +116,54 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> Ω; <span class="tactic">auto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almost_witness">almost_witness</a></span> {<span class="id">P</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Ts">Ts</a></span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id">P</span> -&gt; <span class="id">exists</span> <span class="id">x</span>, <span class="id">P</span> <span class="id">x</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2459')">Proof.</div>
+<div class="proofscript" id="proof2459">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">pP</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#classic_event_none_or_has">classic_event_none_or_has</a></span> <span class="id">p</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id">H</span> <span class="kwd">in</span> <span class="id">pone</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_none">ps_none</a></span> <span class="kwd">in</span> <span class="id">pone</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almost_and">almost_and</a></span> {<span class="id">P1</span> <span class="id">P2</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Ts">Ts</a></span>-&gt;<span class="kwd">Prop</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id">P1</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id">P2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span> <span class="id">P1</span> <span class="id">P2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2460')">Proof.</div>
+<div class="proofscript" id="proof2460">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">E1</span> [<span class="id">E1one</span> <span class="id">E1P</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">E2</span> [<span class="id">E2one</span> <span class="id">E2P</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_inter">event_inter</a></span> <span class="id">E1</span> <span class="id">E2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_inter_l1">ps_inter_l1</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> ? [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almost_impl">almost_impl</a></span> {<span class="id">P1</span> <span class="id">P2</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Ts">Ts</a></span>-&gt;<span class="kwd">Prop</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id">P1</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">P1</span> <span class="id">x</span> -&gt; <span class="id">P2</span> <span class="id">x</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id">P2</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2461')">Proof.</div>
+<div class="proofscript" id="proof2461">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a1</span> <span class="id">a2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost_and">almost_and</a></span> <span class="id">a1</span> <span class="id">a2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost_proper">almost_proper</a></span>; <span class="tactic">intros</span> ?[??]; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almost_or_l">almost_or_l</a></span> (<span class="id">P1</span> <span class="id">P2</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Ts">Ts</a></span>-&gt;<span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id">P1</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span> <span class="id">P1</span> <span class="id">P2</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2462')">Proof.</div>
+<div class="proofscript" id="proof2462">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost_impl">almost_impl</a></span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#all_almost">all_almost</a></span>; <span class="tactic">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Context</span> (<span class="id">R</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Td">Td</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Td">Td</a></span>-&gt;<span class="kwd">Prop</span>).<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="almostR2">almostR2</a></span> (<span class="id">r1</span> <span class="id">r2</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Ts">Ts</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.Td">Td</a></span>)<br/>
@@ -124,8 +172,8 @@
 <br/>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almost_refl">almost_refl</a></span> {<span class="id">R_refl</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.R">R</a></span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2459')">Proof.</div>
-<div class="proofscript" id="proof2459">
+<div class="toggleproof" onclick="toggleDisplay('proof2463')">Proof.</div>
+<div class="proofscript" id="proof2463">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span>; <span class="tactic">intros</span> <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> Ω.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
@@ -135,8 +183,8 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almost_symm">almost_symm</a></span> {<span class="id">R_refl</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Symmetric">Symmetric</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.R">R</a></span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Symmetric">Symmetric</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2460')">Proof.</div>
-<div class="proofscript" id="proof2460">
+<div class="toggleproof" onclick="toggleDisplay('proof2464')">Proof.</div>
+<div class="proofscript" id="proof2464">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>; <span class="tactic">intros</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">P</span> [<span class="id">Pall</span> <span class="id">eq_on</span>]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">P</span>.<br/>
@@ -144,8 +192,8 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_trans">almostR2_trans</a></span> {<span class="id">R_refl</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.R">R</a></span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2461')">Proof.</div>
-<div class="proofscript" id="proof2461">
+<div class="toggleproof" onclick="toggleDisplay('proof2465')">Proof.</div>
+<div class="proofscript" id="proof2465">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>; <span class="tactic">intros</span> <span class="id">x</span> <span class="id">y</span> <span class="id">z</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">P1</span> [<span class="id">P1all</span> <span class="id">eq_on1</span>]] [<span class="id">P2</span> [<span class="id">P2all</span> <span class="id">eq_on2</span>]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">P1</span> ∩ <span class="id">P2</span>). <span class="tactic">split</span>.<br/>
@@ -155,14 +203,14 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_pre">almostR2_pre</a></span> {<span class="id">R_pre</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.R">R</a></span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2462')">Proof.</div>
-<div class="proofscript" id="proof2462">
+<div class="toggleproof" onclick="toggleDisplay('proof2466')">Proof.</div>
+<div class="proofscript" id="proof2466">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_equiv">almostR2_equiv</a></span> {<span class="id">R_equiv</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost.R">R</a></span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2463')">Proof.</div>
-<div class="proofscript" id="proof2463">
+<div class="toggleproof" onclick="toggleDisplay('proof2467')">Proof.</div>
+<div class="proofscript" id="proof2467">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -175,8 +223,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_part">almostR2_part</a></span> {<span class="id">eqR</span> <span class="id">preR</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Td">Td</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Td">Td</a></span>-&gt;<span class="kwd">Prop</span>} {<span class="id">R_equiv</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">eqR</span>} {<span class="id">R_pre</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id">preR</span>} {<span class="id">R_part</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> <span class="id">eqR</span> <span class="id">preR</span>}:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id">eqR</span>) (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id">preR</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2464')">Proof.</div>
-<div class="proofscript" id="proof2464">
+<div class="toggleproof" onclick="toggleDisplay('proof2468')">Proof.</div>
+<div class="proofscript" id="proof2468">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span> <span class="id">y</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> [<span class="id">P</span> [<span class="id">Pall</span> <span class="id">eq_on</span>]].<br/>
@@ -198,20 +246,20 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">HH</span>; <span class="tactic">auto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> [[<span class="id">P1</span> [<span class="id">P1all</span> <span class="id">eq_on1</span>]] [<span class="id">P2</span> [<span class="id">P2all</span> <span class="id">eq_on2</span>]]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">P1</span> ∩ <span class="id">P2</span>). <span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> <span class="id">a</span> [??]; <span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">transitivity</span> (<span class="id">y</span> <span class="id">a</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id">R_part</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#relation_conjunction">relation_conjunction</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#predicate_intersection">predicate_intersection</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#flip">flip</a></span>; <span class="tactic">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">intros</span> <span class="id">a</span> [??]; <span class="tactic">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">transitivity</span> (<span class="id">y</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id">R_part</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#relation_conjunction">relation_conjunction</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#predicate_intersection">predicate_intersection</a></span>, <span class="id"><a href="http://coq.inria.fr/library/Coq.Program.Basics.html#flip">flip</a></span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intuition</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">intuition</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_subrelation">almostR2_subrelation</a></span> {<span class="id">R1</span> <span class="id">R2</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Td">Td</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Td">Td</a></span>-&gt;<span class="kwd">Prop</span>} {<span class="id">R_subr</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> <span class="id">R1</span> <span class="id">R2</span>}:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id">R1</span>) (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id">R2</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2465')">Proof.</div>
-<div class="proofscript" id="proof2465">
+<div class="toggleproof" onclick="toggleDisplay('proof2469')">Proof.</div>
+<div class="proofscript" id="proof2469">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ?? [<span class="id">P</span> [<span class="id">Pall</span> <span class="id">eq_on</span>]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">P</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
@@ -219,286 +267,317 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">R_subr</span>; <span class="tactic">auto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">almost_</span>Ω (<span class="id">P</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Ts">Ts</a></span>-&gt;<span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id">P</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span> <span class="id">P</span> <span class="id">pre_</span>Ω.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2470')">Proof.</div>
+<div class="proofscript" id="proof2470">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">aP</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">aP</span> <span class="kwd">as</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">ph</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almost_map_split">almost_map_split</a></span> {<span class="id">B</span>} {<span class="id">f</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Ts">Ts</a></span>-&gt;<span class="id">B</span>} {<span class="id">P</span>:<span class="id">B</span>-&gt;<span class="kwd">Prop</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost">almost</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">P</span> (<span class="id">f</span> <span class="id">x</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">f</span>', <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.prts">prts</a></span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">f</span> <span class="id">f</span>' /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">P</span> (<span class="id">f</span>' <span class="id">x</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2471')">Proof.</div>
+<div class="proofscript" id="proof2471">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">aP</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almost_witness">almost_witness</a></span> <span class="id">_</span> <span class="id">aP</span>) <span class="kwd">as</span> [<span class="id">x</span> <span class="id">Px</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">aP</span> <span class="kwd">as</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">ph</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">ts</span>:<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part.Ts">Ts</a></span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">ts</span>) <span class="kwd">then</span> <span class="id">f</span> <span class="id">ts</span> <span class="kwd">else</span> (<span class="id">f</span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_part">almostR2_part</a></span>.<br/>
 <br/>
 <span class="kwd">Section</span> <span class="id"><a name="borel_almostR2_eq">borel_almostR2_eq</a></span>.<br/>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_plus_proper">almostR2_eq_plus_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2466')">Proof.</div>
-<div class="proofscript" id="proof2466">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>, <span class="id">eq_ony</span>.<br/>
-Qed.</div>
-<br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_scale_proper">almostR2_eq_scale_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2467')">Proof.</div>
-<div class="proofscript" id="proof2467">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> ? <span class="id">c</span> ? <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]]; <span class="tactic">subst</span>.<br/>
-&nbsp;&nbsp;<span class="id">exists</span> <span class="id">Px</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>.<br/>
-Qed.</div>
-<br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_opp_proper">almostR2_eq_opp_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2468')">Proof.</div>
-<div class="proofscript" id="proof2468">
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_eq_scale_proper">almostR2_eq_scale_proper</a></span>.<br/>
-Qed.</div>
-<br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_minus_proper">almostR2_eq_minus_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2469')">Proof.</div>
-<div class="proofscript" id="proof2469">
-&nbsp;&nbsp;<span class="tactic">intros</span> ??????.<br/>
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span>.<br/>
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H</span>, <span class="id">H0</span>.<br/>
-Qed.</div>
-<br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_le_plus_proper">almostR2_le_plus_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2470')">Proof.</div>
-<div class="proofscript" id="proof2470">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat">Rplus_le_compat</a></span>; <span class="tactic">auto</span>.<br/>
-Qed.</div>
-<br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_le_lt_plus_proper">almostR2_le_lt_plus_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof2471')">Proof.</div>
-<div class="proofscript" id="proof2471">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_lt_compat">Rplus_le_lt_compat</a></span>; <span class="tactic">auto</span>.<br/>
-Qed.</div>
-<br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_lt_le_plus_proper">almostR2_lt_le_plus_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_plus_proper">almostR2_eq_plus_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2472')">Proof.</div>
 <div class="proofscript" id="proof2472">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_lt_le_compat">Rplus_lt_le_compat</a></span>; <span class="tactic">auto</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>, <span class="id">eq_ony</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_mult_proper">almostR2_eq_mult_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_scale_proper">almostR2_eq_scale_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2473')">Proof.</div>
 <div class="proofscript" id="proof2473">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>, <span class="id">eq_ony</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ? <span class="id">c</span> ? <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]]; <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">Px</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_Rbar_mult_proper">almostR2_eq_Rbar_mult_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_opp_proper">almostR2_eq_opp_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2474')">Proof.</div>
 <div class="proofscript" id="proof2474">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>, <span class="id">eq_ony</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_eq_scale_proper">almostR2_eq_scale_proper</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_sub">almostR2_sub</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">R</span>:<span class="id">Td</span>-&gt;<span class="id">Td</span>-&gt;<span class="kwd">Prop</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span>:(<span class="id">Ts</span>-&gt;<span class="id">Td</span>)-&gt;<span class="id">Ts</span>-&gt;<span class="id">Td</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">fpres</span>: <span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span> <span class="id">a</span>, <span class="id">R</span> (<span class="id">x</span> <span class="id">a</span>) (<span class="id">y</span> <span class="id">a</span>) -&gt; <span class="id">R</span> (<span class="id">f</span> <span class="id">x</span> <span class="id">a</span>) (<span class="id">f</span> <span class="id">y</span> <span class="id">a</span>))<br/>
-&nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id">R</span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id">R</span>) <span class="id">f</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_minus_proper">almostR2_eq_minus_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2475')">Proof.</div>
 <div class="proofscript" id="proof2475">
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> <span class="id">Px</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span>; <span class="tactic">auto</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H</span>, <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_eq_pow_abs_proper">almostR2_eq_pow_abs_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x1</span> <span class="id">x2</span>: <span class="id">Ts</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">n</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">eqqx</span> : <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x1</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x2</span>)) :<br/>
-&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x1</span>) <span class="id">n</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x2</span>) <span class="id">n</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_le_plus_proper">almostR2_le_plus_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2476')">Proof.</div>
 <div class="proofscript" id="proof2476">
-&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_sub">almostR2_sub</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span> <span class="id">x</span> <span class="id">n</span>)); <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span>; <span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat">Rplus_le_compat</a></span>; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_power_proper">almostR2_eq_power_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) :<br/>
-&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpower">rvpower</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_le_lt_plus_proper">almostR2_le_lt_plus_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2477')">Proof.</div>
 <div class="proofscript" id="proof2477">
-&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> <span class="id">eqq1</span> ? <span class="id">n</span> ?; <span class="tactic">subst</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_sub">almostR2_sub</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpower">rvpower</a></span> <span class="id">x</span> <span class="id">n</span>)); <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpower">rvpower</a></span>, <span class="id"><a href="FormalML.utils.RealAdd.html#power">RealAdd.power</a></span>.<br/>
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_lt_compat">Rplus_le_lt_compat</a></span>; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_abs_proper">almostR2_eq_abs_proper</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <br/>
-&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_lt_le_plus_proper">almostR2_lt_le_plus_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rlt">Rlt</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2478')">Proof.</div>
 <div class="proofscript" id="proof2478">
-&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_sub">almostR2_sub</a></span>; <span class="tactic">eauto</span>; <span class="tactic">try</span> <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span>.<br/>
-&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_lt_le_compat">Rplus_lt_le_compat</a></span>; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_subr">almostR2_eq_subr</a></span> {<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) :<br/>
-&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (@<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">Ts</span> <span class="id">Td</span>) (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_mult_proper">almostR2_eq_mult_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2479')">Proof.</div>
 <div class="proofscript" id="proof2479">
-&nbsp;&nbsp;<span class="tactic">intros</span> ???.<br/>
-&nbsp;&nbsp;<span class="id">exists</span> Ω.<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">auto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>, <span class="id">eq_ony</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_le_subr">almostR2_le_subr</a></span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) :<br/>
-&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (@<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> <span class="id">Ts</span>) (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_Rbar_mult_proper">almostR2_eq_Rbar_mult_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2480')">Proof.</div>
 <div class="proofscript" id="proof2480">
-&nbsp;&nbsp;<span class="tactic">intros</span> ???.<br/>
-&nbsp;&nbsp;<span class="id">exists</span> Ω.<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">auto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]] <span class="id">y1</span> <span class="id">y2</span> [<span class="id">Py</span> [<span class="id">Pyall</span> <span class="id">eq_ony</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="id">Px</span> ∩ <span class="id">Py</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one_inter">ps_one_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span> [<span class="id">Pxa</span> <span class="id">Pya</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">eq_onx</span>, <span class="id">eq_ony</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="rv_le_sub_eq">rv_le_sub_eq</a></span> {<span class="id">Ts</span>:<span class="kwd">Type</span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (@<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">Ts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_sub">almostR2_sub</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">R</span>:<span class="id">Td</span>-&gt;<span class="id">Td</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span>:(<span class="id">Ts</span>-&gt;<span class="id">Td</span>)-&gt;<span class="id">Ts</span>-&gt;<span class="id">Td</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">fpres</span>: <span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span> <span class="id">a</span>, <span class="id">R</span> (<span class="id">x</span> <span class="id">a</span>) (<span class="id">y</span> <span class="id">a</span>) -&gt; <span class="id">R</span> (<span class="id">f</span> <span class="id">x</span> <span class="id">a</span>) (<span class="id">f</span> <span class="id">y</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id">R</span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id">R</span>) <span class="id">f</span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2481')">Proof.</div>
 <div class="proofscript" id="proof2481">
-&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>.<br/>
-&nbsp;&nbsp;<span class="tactic">intros</span> ????.<br/>
-&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;<span class="id">lra</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> [<span class="id">Px</span> [<span class="id">Pxall</span> <span class="id">eq_onx</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">Px</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>; <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_eq_plus_inv">almostR2_eq_plus_inv</a></span>  {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>} :<br/>
-&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">x</span> <span class="id">y</span>) -&gt;<br/>
-&nbsp;&nbsp;<span class="id">exists</span> <span class="id">x</span>' <span class="id">y</span>',<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">x</span>' /\<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">y</span> <span class="id">y</span>' /\ <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">x</span>' <span class="id">y</span>').<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_eq_pow_abs_proper">almostR2_eq_pow_abs_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x1</span> <span class="id">x2</span>: <span class="id">Ts</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">n</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">eqqx</span> : <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x1</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x2</span>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x1</span>) <span class="id">n</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">x2</span>) <span class="id">n</span>).<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2482')">Proof.</div>
 <div class="proofscript" id="proof2482">
-&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">px</span>]].<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">a</span>) <span class="kwd">then</span> <span class="id">x</span> <span class="id">a</span> <span class="kwd">else</span> 0).<br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">a</span>) <span class="kwd">then</span> <span class="id">y</span> <span class="id">a</span> <span class="kwd">else</span> <span class="id">z</span> <span class="id">a</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>; [| <span class="tactic">split</span>].<br/>
-&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span>; <span class="tactic">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">auto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">lra</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_sub">almostR2_sub</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span> <span class="id">x</span> <span class="id">n</span>)); <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpow">rvpow</a></span>; <span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_eq_opp_inv">almostR2_eq_opp_inv</a></span>  {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) {<span class="id">x</span> <span class="id">z</span>} :<br/>
-&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">x</span>) -&gt;<br/>
-&nbsp;&nbsp;<span class="id">exists</span> <span class="id">x</span>',<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">x</span>' /\<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">x</span>').<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_power_proper">almostR2_eq_power_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpower">rvpower</a></span>.<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof2483')">Proof.</div>
 <div class="proofscript" id="proof2483">
-&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">px</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x1</span> <span class="id">x2</span> <span class="id">eqq1</span> ? <span class="id">n</span> ?; <span class="tactic">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_sub">almostR2_sub</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpower">rvpower</a></span> <span class="id">x</span> <span class="id">n</span>)); <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvpower">rvpower</a></span>, <span class="id"><a href="FormalML.utils.RealAdd.html#power">RealAdd.power</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
-&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">a</span>) <span class="kwd">then</span> <span class="id">x</span> <span class="id">a</span> <span class="kwd">else</span> - <span class="id">z</span> <span class="id">a</span>).<br/>
-&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
-&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;- <span class="tactic">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">auto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">lra</span>.<br/>
-Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_abs_proper">almostR2_eq_abs_proper</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) : <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2484')">Proof.</div>
+<div class="proofscript" id="proof2484">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">eapply</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2_sub">almostR2_sub</a></span>; <span class="tactic">eauto</span>; <span class="tactic">try</span> <span class="id">typeclasses</span> <span class="tactic">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_eq_subr">almostR2_eq_subr</a></span> {<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (@<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">Ts</span> <span class="id">Td</span>) (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2485')">Proof.</div>
+<div class="proofscript" id="proof2485">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ???.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> Ω.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">auto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="almostR2_le_subr">almostR2_le_subr</a></span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (@<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> <span class="id">Ts</span>) (<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2486')">Proof.</div>
+<div class="proofscript" id="proof2486">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ???.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> Ω.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">auto</span> <span class="kwd">with</span> <span class="id">prob</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="rv_le_sub_eq">rv_le_sub_eq</a></span> {<span class="id">Ts</span>:<span class="kwd">Type</span>}: <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.RelationClasses.html#subrelation">subrelation</a></span> (@<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">Ts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2487')">Proof.</div>
+<div class="proofscript" id="proof2487">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_eq_plus_inv">almostR2_eq_plus_inv</a></span>  {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">x</span> <span class="id">y</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">x</span>' <span class="id">y</span>',<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">x</span>' /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">y</span> <span class="id">y</span>' /\ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">x</span>' <span class="id">y</span>').<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2488')">Proof.</div>
+<div class="proofscript" id="proof2488">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">px</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">a</span>) <span class="kwd">then</span> <span class="id">x</span> <span class="id">a</span> <span class="kwd">else</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">a</span>) <span class="kwd">then</span> <span class="id">y</span> <span class="id">a</span> <span class="kwd">else</span> <span class="id">z</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; [| <span class="tactic">split</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> <span class="id">a</span>; <span class="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_eq_opp_inv">almostR2_eq_opp_inv</a></span>  {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>: <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>) {<span class="id">x</span> <span class="id">z</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">x</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> <span class="id">x</span>',<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#almostR2">almostR2</a></span> <span class="id">prts</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">x</span>' /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">z</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">x</span>').<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof2489')">Proof.</div>
+<div class="proofscript" id="proof2489">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">px</span>]].<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="http://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="id">p</span> <span class="id">a</span>) <span class="kwd">then</span> <span class="id">x</span> <span class="id">a</span> <span class="kwd">else</span> - <span class="id">z</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">exists</span> <span class="id">p</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.AlmostEqual.html#borel_almostR2_eq">borel_almostR2_eq</a></span>.<br/>
 <br/>
