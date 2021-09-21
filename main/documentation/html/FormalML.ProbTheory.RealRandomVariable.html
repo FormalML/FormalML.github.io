@@ -2371,80 +2371,138 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 <br/>
-&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="Rbar_plus_measurable">Rbar_plus_measurable</a></span> (<span class="id">f</span> <span class="id">g</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">f</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">g</span> -&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">ex_Rbar_plus</span> (<span class="id">f</span> <span class="id">x</span>) (<span class="id">g</span> <span class="id">x</span>)) -&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">f</span> <span class="id">g</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_rvplus_minf">Rbar_rvplus_minf</a></span> (<span class="id">f</span> <span class="id">g</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> =&gt; <span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id">m_infty</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">g</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">g</span> <span class="tactic">omega</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">f</span> <span class="tactic">omega</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">g</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>) ))).<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof3163')">Proof.</div>
 <div class="proofscript" id="proof3163">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">f</span> <span class="id">x</span>); <span class="tactic">destruct</span> (<span class="id">g</span> <span class="id">x</span>); <span class="tactic">simpl</span>; <span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>; <span class="tactic">try</span> <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">right</span>; <span class="id">now</span> <span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">left</span>; <span class="id">now</span> <span class="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="Rbar_plus_measurable">Rbar_plus_measurable</a></span> (<span class="id">f</span> <span class="id">g</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">f</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">g</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">f</span> <span class="id">g</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof3164')">Proof.</div>
+<div class="proofscript" id="proof3164">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">fmeas</span> <span class="id">gmeas</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">plusnoneequiv</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">Rbar_plus</span>' (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">p_infty</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">g</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">g</span> <span class="tactic">omega</span> = <span class="id">p_infty</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">f</span> <span class="id">x</span>); <span class="tactic">destruct</span> (<span class="id">g</span> <span class="id">x</span>); <span class="tactic">try</span> <span class="tactic">intuition</span> <span class="tactic">congruence</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id">saplusnone</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">Rbar_plus</span>' (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">plusnoneequiv</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span>; <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">r</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> =&gt; <span class="id">Rbar_le</span> (<span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>)) <span class="id">r</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; (<span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>)) = <span class="id">m_infty</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">f</span> <span class="tactic">omega</span>))<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">g</span> <span class="tactic">omega</span>)))<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span>) + (<span class="id">g</span> <span class="tactic">omega</span>) &lt;= <span class="id">r</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">Rbar_plus</span>' (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span>) + (<span class="id">g</span> <span class="tactic">omega</span>) &lt;= <span class="id">r</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">f</span> <span class="tactic">omega</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">g</span> <span class="tactic">omega</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span>) + (<span class="id">g</span> <span class="tactic">omega</span>) &lt;= <span class="id">r</span>))))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">x</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">f</span> <span class="id">x</span>); <span class="tactic">destruct</span> (<span class="id">g</span> <span class="id">x</span>); <span class="tactic">simpl</span>; <span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">f</span> <span class="id">x</span>); <span class="tactic">destruct</span> (<span class="id">g</span> <span class="id">x</span>); <span class="tactic">simpl</span>; <span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="tactic">try</span> <span class="tactic">intuition</span> <span class="tactic">congruence</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">is_finite</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [[? ?] ?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [[? ?] ?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [[? ?] ?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [[? ?] ?].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">try</span> <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">trivial</span>; <span class="id">lra</span>.          <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">try</span> <span class="tactic">discriminate</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">destruct</span> <span class="id">H</span>; <span class="tactic">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> =&gt; <span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id">m_infty</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">f</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">g</span> <span class="tactic">omega</span> = <span class="id">m_infty</span>))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">x</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> (<span class="id">f</span> <span class="id">x</span>); <span class="tactic">destruct</span> (<span class="id">g</span> <span class="id">x</span>); <span class="tactic">simpl</span>; <span class="tactic">split</span>; <span class="tactic">intros</span>; <span class="tactic">try</span> <span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H3</span>; <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H3</span>; <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">destruct</span> <span class="id">H3</span>; <span class="tactic">discriminate</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">rewrite</span>  <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus_minf">Rbar_rvplus_minf</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.        <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>; <span class="tactic">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">generalize</span> (@<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#plus_measurable">plus_measurable</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.dom">dom</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">real</span> (<span class="id">f</span> <span class="tactic">omega</span>)) (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">real</span> (<span class="id">g</span> <span class="tactic">omega</span>))); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_real_measurable">Rbar_real_measurable</a></span> <span class="kwd">in</span> <span class="id">fmeas</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_real_measurable">Rbar_real_measurable</a></span> <span class="kwd">in</span> <span class="id">gmeas</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> <span class="id">fmeas</span> <span class="id">gmeas</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">generalize</span> (@<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#plus_measurable">plus_measurable</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.dom">dom</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">real</span> (<span class="id">f</span> <span class="tactic">omega</span>)) (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">real</span> (<span class="id">g</span> <span class="tactic">omega</span>))); <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_real_measurable">Rbar_real_measurable</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_real_measurable">Rbar_real_measurable</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H3</span> <span class="id">H</span> <span class="id">H0</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">generalize</span> (@<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#plus_measurable">plus_measurable</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.dom">dom</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">real</span> (<span class="id">f</span> <span class="tactic">omega</span>)) (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">real</span> (<span class="id">g</span> <span class="tactic">omega</span>))); <span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_real_measurable">Rbar_real_measurable</a></span> <span class="kwd">in</span> <span class="id">fmeas</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_real_measurable">Rbar_real_measurable</a></span> <span class="kwd">in</span> <span class="id">gmeas</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> <span class="id">fmeas</span> <span class="id">gmeas</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> =&gt; <span class="id">Rbar_le</span> (<span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>)) <span class="id">p_infty</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span>)).<br/>
@@ -2453,108 +2511,49 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_le</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="tactic">tauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> =&gt; <span class="id">Rbar_le</span> (<span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>)) <span class="id">m_infty</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; (<span class="id">f</span> <span class="tactic">omega</span>) = <span class="id">m_infty</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id">m_infty</span>))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> =&gt; <span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="tactic">omega</span>) (<span class="id">g</span> <span class="tactic">omega</span>) = <span class="id">m_infty</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_le</span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">ex_Rbar_plus</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">x</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case_in</span> <span class="id">H1</span>; <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">simpl</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">unfold</span> <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">repeat</span> <span class="id">match_destr_in</span> <span class="id">H2</span>; <span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">split</span>; <span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">destruct</span> <span class="id">H3</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H2</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="tactic">rewrite</span> <span class="id">H2</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">destruct</span> (<span class="id">Rbar_plus</span> (<span class="id">f</span> <span class="id">x</span>) (<span class="id">g</span> <span class="id">x</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">rewrite</span>  <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus_minf">Rbar_rvplus_minf</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_union">sa_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_finite_Rbar">sa_finite_Rbar</a></span>; <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_sa_le_pt">Rbar_sa_le_pt</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="Rbar_lim_seq_measurable_pos">Rbar_lim_seq_measurable_pos</a></span> (<span class="id">f</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="id">f</span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id">f</span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="tactic">omega</span>)).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3164')">Proof.</div>
-<div class="proofscript" id="proof3164">
+<div class="toggleproof" onclick="toggleDisplay('proof3165')">Proof.</div>
+<div class="proofscript" id="proof3165">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Lim_seq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_div_pos_measurable">Rbar_div_pos_measurable</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_plus_measurable">Rbar_plus_measurable</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_lim_sup_measurable">Rbar_lim_sup_measurable</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_lim_inf_measurable">Rbar_lim_inf_measurable</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">LimSup_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">x</span>))).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id">Finite</span> 0) <span class="kwd">with</span> (<span class="id">LimSup_seq</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">LimSup_le</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (0%<span class="id">nat</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">LimSup_seq_const</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">x</span>))).      <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">replace</span> (<span class="id">Finite</span> 0) <span class="kwd">with</span> (<span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">LimInf_le</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exists</span> (0%<span class="id">nat</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">H0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">LimInf_seq_const</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">x</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H2</span> <span class="id">x</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#ex_Rbar_plus_pos">ex_Rbar_plus_pos</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<br/>
-<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="Rbar_rvabs">Rbar_rvabs</a></span>  (<span class="id">rv_X</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) := <span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">Rbar_abs</span> (<span class="id">rv_X</span> <span class="tactic">omega</span>).<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="Rbar_Rabs_measurable">Rbar_Rabs_measurable</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">f</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvabs">Rbar_rvabs</a></span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3165')">Proof.</div>
-<div class="proofscript" id="proof3165">
+<div class="toggleproof" onclick="toggleDisplay('proof3166')">Proof.</div>
+<div class="proofscript" id="proof3166">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvabs">Rbar_rvabs</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
@@ -2589,8 +2588,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="power_abs_pos">power_abs_pos</a></span> (<span class="id">rv_X</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">p</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_power">Rbar_power</a></span> (<span class="id">Rbar_abs</span> (<span class="id">rv_X</span> <span class="tactic">omega</span>)) <span class="id">p</span> ).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3166')">Proof.</div>
-<div class="proofscript" id="proof3166">
+<div class="toggleproof" onclick="toggleDisplay('proof3167')">Proof.</div>
+<div class="proofscript" id="proof3167">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_power_nonneg">Rbar_power_nonneg</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -2601,8 +2600,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="Rbar_power_measurable">Rbar_power_measurable</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">n</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">f</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvpower">Rbar_rvpower</a></span> <span class="id">f</span> <span class="id">n</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3167')">Proof.</div>
-<div class="proofscript" id="proof3167">
+<div class="toggleproof" onclick="toggleDisplay('proof3168')">Proof.</div>
+<div class="proofscript" id="proof3168">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvpower">Rbar_rvpower</a></span>, <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">r</span>.<br/>
@@ -2667,8 +2666,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">xrv</span>:<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">x</span>} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">yrv</span>:<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> <span class="id">y</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#RbarMeasurable">RbarMeasurable</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3168')">Proof.</div>
-<div class="proofscript" id="proof3168">
+<div class="toggleproof" onclick="toggleDisplay('proof3169')">Proof.</div>
+<div class="proofscript" id="proof3169">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">r</span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">efin</span> := <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_inter">pre_list_inter</a></span> [(<span class="kwd">fun</span> <span class="tactic">omega</span> =&gt; <span class="id">is_finite</span> (<span class="id">x</span> <span class="tactic">omega</span>))<br/>
@@ -3020,8 +3019,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">xrv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">x</span>} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">yrv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">y</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RbarRandomVariables.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3169')">Proof.</div>
-<div class="proofscript" id="proof3169">
+<div class="toggleproof" onclick="toggleDisplay('proof3170')">Proof.</div>
+<div class="proofscript" id="proof3170">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_measurable_rv">Rbar_measurable_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult_meas">Rbar_rvmult_meas</a></span>; <span class="tactic">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#rv_Rbar_measurable">rv_Rbar_measurable</a></span>.<br/>
@@ -3031,8 +3030,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">xnnf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">x</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">ynnf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">y</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3170')">Proof.</div>
-<div class="proofscript" id="proof3170">
+<div class="toggleproof" onclick="toggleDisplay('proof3171')">Proof.</div>
+<div class="proofscript" id="proof3171">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="tactic">omega</span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">xnnf</span> <span class="tactic">omega</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">ynnf</span> <span class="tactic">omega</span>).<br/>
@@ -3058,8 +3057,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">e</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#EventRestricted.dom">dom</a></span>) (<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#EventRestricted.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">nnf</span>: <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">f</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">e</span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3171')">Proof.</div>
-<div class="proofscript" id="proof3171">
+<div class="toggleproof" onclick="toggleDisplay('proof3172')">Proof.</div>
+<div class="proofscript" id="proof3172">
 &nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;<span class="tactic">apply</span> <span class="id">nnf</span>.<br/>
@@ -3068,8 +3067,8 @@ Qed.</div>
 <span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="Restricted_Rbar_NonnegativeFunction">Restricted_Rbar_NonnegativeFunction</a></span> <span class="id">P</span> (<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#EventRestricted.Ts">Ts</a></span> -&gt; <span class="id">Rbar</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">nnf</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">f</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3172')">Proof.</div>
-<div class="proofscript" id="proof3172">
+<div class="toggleproof" onclick="toggleDisplay('proof3173')">Proof.</div>
+<div class="proofscript" id="proof3173">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span>.<br/>
@@ -3079,8 +3078,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="event_restricted_rv_le">event_restricted_rv_le</a></span> <span class="id">P</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>) (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3173')">Proof.</div>
-<div class="proofscript" id="proof3173">
+<div class="toggleproof" onclick="toggleDisplay('proof3174')">Proof.</div>
+<div class="proofscript" id="proof3174">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">f</span> <span class="id">g</span> <span class="id">rel</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="kwd">in</span> <span class="id">x</span>.<br/>
@@ -3090,8 +3089,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="event_restricted_Rbar_rv_le">event_restricted_Rbar_rv_le</a></span> <span class="id">P</span> : <span class="id"><a href="http://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#Rbar_rv_le">Rbar_rv_le</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#Rbar_rv_le">Rbar_rv_le</a></span>) (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3174')">Proof.</div>
-<div class="proofscript" id="proof3174">
+<div class="toggleproof" onclick="toggleDisplay('proof3175')">Proof.</div>
+<div class="proofscript" id="proof3175">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">f</span> <span class="id">g</span> <span class="id">rel</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="kwd">in</span> <span class="id">x</span>.<br/>
@@ -3105,8 +3104,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="lift_event_restricted_domain_fun_nnf">lift_event_restricted_domain_fun_nnf</a></span> {<span class="id">P</span>} (<span class="id">f</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">P</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">f</span> -&gt; <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span> 0 <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3175')">Proof.</div>
-<div class="proofscript" id="proof3175">
+<div class="toggleproof" onclick="toggleDisplay('proof3176')">Proof.</div>
+<div class="proofscript" id="proof3176">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">nnf</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
@@ -3116,8 +3115,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="lift_event_restricted_domain_fun_Rbar_nnf">lift_event_restricted_domain_fun_Rbar_nnf</a></span> {<span class="id">P</span>} (<span class="id">f</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">P</span> -&gt; <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">f</span> -&gt; <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span> (<span class="id">Finite</span> 0) <span class="id">f</span>).<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3176')">Proof.</div>
-<div class="proofscript" id="proof3176">
+<div class="toggleproof" onclick="toggleDisplay('proof3177')">Proof.</div>
+<div class="proofscript" id="proof3177">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intros</span> <span class="id">nnf</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
@@ -3126,8 +3125,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="restrict_lift">restrict_lift</a></span> {<span class="id">P</span>} (<span class="id">f</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">P</span> -&gt; <span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span> 0 <span class="id">f</span>)) <span class="id">f</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3177')">Proof.</div>
-<div class="proofscript" id="proof3177">
+<div class="toggleproof" onclick="toggleDisplay('proof3178')">Proof.</div>
+<div class="proofscript" id="proof3178">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span>.<br/>
@@ -3139,8 +3138,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="restrict_lift_Rbar">restrict_lift_Rbar</a></span> {<span class="id">P</span>} (<span class="id">f</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_domain">event_restricted_domain</a></span> <span class="id">P</span> -&gt; <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span> (<span class="id">Finite</span> 0) <span class="id">f</span>)) <span class="id">f</span>.<br/>
-<div class="toggleproof" onclick="toggleDisplay('proof3178')">Proof.</div>
-<div class="proofscript" id="proof3178">
+<div class="toggleproof" onclick="toggleDisplay('proof3179')">Proof.</div>
+<div class="proofscript" id="proof3179">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">intro</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#lift_event_restricted_domain_fun">lift_event_restricted_domain_fun</a></span>.<br/>
