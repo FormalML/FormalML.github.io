@@ -4473,7 +4473,7 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">lra</span>.<br/>
 Qed.</div>
 <br/>
-&nbsp;&nbsp;<span class="kwd">Ltac</span> <span class="id">rbar_prover</span> :=<br/>
+<span class="kwd">Ltac</span> <span class="id">rbar_prover</span> :=<br/>
 &nbsp;&nbsp;<span class="tactic">repeat</span> <span class="tactic">progress</span> (<span class="tactic">try</span> <span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [|- <span class="id">context</span> [<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> ?<span class="id">x</span> ?<span class="id">y</span>]] =&gt; <span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> <span class="id">x</span> <span class="id">y</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [|- <span class="id">context</span> [<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_lt_or_eq_dec">Rle_lt_or_eq_dec</a></span> ?<span class="id">x</span> ?<span class="id">y</span> ?<span class="id">z</span>]] =&gt; <span class="tactic">destruct</span> (<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_lt_or_eq_dec">Rle_lt_or_eq_dec</a></span> <span class="id">x</span> <span class="id">y</span> <span class="id">z</span>)<br/>
@@ -4502,10 +4502,34 @@ Qed.</div>
 &nbsp;&nbsp;; <span class="id">rbar_prover</span>.<br/>
 Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_div_fin_cancel_l">Rbar_mult_div_fin_cancel_l</a></span> (<span class="id">a</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">b</span>:<span class="id">Rbar</span>) : <span class="id">a</span> &lt;&gt; 0 -&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_mult</span> (/ <span class="id">a</span>) (<span class="id">Rbar_mult</span> <span class="id">a</span> <span class="id">b</span>) = <span class="id">b</span>.<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_plus_distr_l">Rbar_mult_plus_distr_l</a></span> {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>:<span class="id">Rbar</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> 0 <span class="id">y</span> -&gt; <span class="id">Rbar_le</span> 0 <span class="id">z</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_mult</span> <span class="id">x</span> (<span class="id">Rbar_plus</span> <span class="id">y</span> <span class="id">z</span>) = <span class="id">Rbar_plus</span> (<span class="id">Rbar_mult</span> <span class="id">x</span> <span class="id">y</span>) (<span class="id">Rbar_mult</span> <span class="id">x</span> <span class="id">z</span>).<br/>
 <div class="toggleproof" onclick="toggleDisplay('proof1997')">Proof.</div>
 <div class="proofscript" id="proof1997">
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_mult</span>, <span class="id">Rbar_mult</span>', <span class="id">Rbar_plus</span>, <span class="id">Rbar_plus</span>'.<br/>
+<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">destruct</span> <span class="id">y</span>; <span class="tactic">destruct</span> <span class="id">z</span>; <span class="tactic">simpl</span><br/>
+&nbsp;&nbsp;; <span class="tactic">simpl</span> <span class="kwd">in</span> *; <span class="id">rbar_prover</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_plus_assoc">Rbar_plus_assoc</a></span> {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>:<span class="id">Rbar</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Rbar_le</span> 0 <span class="id">x</span>) -&gt; (<span class="id">Rbar_le</span> 0 <span class="id">y</span>) -&gt; (<span class="id">Rbar_le</span> 0 <span class="id">z</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_plus</span> (<span class="id">Rbar_plus</span>  <span class="id">x</span> <span class="id">y</span>) <span class="id">z</span> = <span class="id">Rbar_plus</span> <span class="id">x</span> (<span class="id">Rbar_plus</span> <span class="id">y</span> <span class="id">z</span>).<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1998')">Proof.</div>
+<div class="proofscript" id="proof1998">
+&nbsp;&nbsp;<span class="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="tactic">unfold</span> <span class="id">Rbar_plus</span>, <span class="id">Rbar_plus</span>'.<br/>
+<br/>
+&nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">x</span>; <span class="tactic">destruct</span> <span class="id">y</span>; <span class="tactic">destruct</span> <span class="id">z</span>; <span class="tactic">simpl</span><br/>
+&nbsp;&nbsp;; <span class="tactic">simpl</span> <span class="kwd">in</span> *; <span class="id">rbar_prover</span>.<br/>
+Qed.</div>
+&nbsp;&nbsp;<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_div_fin_cancel_l">Rbar_mult_div_fin_cancel_l</a></span> (<span class="id">a</span>:<span class="id"><a href="http://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">b</span>:<span class="id">Rbar</span>) : <span class="id">a</span> &lt;&gt; 0 -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_mult</span> (/ <span class="id">a</span>) (<span class="id">Rbar_mult</span> <span class="id">a</span> <span class="id">b</span>) = <span class="id">b</span>.<br/>
+<div class="toggleproof" onclick="toggleDisplay('proof1999')">Proof.</div>
+<div class="proofscript" id="proof1999">
 &nbsp;&nbsp;<span class="tactic">intros</span> .<br/>
 &nbsp;&nbsp;<span class="tactic">destruct</span> <span class="id">b</span>; <span class="tactic">simpl</span>.<br/>
 &nbsp;&nbsp;- <span class="tactic">f_equal</span>; <span class="id">now</span> <span class="id">field_simplify</span>.<br/>
