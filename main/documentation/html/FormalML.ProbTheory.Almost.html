@@ -18,6 +18,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Classical.html">Classical</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalChoice.html">ClassicalChoice</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lra.html">Lra</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">utils.Utils</a></span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html">ProbSpace</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Rbar</span>.<br/>
 <br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
 <br/>
@@ -368,6 +369,43 @@
 <br/>
 &nbsp;&nbsp;<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2_part">almostR2_part</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="sa_sub">sa_sub</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom2</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom2</span> <span class="id">dom</span>).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almostR2_prob_space_sa_sub_lift">almostR2_prob_space_sa_sub_lift</a></span> {<span class="id">A</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">RR</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f1</span> <span class="id">f2</span>:<span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.Ts">Ts</a></span> -&gt; <span class="id">A</span>):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.sub">sub</a></span>) <span class="id">RR</span> <span class="id">f1</span> <span class="id">f2</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.prts">prts</a></span> <span class="id">RR</span> <span class="id">f1</span> <span class="id">f2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof27')">Proof.</span></div>
+<div class="proofscript" id="proof27">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">peqq</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.sub">sub</a></span> <span class="id">p</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="almost_prob_space_sa_sub_lift">almost_prob_space_sa_sub_lift</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prop</span> : <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.Ts">Ts</a></span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost">almost</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.sub">sub</a></span>) <span class="id">prop</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost">almost</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.prts">prts</a></span> <span class="id">prop</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof28')">Proof.</span></div>
+<div class="proofscript" id="proof28">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">peqq</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub.sub">sub</a></span> <span class="id">p</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#sa_sub">sa_sub</a></span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>

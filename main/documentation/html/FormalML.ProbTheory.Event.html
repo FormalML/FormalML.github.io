@@ -2682,6 +2682,50 @@ Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#dec">dec</a></span>.<br/>
 <br/>
+<span class="kwd">Section</span> <span class="id"><a name="sa_sub">sa_sub</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom2</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom2</span> <span class="id">dom</span>).<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="event_sa_sub">event_sa_sub</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub.dom2">dom2</a></span>) : <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub.dom">dom</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_pre">event_pre</a></span> <span class="id">x</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub.sub">sub</a></span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj2_sig">proj2_sig</a></span> <span class="id">x</span>)).<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="event_sa_sub_equiv_proper">event_sa_sub_equiv_proper</a></span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span>) <span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof252')">Proof.</span></div>
+<div class="proofscript" id="proof252">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">red</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">x0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">destruct</span> <span class="id">y</span>; <span class="id">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intuition</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="collection_is_pairwise_disjoint_sa_sub">collection_is_pairwise_disjoint_sa_sub</a></span> <span class="id">collection</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#collection_is_pairwise_disjoint">collection_is_pairwise_disjoint</a></span> <span class="id">collection</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#collection_is_pairwise_disjoint">collection_is_pairwise_disjoint</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> (<span class="id">collection</span> <span class="id">n</span>)).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof253')">Proof.</span></div>
+<div class="proofscript" id="proof253">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#collection_is_pairwise_disjoint">collection_is_pairwise_disjoint</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_disjoint">event_disjoint</a></span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="union_of_collection_sa_sub">union_of_collection_sa_sub</a></span> <span class="id">collection</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#union_of_collection">union_of_collection</a></span> <span class="id">collection</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#union_of_collection">union_of_collection</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> (<span class="id">collection</span> <span class="id">n</span>))).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof254')">Proof.</span></div>
+<div class="proofscript" id="proof254">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span>.<br/>
+<br/>
 <span class="kwd">Coercion</span> <span class="id">event_pre</span> : <span class="id">event</span> &gt;-&gt; <span class="id">Funclass</span>.<br/>
 <br/>
 <span class="kwd">Notation</span> "∅" := <span class="id"><a href="FormalML.ProbTheory.Event.html#event_none">event_none</a></span> : <span class="id">prob</span>. <br/>
