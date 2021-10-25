@@ -6152,7 +6152,14 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp">IsLp</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#fin_cond_exp.prts">prts</a></span> 2 <span class="id">w</span> /\ <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">r1</span>) = <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span>) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">f</span> <span class="id">w</span>)))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#fin_cond_exp.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteConditionalExpectation">FiniteConditionalExpectation</a></span> <span class="id">f</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteConditionalExpectation">FiniteConditionalExpectation</a></span> <span class="id">f</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteCondexp_rv">FiniteCondexp_rv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteCondexp_Lp_sub">FiniteCondexp_Lp_sub</a></span>; <span class="id">try</span> <span class="id">lra</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation_Expectation">FiniteExpectation_Expectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span>; <span class="id">now</span> <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#glb_power_half">glb_power_half</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">r</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> =&gt;<br/>
@@ -6221,7 +6228,30 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation_pos">FiniteExpectation_pos</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [? [? [? ?]]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case_eq</span>  (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">f</span> <span class="id">x0</span>))); <span class="id">intros</span>; <span class="id">rewrite</span> <span class="id">H4</span> <span class="kwd">in</span> <span class="id">H3</span>; <span class="id">try</span> <span class="id">congruence</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="kwd">exists</span> <span class="id">x0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span>; <span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H4</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span> <span class="kwd">in</span> <span class="id">H3</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [? [[? [? [? ?]]] ?]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">x1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span>; <span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case</span>; <span class="id">intros</span>; <span class="id">rewrite</span> <span class="id">H5</span> <span class="kwd">in</span> <span class="id">H3</span>; <span class="id">try</span> <span class="id">congruence</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_power">Rbar_power</a></span>; <span class="id">now</span> <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [? [? [? ?]]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsLift.html#lift">lift</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
@@ -6232,6 +6262,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation_pos">NonnegExpectation_pos</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H5</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H8</span> <span class="kwd">in</span> <span class="id">H4</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H4</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;Admitted.</div>
 &nbsp;&nbsp;<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#fin_cond_exp">fin_cond_exp</a></span>.<br/>
