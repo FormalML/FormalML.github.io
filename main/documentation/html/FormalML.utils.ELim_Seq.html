@@ -3065,6 +3065,63 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">Lim_seq.ex_lim_seq_geom_m</span>.<br/>
 Qed.</div>
 <br/>
+<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_ELimInf_seq_const_plus">is_ELimInf_seq_const_plus</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span>:<span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#is_ELimInf_seq">is_ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Rbar_plus</span> <span class="id">g</span> (<span class="id">f</span> <span class="id">n</span>)) <span class="id">l</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#is_ELimInf_seq">is_ELimInf_seq</a></span> <span class="id">f</span> (<span class="id">Rbar_minus</span> <span class="id">l</span> <span class="id">g</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof171')">Proof.</span></div>
+<div class="proofscript" id="proof171">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l</span>; <span class="id">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">eps</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH</span> <span class="id">eps</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">HH</span> <span class="kwd">as</span> [<span class="id">HH1</span> [<span class="id">N</span> <span class="id">HH2</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> <span class="id">NN</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">HH1</span> <span class="id">NN</span>) <span class="kwd">as</span> [<span class="id">n</span> [??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">f</span> <span class="id">n</span>); <span class="id">try</span> <span class="id">tauto</span>; <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="kwd">exists</span> <span class="id">N</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span> <span class="id">Nle</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH2</span> <span class="id">n</span> <span class="id">Nle</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">f</span> <span class="id">n</span>); <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">try</span> <span class="id">tauto</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">M</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">HH</span> (<span class="id">M</span> + <span class="id">g</span>)) <span class="kwd">as</span> [<span class="id">N</span> <span class="id">HH1</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">N</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span> <span class="id">Nle</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH1</span> <span class="id">n</span> <span class="id">Nle</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">f</span> <span class="id">n</span>); <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">try</span> <span class="id">tauto</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">M</span> <span class="id">N</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">HH</span> (<span class="id">M</span> + <span class="id">g</span>) <span class="id">N</span>) <span class="kwd">as</span> [<span class="id">n</span> [<span class="id">Nle</span> <span class="id">leM</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">f</span> <span class="id">n</span>); <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">try</span> <span class="id">tauto</span>; <span class="id">lra</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="ELimInf_seq_const_plus">ELimInf_seq_const_plus</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Rbar_plus</span> <span class="id">g</span> (<span class="id">f</span> <span class="id">n</span>)) = <span class="id">Rbar_plus</span> <span class="id">g</span> (<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> <span class="id">f</span>).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof172')">Proof.</span></div>
+<div class="proofscript" id="proof172">
+&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> <span class="kwd">at</span> 1, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
+&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_ELimInf_seq_const_plus">is_ELimInf_seq_const_plus</a></span> <span class="kwd">in</span> <span class="id">i</span>.<br/>
+&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_ELimInf_seq_unique">is_ELimInf_seq_unique</a></span> <span class="kwd">in</span> <span class="id">i</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">i</span>.<br/>
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">simpl</span>; <span class="id">rbar_prover</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="ELimInf_seq_const_minus">ELimInf_seq_const_minus</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Rbar_minus</span> <span class="id">g</span> (<span class="id">f</span> <span class="id">n</span>)) = <span class="id">Rbar_minus</span> <span class="id">g</span> (<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimSup_seq">ELimSup_seq</a></span> <span class="id">f</span>).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof173')">Proof.</span></div>
+<div class="proofscript" id="proof173">
+&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rminus">Rminus</a></span>.<br/>
+&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq_const_plus">ELimInf_seq_const_plus</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Rbar_opp</span> (<span class="id">f</span> <span class="id">n</span>)) <span class="id">g</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_minus</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq_opp">ELimInf_seq_opp</a></span>.<br/>
+Qed.</div>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
