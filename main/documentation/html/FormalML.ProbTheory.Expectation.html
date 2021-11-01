@@ -2350,11 +2350,36 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#make_collection_disjoint_disjoint">make_collection_disjoint_disjoint</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lim_prob_descending">lim_prob_descending</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">En</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">E</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id"><a href="FormalML.ProbTheory.Event.html#event_sub">event_sub</a></span> (<span class="id">En</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) (<span class="id">En</span> <span class="id">n</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#inter_of_collection">inter_of_collection</a></span> <span class="id">En</span>) <span class="id">E</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">En</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">E</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
+<div class="proofscript" id="proof80">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#lim_prob">lim_prob</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_complement">event_complement</a></span> (<span class="id">En</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_complement">event_complement</a></span> <span class="id">E</span>)); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_complement">ps_complement</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_complement">ps_complement</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_minus</span>' <span class="kwd">with</span> (<span class="id">u</span>  := <span class="kwd">fun</span> <span class="id">n</span> =&gt; 1) (<span class="id">l1</span> := 1) <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">replace</span> (1 - (1 - <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">E</span>)) <span class="kwd">with</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">E</span>) <span class="kwd">in</span> <span class="id">H1</span> <span class="kwd">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_ext</span> <span class="kwd">with</span> (<span class="id">v</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">En</span> <span class="id">n</span>)) <span class="kwd">in</span> <span class="id">H1</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">is_lim_seq_const</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_complement_sub_proper">event_complement_sub_proper</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#flip">flip</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Event.html#inter_of_collection_complement">inter_of_collection_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_complement_proper">event_complement_proper</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_list_sum">is_lim_seq_list_sum</a></span> (<span class="id">l</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)) (<span class="id">l2</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> <span class="id">is_lim_seq</span> <span class="id">l</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">Finite</span> <span class="id">l2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> <span class="id">n</span>) <span class="id">l</span>)) (<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> <span class="id">l2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
-<div class="proofscript" id="proof80">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
+<div class="proofscript" id="proof81">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">F2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">dependent</span> <span class="id">induction</span> <span class="id">F2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">l2</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">x</span>; <span class="id">try</span> <span class="id">congruence</span>.<br/>
@@ -2382,8 +2407,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#preimage_singleton">preimage_singleton</a></span> <span class="id">phi</span> <span class="id">v</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">P</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#frf_vals">frf_vals</a></span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
-<div class="proofscript" id="proof81">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
+<div class="proofscript" id="proof82">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">transitivity</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span><br/>
@@ -2445,8 +2470,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rge_dec">Rge_dec</a></span> (<span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>) (<span class="id">cphi</span> <span class="id">omega</span>))))) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">cphi</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
-<div class="proofscript" id="proof82">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
+<div class="proofscript" id="proof83">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_NonnegExpectation">simple_NonnegExpectation</a></span> <span class="id">cphi</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">sa1</span>:<span class="kwd">forall</span> <span class="id">n</span>,  <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span> &gt;= <span class="id">cphi</span> <span class="id">omega</span>)).<br/>
@@ -2533,8 +2558,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rge_dec">Rge_dec</a></span> (<span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>) (<span class="id">cphi</span> <span class="id">omega</span>))))) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">cphi</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
-<div class="proofscript" id="proof83">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
+<div class="proofscript" id="proof84">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_NonnegExpectation">simple_NonnegExpectation</a></span> <span class="id">cphi</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">sa1</span>:<span class="kwd">forall</span> <span class="id">n</span>,  <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span> &gt;= <span class="id">cphi</span> <span class="id">omega</span>)).<br/>
@@ -2624,8 +2649,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">cphi</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">real</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
-<div class="proofscript" id="proof84">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
+<div class="proofscript" id="proof85">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#monotone_convergence_E_phi_lim">monotone_convergence_E_phi_lim</a></span> <span class="id">X</span> <span class="id">Xn</span> <span class="id">cphi</span> <span class="id">Xn_rv</span> <span class="id">sphi</span> <span class="id">phi_rv</span> <span class="id">posphi</span> <span class="id">Xn_pos</span> <span class="id">H</span> <span class="id">H0</span> <span class="id">H1</span> <span class="id">H2</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_unique</span> <span class="kwd">in</span> <span class="id">H4</span>.<br/>
@@ -2682,8 +2707,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">cphi</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">real</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
-<div class="proofscript" id="proof85">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
+<div class="proofscript" id="proof86">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#monotone_convergence_E_phi_lim2">monotone_convergence_E_phi_lim2</a></span> <span class="id">Xn</span> <span class="id">cphi</span> <span class="id">Xn_rv</span> <span class="id">sphi</span> <span class="id">phi_rv</span> <span class="id">posphi</span> <span class="id">Xn_pos</span> <span class="id">H</span> <span class="id">H0</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_unique</span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
@@ -2746,8 +2771,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt; <span class="id">c</span> &lt; 1 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Rbar_mult</span> <span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">phi</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
-<div class="proofscript" id="proof86">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
+<div class="proofscript" id="proof87">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">cphi</span> := <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">c</span> <span class="id">phi</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">cphi</span>).<br/>
@@ -2807,8 +2832,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt; <span class="id">c</span> &lt; 1 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Rbar_mult</span> <span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">phi</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
-<div class="proofscript" id="proof87">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
+<div class="proofscript" id="proof88">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">cphi</span> := <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">c</span> <span class="id">phi</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">cphi</span>).<br/>
@@ -2854,8 +2879,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvxn</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">posvn</span>: <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">rvxn</span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> 0 (<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">rvxn</span> <span class="id">n</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
-<div class="proofscript" id="proof88">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof89')">Proof.</span></div>
+<div class="proofscript" id="proof89">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">Finite</span> 0) <span class="kwd">with</span> (<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0)) <span class="kwd">by</span> <span class="id">apply</span> <span class="id">Lim_seq_const</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Lim_seq_le_loc</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Hierarchy.eventually</span>.<br/>
@@ -2871,8 +2896,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvxn</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">posvn</span>: <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">rvxn</span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">rvxn</span> <span class="id">n</span>)) = <span class="id">m_infty</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof89')">Proof.</span></div>
-<div class="proofscript" id="proof89">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof90')">Proof.</span></div>
+<div class="proofscript" id="proof90">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Lim_seq_NonnegExpectation_pos">Lim_seq_NonnegExpectation_pos</a></span> <span class="id">rvxn</span> <span class="id">posvn</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span>  <span class="id">H0</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -2900,8 +2925,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">phi</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt;  (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof90')">Proof.</span></div>
-<div class="proofscript" id="proof90">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof91')">Proof.</span></div>
+<div class="proofscript" id="proof91">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (1-/(2+<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>)) * (<span class="id">real</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">phi</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">real</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">phi</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">replace</span> (<span class="id">real</span> (@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">phi</span> <span class="id">posphi</span>)) <span class="kwd">with</span> <br/>
@@ -2966,8 +2991,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">omega</span>:<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span>), <span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>) (<span class="id">X</span> <span class="id">omega</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) =  (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">X</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof91')">Proof.</span></div>
-<div class="proofscript" id="proof91">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof92')">Proof.</span></div>
+<div class="proofscript" id="proof92">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation_le">NonnegExpectation_le</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), (<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">X</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
@@ -3020,8 +3045,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> (<span class="id">Xn</span> <span class="id">n</span>) (<span class="id">Xn</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof92')">Proof.</span></div>
-<div class="proofscript" id="proof92">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof93')">Proof.</span></div>
+<div class="proofscript" id="proof93">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">ex_lim_seq_incr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -3037,8 +3062,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_pos</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> =&gt; (<span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof93')">Proof.</span></div>
-<div class="proofscript" id="proof93">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof94')">Proof.</span></div>
+<div class="proofscript" id="proof94">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">LimInf_le</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; 0) (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">x</span>)); <span class="id">intros</span>.<br/>
@@ -3061,8 +3086,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_pos</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">Xn</span> <span class="id">n</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">omega</span>:<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span>), <span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof94')">Proof.</span></div>
-<div class="proofscript" id="proof94">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof95')">Proof.</span></div>
+<div class="proofscript" id="proof95">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Inf_seq_correct</span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">Xn</span> (<span class="id">k</span> + <span class="id">n</span>)%<span class="id">nat</span> <span class="id">omega</span>)); <span class="id">intros</span>.<br/>
@@ -3083,8 +3108,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_pos</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof95')">Proof.</span></div>
-<div class="proofscript" id="proof95">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof96')">Proof.</span></div>
+<div class="proofscript" id="proof96">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span>.<br/>
@@ -3107,8 +3132,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Fatou_Y_incr_Rbar">Fatou_Y_incr_Rbar</a></span> (<span class="id">Xn</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id">n</span> <span class="id">omega</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) <span class="id">omega</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof96')">Proof.</span></div>
-<div class="proofscript" id="proof96">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof97')">Proof.</span></div>
+<div class="proofscript" id="proof97">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Inf_eq_glb</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_glb_subset</span>.<br/>
@@ -3120,8 +3145,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Fatou_Y_incr">Fatou_Y_incr</a></span> (<span class="id">Xn</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_pos</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) <span class="id">n</span> <span class="id">omega</span>:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span> &lt;= <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) <span class="id">omega</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof97')">Proof.</span></div>
-<div class="proofscript" id="proof97">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof98')">Proof.</span></div>
+<div class="proofscript" id="proof98">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y_incr_Rbar">Fatou_Y_incr_Rbar</a></span> <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Expectation.html#is_finite_Fatou_Y">is_finite_Fatou_Y</a></span> <span class="kwd">by</span> <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
@@ -3133,8 +3158,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_pos</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">Xn</span> <span class="id">n</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_rv</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RealMeasurable">RealMeasurable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#RealMeasurable">RealMeasurable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof98')">Proof.</span></div>
-<div class="proofscript" id="proof98">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof99')">Proof.</span></div>
+<div class="proofscript" id="proof99">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">red</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#sa_ge_le">sa_ge_le</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -3185,8 +3210,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_pos</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id">Xn</span> <span class="id">n</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof99')">Proof.</span></div>
-<div class="proofscript" id="proof99">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof100')">Proof.</span></div>
+<div class="proofscript" id="proof100">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#measurable_rv">measurable_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y_meas">Fatou_Y_meas</a></span>; <span class="id">intros</span>; <span class="id">trivial</span>.<br/>
@@ -3197,8 +3222,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">f</span> <span class="id">n</span> &lt;= <span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Lim_seq</span> <span class="id">f</span> = <span class="id">LimInf_seq</span> <span class="id">f</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof100')">Proof.</span></div>
-<div class="proofscript" id="proof100">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof101')">Proof.</span></div>
+<div class="proofscript" id="proof101">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">ex_lim_seq_incr</span> <span class="id">f</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">ex_lim_LimSup_LimInf_seq</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
@@ -3217,8 +3242,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">f</span> <span class="id">n</span> &lt;= <span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span>:<span class="id">Rbar</span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">f</span> <span class="id">l</span> &lt;-&gt; <span class="id">is_LimInf_seq</span> <span class="id">f</span> <span class="id">l</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof101')">Proof.</span></div>
-<div class="proofscript" id="proof101">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof102')">Proof.</span></div>
+<div class="proofscript" id="proof102">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">ex_lim_seq_incr</span> <span class="id">f</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#limInf_increasing">limInf_increasing</a></span> <span class="id">f</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
@@ -3234,8 +3259,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Inf_seq</span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> (<span class="id">k</span> + <span class="id">n</span>)%<span class="id">nat</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">LimInf_seq</span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof102')">Proof.</span></div>
-<div class="proofscript" id="proof102">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof103')">Proof.</span></div>
+<div class="proofscript" id="proof103">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">LimInf_SupInf_seq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_sup_eq_lub</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_lub</span>.<br/>
@@ -3249,8 +3274,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="incr_le_strong">incr_le_strong</a></span> <span class="id">f</span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">incr</span>:<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">f</span> <span class="id">n</span> &lt;= <span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) <span class="id">a</span> <span class="id">b</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span> &lt;= <span class="id">b</span>)%<span class="id">nat</span> -&gt; <span class="id">f</span> <span class="id">a</span> &lt;= <span class="id">f</span> <span class="id">b</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof103')">Proof.</span></div>
-<div class="proofscript" id="proof103">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof104')">Proof.</span></div>
+<div class="proofscript" id="proof104">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">a</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">b</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">assert</span> (<span class="id">a</span> = 0%<span class="id">nat</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
@@ -3267,8 +3292,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_LimInf_Sup_Seq">is_LimInf_Sup_Seq</a></span> (<span class="id">f</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">incr</span>:<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">f</span> <span class="id">n</span> &lt;= <span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_LimInf_seq</span> <span class="id">f</span> (<span class="id">Sup_seq</span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof104')">Proof.</span></div>
-<div class="proofscript" id="proof104">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof105')">Proof.</span></div>
+<div class="proofscript" id="proof105">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Sup_seq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
@@ -3305,8 +3330,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;  <span class="id">Inf_seq</span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> (<span class="id">k</span> + <span class="id">n</span>)%<span class="id">nat</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">LimInf_seq</span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof105')">Proof.</span></div>
-<div class="proofscript" id="proof105">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof106')">Proof.</span></div>
+<div class="proofscript" id="proof106">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">ex_lim_seq_incr</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;  <span class="id">Inf_seq</span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> (<span class="id">k</span> + <span class="id">n</span>)%<span class="id">nat</span>)) <span class="id">incr</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#limInf_increasing2">limInf_increasing2</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">LimInf_SupInf_seq</span>.<br/>
@@ -3328,8 +3353,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof106')">Proof.</span></div>
-<div class="proofscript" id="proof106">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof107')">Proof.</span></div>
+<div class="proofscript" id="proof107">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#is_finite_Fatou_Y">is_finite_Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">Xn_pos</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y_pos">Fatou_Y_pos</a></span> <span class="id">Xn</span> <span class="id">Xn_pos</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Fatou_Y">Fatou_Y</a></span> <span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>) (<span class="id">Xn</span> <span class="id">n</span>)).<br/>
@@ -3429,8 +3454,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">pofrf</span> :<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">X</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#preimage_singleton">preimage_singleton</a></span> <span class="id">X</span> 0) = 1.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof107')">Proof.</span></div>
-<div class="proofscript" id="proof107">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof108')">Proof.</span></div>
+<div class="proofscript" id="proof108">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_pos_pofrf">Expectation_pos_pofrf</a></span> <span class="kwd">with</span> (<span class="id">nnf</span> := <span class="id">pofrf</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">inversion</span> <span class="id">H</span>.<br/>
 <br/>
@@ -3524,8 +3549,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx">simple_approx</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> =&gt; <span class="id">rv_X1</span> <span class="id">x</span>) <span class="id">n</span>)) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rv_X1</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof108')">Proof.</span></div>
-<div class="proofscript" id="proof108">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof109')">Proof.</span></div>
+<div class="proofscript" id="proof109">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx_lim_seq">simple_approx_lim_seq</a></span> <span class="id">rv_X1</span> <span class="id">nnf1</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx_rv">simple_approx_rv</a></span> <span class="id">rv_X1</span>); <span class="id">intro</span> <span class="id">apx_rv1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx_pofrf">simple_approx_pofrf</a></span> <span class="id">rv_X1</span>); <span class="id">intro</span> <span class="id">apx_nnf1</span>.<br/>
@@ -3545,8 +3570,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">nnf2</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">rv_X2</span>} :     <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_plus</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rv_X1</span>) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rv_X2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof109')">Proof.</span></div>
-<div class="proofscript" id="proof109">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof110')">Proof.</span></div>
+<div class="proofscript" id="proof110">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx_lim_seq">simple_approx_lim_seq</a></span> <span class="id">rv_X1</span> <span class="id">nnf1</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx_lim_seq">simple_approx_lim_seq</a></span> <span class="id">rv_X2</span> <span class="id">nnf2</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_approx_rv">simple_approx_rv</a></span> <span class="id">rv_X1</span>); <span class="id">intro</span> <span class="id">apx_rv1</span>.<br/>
@@ -3645,8 +3670,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rxn2</span>) -&gt;    <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_minus</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rxp1</span>) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rxn1</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_minus</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rxp2</span>) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rxn2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof110')">Proof.</span></div>
-<div class="proofscript" id="proof110">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof111')">Proof.</span></div>
+<div class="proofscript" id="proof111">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rxp1</span> <span class="id">rxn2</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rxp2</span> <span class="id">rxn1</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="kwd">in</span> *.<br/>
@@ -3682,8 +3707,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">rvp</span> <span class="id">rvn</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_minus</span>' (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rvp</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">rvn</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof111')">Proof.</span></div>
-<div class="proofscript" id="proof111">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof112')">Proof.</span></div>
+<div class="proofscript" id="proof112">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_dif_pos_unique2">Expectation_dif_pos_unique2</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rvp</span> <span class="id">rvn</span> <br/>
@@ -3731,8 +3756,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">exp1</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">exp2</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Rbar_plus</span> <span class="id">exp1</span> <span class="id">exp2</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span>, <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof112')">Proof.</span></div>
-<div class="proofscript" id="proof112">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof113')">Proof.</span></div>
+<div class="proofscript" id="proof113">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">eqq1</span>:<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X1</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X2</span>)) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X1</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X2</span>)))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -3778,8 +3803,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X</span>)) \/<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof113')">Proof.</span></div>
-<div class="proofscript" id="proof113">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof114')">Proof.</span></div>
+<div class="proofscript" id="proof114">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_case</span>; <span class="id">intros</span>; <span class="id">try</span> <span class="id">tauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_minus</span>', <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -3805,8 +3830,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="neg_fun_opp">neg_fun_opp</a></span> (<span class="id">rv_X</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> ((<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">rv_X</span>)) <span class="id">x</span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> ((<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X</span>) <span class="id">x</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof114')">Proof.</span></div>
-<div class="proofscript" id="proof114">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof115')">Proof.</span></div>
+<div class="proofscript" id="proof115">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part_obligation_1">FunctionsToReal.neg_fun_part_obligation_1</a></span>.<br/>
@@ -3823,8 +3848,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">rv_X</span>))) \/<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">rv_X</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof115')">Proof.</span></div>
-<div class="proofscript" id="proof115">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof116')">Proof.</span></div>
+<div class="proofscript" id="proof116">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_not_none">Expectation_not_none</a></span> <span class="id">_</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span>.<br/>
@@ -3838,8 +3863,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_plus</span>' <span class="id">a</span> <span class="id">b</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">c</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> <span class="id">a</span> /\ <span class="id">is_finite</span> <span class="id">b</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof116')">Proof.</span></div>
-<div class="proofscript" id="proof116">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof117')">Proof.</span></div>
+<div class="proofscript" id="proof117">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_plus</span>' <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H</span>; <span class="id">match_destr_in</span> <span class="id">H</span>.<br/>
@@ -3849,8 +3874,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Finite_Rbar_opp">Finite_Rbar_opp</a></span> (<span class="id">a</span> : <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id">Rbar_opp</span> <span class="id">a</span>) &lt;-&gt; <span class="id">is_finite</span> <span class="id">a</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof117')">Proof.</span></div>
-<div class="proofscript" id="proof117">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof118')">Proof.</span></div>
+<div class="proofscript" id="proof118">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_finite</span>, <span class="id">Rbar_opp</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -3859,8 +3884,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_minus</span>' <span class="id">a</span> <span class="id">b</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">c</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_finite</span> <span class="id">a</span> /\ <span class="id">is_finite</span> <span class="id">b</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof118')">Proof.</span></div>
-<div class="proofscript" id="proof118">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof119')">Proof.</span></div>
+<div class="proofscript" id="proof119">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_minus</span>'.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Finite_Rbar_plus</span>' <span class="id">a</span> (<span class="id">Rbar_opp</span> <span class="id">b</span>)); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">c</span> <span class="id">H0</span>).<br/>
@@ -3872,8 +3897,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rvopp_opp">rvopp_opp</a></span> (<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> <span class="id">f</span>)) <span class="id">f</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof119')">Proof.</span></div>
-<div class="proofscript" id="proof119">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof120')">Proof.</span></div>
+<div class="proofscript" id="proof120">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
@@ -3889,8 +3914,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">exp1</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Rbar_plus</span> <span class="id">exp1</span> <span class="id">c</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof120')">Proof.</span></div>
-<div class="proofscript" id="proof120">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
+<div class="proofscript" id="proof121">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_not_none_alt">Expectation_not_none_alt</a></span> <span class="id">rv_X1</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Finite_Rbar_minus</span>' <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>); <span class="id">intro</span> <span class="id">finparts</span>.<br/>
@@ -3934,8 +3959,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">e1</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> <span class="id">e2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> (<span class="id">e1</span> + <span class="id">e2</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
-<div class="proofscript" id="proof121">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof122')">Proof.</span></div>
+<div class="proofscript" id="proof122">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_sum">Expectation_sum</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>, <span class="id">H0</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
@@ -3956,8 +3981,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">e2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> <span class="id">e1</span> <span class="id">e2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof122')">Proof.</span></div>
-<div class="proofscript" id="proof122">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof123')">Proof.</span></div>
+<div class="proofscript" id="proof123">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X1</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">rv_X2</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>.<br/>
@@ -3988,8 +4013,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">pofrf</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">X</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">a</span> * (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> <span class="id">X</span> <span class="id">a</span>))) (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">X</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof123')">Proof.</span></div>
-<div class="proofscript" id="proof123">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof124')">Proof.</span></div>
+<div class="proofscript" id="proof124">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation_pre_EventIndicator">SimpleExpectation_pre_EventIndicator</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_le_ge_rv">sa_le_ge_rv</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> <span class="id">X</span> <span class="id">a</span>) (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rge_dec">Rge_dec</a></span> (<span class="id">X</span> <span class="id">x</span>) <span class="id">a</span>)); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">H</span>.<br/>
@@ -4008,8 +4033,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">pofrf</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">X</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> <span class="id">X</span> <span class="id">a</span>)) (<span class="id">Rbar_div_pos</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">X</span>) <span class="id">a</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof124')">Proof.</span></div>
-<div class="proofscript" id="proof124">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
+<div class="proofscript" id="proof125">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Markov_ineq">Markov_ineq</a></span> <span class="id">X</span> <span class="id">rv</span> <span class="id">pofrf</span> <span class="id">a</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_div_pos_le</span> <span class="kwd">with</span> (<span class="id">z</span> := <span class="id">a</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_comm">Rmult_comm</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -4021,8 +4046,8 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rsqr_pos">rsqr_pos</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) : (0 &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
-<div class="proofscript" id="proof125">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
+<div class="proofscript" id="proof126">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_0_sqr">Rlt_0_sqr</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rgt_not_eq">Rgt_not_eq</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
@@ -4030,8 +4055,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rabs_Rsqr_ge">Rabs_Rsqr_ge</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span> &gt;= <span class="id">a</span> &lt;-&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">x</span> &gt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
-<div class="proofscript" id="proof126">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
+<div class="proofscript" id="proof127">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#pos">pos</a></span> <span class="id">a</span>) <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">a</span>) <span class="kwd">at</span> 1 <span class="kwd">by</span> (<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_right">Rabs_right</a></span>; <span class="id">left</span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_ge">Rle_ge</a></span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rge_le">Rge_le</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -4047,8 +4072,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Rbar_div_pos</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> <span class="id">X</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#rsqr_pos">rsqr_pos</a></span> <span class="id">a</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
-<div class="proofscript" id="proof127">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
+<div class="proofscript" id="proof128">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> <span class="id">X</span>) <span class="id">a</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.dom">dom</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> <span class="id">X</span>)<br/>
@@ -4072,8 +4097,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Rbar_div_pos</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> <span class="id">X</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">mean</span>))))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#rsqr_pos">rsqr_pos</a></span> <span class="id">a</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
-<div class="proofscript" id="proof128">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
+<div class="proofscript" id="proof129">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Chebyshev_ineq_div_mean0">Chebyshev_ineq_div_mean0</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -4089,8 +4114,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#rsqr_pos">rsqr_pos</a></span> <span class="id">a</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
-<div class="proofscript" id="proof129">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
+<div class="proofscript" id="proof130">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case_eq</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">X</span>); <span class="id">intros</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Chebyshev_ineq_div_mean">Chebyshev_ineq_div_mean</a></span>.<br/>
@@ -4098,8 +4123,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Expectation_sqr">Expectation_sqr</a></span> (<span class="id">rv_X</span> :<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation.Ts">Ts</a></span>-&gt;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)  :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> <span class="id">rv_X</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> <span class="id">rv_X</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
-<div class="proofscript" id="proof130">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
+<div class="proofscript" id="proof131">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_pos_pofrf">Expectation_pos_pofrf</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -4113,8 +4138,8 @@
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="pos_fun_part_proper_almostR2">pos_fun_part_proper_almostR2</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x</span> <span class="id">x0</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
-<div class="proofscript" id="proof131">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
+<div class="proofscript" id="proof132">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x1</span> <span class="id">x2</span> <span class="id">eqq1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#almostR2_sub">almostR2_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> <span class="id">x0</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>))); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -4124,8 +4149,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="neg_fun_part_proper_almostR2">neg_fun_part_proper_almostR2</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x</span> <span class="id">x0</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
-<div class="proofscript" id="proof132">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
+<div class="proofscript" id="proof133">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x1</span> <span class="id">x2</span> <span class="id">eqq1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#almostR2_sub">almostR2_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> <span class="id">x0</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>))); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -4137,8 +4162,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">nnf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">x</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">x</span> = 0.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
-<div class="proofscript" id="proof133">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
+<div class="proofscript" id="proof134">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span>, <span class="id"><a href="FormalML.ProbTheory.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Lub_Rbar</span>.<br/>
@@ -4186,8 +4211,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">P</span> = 1 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
-<div class="proofscript" id="proof134">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
+<div class="proofscript" id="proof135">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">pone</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">eqq1</span>:<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">x</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>))<br/>
@@ -4226,8 +4251,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">ynnf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">y</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">y</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">y</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
-<div class="proofscript" id="proof135">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
+<div class="proofscript" id="proof136">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [<span class="id">P</span> [<span class="id">Pone</span> <span class="id">Peqq</span>]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation_EventIndicator_as">NonnegExpectation_EventIndicator_as</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#classic_dec">classic_dec</a></span> <span class="id">P</span>) <span class="id">Pone</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation_EventIndicator_as">NonnegExpectation_EventIndicator_as</a></span> <span class="id">y</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#classic_dec">classic_dec</a></span> <span class="id">P</span>) <span class="id">Pone</span>).<br/>
@@ -4241,8 +4266,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Expectation_almostR2_0">Expectation_almostR2_0</a></span> <span class="id">x</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">x</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
-<div class="proofscript" id="proof136">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
+<div class="proofscript" id="proof137">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span>(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">omega</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
@@ -4272,8 +4297,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">yrv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">y</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">y</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">y</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
-<div class="proofscript" id="proof137">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
+<div class="proofscript" id="proof138">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation_almostR2_proper">NonnegExpectation_almostR2_proper</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">x</span> <span class="id">x0</span>) (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">y</span> <span class="id">x0</span>))<br/>
@@ -4287,8 +4312,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">X</span> <span class="id">omega</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">X</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge_dec">event_ge_dec</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id">X</span> 0))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
-<div class="proofscript" id="proof138">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
+<div class="proofscript" id="proof139">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">omega</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
@@ -4298,8 +4323,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="event_le_dec">event_le_dec</a></span> (σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span>) <span class="id">x1</span> <span class="id">n</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> σ <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x1</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#dec_event">dec_event</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_le">event_le</a></span> σ <span class="id">x1</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
-<div class="proofscript" id="proof139">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
+<div class="proofscript" id="proof140">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span>.<br/>
@@ -4309,8 +4334,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span> <span class="id">omega</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">X</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#event_le_dec">event_le_dec</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id">X</span> 0))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
-<div class="proofscript" id="proof140">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
+<div class="proofscript" id="proof141">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">omega</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
@@ -4321,8 +4346,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span> <span class="id">omega</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">X</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#event_le_dec">event_le_dec</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id">X</span> 0)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
-<div class="proofscript" id="proof141">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
+<div class="proofscript" id="proof142">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">omega</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
@@ -4335,8 +4360,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">pofrf</span> :<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">X</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">X</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
-<div class="proofscript" id="proof142">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
+<div class="proofscript" id="proof143">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#preimage_singleton">preimage_singleton</a></span> <span class="id">X</span> 0).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_zero_pos">Expectation_zero_pos</a></span>.<br/>
@@ -4350,8 +4375,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">P</span> (<span class="id">dec</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#dec_event">dec_event</a></span> <span class="id">P</span>), <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">X</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> 0)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">X</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
-<div class="proofscript" id="proof143">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof144')">Proof.</span></div>
+<div class="proofscript" id="proof144">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">HH</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge">event_ge</a></span> <span class="id">_</span> <span class="id">X</span> 0) (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_ge_dec">event_ge_dec</a></span> <span class="id">_</span> <span class="id">X</span> 0))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HHpos</span>.<br/>
@@ -4412,8 +4437,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span> <span class="id">x</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof144')">Proof.</span></div>
-<div class="proofscript" id="proof144">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof145')">Proof.</span></div>
+<div class="proofscript" id="proof145">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_mult_indicator_almost_zero">Expectation_mult_indicator_almost_zero</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">P</span> <span class="id">dec</span>.<br/>
@@ -4472,8 +4497,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span> <span class="id">x</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> <span class="id">X</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof145')">Proof.</span></div>
-<div class="proofscript" id="proof145">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof146')">Proof.</span></div>
+<div class="proofscript" id="proof146">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_pos_neg_id">rv_pos_neg_id</a></span> <span class="id">X</span> <span class="id">x</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvopp">rvopp</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span>.<br/>
@@ -4488,8 +4513,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span> <span class="id">x</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) <span class="id">X</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof146')">Proof.</span></div>
-<div class="proofscript" id="proof146">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof147')">Proof.</span></div>
+<div class="proofscript" id="proof147">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [ <span class="id">p</span>[? <span class="id">pH</span>]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">p</span>; <span class="id">split</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span> <span class="id">px</span>.<br/>
@@ -4513,8 +4538,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) <span class="id">X</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof147')">Proof.</span></div>
-<div class="proofscript" id="proof147">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof148')">Proof.</span></div>
+<div class="proofscript" id="proof148">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#neg_fun_part_eq_0_nonneg_almost">neg_fun_part_eq_0_nonneg_almost</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">Expectation_mult_indicator_almost_nonneg_zero</span>'.<br/>
@@ -4529,8 +4554,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span> <span class="id">x</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof148')">Proof.</span></div>
-<div class="proofscript" id="proof148">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof149')">Proof.</span></div>
+<div class="proofscript" id="proof149">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_mult_indicator_almost_zero">Expectation_mult_indicator_almost_zero</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> <span class="id">X</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">P</span> <span class="id">dec</span>.<br/>
@@ -4610,8 +4635,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) <span class="id">X</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof149')">Proof.</span></div>
-<div class="proofscript" id="proof149">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof150')">Proof.</span></div>
+<div class="proofscript" id="proof150">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#neg_fun_part_eq_0_nonneg_almost">neg_fun_part_eq_0_nonneg_almost</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_mult_indicator_almost_nonneg_zero">Expectation_mult_indicator_almost_nonneg_zero</a></span>.<br/>
@@ -4621,8 +4646,8 @@
 <span class="kwd">Lemma</span> <span class="id"><a name="Expectation_EventIndicator">Expectation_EventIndicator</a></span>:<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> {<span class="id">Ts</span> : <span class="kwd">Type</span>} {<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} {<span class="id">Prts</span> : <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>} {<span class="id">P</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id">dom</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">dec</span> : <span class="kwd">forall</span> <span class="id">x</span> : <span class="id">Ts</span>, {<span class="id">P</span> <span class="id">x</span>} + {~ <span class="id">P</span> <span class="id">x</span>}), <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">Finite</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">P</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof150')">Proof.</span></div>
-<div class="proofscript" id="proof150">
+<div><span class="toggleproof" onclick="toggleDisplay('proof151')">Proof.</span></div>
+<div class="proofscript" id="proof151">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_simple">Expectation_simple</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation_EventIndicator">SimpleExpectation_EventIndicator</a></span>.<br/>
@@ -4641,8 +4666,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">f</span> <span class="id">nnf</span> = <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_prob_space">event_restricted_prob_space</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">P</span> <span class="id">pf</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> <span class="id">f</span>) <span class="id">_</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof151')">Proof.</span></div>
-<div class="proofscript" id="proof151">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof152')">Proof.</span></div>
+<div class="proofscript" id="proof152">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Lub_Rbar</span>.<br/>
@@ -4713,8 +4738,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">f</span> = <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_prob_space">event_restricted_prob_space</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#EventRestricted.prts">prts</a></span> <span class="id">P</span> <span class="id">pf</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#event_restricted_function">event_restricted_function</a></span> <span class="id">P</span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof152')">Proof.</span></div>
-<div class="proofscript" id="proof152">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof153')">Proof.</span></div>
+<div class="proofscript" id="proof153">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Expectation.html#event_restricted_NonnegExpectation">event_restricted_NonnegExpectation</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">P</span> <span class="id">pf1</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">f</span>) <span class="id">_</span>); <span class="id">intros</span>.<br/>
@@ -4741,8 +4766,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.dom2">dom2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.sub">sub</a></span>)  <span class="id">x</span> <span class="id">pofrf</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#NonnegExpectation">NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.prts">prts</a></span> <span class="id">x</span> <span class="id">pofrf</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof153')">Proof.</span></div>
-<div class="proofscript" id="proof153">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof154')">Proof.</span></div>
+<div class="proofscript" id="proof154">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> ((<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.sub">sub</a></span> <span class="id">x</span> (<span class="id">rv_x</span>:=<span class="id">rv</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">rv1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
@@ -4802,8 +4827,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.dom2">dom2</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">x</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.dom2">dom2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.sub">sub</a></span>)  <span class="id">x</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.prts">prts</a></span> <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof154')">Proof.</span></div>
-<div class="proofscript" id="proof154">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof155')">Proof.</span></div>
+<div class="proofscript" id="proof155">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> ((<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#sa_sub.sub">sub</a></span> <span class="id">x</span> (<span class="id">rv_x</span>:=<span class="id">rv</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">rv1</span>.<br/>
 <br/>
