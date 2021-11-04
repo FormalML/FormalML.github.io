@@ -644,6 +644,7 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_create">vector_nth_create</a></span>.<br/>
 Qed.</div>
 <br/>
+<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_ext">vector_nth_ext</a></span> {<span class="id">T</span>} {<span class="id">n</span>} (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>) <span class="id">i</span> <span class="id">pf1</span> <span class="id">pf2</span>:<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf1</span> <span class="id">v</span> = <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf2</span> <span class="id">v</span>.<br/>
 <div><span class="toggleproof" onclick="toggleDisplay('proof46')">Proof.</span></div>
@@ -652,9 +653,18 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsDigits.html#le_uniqueness_proof">le_uniqueness_proof</a></span>.<br/>
 Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="vector_map_const">vector_map_const</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">c</span>:<span class="id">A</span>) (<span class="id">f</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_const">vector_const</a></span> <span class="id">c</span> <span class="id">n</span>) = <span class="id"><a href="FormalML.utils.DVector.html#vector_const">vector_const</a></span> (<span class="id">f</span> <span class="id">c</span>) <span class="id">n</span>.<br/>
+<span class="kwd">Lemma</span> <span class="id">vector_nth_ext</span>' {<span class="id">T</span>} {<span class="id">n</span>} (<span class="id">v1</span> <span class="id">v2</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>) <span class="id">i</span> <span class="id">pf1</span> <span class="id">pf2</span> :<br/>
+&nbsp;&nbsp;<span class="id">v1</span> = <span class="id">v2</span> -&gt; <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf1</span> <span class="id">v1</span> = <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf2</span> <span class="id">v2</span>.<br/>
 <div><span class="toggleproof" onclick="toggleDisplay('proof47')">Proof.</span></div>
 <div class="proofscript" id="proof47">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hv1v2</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Hv1v2</span>.<br/>
+&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_ext">vector_nth_ext</a></span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="vector_map_const">vector_map_const</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">c</span>:<span class="id">A</span>) (<span class="id">f</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_const">vector_const</a></span> <span class="id">c</span> <span class="id">n</span>) = <span class="id"><a href="FormalML.utils.DVector.html#vector_const">vector_const</a></span> (<span class="id">f</span> <span class="id">c</span>) <span class="id">n</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof48')">Proof.</span></div>
+<div class="proofscript" id="proof48">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_eq">vector_nth_eq</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_map">vector_nth_map</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_const">vector_nth_const</a></span>.<br/>
@@ -664,43 +674,43 @@ Qed.</div>
 &nbsp;&nbsp;:= <span class="kwd">fun</span> <span class="id">v1</span> <span class="id">v2</span> =&gt; <span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">R</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">v1</span>) (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">v2</span>).<br/>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_refl">vectorize_relation_refl</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} (<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) {<span class="id">refl</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">R</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof48')">Proof.</span></div>
-<div class="proofscript" id="proof48">
+<div><span class="toggleproof" onclick="toggleDisplay('proof49')">Proof.</span></div>
+<div class="proofscript" id="proof49">
 &nbsp;&nbsp;<span class="id">intros</span> ???.<br/>
 &nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
 Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_sym">vectorize_relation_sym</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} (<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) {<span class="id">sym</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Symmetric">Symmetric</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Symmetric">Symmetric</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">R</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof49')">Proof.</span></div>
-<div class="proofscript" id="proof49">
+<div><span class="toggleproof" onclick="toggleDisplay('proof50')">Proof.</span></div>
+<div class="proofscript" id="proof50">
 &nbsp;&nbsp;<span class="id">intros</span> ?????.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">sym</span>.<br/>
 Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_trans">vectorize_relation_trans</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} (<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) {<span class="id">trans</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">R</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof50')">Proof.</span></div>
-<div class="proofscript" id="proof50">
+<div><span class="toggleproof" onclick="toggleDisplay('proof51')">Proof.</span></div>
+<div class="proofscript" id="proof51">
 &nbsp;&nbsp;<span class="id">intros</span> ???????.<br/>
 &nbsp;&nbsp;<span class="id">etransitivity</span>; <span class="id">eauto</span>.<br/>
 Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_equiv">vectorize_relation_equiv</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} (<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) {<span class="id">equiv</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">R</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof51')">Proof.</span></div>
-<div class="proofscript" id="proof51">
+<div><span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
+<div class="proofscript" id="proof52">
 &nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_pre">vectorize_relation_pre</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} (<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) {<span class="id">pre</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">R</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
-<div class="proofscript" id="proof52">
+<div><span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
+<div class="proofscript" id="proof53">
 &nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_part">vectorize_relation_part</a></span> {<span class="id">T</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">eqR</span> <span class="id">preR</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) {<span class="id">R_equiv</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">eqR</span>} {<span class="id">R_pre</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id">preR</span>} {<span class="id">R_part</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> <span class="id">eqR</span> <span class="id">preR</span>}:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">eqR</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">preR</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
-<div class="proofscript" id="proof53">
+<div><span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
+<div class="proofscript" id="proof54">
 &nbsp;&nbsp;<span class="id">split</span> ; <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;- <span class="id">repeat</span> <span class="id">red</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span><br/>
@@ -715,8 +725,8 @@ Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vectorize_relation_equiv_dec">vectorize_relation_equiv_dec</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} (<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">eqR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>} {<span class="id">eqdecR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">T</span> <span class="id">R</span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>}<br/>
 &nbsp;&nbsp;: <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation">vectorize_relation</a></span> <span class="id">R</span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
-<div class="proofscript" id="proof54">
+<div><span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
+<div class="proofscript" id="proof55">
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">red</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">destruct</span> <span class="id">y</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">revert</span> <span class="id">x</span> <span class="id">x0</span> <span class="id">e</span> <span class="id">e0</span>.<br/>
@@ -768,8 +778,8 @@ Defined.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="vector_eq_dec">vector_eq_dec</a></span> {<span class="id">T</span>:<span class="kwd">Type</span>} {<span class="id">eqdecR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">T</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>}<br/>
 &nbsp;&nbsp;: <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>) <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
-<div class="proofscript" id="proof55">
+<div><span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
+<div class="proofscript" id="proof56">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span> <span class="id">y</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.DVector.html#vectorize_relation_equiv_dec">vectorize_relation_equiv_dec</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">x</span> <span class="id">y</span>).<br/>
 &nbsp;&nbsp;- <span class="id">left</span>.<br/>
@@ -788,8 +798,8 @@ Defined.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">x</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof56')">Next Obligation.</span></div>
-<div class="proofscript" id="proof56">
+<div><span class="toggleproof" onclick="toggleDisplay('proof57')">Next Obligation.</span></div>
+<div class="proofscript" id="proof57">
 &nbsp;&nbsp;<span class="id">symmetry</span> <span class="kwd">in</span> <span class="id">Heq_anonymous</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#listo_to_olist_length">listo_to_olist_length</a></span> <span class="kwd">in</span> <span class="id">Heq_anonymous</span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_length">vector_length</a></span> <span class="kwd">in</span> <span class="id">Heq_anonymous</span>.<br/>
@@ -801,8 +811,8 @@ Qed.</div>
 &nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
 &nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">x</span>)<br/>
 &nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
-<div class="proofscript" id="proof57">
+<div><span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
+<div class="proofscript" id="proof58">
 &nbsp;&nbsp;<span class="id">intros</span>; <span class="id">destruct</span> <span class="id">x</span>; <span class="id">simpl</span>; <span class="id">subst</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vectoro_to_ovector">vectoro_to_ovector</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> ((@<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#option">option</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>)) (@<span class="id"><a href="FormalML.lib_utils.LibUtilsLiftIterators.html#listo_to_olist">listo_to_olist</a></span> <span class="id">A</span> <span class="id">x</span>))).<br/>
@@ -832,8 +842,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="vectoro_to_ovector_some_eq">vectoro_to_ovector_some_eq</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">v1</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#option">option</a></span> <span class="id">A</span>) <span class="id">n</span>) (<span class="id">v2</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vectoro_to_ovector">vectoro_to_ovector</a></span> <span class="id">v1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">v2</span> &lt;-&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.lib_utils.LibUtilsLiftIterators.html#listo_to_olist">listo_to_olist</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">v1</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">v2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
-<div class="proofscript" id="proof58">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
+<div class="proofscript" id="proof59">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ovector_proj1_sig">vector_to_ovector_proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; [| <span class="id">intuition</span> <span class="id">congruence</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">split</span>; <span class="id">intros</span> <span class="id">HH</span>; <span class="id">invcs</span> <span class="id">HH</span>; <span class="id">trivial</span>.<br/>
@@ -850,24 +860,24 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Forall_vectorize_length">Forall_vectorize_length</a></span> {<span class="id">T</span>} {<span class="id">n</span>} (<span class="id">l</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">flen</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">x</span> = <span class="id">n</span>) <span class="id">l</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#Forall_vectorize">Forall_vectorize</a></span> <span class="id">l</span> <span class="id">flen</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
-<div class="proofscript" id="proof59">
+<div><span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
+<div class="proofscript" id="proof60">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip_length">list_dep_zip_length</a></span>.<br/>
 Qed.</div>
 <br/>
 <span class="id">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_dep_zip">vector_dep_zip</a></span> {<span class="id">T</span>} {<span class="id">n</span>} {<span class="id">P</span>:<span class="id">T</span>-&gt;<span class="kwd">Prop</span>} (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;: <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> <span class="id">P</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">v</span>) -&gt; <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sig">sig</a></span> <span class="id">P</span>) <span class="id">n</span><br/>
 &nbsp;&nbsp;:= <span class="kwd">fun</span> <span class="id">ff</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip">list_dep_zip</a></span> <span class="id">_</span> <span class="id">ff</span>) <span class="id">_</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof60')">Next Obligation.</span></div>
-<div class="proofscript" id="proof60">
+<div><span class="toggleproof" onclick="toggleDisplay('proof61')">Next Obligation.</span></div>
+<div class="proofscript" id="proof61">
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip_length">list_dep_zip_length</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_length">vector_length</a></span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Forall_vectorize_in">Forall_vectorize_in</a></span> {<span class="id">T</span>} {<span class="id">n</span>} (<span class="id">l</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">flen</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">x</span> = <span class="id">n</span>) <span class="id">l</span>) (<span class="id">x</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.utils.DVector.html#Forall_vectorize">Forall_vectorize</a></span> <span class="id">l</span> <span class="id">flen</span>) &lt;-&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">x</span>) <span class="id">l</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
-<div class="proofscript" id="proof61">
+<div><span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
+<div class="proofscript" id="proof62">
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.utils.ListAdd.html#list_dep_zip_map1">list_dep_zip_map1</a></span> <span class="id">l</span> <span class="id">flen</span>) <span class="kwd">at</span> 2.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
@@ -880,8 +890,8 @@ Qed.</div>
 <span class="id">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_list_product">vector_list_product</a></span> {<span class="id">n</span>} {<span class="id">T</span>} (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) <span class="id">n</span>)<br/>
 &nbsp;&nbsp;: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.DVector.html#Forall_vectorize">Forall_vectorize</a></span> (<span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product">list_cross_product</a></span> <span class="id">l</span>) <span class="id">_</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof62')">Next Obligation.</span></div>
-<div class="proofscript" id="proof62">
+<div><span class="toggleproof" onclick="toggleDisplay('proof63')">Next Obligation.</span></div>
+<div class="proofscript" id="proof63">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l</span>.<br/>
 &nbsp;&nbsp;<span class="id">subst</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product_inner_length">list_cross_product_inner_length</a></span>.<br/>
@@ -889,8 +899,8 @@ Qed.</div>
 <br/>
 <span class="id">Program</span> <span class="kwd">Lemma</span> <span class="id"><a name="vector_list_product_length">vector_list_product_length</a></span> {<span class="id">n</span>} {<span class="id">T</span>} (<span class="id">lnnil</span>:<span class="id">n</span> &lt;&gt; 0) (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_list_product">vector_list_product</a></span> <span class="id">l</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#fold_left">fold_left</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#mult">Peano.mult</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> (@<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">T</span>) <span class="id">l</span>) 1%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
-<div class="proofscript" id="proof63">
+<div><span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
+<div class="proofscript" id="proof64">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_list_product">vector_list_product</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#Forall_vectorize_length">Forall_vectorize_length</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product_length">list_cross_product_length</a></span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
@@ -900,8 +910,8 @@ Qed.</div>
 <br/>
 <span class="id">Program</span> <span class="kwd">Lemma</span> <span class="id"><a name="vector_list_product_in_iff">vector_list_product_in_iff</a></span> {<span class="id">n</span>} {<span class="id">T</span>} (<span class="id">lnnil</span>:<span class="id">n</span> &lt;&gt; 0) (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">T</span>) <span class="id">n</span>) (<span class="id">x</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">T</span> <span class="id">n</span>):<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_list_product">vector_list_product</a></span> <span class="id">l</span>) &lt;-&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> (@<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">T</span>) <span class="id">x</span> <span class="id">l</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
-<div class="proofscript" id="proof64">
+<div><span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
+<div class="proofscript" id="proof65">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_list_product">vector_list_product</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#Forall_vectorize_in">Forall_vectorize_in</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#list_cross_product_in_iff">list_cross_product_in_iff</a></span>.<br/>
@@ -913,8 +923,8 @@ Qed.</div>
 <span class="id">Program</span> <span class="kwd">Lemma</span> <span class="id"><a name="Forallt_vector">Forallt_vector</a></span> {<span class="id">A</span>} {<span class="id">P</span>:<span class="id">A</span>-&gt;<span class="kwd">Type</span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">P</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">l</span>)) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forallt">Forallt</a></span> <span class="id">P</span> <span class="id">l</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
-<div class="proofscript" id="proof65">
+<div><span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
+<div class="proofscript" id="proof66">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">subst</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">x</span>; <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;- <span class="id">constructor</span>.<br/>
@@ -932,8 +942,8 @@ Defined.</div>
 <span class="id">Program</span> <span class="kwd">Lemma</span> <span class="id"><a name="Forall_vector">Forall_vector</a></span> {<span class="id">A</span>} {<span class="id">P</span>:<span class="id">A</span>-&gt;<span class="kwd">Prop</span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;: (<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">P</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">l</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> <span class="id">P</span> <span class="id">l</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
-<div class="proofscript" id="proof66">
+<div><span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
+<div class="proofscript" id="proof67">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">subst</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">x</span>; <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;- <span class="id">constructor</span>.<br/>
@@ -950,8 +960,8 @@ Defined.</div>
 <br/>
 <span class="id">Program</span> <span class="kwd">Lemma</span> <span class="id"><a name="vector_Forall">vector_Forall</a></span> {<span class="id">A</span>} {<span class="id">P</span>:<span class="id">A</span>-&gt;<span class="kwd">Prop</span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;: <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> <span class="id">P</span> <span class="id">l</span> -&gt; (<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">P</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">l</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
-<div class="proofscript" id="proof67">
+<div><span class="toggleproof" onclick="toggleDisplay('proof68')">Proof.</span></div>
+<div class="proofscript" id="proof68">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
@@ -964,8 +974,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">i</span>) <span class="id">pf1</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> (<span class="kwd">fun</span> <span class="id">l0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l0</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>)) (<span class="id">a</span> :: <span class="id">l</span>) <span class="id">pf2</span>))<br/>
 &nbsp;&nbsp;= <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Lt.html#lt_S_n">lt_S_n</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf1</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> (<span class="kwd">fun</span> <span class="id">l0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l0</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>) (<span class="id">l</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#eq_add_S">eq_add_S</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf2</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof68')">Proof.</span></div>
-<div class="proofscript" id="proof68">
+<div><span class="toggleproof" onclick="toggleDisplay('proof69')">Proof.</span></div>
+<div class="proofscript" id="proof69">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> *.<br/>
@@ -974,8 +984,8 @@ Qed.</div>
 <br/>
 <span class="id">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_append">vector_append</a></span> {<span class="id">A</span>} {<span class="id">n1</span>} (<span class="id">l1</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n1</span>) {<span class="id">n2</span>} (<span class="id">l2</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n2</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> (<span class="id">n1</span> + <span class="id">n2</span>)<br/>
 &nbsp;&nbsp;:= <span class="id">l1</span> ++ <span class="id">l2</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof69')">Next Obligation.</span></div>
-<div class="proofscript" id="proof69">
+<div><span class="toggleproof" onclick="toggleDisplay('proof70')">Next Obligation.</span></div>
+<div class="proofscript" id="proof70">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l1</span>; <span class="id">destruct</span> <span class="id">l2</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#app_length">app_length</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">congruence</span>.<br/>
@@ -983,8 +993,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="vector_map_map">vector_map_map</a></span> {<span class="id">A</span> <span class="id">B</span> <span class="id">C</span>} {<span class="id">n</span>} (<span class="id">f</span>:<span class="id">B</span>-&gt;<span class="id">C</span>) (<span class="id">g</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">g</span> <span class="id">v</span>) = <span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">f</span> (<span class="id">g</span> <span class="id">x</span>)) <span class="id">v</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof70')">Proof.</span></div>
-<div class="proofscript" id="proof70">
+<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
+<div class="proofscript" id="proof71">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_ext">vector_ext</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_map">map_map</a></span>.<br/>
 Qed.</div>
@@ -992,8 +1002,8 @@ Qed.</div>
 <span class="id">Program</span> <span class="kwd">Lemma</span> <span class="id">vector_map_ext</span>' {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">f</span> <span class="id">g</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">v</span> -&gt; <span class="id">f</span> <span class="id">x</span> = <span class="id">g</span> <span class="id">x</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">f</span> <span class="id">v</span> = <span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">g</span> <span class="id">v</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
-<div class="proofscript" id="proof71">
+<div><span class="toggleproof" onclick="toggleDisplay('proof72')">Proof.</span></div>
+<div class="proofscript" id="proof72">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_ext">vector_ext</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_ext_in">map_ext_in</a></span>; <span class="id">auto</span>.<br/>
@@ -1002,8 +1012,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="vector_map_ext">vector_map_ext</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">f</span> <span class="id">g</span>:<span class="id">A</span>-&gt;<span class="id">B</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">f</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">v</span>) = <span class="id">g</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">v</span>)) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">f</span> <span class="id">v</span> = <span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id">g</span> <span class="id">v</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof72')">Proof.</span></div>
-<div class="proofscript" id="proof72">
+<div><span class="toggleproof" onclick="toggleDisplay('proof73')">Proof.</span></div>
+<div class="proofscript" id="proof73">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">vector_map_ext</span>'; <span class="id">intros</span> ? <span class="id">inn</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#In_vector_nth_ex">In_vector_nth_ex</a></span> <span class="kwd">in</span> <span class="id">inn</span>.<br/>
