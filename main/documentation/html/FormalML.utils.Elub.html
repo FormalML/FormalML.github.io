@@ -1,0 +1,483 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.utils.Elub</title>
+<meta name="description" content="Documentation of Coq module FormalML.utils.Elub" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.utils.Elub</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="FormalML.utils.RealAdd.html">RealAdd</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Psatz.html">Psatz</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">mathcomp.ssreflect.ssreflect</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span> <span class="id">mathcomp.ssreflect.ssreflect</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Rcomplements</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Rbar</span> <span class="id">Coquelicot.Lub</span> <span class="id">Coquelicot.Markov</span> <span class="id">Coquelicot.Hierarchy</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Rcomplements</span> <span class="id">Coquelicot.Rbar</span> <span class="id">Coquelicot.Markov</span> <span class="id">Coquelicot.Iter</span> <span class="id">Coquelicot.Lub</span>.<br/>
+<br/>
+<span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
+<br/>
+<span class="id">Local</span> <span class="kwd">Open</span> <span class="kwd">Scope</span> <span class="id">R_scope</span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="id">Coquelicot.Lim_seq</span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Classical_Pred_Type.html">Classical_Pred_Type</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="lub">lub</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="is_ub_ERbar">is_ub_ERbar</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> : <span class="id">Rbar</span>), <span class="id">E</span> <span class="id">x</span> -&gt; <span class="id">Rbar_le</span> <span class="id">x</span> <span class="id">l</span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="is_lb_ERbar">is_lb_ERbar</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> : <span class="id">Rbar</span>), <span class="id">E</span> <span class="id">x</span> -&gt; <span class="id">Rbar_le</span> <span class="id">l</span> <span class="id">x</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_ub_ERbar_opp">is_ub_ERbar_opp</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> &lt;-&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>)) (<span class="id">Rbar_opp</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof1')">Proof.</span></div>
+<div class="proofscript" id="proof1">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span> ; <span class="id">intros</span> <span class="id">Hl</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">Rbar_opp_le</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">apply</span> <span class="id">Hl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id">Hl</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lb_ERbar_opp">is_lb_ERbar_opp</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> &lt;-&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>)) (<span class="id">Rbar_opp</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof2')">Proof.</span></div>
+<div class="proofscript" id="proof2">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span> ; <span class="id">intros</span> <span class="id">Hl</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">Rbar_opp_le</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">apply</span> <span class="id">Hl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">Hl</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">Decidability </div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_ub_ERbar_dec">is_ub_ERbar_dec</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> | <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span>} + {(<span class="kwd">forall</span> <span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, ~<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span>)}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof3')">Proof.</span></div>
+<div class="proofscript" id="proof3">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;first&nbsp;we&nbsp;check&nbsp;p_infty&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">is_ub_Rbar_dec</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">E</span> <span class="id">p_infty</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id">is_ub_Rbar_dec</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [<span class="id">x</span> <span class="id">HH1</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">s0</span> <span class="kwd">as</span> [<span class="id">l</span> <span class="id">HH2</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_ub_Rbar</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">l</span>; <span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">specialize</span> (<span class="id">HH1</span> (<span class="id">x</span> + 1) <span class="id">H</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">HH1</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">right</span>; <span class="id">intros</span> ? <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">n</span> <span class="id">l</span>); <span class="id">intros</span> ? <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">n</span> <span class="id">l</span>); <span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">_</span> <span class="id">H0</span>); <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">contradiction</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lb_ERbar_dec">is_lb_ERbar_dec</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> | <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span>} + {(<span class="kwd">forall</span> <span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, ~<span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span>)}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof4')">Proof.</span></div>
+<div class="proofscript" id="proof4">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_dec">is_ub_ERbar_dec</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>))) <span class="kwd">as</span> [ [<span class="id">l</span> <span class="id">Hl</span>] | <span class="id">Hl</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">left</span> ; <span class="kwd">exists</span> (<span class="id">Rbar_opp</span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_opp">is_ub_ERbar_opp</a></span> ; <span class="id">rewrite</span> (<span class="id">Rbar_opp_involutive</span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">right</span> =&gt; <span class="id">l</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">Hl</span> (<span class="id">Rbar_opp</span> <span class="id">l</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">contradict</span> <span class="id">Hl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_opp">is_ub_ERbar_opp</a></span> <span class="id">E</span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">Order </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_ub_ERbar_subset">is_ub_ERbar_subset</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span> : <span class="id">Rbar</span>, <span class="id">E2</span> <span class="id">x</span> -&gt; <span class="id">E1</span> <span class="id">x</span>) -&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E1</span> <span class="id">l</span> -&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E2</span> <span class="id">l</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof5')">Proof.</span></div>
+<div class="proofscript" id="proof5">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">H</span> <span class="id">ub1</span> <span class="id">x</span> <span class="id">Hx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span>: <span class="id">ub1</span> ; <span class="kwd">by</span> <span class="id">apply</span>: <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lb_ERbar_subset">is_lb_ERbar_subset</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span> : <span class="id">Rbar</span>, <span class="id">E2</span> <span class="id">x</span> -&gt; <span class="id">E1</span> <span class="id">x</span>) -&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E1</span> <span class="id">l</span> -&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E2</span> <span class="id">l</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof6')">Proof.</span></div>
+<div class="proofscript" id="proof6">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">H</span> <span class="id">ub1</span> <span class="id">x</span> <span class="id">Hx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span>: <span class="id">ub1</span> ; <span class="kwd">by</span> <span class="id">apply</span>: <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="is_ub_ERbar_le_proper">is_ub_ERbar_le_proper</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span> --&gt; <span class="id">Rbar_le</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof7')">Proof.</span></div>
+<div class="proofscript" id="proof7">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_subset">is_ub_ERbar_subset</a></span>; <span class="id">try</span> <span class="id">eapply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">Rbar_le_trans</span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">H1</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="is_lb_ERbar_le_proper">is_lb_ERbar_le_proper</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span> --&gt; <span class="id">Rbar_le</span> --&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof8')">Proof.</span></div>
+<div class="proofscript" id="proof8">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar_subset">is_lb_ERbar_subset</a></span>; <span class="id">try</span> <span class="id">eapply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">Rbar_le_trans</span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">H1</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<h2> Least upper bound and Greatest Lower Bound </h2>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="is_lub_ERbar">is_lub_ERbar</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> /\ (<span class="kwd">forall</span> <span class="id">b</span>, <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar">is_ub_ERbar</a></span> <span class="id">E</span> <span class="id">b</span> -&gt; <span class="id">Rbar_le</span> <span class="id">l</span> <span class="id">b</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="is_glb_ERbar">is_glb_ERbar</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> /\ (<span class="kwd">forall</span> <span class="id">b</span>, <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar">is_lb_ERbar</a></span> <span class="id">E</span> <span class="id">b</span> -&gt; <span class="id">Rbar_le</span> <span class="id">b</span> <span class="id">l</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lub_ERbar_opp">is_lub_ERbar_opp</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> &lt;-&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>)) (<span class="id">Rbar_opp</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof9')">Proof.</span></div>
+<div class="proofscript" id="proof9">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span> =&gt; [[<span class="id">lb</span> <span class="id">glb</span>] | [<span class="id">ub</span> <span class="id">lub</span>] ] ; <span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_opp">is_ub_ERbar_opp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">b</span> <span class="id">Hb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_opp_le</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">glb</span>, <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_opp">is_ub_ERbar_opp</a></span> ; <span class="kwd">by</span> <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_opp">is_ub_ERbar_opp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">b</span> <span class="id">Hb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_opp_le</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id">lub</span>, <span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_opp">is_ub_ERbar_opp</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_glb_ERbar_opp">is_glb_ERbar_opp</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> &lt;-&gt; <span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>)) (<span class="id">Rbar_opp</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof10')">Proof.</span></div>
+<div class="proofscript" id="proof10">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span> =&gt; [[<span class="id">lb</span> <span class="id">glb</span>] | [<span class="id">ub</span> <span class="id">lub</span>] ] ; <span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar_opp">is_lb_ERbar_opp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">b</span> <span class="id">Hb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_opp_le</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">glb</span>, <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar_opp">is_lb_ERbar_opp</a></span> ; <span class="kwd">by</span> <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar_opp">is_lb_ERbar_opp</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">b</span> <span class="id">Hb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_opp_le</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span> <span class="id">lub</span>, <span class="id"><a href="FormalML.utils.Elub.html#is_lb_ERbar_opp">is_lb_ERbar_opp</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">Existence </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ex_lub_ERbar">ex_lub_ERbar</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) : {<span class="id">l</span> : <span class="id">Rbar</span> | <span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span>}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof11')">Proof.</span></div>
+<div class="proofscript" id="proof11">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_dec">is_ub_ERbar_dec</a></span> <span class="id">E</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [<span class="id">s</span> <span class="id">slb</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (~ <span class="id">E</span> <span class="id">p_infty</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">slb</span> <span class="id">_</span> <span class="id">H</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">slb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">ex_lub_Rbar</span> <span class="id">E</span>) <span class="kwd">as</span> [<span class="id">x</span> [<span class="id">xlb</span> <span class="id">xglb</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="kwd">exists</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">xlb</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x0</span>; <span class="id">auto</span>; <span class="id">simpl</span>; <span class="id">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="kwd">exists</span> <span class="id">p_infty</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">intros</span> [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> [] ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">elim</span> (<span class="id">n</span> <span class="id">r</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="kwd">by</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">elim</span> (<span class="id">n</span> 0%<span class="id">R</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_ub_ERbar_le_proper">is_ub_ERbar_le_proper</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#reflexivity">reflexivity</a></span> <span class="id">_</span>) <span class="id">m_infty</span>); <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ex_glb_ERbar">ex_glb_ERbar</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) : {<span class="id">l</span> : <span class="id">Rbar</span> | <span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span>}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof12')">Proof.</span></div>
+<div class="proofscript" id="proof12">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>))) =&gt; <span class="id">l</span> <span class="id">Hl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">Rbar_opp</span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar_opp">is_lub_ERbar_opp</a></span> ; <span class="kwd">by</span> <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">Functions </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="ERbar_lub">ERbar_lub</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) := <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> <span class="id">E</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="ERbar_glb">ERbar_glb</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) := <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> <span class="id">E</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_opp_glb_lub">ERbar_opp_glb_lub</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>)) = <span class="id">Rbar_opp</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof13')">Proof.</span></div>
+<div class="proofscript" id="proof13">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> <span class="id">_</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">g</span> [<span class="id">Hg</span> <span class="id">Hg</span>'] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> <span class="id">_</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">l</span> [<span class="id">Hl</span> <span class="id">Hl</span>'] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_opp_le</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">apply</span> <span class="id">Hl</span>', <span class="id">Rbar_lb_ub</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hg</span>', <span class="id">Rbar_lb_ub</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_opp_lub_glb">ERbar_opp_lub_glb</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">E</span> (<span class="id">Rbar_opp</span> <span class="id">x</span>)) = <span class="id">Rbar_opp</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof14')">Proof.</span></div>
+<div class="proofscript" id="proof14">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> <span class="id">_</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">g</span> (<span class="id">Hg</span>, <span class="id">Hg</span>') ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> <span class="id">_</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">l</span> [<span class="id">Hl</span> <span class="id">Hl</span>'] ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hl</span>', <span class="id">Rbar_lb_ub</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_is_lb_subset</span> <span class="id">_</span> <span class="id">E</span>) ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_opp_le</span> ; <span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">apply</span> <span class="id">Hg</span>', <span class="id">Rbar_ub_lb</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_opp_involutive</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lub_ERbar_unique">is_lub_ERbar_unique</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> -&gt; <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E</span> = <span class="id">l</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof15')">Proof.</span></div>
+<div class="proofscript" id="proof15">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: <span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> =&gt; <span class="id">l0</span> <span class="id">H0</span> /=.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>, <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>, <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_is_glb_unique">ERbar_is_glb_unique</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E</span> <span class="id">l</span> -&gt; <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E</span> = <span class="id">l</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof16')">Proof.</span></div>
+<div class="proofscript" id="proof16">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: <span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> =&gt; <span class="id">l0</span> <span class="id">H0</span> /=.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>, <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>, <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">Order </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_glb_le_lub">ERbar_glb_le_lub</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">exists</span> <span class="id">x</span>, <span class="id">E</span> <span class="id">x</span>) -&gt; <span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E</span>) (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof17')">Proof.</span></div>
+<div class="proofscript" id="proof17">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> =&gt; <span class="id">x</span> <span class="id">Hex</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_trans</span> <span class="kwd">with</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> <span class="id">_</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">g</span> (<span class="id">Hg</span>, <span class="id">_</span>) ; <span class="id">apply</span> <span class="id">Hg</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> <span class="id">_</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">l</span> (<span class="id">Hl</span>, <span class="id">_</span>) ; <span class="id">apply</span> <span class="id">Hl</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lub_ERbar_subset">is_lub_ERbar_subset</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l1</span> <span class="id">l2</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> -&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E1</span> <span class="id">l1</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E2</span> <span class="id">l2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="id">Rbar_le</span> <span class="id">l1</span> <span class="id">l2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof18')">Proof.</span></div>
+<div class="proofscript" id="proof18">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hs</span> (<span class="id">_</span>,<span class="id">H1</span>) (<span class="id">H2</span>, <span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H1</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">H2</span>, <span class="id">Hs</span>, <span class="id">Hx</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_glb_ERbar_subset">is_glb_ERbar_subset</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l1</span> <span class="id">l2</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E2</span> <span class="id">x</span> -&gt; <span class="id">E1</span> <span class="id">x</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E1</span> <span class="id">l1</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E2</span> <span class="id">l2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="id">Rbar_le</span> <span class="id">l1</span> <span class="id">l2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof19')">Proof.</span></div>
+<div class="proofscript" id="proof19">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hs</span> (<span class="id">H1</span>, <span class="id">_</span>) (<span class="id">_</span>, <span class="id">H2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H2</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">H1</span>, <span class="id">Hs</span>, <span class="id">Hx</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lub_ERbar_eq">is_lub_ERbar_eq</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l1</span> <span class="id">l2</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> &lt;-&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E1</span> <span class="id">l1</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E2</span> <span class="id">l2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="id">l1</span> = <span class="id">l2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof20')">Proof.</span></div>
+<div class="proofscript" id="proof20">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hs</span> <span class="id">H1</span> <span class="id">H2</span> ; <span class="id">apply</span> <span class="id">Rbar_le_antisym</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar_subset">is_lub_ERbar_subset</a></span> <span class="id">E1</span> <span class="id">E2</span>) | <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar_subset">is_lub_ERbar_subset</a></span> <span class="id">E2</span> <span class="id">E1</span>) ] ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">H</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_glb_ERbar_eq">is_glb_ERbar_eq</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l1</span> <span class="id">l2</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> &lt;-&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E1</span> <span class="id">l1</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E2</span> <span class="id">l2</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt; <span class="id">l1</span> = <span class="id">l2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof21')">Proof.</span></div>
+<div class="proofscript" id="proof21">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hs</span> <span class="id">H1</span> <span class="id">H2</span> ; <span class="id">apply</span> <span class="id">Rbar_le_antisym</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar_subset">is_glb_ERbar_subset</a></span> <span class="id">E1</span> <span class="id">E2</span>) | <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar_subset">is_glb_ERbar_subset</a></span> <span class="id">E2</span> <span class="id">E1</span>) ] ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">H</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lub_ERbar_ext">is_lub_ERbar_ext</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> &lt;-&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E1</span> <span class="id">l</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar">is_lub_ERbar</a></span> <span class="id">E2</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof22')">Proof.</span></div>
+<div class="proofscript" id="proof22">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Heq</span> (<span class="id">H1</span>,<span class="id">H2</span>) ; <span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_is_ub_subset</span> <span class="id">_</span> <span class="id">E1</span>) ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">Heq</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">b</span> <span class="id">Hb</span> ; <span class="id">apply</span> <span class="id">H2</span> ; <span class="id">apply</span> (<span class="id">Rbar_is_ub_subset</span> <span class="id">_</span> <span class="id">E2</span>) ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">Heq</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_glb_ERbar_ext">is_glb_ERbar_ext</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> &lt;-&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E1</span> <span class="id">l</span>) -&gt; (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar">is_glb_ERbar</a></span> <span class="id">E2</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof23')">Proof.</span></div>
+<div class="proofscript" id="proof23">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Heq</span> (<span class="id">H1</span>, <span class="id">H2</span>) ; <span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_is_lb_subset</span> <span class="id">_</span> <span class="id">E1</span>) ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">Heq</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">b</span> <span class="id">Hb</span> ; <span class="id">apply</span> <span class="id">H2</span> ; <span class="id">apply</span> (<span class="id">Rbar_is_lb_subset</span> <span class="id">_</span> <span class="id">E2</span>) ; <span class="id">auto</span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">Hx</span> ; <span class="id">apply</span> <span class="id">Heq</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_lub_subset">ERbar_lub_subset</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> -&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; <span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E1</span>) (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E2</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof24')">Proof.</span></div>
+<div class="proofscript" id="proof24">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hs</span> ; <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> <span class="id">E1</span>) ; <span class="id">intros</span> <span class="id">l1</span> <span class="id">Hl1</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> <span class="id">E2</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">l2</span> <span class="id">Hl2</span> ; <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar_subset">is_lub_ERbar_subset</a></span> <span class="id">E1</span> <span class="id">E2</span>) ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_glb_subset">ERbar_glb_subset</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E2</span> <span class="id">x</span> -&gt; <span class="id">E1</span> <span class="id">x</span>) -&gt; <span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E1</span>) (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E2</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof25')">Proof.</span></div>
+<div class="proofscript" id="proof25">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">Hs</span> ; <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> ; <span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> <span class="id">E1</span>) ; <span class="id">intros</span> <span class="id">l1</span> <span class="id">Hl1</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> <span class="id">E2</span>) ; <span class="id">simpl</span> ; <span class="id">intros</span> <span class="id">l2</span> <span class="id">Hl2</span> ; <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.Elub.html#is_glb_ERbar_subset">is_glb_ERbar_subset</a></span> <span class="id">E1</span> <span class="id">E2</span>) ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_lub_rw">ERbar_lub_rw</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> &lt;-&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E1</span> = <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">E2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof26')">Proof.</span></div>
+<div class="proofscript" id="proof26">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">Hs</span> ; <span class="id">apply</span> <span class="id">Rbar_le_antisym</span> ; <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub_subset">ERbar_lub_subset</a></span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">H</span> ; <span class="id">apply</span> <span class="id">Hs</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ERbar_glb_rw">ERbar_glb_rw</a></span> (<span class="id">E1</span> <span class="id">E2</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">E1</span> <span class="id">x</span> &lt;-&gt; <span class="id">E2</span> <span class="id">x</span>) -&gt; <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E1</span> = <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="id">E2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof27')">Proof.</span></div>
+<div class="proofscript" id="proof27">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hs</span> ; <span class="id">apply</span> <span class="id">Rbar_le_antisym</span> ; <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb_subset">ERbar_glb_subset</a></span> ; <span class="id">intros</span> <span class="id">x</span> <span class="id">H</span> ; <span class="id">apply</span> <span class="id">Hs</span> ; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<h1> Emptiness is decidable </h1>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="EEmpty">EEmpty</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>) = <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;/\ <span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>) = <span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="EEmpty_correct_1">EEmpty_correct_1</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Elub.html#EEmpty">EEmpty</a></span> <span class="id">E</span> -&gt; <span class="kwd">forall</span> <span class="id">x</span>, ~ <span class="id">E</span> <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof28')">Proof.</span></div>
+<div class="proofscript" id="proof28">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> =&gt; <span class="id">E0</span> <span class="id">E1</span> <span class="id">x</span> <span class="id">Ex</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="kwd">in</span> <span class="id">E0</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>)) <span class="id">E0</span> =&gt; /= <span class="id">s0</span> <span class="id">Hs0</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>)) =&gt; <span class="id">i0</span> <span class="id">Hi0</span> /= <span class="id">E0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">have</span> : (<span class="id">x</span> = 0) ; <span class="id">last</span> <span class="id">move</span> =&gt; {<span class="id">s0</span> <span class="id">Hs0</span> <span class="id">i0</span> <span class="id">Hi0</span> <span class="id">E0</span>}.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_le_trans</span> <span class="id">x</span> <span class="id">s0</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs0</span> ; <span class="kwd">by</span> <span class="id">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">E0</span> ; <span class="id">apply</span> <span class="id">Hi0</span> ; <span class="kwd">by</span> <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_le_trans</span> 0 <span class="id">s0</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs0</span> ; <span class="kwd">by</span> <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">E0</span> ; <span class="id">apply</span> <span class="id">Hi0</span> ; <span class="kwd">by</span> <span class="id">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> <span class="kwd">in</span> <span class="id">E1</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>)) <span class="id">E1</span> =&gt; /= <span class="id">s1</span> <span class="id">Hs1</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>)) =&gt; <span class="id">i1</span> <span class="id">Hi1</span> /= <span class="id">E1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">have</span> : (<span class="id">x</span> = 1) ; <span class="id">last</span> <span class="id">move</span> =&gt; {<span class="id">s1</span> <span class="id">Hs1</span> <span class="id">i1</span> <span class="id">Hi1</span> <span class="id">E1</span>}.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_le_trans</span> <span class="id">x</span> <span class="id">s1</span> 1).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs1</span> ; <span class="kwd">by</span> <span class="id">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">E1</span> ; <span class="id">apply</span> <span class="id">Hi1</span> ; <span class="kwd">by</span> <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">Rbar_le_trans</span> 1 <span class="id">s1</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs1</span> ; <span class="kwd">by</span> <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">E1</span> ; <span class="id">apply</span> <span class="id">Hi1</span> ; <span class="kwd">by</span> <span class="id">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH1</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#R1_neq_R0">R1_neq_R0</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="EEmpty_correct_2">EEmpty_correct_2</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, ~ <span class="id">E</span> <span class="id">x</span>) -&gt; <span class="id"><a href="FormalML.utils.Elub.html#EEmpty">EEmpty</a></span> <span class="id">E</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof29')">Proof.</span></div>
+<div class="proofscript" id="proof29">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">H</span> ; <span class="id">split</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> /<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ <span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>)) =&gt; <span class="id">s0</span> <span class="id">Hs0</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>)) =&gt; <span class="id">i0</span> <span class="id">Hi0</span> /=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_lub_ERbar">ex_lub_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>)) =&gt; <span class="id">s1</span> <span class="id">Hs1</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span> : (<span class="id"><a href="FormalML.utils.Elub.html#ex_glb_ERbar">ex_glb_ERbar</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Rbar</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>)) =&gt; <span class="id">i1</span> <span class="id">Hi1</span> /=].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">assert</span> (<span class="id">s0</span> = <span class="id">Finite</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>; [| <span class="id">apply</span> <span class="id">Hs0</span>; <span class="id">tauto</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>; <span class="id">intros</span> ? [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">subst</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">contradict</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">i0</span> = <span class="id">Finite</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>; [<span class="id">apply</span> <span class="id">Hi0</span>; <span class="id">tauto</span> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hi0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>; <span class="id">intros</span> ? [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">subst</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">contradict</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">assert</span> (<span class="id">s1</span> = <span class="id">Finite</span> 1).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>; [| <span class="id">apply</span> <span class="id">Hs1</span>; <span class="id">tauto</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hs1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>; <span class="id">intros</span> ? [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">subst</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">contradict</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">i1</span> = <span class="id">Finite</span> 1).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>; [<span class="id">apply</span> <span class="id">Hi1</span>; <span class="id">tauto</span> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hi1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>; <span class="id">intros</span> ? [].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">subst</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">contradict</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="EEmpty_dec">EEmpty_dec</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{~<span class="id"><a href="FormalML.utils.Elub.html#EEmpty">EEmpty</a></span> <span class="id">E</span>}+{<span class="id"><a href="FormalML.utils.Elub.html#EEmpty">EEmpty</a></span> <span class="id">E</span>}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof30')">Proof.</span></div>
+<div class="proofscript" id="proof30">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: (<span class="id">Rbar_eq_dec</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>)) (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 0 \/ <span class="id">E</span> <span class="id">x</span>))) =&gt; <span class="id">H0</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ | <span class="id">left</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: (<span class="id">Rbar_eq_dec</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>)) (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_glb">ERbar_glb</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 1 \/ <span class="id">E</span> <span class="id">x</span>))) =&gt; <span class="id">H1</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="kwd">by</span> <span class="id">right</span> | <span class="id">left</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">contradict</span> <span class="id">H1</span> ; <span class="id">apply</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">contradict</span> <span class="id">H0</span> ; <span class="id">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="not_EEmpty_dec">not_EEmpty_dec</a></span> (<span class="id">E</span> : <span class="id">Rbar</span> -&gt; <span class="kwd">Prop</span>) : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Decidable.html#decidable">Decidable.decidable</a></span> (<span class="kwd">exists</span> <span class="id">x</span>, <span class="id">E</span> <span class="id">x</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{(<span class="kwd">exists</span> <span class="id">x</span>, <span class="id">E</span> <span class="id">x</span>)} + {(<span class="kwd">forall</span> <span class="id">x</span>, ~ <span class="id">E</span> <span class="id">x</span>)}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof31')">Proof.</span></div>
+<div class="proofscript" id="proof31">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">He</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: (<span class="id"><a href="FormalML.utils.Elub.html#EEmpty_dec">EEmpty_dec</a></span> <span class="id">E</span>) =&gt; <span class="id">Hx</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id">left</span>|<span class="id">right</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: <span class="id">He</span> =&gt; // <span class="id">He</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">contradict</span> <span class="id">Hx</span> ;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span>: <span class="id"><a href="FormalML.utils.Elub.html#EEmpty_correct_2">EEmpty_correct_2</a></span> =&gt; <span class="id">x</span> ; <span class="id">contradict</span> <span class="id">He</span> ; <span class="kwd">by</span> <span class="kwd">exists</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">apply</span>: <span class="id"><a href="FormalML.utils.Elub.html#EEmpty_correct_1">EEmpty_correct_1</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Euniqueness_dec">Euniqueness_dec</a></span> <span class="id">P</span> : (<span class="kwd">exists</span> ! <span class="id">x</span> : <span class="id">Rbar</span>, <span class="id">P</span> <span class="id">x</span>) -&gt; {<span class="id">x</span> : <span class="id">Rbar</span> | <span class="id">P</span> <span class="id">x</span>}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof32')">Proof.</span></div>
+<div class="proofscript" id="proof32">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">P</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case</span>: <span class="id">H</span> =&gt; <span class="id">x</span> [? <span class="id">Hx</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="FormalML.utils.Elub.html#ERbar_lub">ERbar_lub</a></span> <span class="id">P</span>) <span class="kwd">with</span> <span class="id">x</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#sym_eq">sym_eq</a></span>, <span class="id"><a href="FormalML.utils.Elub.html#is_lub_ERbar_unique">is_lub_ERbar_unique</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">move</span> =&gt; <span class="id">y</span> <span class="id">Hy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id">Hx</span> <span class="id">_</span> <span class="id">Hy</span>); <span class="id">apply</span> <span class="id">Rbar_le_refl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.Elub.html#lub">lub</a></span>.<br/>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>
