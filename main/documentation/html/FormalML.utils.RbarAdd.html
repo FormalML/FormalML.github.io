@@ -15,7 +15,7 @@
 <div class="coq">
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id">Coquelicot.Coquelicot</span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span>.<br/>
-<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html">Permutation</a></span> <span class="id"><a href="FormalML.utils.RealAdd.html">RealAdd</a></span> <span class="id"><a href="FormalML.utils.ELim_Seq.html">ELim_Seq</a></span> <span class="id"><a href="FormalML.utils.ListAdd.html">ListAdd</a></span> <span class="id"><a href="FormalML.utils.Sums.html">Sums</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html">Permutation</a></span> <span class="id"><a href="FormalML.utils.RealAdd.html">RealAdd</a></span> <span class="id"><a href="FormalML.utils.ELim_Seq.html">ELim_Seq</a></span> <span class="id"><a href="FormalML.utils.ListAdd.html">ListAdd</a></span> <span class="id"><a href="FormalML.utils.Sums.html">Sums</a></span> <span class="id"><a href="FormalML.utils.CoquelicotAdd.html">CoquelicotAdd</a></span> <span class="id"><a href="FormalML.utils.Isomorphism.html">Isomorphism</a></span> <span class="id"><a href="FormalML.utils.PairEncoding.html">PairEncoding</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Psatz.html">Psatz</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span>.<br/>
 <br/>
 <br/>
@@ -709,9 +709,302 @@
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">rewrite</span> <span class="id">Rbar_plus_0_r</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
-&nbsp;&nbsp;<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#elim_seq_props">elim_seq_props</a></span>.<br/>
-&nbsp;&nbsp;<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="lim_sum">lim_sum</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_Rbar_sum_cat">list_Rbar_sum_cat</a></span> (<span class="id">l1</span> <span class="id">l2</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x1</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x1</span> <span class="id">l1</span> -&gt; <span class="id">Rbar_le</span> 0 <span class="id">x1</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x2</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x2</span> <span class="id">l2</span> -&gt; <span class="id">Rbar_le</span> 0 <span class="id">x2</span>) -&gt;    <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> (<span class="id">l1</span> ++ <span class="id">l2</span>) = <span class="id">Rbar_plus</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> <span class="id">l1</span>) (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> <span class="id">l2</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof36')">Proof.</span></div>
+<div class="proofscript" id="proof36">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">l1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">Rbar_plus_0_l</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">IHl1</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_plus_assoc_nneg">Rbar_plus_assoc_nneg</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_nneg_nneg">list_Rbar_sum_nneg_nneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_cons">in_cons</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_nneg_nneg">list_Rbar_sum_nneg_nneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span>; <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_cons">in_cons</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_Rbar_sum_nest_prod">list_Rbar_sum_nest_prod</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span> ) (<span class="id">l1</span> <span class="id">l2</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id">Rbar_le</span> 0 (<span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">j</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">i</span> <span class="id">j</span>) <span class="id">l2</span>)) <span class="id">l1</span>) =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> <span class="id">l1</span> <span class="id">l2</span>)).<br/>
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof37')">Proof.</span></div>
+<div class="proofscript" id="proof37">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">l1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">l2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">IHl1</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_app">map_app</a></span>, <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_cat">list_Rbar_sum_cat</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_map">map_map</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [[? ?] [? ?]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [[? ?] [? ?]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sum_Rbar_n_pair_list_sum">sum_Rbar_n_pair_list_sum</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span> ) (<span class="id">n</span> <span class="id">m</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id">Rbar_le</span> 0 (<span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> =&gt; <span class="id">f</span> <span class="id">x0</span> <span class="id">n1</span>) <span class="id">m</span>) <span class="id">n</span> = <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">m</span>))).<br/>
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof38')">Proof.</span></div>
+<div class="proofscript" id="proof38">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_nest_prod">list_Rbar_sum_nest_prod</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="list_Rbar_sum_pos_sublist_le">list_Rbar_sum_pos_sublist_le</a></span> (<span class="id">l1</span> <span class="id">l2</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l2</span> -&gt; <span class="id">Rbar_le</span> 0 <span class="id">x</span>) -&gt;<br/>
+&nbsp;&nbsp;<span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist">sublist</a></span> <span class="id">l1</span> <span class="id">l2</span> -&gt;<br/>
+&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> <span class="id">l1</span>) (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> <span class="id">l2</span>).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof39')">Proof.</span></div>
+<div class="proofscript" id="proof39">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">pos</span> <span class="id">subl</span>.<br/>
+&nbsp;&nbsp;<span class="id">induction</span> <span class="id">subl</span>.<br/>
+&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_plus_le_compat</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">Rbar_le_refl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">IHsubl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">pos</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>; <span class="id">now</span> <span class="id">right</span>.<br/>
+&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> <span class="id">l1</span>) <span class="kwd">with</span> (<span class="id">Rbar_plus</span> 0 (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum">list_Rbar_sum</a></span> <span class="id">l1</span>)) <span class="kwd">by</span> <span class="id">now</span> <span class="id">rewrite</span> <span class="id">Rbar_plus_0_l</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_plus_le_compat</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">pos</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">eapply</span> <span class="id">IHsubl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">pos</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>; <span class="id">now</span> <span class="id">right</span>.<br/>
+Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="bound_iso_f_pairs_sum_Rbar">bound_iso_f_pairs_sum_Rbar</a></span> (<span class="id">f</span> :<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">n0</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id">Rbar_le</span> 0 (<span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">x0</span> <span class="id">n1</span>) <span class="id">n0</span>) <span class="id">n</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="kwd">let</span> '(<span class="id">a</span>, <span class="id">b</span>) := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">n1</span> <span class="kwd">in</span> <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">x</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof40')">Proof.</span></div>
+<div class="proofscript" id="proof40">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.PairEncoding.html#pair_encode_contains_square">pair_encode_contains_square</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#max">max</a></span> <span class="id">n0</span> <span class="id">n</span>)).    <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pair_list_sum">sum_Rbar_n_pair_list_sum</a></span>; <span class="id">trivial</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">subl</span>:<span class="kwd">exists</span> <span class="id">l</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n0</span>)) <span class="id">l</span> /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist">sublist</a></span> <span class="id">l</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#incl_NoDup_sublist_perm">incl_NoDup_sublist_perm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ListAdd.html#NoDup_prod">NoDup_prod</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq_NoDup">seq_NoDup</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> [??] ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_prod_iff">in_prod_iff</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span> (<span class="id">n1</span>,<span class="id">n2</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b_f">iso_b_f</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_seq">in_seq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; [<span class="id">lia</span> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Plus.html#plus_0_l">plus_0_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Lt.html#le_lt_n_Sm">le_lt_n_Sm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_seq">in_seq</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_seq">in_seq</a></span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">subl</span> <span class="kwd">as</span> [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation_map">Permutation_map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist_map">sublist_map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_nneg_perm">list_Rbar_sum_nneg_perm</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">n0</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">x0</span>)); <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_pos_sublist_le">list_Rbar_sum_pos_sublist_le</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H3</span> <span class="kwd">as</span> [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_map">map_map</a></span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forall_map">Forall_map</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>; <span class="id">intros</span> [??] ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forall_map">Forall_map</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>; <span class="id">intros</span> [??] ?.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="bound_pair_iso_b_sum_Rbar">bound_pair_iso_b_sum_Rbar</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span>) (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id">Rbar_le</span> 0 (<span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="kwd">let</span> '(<span class="id">a</span>, <span class="id">b</span>) := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">n1</span> <span class="kwd">in</span> <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">x</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">x0</span> <span class="id">n1</span>) <span class="id">n</span>) <span class="id">n</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof41')">Proof.</span></div>
+<div class="proofscript" id="proof41">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.PairEncoding.html#square_contains_pair_encode">square_contains_pair_encode</a></span> <span class="id">x</span>) <span class="kwd">as</span> [<span class="id">n</span> ?].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pair_list_sum">sum_Rbar_n_pair_list_sum</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">subl</span>:<span class="kwd">exists</span> <span class="id">l</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">x</span>)) <span class="id">l</span> /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist">sublist</a></span> <span class="id">l</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#list_prod">list_prod</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#incl_NoDup_sublist_perm">incl_NoDup_sublist_perm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b_nodup">iso_b_nodup</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq_NoDup">seq_NoDup</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> [??] ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_prod_iff">in_prod_iff</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_seq">in_seq</a></span> <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> <span class="id">x0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H0</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H1</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_seq">in_seq</a></span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">subl</span> <span class="kwd">as</span> [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation_map">Permutation_map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) <span class="kwd">in</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsSublist.html#sublist_map">sublist_map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) <span class="kwd">in</span> <span class="id">H2</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_nneg_perm">list_Rbar_sum_nneg_perm</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="kwd">let</span> '(<span class="id">a</span>, <span class="id">b</span>) := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">n1</span> <span class="kwd">in</span> <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>, <span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">x0</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;); <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#list_Rbar_sum_pos_sublist_le">list_Rbar_sum_pos_sublist_le</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H3</span> <span class="kwd">as</span> [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forall_map">Forall_map</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>; <span class="id">intros</span>; <span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html#Forall_map">Forall_map</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>; <span class="id">intros</span>; <span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> &lt;- <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_map">map_map</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Elim_seq_incr_elem">Elim_seq_incr_elem</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">Rbar_le</span> (<span class="id">f</span> <span class="id">n</span>) (<span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">Rbar_le</span> (<span class="id">f</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> <span class="id">f</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof42')">Proof.</span></div>
+<div class="proofscript" id="proof42">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">f</span> <span class="id">n</span>) <span class="kwd">with</span> (<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">f</span> <span class="id">n</span>)) <span class="kwd">by</span> <span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq_const">ELim_seq_const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq_le_loc">ELim_seq_le_loc</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">h</span> := (<span class="id">n0</span>-<span class="id">n</span>)%<span class="id">nat</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">n0</span>) <span class="kwd">with</span> (<span class="id">h</span> + <span class="id">n</span>)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">h</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">replace</span> (0 + <span class="id">n</span>)%<span class="id">nat</span> <span class="kwd">with</span> <span class="id">n</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_refl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">eapply</span> <span class="id">Rbar_le_trans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">IHh</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">replace</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">h</span> + <span class="id">n</span>)%<span class="id">nat</span> <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id">h</span>+<span class="id">n</span>))%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ELim_seq_Elim_seq_pair">ELim_seq_Elim_seq_pair</a></span> (<span class="id">f</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id">Rbar</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id">Rbar_le</span> 0 (<span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; (<span class="id">f</span> <span class="id">x0</span> <span class="id">n</span>)) <span class="id">i0</span>)) <span class="id">i</span>) =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="kwd">let</span> '(<span class="id">a</span>, <span class="id">b</span>) := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> (<span class="id">Isomorphism</span>:=<span class="id"><a href="FormalML.utils.PairEncoding.html#nat_pair_encoder">nat_pair_encoder</a></span>) <span class="id">n</span> <span class="kwd">in</span> (<span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) <span class="id">i</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof43')">Proof.</span></div>
+<div class="proofscript" id="proof43">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Rbar_le_antisym</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#Elim_seq_le_bound">Elim_seq_le_bound</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">i0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">x0</span> <span class="id">n0</span>) <span class="id">i0</span>)) <span class="id">n</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i0</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> =&gt; <span class="id">f</span> <span class="id">x0</span> <span class="id">n0</span>) <span class="id">i0</span>)) <span class="id">n</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#Elim_seq_le_bound">Elim_seq_le_bound</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#bound_iso_f_pairs_sum_Rbar">bound_iso_f_pairs_sum_Rbar</a></span> <span class="id">f</span> <span class="id">n0</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">Rbar_le_trans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#Elim_seq_incr_elem">Elim_seq_incr_elem</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pos_Sn">sum_Rbar_n_pos_Sn</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">n2</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq_const">ELim_seq_const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_Sn">sum_Rbar_n_Sn</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">IHn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq_plus">ELim_seq_plus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq_ext">ELim_seq_ext</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_Sn">sum_Rbar_n_Sn</a></span>; <span class="id">trivial</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_nneg_nneg">sum_Rbar_n_nneg_nneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ex_Elim_seq_incr">ex_Elim_seq_incr</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_monotone">sum_Rbar_n_monotone</a></span>; <span class="id">trivial</span>; <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pos_Sn">sum_Rbar_n_pos_Sn</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#ex_Elim_seq_incr">ex_Elim_seq_incr</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pos_Sn">sum_Rbar_n_pos_Sn</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#ex_Rbar_plus_pos">ex_Rbar_plus_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#ELim_seq_nneg">ELim_seq_nneg</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_nneg_nneg">sum_Rbar_n_nneg_nneg</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_nneg_nneg">sum_Rbar_n_nneg_nneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#ELim_seq_nneg">ELim_seq_nneg</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_nneg_nneg">sum_Rbar_n_nneg_nneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#ELim_seq_nneg">ELim_seq_nneg</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_nneg_nneg">sum_Rbar_n_nneg_nneg</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#Elim_seq_le_bound">Elim_seq_le_bound</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#bound_pair_iso_b_sum_Rbar">bound_pair_iso_b_sum_Rbar</a></span> <span class="id">f</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">Rbar_le_trans</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">Rbar_le_trans</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">y</span> := <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">x1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">x1</span> <span class="id">n0</span>) <span class="id">i0</span>)) <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_monotone">sum_Rbar_n_monotone</a></span>; <span class="id">trivial</span>; <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#Elim_seq_incr_elem">Elim_seq_incr_elem</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pos_Sn">sum_Rbar_n_pos_Sn</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#Elim_seq_incr_elem">Elim_seq_incr_elem</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_pos_Sn">sum_Rbar_n_pos_Sn</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#ELim_seq_nneg">ELim_seq_nneg</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_nneg_nneg">sum_Rbar_n_nneg_nneg</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#lim_sum">lim_sum</a></span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
