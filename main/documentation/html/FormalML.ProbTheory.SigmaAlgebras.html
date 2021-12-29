@@ -458,7 +458,7 @@ Qed.</div>
 <span class="kwd">Definition</span> <span class="id"><a name="pre_event_set_product">pre_event_set_product</a></span> {<span class="id">T</span>₁ <span class="id">T</span>₂} (<span class="id">s</span>₁ : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span>₁ -&gt; <span class="kwd">Prop</span>) (<span class="id">s</span>₂ : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span>₂ -&gt; <span class="kwd">Prop</span>) : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> (<span class="id">T</span>₁ * <span class="id">T</span>₂) -&gt; <span class="kwd">Prop</span><br/>
 &nbsp;&nbsp;:= <span class="kwd">fun</span> (<span class="id">e</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> (<span class="id">T</span>₁ * <span class="id">T</span>₂)) =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">e</span>₁ <span class="id">e</span>₂,<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">s</span>₁ <span class="id">e</span>₁ /\ <span class="id">s</span>₂ <span class="id">e</span>₂ -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">s</span>₁ <span class="id">e</span>₁ /\ <span class="id">s</span>₂ <span class="id">e</span>₂ /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">e</span> === (<span class="kwd">fun</span> '(<span class="id">x</span>₁, <span class="id">x</span>₂) =&gt; <span class="id">e</span>₁ <span class="id">x</span>₁ /\ <span class="id">e</span>₂ <span class="id">x</span>₂).<br/>
 <br/>
 <span class="kwd">Instance</span> <span class="id"><a name="event_set_product_proper">event_set_product_proper</a></span> {<span class="id">T1</span> <span class="id">T2</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#pre_event_set_product">pre_event_set_product</a></span> <span class="id">T1</span> <span class="id">T2</span>).<br/>
@@ -466,15 +466,10 @@ Qed.</div>
 <div class="proofscript" id="proof34">
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">red</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span>, <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#pre_event_set_product">pre_event_set_product</a></span>; <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> [<span class="id">x2</span> [<span class="id">x3</span> <span class="id">HH</span>]].<br/>
-&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">x2</span>, <span class="id">x3</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??]; <span class="id">apply</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
-&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> <span class="kwd">in</span> *.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">x2</span>, <span class="id">x3</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??]; <span class="id">apply</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> [<span class="id">x2</span> [<span class="id">x3</span> [? [? <span class="id">HH</span>]]]]<br/>
+&nbsp;&nbsp;; <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> <span class="kwd">in</span> *<br/>
+&nbsp;&nbsp;; <span class="kwd">exists</span> <span class="id">x2</span>, <span class="id">x3</span><br/>
+&nbsp;&nbsp;; <span class="id">firstorder</span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Instance</span> <span class="id"><a name="product_sa">product_sa</a></span> {<span class="id">T</span>₁ <span class="id">T</span>₂} (<span class="id">sa</span>₁:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>₁) (<span class="id">sa</span>₂:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>₂) : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> (<span class="id">T</span>₁ * <span class="id">T</span>₂)<br/>
