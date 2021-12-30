@@ -739,6 +739,24 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr_0">Rsqr_0</a></span>. <span class="id">apply</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value_zero">expt_value_zero</a></span>.<br/>
 Qed.</div>
 <br/>
+<span class="kwd">Ltac</span> <span class="id">rmax_le_tac</span> := <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_le_iff">Rmax_list_le_iff</a></span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id">intros</span> <span class="id">x</span> [<span class="id">s</span> [<span class="id">Hs1</span> <span class="id">Hs2</span>]] %<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>; <span class="id">subst</span> | <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#map_not_nil">map_not_nil</a></span>; <span class="id">try</span> <span class="id">assumption</span>].<br/>
+<br/>
+<span class="kwd">Lemma</span> <span class="id">Q_is_bounded</span>' <span class="id">W</span> <span class="id">sa0</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> (<span class="id">ls</span>, <span class="id">_</span>) := <span class="id"><a href="FormalML.CertRL.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> (<span class="id">las</span>,<span class="id">_</span>) := <span class="id"><a href="FormalML.CertRL.mdp.html#act_finite">act_finite</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Max_</span>{<span class="id">ls</span>} (<span class="kwd">fun</span> <span class="id">s</span>' =&gt; <span class="id">Max_</span>{<span class="id">las</span>}(<span class="kwd">fun</span> <span class="id">sa</span> =&gt; <span class="id">bellmanQ</span>' <span class="id">sa0</span> <span class="id">W</span> <span class="id">s</span>' <span class="id">sa</span>)) &lt;=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>(<span class="id">Max_</span>{ <span class="id">ls</span>}<br/>
+&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">s</span>' : <span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Max_</span>{ <span class="id">las</span>}(<span class="kwd">fun</span> <span class="id">sa</span> : {<span class="id">x</span> : <span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> &amp; <span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> <span class="id">x</span>} =&gt; <span class="kwd">let</span> (<span class="id">s</span>, <span class="id">a</span>) := <span class="id">sa</span> <span class="kwd">in</span> <span class="id"><a href="FormalML.CertRL.mdp.html#reward">reward</a></span> <span class="id">s</span> <span class="id">a</span> <span class="id">s</span>')) +<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;γ*<span class="id">Max_</span>{<span class="id">las</span>}(<span class="id">W</span>)) (<span class="id">Max_</span>{<span class="id">las</span>}(<span class="id">W</span>)).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof33')">Proof.</span></div>
+<div class="proofscript" id="proof33">
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.CertRL.mdp.html#act_finite">act_finite</a></span> <span class="kwd">as</span> [<span class="id">lsa</span> ?].<br/>
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.CertRL.mdp.html#fs">fs</a></span> <span class="kwd">as</span> [<span class="id">ls</span> ?].<br/>
+&nbsp;&nbsp;<span class="id">rmax_le_tac</span>.<br/>
+Admitted.</div>
+<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ">bellmanQ</a></span>.<br/>
 
 </div>
