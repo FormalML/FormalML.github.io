@@ -739,8 +739,20 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr_0">Rsqr_0</a></span>. <span class="id">apply</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value_zero">expt_value_zero</a></span>.<br/>
 Qed.</div>
 <br/>
-<span class="kwd">Ltac</span> <span class="id">rmax_le_tac</span> := <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_le_iff">Rmax_list_le_iff</a></span>;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id">intros</span> <span class="id">x</span> [<span class="id">s</span> [<span class="id">Hs1</span> <span class="id">Hs2</span>]] %<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>; <span class="id">subst</span> | <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#map_not_nil">map_not_nil</a></span>; <span class="id">try</span> <span class="id">assumption</span>].<br/>
+<span class="kwd">Ltac</span> <span class="id">solve_exists_in</span> :=<br/>
+&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;| [<span class="id">a</span> : ?<span class="id">A</span>, <span class="id">fin</span> : <span class="kwd">forall</span> <span class="id">x</span> : ?<span class="id">A</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> ?<span class="id">ls</span> |- <span class="kwd">exists</span> <span class="id">a</span> : ?<span class="id">A</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">a</span> ?<span class="id">ls</span>] =&gt; <span class="kwd">exists</span> <span class="id">a</span>; <span class="id">try</span> (<span class="id">apply</span> <span class="id">fin</span>)<br/>
+&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+<span class="kwd">Ltac</span> <span class="id">rmax_compare</span> :=<br/>
+&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ |- <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list">Rmax_list</a></span> <span class="id">_</span> &lt;= <span class="id">_</span>] =&gt; <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_le_iff">Rmax_list_le_iff</a></span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<span class="id">intros</span> ?<span class="id">x</span> [?<span class="id">s</span> [&lt;-?<span class="id">Hs</span>]] %<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> |<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#map_not_nil">map_not_nil</a></span>, <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span>; <span class="id">solve_exists_in</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| [ |- <span class="id">_</span> &lt;= <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list">Rmax_list</a></span> <span class="id">_</span> ] =&gt;  <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_spec">Rmax_spec</a></span>; <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>; <span class="id">try</span> <span class="id">solve_exists_in</span><br/>
+&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+<br/>
 <br/>
 <span class="kwd">Lemma</span> <span class="id">Q_is_bounded</span>' <span class="id">W</span> <span class="id">sa0</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> (<span class="id">ls</span>, <span class="id">_</span>) := <span class="id"><a href="FormalML.CertRL.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> <span class="kwd">in</span><br/>
@@ -754,8 +766,28 @@ Qed.</div>
 <div class="proofscript" id="proof33">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.CertRL.mdp.html#act_finite">act_finite</a></span> <span class="kwd">as</span> [<span class="id">lsa</span> ?].<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.CertRL.mdp.html#fs">fs</a></span> <span class="kwd">as</span> [<span class="id">ls</span> ?].<br/>
-&nbsp;&nbsp;<span class="id">rmax_le_tac</span>.<br/>
-Admitted.</div>
+&nbsp;&nbsp;<span class="id">rmax_compare</span>.<br/>
+&nbsp;&nbsp;<span class="id">rmax_compare</span>.<br/>
+&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">bellmanQ</span>'.<br/>
+&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">sa0</span> <span class="kwd">as</span> [<span class="id">s1</span> <span class="id">a1</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_Rle">Rmax_Rle</a></span>. <span class="id">left</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat">Rplus_le_compat</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">rewrite</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#Rmax_list_map_dep_prod">Rmax_list_map_dep_prod</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rmax_compare</span>. <span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s1</span> <span class="id">a1</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; [<span class="id">trivial</span> | <span class="id">intuition</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.Finite.html#in_dep_prod">in_dep_prod</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>. <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ListAdd.html#not_nil_exists">not_nil_exists</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="kwd">exists</span> <span class="id">s0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_l">Rmult_le_compat_l</a></span>; <span class="id">try</span> <span class="id">intuition</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rmax_compare</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list_map_exist">Rmax_list_map_exist</a></span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id">W</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s</span> <span class="id">a</span>)) (<span class="id"><a href="FormalML.CertRL.mdp.html#act_list">act_list</a></span> <span class="id">s</span>) (<span class="id"><a href="FormalML.CertRL.mdp.html#act_list_not_nil">act_list_not_nil</a></span> <span class="id">s</span>)); <span class="id">intros</span> [<span class="id">a</span> [<span class="id">Ha1</span> <span class="id">Ha2</span>]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> <span class="id">_</span> <span class="id">s</span> <span class="id">a</span>). <span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_Rle">Rmax_Rle</a></span>. <span class="id">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rmax_compare</span>. <span class="kwd">exists</span> <span class="id">s0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ">bellmanQ</a></span>.<br/>
 
