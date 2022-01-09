@@ -1173,6 +1173,38 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span>; <span class="id">auto</span>.<br/>
 Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="sum_f_R0_0_inv">sum_f_R0_0_inv</a></span> (<span class="id">a</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> <span class="id">a</span> <span class="id">n</span> = 0) -&gt;<br/>
+&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span> = 0.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
+<div class="proofscript" id="proof59">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="id">specialize</span> (<span class="id">eqq</span> 0)%<span class="id">nat</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;- <span class="id">generalize</span> (<span class="id">eqq</span> <span class="id">n</span>); <span class="id">intros</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">eqq</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)); <span class="id">simpl</span>; <span class="id">intros</span> <span class="id">eqq2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="lim_0_nneg">lim_0_nneg</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;<span class="id">is_series</span> <span class="id">a</span> 0 -&gt;<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) -&gt;<br/>
+&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span> = 0.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
+<div class="proofscript" id="proof60">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">ser</span> <span class="id">nneg</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">serex</span>:<span class="id">ex_series</span> <span class="id">a</span>) <span class="kwd">by</span> (<span class="id">eexists</span>; <span class="id">eauto</span>).<br/>
+&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#sum_f_R0_nonneg_le_Series">sum_f_R0_nonneg_le_Series</a></span> <span class="id">serex</span> <span class="id">nneg</span>); <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id">is_series_unique</span> <span class="id">_</span> <span class="id">_</span> <span class="id">ser</span>) <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">N</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> <span class="id">a</span> <span class="id">N</span> = 0).<br/>
+&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.Sums.html#sum_f_R0_nneg">sum_f_R0_nneg</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.utils.Sums.html#sum_f_R0_0_inv">sum_f_R0_0_inv</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
+Qed.</div>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
