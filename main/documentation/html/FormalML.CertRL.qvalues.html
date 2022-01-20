@@ -16,8 +16,10 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.CertRL.mdp.html">mdp</a></span> <span class="id"><a href="FormalML.CertRL.LM.fixed_point.html">fixed_point</a></span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html">pmf_monad</a></span> <span class="id"><a href="FormalML.utils.Finite.html">Finite</a></span> <span class="id"><a href="FormalML.utils.ListAdd.html">ListAdd</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">Coq.Lists.List</a></span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lra.html">micromega.Lra</a></span>. <br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lia.html">micromega.Lia</a></span>. <br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html">ClassicalDescription</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.RealAdd.html">RealAdd</a></span> <span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html">LibUtilsListAdd</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.IndefiniteDescription.html">IndefiniteDescription</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html">ClassicalDescription</a></span>.<br/>
 <br/>
 <span class="kwd">Import</span> <span class="id">ListNotations</span>.<br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
@@ -753,7 +755,6 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
 <br/>
-<br/>
 <span class="kwd">Lemma</span> <span class="id">Q_is_bounded</span>' <span class="id">W</span> <span class="id">sa0</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> (<span class="id">ls</span>, <span class="id">_</span>) := <span class="id"><a href="FormalML.CertRL.mdp.html#fs">fs</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> <span class="kwd">in</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> (<span class="id">las</span>,<span class="id">_</span>) := <span class="id"><a href="FormalML.CertRL.mdp.html#act_finite">act_finite</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ.M">M</a></span> <span class="kwd">in</span><br/>
@@ -790,6 +791,141 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#bellmanQ">bellmanQ</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="scratch">scratch</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="tails_succ_sub">tails_succ_sub</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span>(<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>)) <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span> = <span class="id">r</span> <span class="id">n</span> - <span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof34')">Proof.</span></div>
+<div class="proofscript" id="proof34">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">r</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Series_incr_1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#plus_n_Sm">plus_n_Sm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ring_simplify</span>. <span class="id">f_equal</span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id">ex_series_incr_n</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux1">rudin_12_b_aux1</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>)(<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span>(<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>)) <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) &lt; 2*<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof35')">Proof.</span></div>
+<div class="proofscript" id="proof35">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">r</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (2*<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)) <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_lt_compat_l">Rplus_lt_compat_l</a></span> <span class="kwd">with</span> (<span class="id">r</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span> (<span class="id">r</span> <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt_lt_1_alt">sqrt_lt_1_alt</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id">r</span>. <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Series_nonneg">Series_nonneg</a></span>;[|<span class="id">intros</span> <span class="id">n0</span>; <span class="id">left</span>; <span class="id">apply</span> <span class="id">ha</span>'].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id">ex_series_incr_n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Series_incr_1</span> <span class="kwd">with</span> (<span class="id">a</span> := <span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id">a</span> (<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>));[|<span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id">ex_series_incr_n</span>] .<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#plus_n_Sm">plus_n_Sm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#plus_n_Sm">plus_n_Sm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_0_l">Rplus_0_l</a></span> <span class="kwd">at</span> 1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_lt_compat_r">Rplus_lt_compat_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">ha</span>'.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux2">rudin_12_b_aux2</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>)(<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span>(<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>)) <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span> = (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof36')">Proof.</span></div>
+<div class="proofscript" id="proof36">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">r</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_plus_minus">Rsqr_plus_minus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#Rsqr_sqrt">Rsqr_sqrt</a></span>;[| <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Series_nonneg">Series_nonneg</a></span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#Rsqr_sqrt">Rsqr_sqrt</a></span>;[| <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Series_nonneg">Series_nonneg</a></span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#tails_succ_sub">tails_succ_sub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id">ex_series_incr_n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>. <span class="id">left</span>. <span class="id">apply</span> <span class="id">ha</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id">ex_series_incr_n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>. <span class="id">left</span>. <span class="id">apply</span> <span class="id">ha</span>'.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux3">rudin_12_b_aux3</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) (<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span>(<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>)) <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span>(<span class="id">a</span> <span class="id">n</span>*/<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)) &lt; 2*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof37')">Proof.</span></div>
+<div class="proofscript" id="proof37">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">r</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_mult">Rabs_mult</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span>; <span class="id">try</span> <span class="id">left</span>; <span class="id">intros</span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">ha</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_Rinv">Rabs_Rinv</a></span>. <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span>; <span class="id">try</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt_pos">sqrt_pos</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">a</span> <span class="id">n</span>) <span class="kwd">with</span> ((<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> (<span class="id">symmetry</span>; <span class="id">rewrite</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#rudin_12_b_aux2">rudin_12_b_aux2</a></span>; <span class="id">trivial</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_1_r">Rmult_1_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_r">Rinv_r</a></span> <span class="kwd">with</span> (<span class="id">r</span> := (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)));[| <span class="id">admit</span> ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_assoc">Rmult_assoc</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_lt_compat_r">Rmult_lt_compat_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rinv_pos">Rinv_pos</a></span>. <span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_comm">Rmult_comm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_comm">Rmult_comm</a></span> <span class="kwd">with</span> (<span class="id">r1</span> := 2).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_assoc">Rmult_assoc</a></span>. <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_lt_compat_l">Rmult_lt_compat_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#rudin_12_b_aux1">rudin_12_b_aux1</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">admit</span>.<br/>
+&nbsp;&nbsp;Admitted.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux4">rudin_12_b_aux4</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span>(<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>)) <span class="kwd">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, <span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> */ <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)) <span class="id">m</span>  &lt;= <span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)*/<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) <span class="id">m</span>.<br/>
+&nbsp;&nbsp;Admitted.</div>
+<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Paolo_converge">Paolo_converge</a></span> (<span class="id">a</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> <span class="id">a</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">b</span> <span class="id">n</span>) /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">b</span> <span class="id">p_infty</span> /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> * <span class="id">b</span> <span class="id">n</span>).<br/>
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof38')">Proof.</span></div>
+<div class="proofscript" id="proof38">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Ha1</span> <span class="id">Ha2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">Series</span>(<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span>((<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hr</span> : <span class="id">is_lim_seq</span> <span class="id">r</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#zerotails">zerotails</a></span> <span class="id">a</span> <span class="id">Ha2</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">r</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id">is_lim_seq_incr_1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">setoid_rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.add_succ_l">Nat.add_succ_l</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 1/<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rdiv_lt_0_compat">Rdiv_lt_0_compat</a></span>; <span class="id">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt_lt_R0">sqrt_lt_R0</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">r</span>. <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Series_pos">Series_pos</a></span>);[|<span class="id">intros</span>; <span class="id">apply</span> <span class="id">Ha1</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id">ex_series_incr_n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">split</span>. <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rdiv">Rdiv</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_1_l">Rmult_1_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rdiv">Rdiv</a></span>. <span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_1_l">Rmult_1_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hrc</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span>(<span class="id">a</span> <span class="id">n</span>*/<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>)) &lt;= 2*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> <span class="id">n</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id">r</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))) <span class="kwd">by</span> <span class="id">admit</span>.<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*apply&nbsp;partial_summation_R.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;generalize&nbsp;(is_lim_seq_bounded&nbsp;_&nbsp;0&nbsp;Hr);&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;red&nbsp;in&nbsp;H.&nbsp;admit.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;rewrite&nbsp;filterlim_locally.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;ex_series_lim_0&nbsp;in&nbsp;Ha2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;is_lim_seq_Reals&nbsp;in&nbsp;Ha2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;Un_cv&nbsp;in&nbsp;Ha2.&nbsp;intros.&nbsp;apply&nbsp;Ha2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;cond_pos.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;apply&nbsp;(ex_series_le_Reals&nbsp;_&nbsp;(fun&nbsp;n&nbsp;=&gt;&nbsp;a&nbsp;(S&nbsp;n)&nbsp;+&nbsp;a&nbsp;n));&nbsp;trivial.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;Rabs_Rabsolu.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-(Rabs_pos_eq(a&nbsp;n))&nbsp;at&nbsp;2;[|left;apply&nbsp;Ha1].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-(Rabs_pos_eq(a&nbsp;(S&nbsp;n)))&nbsp;at&nbsp;2;[|left;apply&nbsp;Ha1].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-(Rabs_Ropp&nbsp;(a&nbsp;n)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;Rabs_triang.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++&nbsp;apply&nbsp;(ex_series_plus&nbsp;_&nbsp;a);&nbsp;trivial.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;rewrite&nbsp;&lt;-ex_series_incr_1.*)</span><br/>
+&nbsp;&nbsp;&nbsp;Admitted.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.CertRL.qvalues.html#scratch">scratch</a></span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
