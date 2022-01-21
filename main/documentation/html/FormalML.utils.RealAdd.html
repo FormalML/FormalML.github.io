@@ -29,6 +29,7 @@
 <span class="kwd">Require</span> <span class="id"><a href="FormalML.utils.Finite.html">Finite</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html">Permutation</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.PushNeg.html">PushNeg</a></span>.<br/>
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span> <span class="id"><a href="FormalML.utils.ListAdd.html">ListAdd</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Relations.Relation_Definitions.html">Relation_Definitions</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Sorted.html">Sorted</a></span>.<br/>
@@ -4199,9 +4200,23 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#ex_finite_lim_series">ex_finite_lim_series</a></span>.<br/>
 Qed.</div>
 <br/>
-<span class="kwd">Lemma</span> <span class="id"><a name="exp_ineq1">exp_ineq1</a></span> : <span class="kwd">forall</span> <span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id">x</span> &lt;&gt; 0 -&gt; 1 + <span class="id">x</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#exp">exp</a></span> <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof275')">Proof.</span></div>
+<span class="kwd">Lemma</span> <span class="id"><a name="ex_series_const0">ex_series_const0</a></span> : <span class="id">ex_series</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof275')">Proof.</span></div>
 <div class="proofscript" id="proof275">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.RealAdd.html#ex_finite_lim_series">ex_finite_lim_series</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#lim_sum_abs_bounded">lim_sum_abs_bounded</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Lim_seq_ext</span> <span class="kwd">with</span> (<span class="id">v</span> := <span class="kwd">fun</span> <span class="id">_</span> =&gt; 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">Lim_seq_const</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">sum_n_ext</span> <span class="kwd">with</span> (<span class="id">b</span> := <span class="kwd">fun</span> <span class="id">_</span> =&gt; 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#sum_n_zero">sum_n_zero</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_R0">Rabs_R0</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="exp_ineq1">exp_ineq1</a></span> : <span class="kwd">forall</span> <span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id">x</span> &lt;&gt; 0 -&gt; 1 + <span class="id">x</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#exp">exp</a></span> <span class="id">x</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof276')">Proof.</span></div>
+<div class="proofscript" id="proof276">
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hd</span> : <span class="kwd">forall</span> <span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#derivable_pt_lim">derivable_pt_lim</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#exp">exp</a></span> <span class="id">x</span> - (<span class="id">x</span> + 1)) <span class="id">c</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#exp">exp</a></span> <span class="id">c</span> - 1)).<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -4226,8 +4241,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="exp_ineq1_le">exp_ineq1_le</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : 1 + <span class="id">x</span> &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#exp">exp</a></span> <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof276')">Proof.</span></div>
-<div class="proofscript" id="proof276">
+<div><span class="toggleproof" onclick="toggleDisplay('proof277')">Proof.</span></div>
+<div class="proofscript" id="proof277">
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id">x</span> 0) <span class="kwd">as</span> [<span class="id">xeq</span>|?].<br/>
 &nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id">xeq</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rtrigo_def.html#exp_0">exp_0</a></span>; <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;- <span class="id">left</span>.<br/>
@@ -4242,8 +4257,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="fin_seq_bounded">fin_seq_bounded</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">N</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), (<span class="id">n</span>&lt;<span class="id">N</span>)%<span class="id">nat</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span>(<span class="id">x</span> <span class="id">n</span>) &lt;= <span class="id">c</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof277')">Proof.</span></div>
-<div class="proofscript" id="proof277">
+<div><span class="toggleproof" onclick="toggleDisplay('proof278')">Proof.</span></div>
+<div class="proofscript" id="proof278">
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.Finite.html#bounded_nat_finite">bounded_nat_finite</a></span> <span class="id">N</span>); <span class="id">intros</span> <span class="id">Hn</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#fin_fun_bounded_Rabs">fin_fun_bounded_Rabs</a></span> <span class="id">Hn</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#restrict">restrict</a></span> <span class="id">x</span> <span class="id">N</span>)); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">c</span> <span class="id">Hc</span>]. <span class="kwd">exists</span> <span class="id">c</span>; <span class="id">intros</span>.<br/>
@@ -4251,8 +4266,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_bounded">is_lim_seq_bounded</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : <span class="id">is_lim_seq</span> <span class="id">x</span> <span class="id">c</span> -&gt; <span class="id"><a href="FormalML.utils.RealAdd.html#bounded">bounded</a></span> <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof278')">Proof.</span></div>
-<div class="proofscript" id="proof278">
+<div><span class="toggleproof" onclick="toggleDisplay('proof279')">Proof.</span></div>
+<div class="proofscript" id="proof279">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hx</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">is_lim_seq_spec</span> <span class="kwd">in</span> <span class="id">Hx</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_lim_seq</span>' <span class="kwd">in</span> <span class="id">Hx</span>.<br/>
@@ -4273,8 +4288,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="sum_f_R0_Rabs_pos">sum_f_R0_Rabs_pos</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : <span class="kwd">forall</span> <span class="id">N</span>, 0 &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">x</span> <span class="id">j</span>)) <span class="id">N</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof279')">Proof.</span></div>
-<div class="proofscript" id="proof279">
+<div><span class="toggleproof" onclick="toggleDisplay('proof280')">Proof.</span></div>
+<div class="proofscript" id="proof280">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">N</span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> 0 <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) <span class="id">N</span>).<br/>
 &nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.PartSum.html#sum_Rle">PartSum.sum_Rle</a></span>; <span class="id">intros</span>.<br/>
@@ -4284,8 +4299,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="sum_f_R0_nonneg_le_Series">sum_f_R0_nonneg_le_Series</a></span> {<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">hx1</span> : <span class="id">ex_series</span> <span class="id">x</span>) (<span class="id">hx2</span> : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">x</span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">N</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> <span class="id">x</span> <span class="id">N</span> &lt;= <span class="id">Series</span> <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof280')">Proof.</span></div>
-<div class="proofscript" id="proof280">
+<div><span class="toggleproof" onclick="toggleDisplay('proof281')">Proof.</span></div>
+<div class="proofscript" id="proof281">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">N</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Series</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;-<span class="id">sum_n_Reals</span>.<br/>
@@ -4298,8 +4313,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_sum_f_R0">is_lim_seq_sum_f_R0</a></span> { <span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> } (<span class="id">ha</span> : <span class="kwd">forall</span> <span class="id">j</span>, <span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> <span class="id">j</span>) 0):<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">N</span>, <span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id">a</span> <span class="id">n</span> <span class="id">j</span>) <span class="id">N</span>) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof281')">Proof.</span></div>
-<div class="proofscript" id="proof281">
+<div><span class="toggleproof" onclick="toggleDisplay('proof282')">Proof.</span></div>
+<div class="proofscript" id="proof282">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">N</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">N</span>; <span class="id">simpl</span>; <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_plus</span> <span class="kwd">with</span> (<span class="id">l1</span> := 0) (<span class="id">l2</span> := 0); <span class="id">eauto</span>.<br/>
@@ -4309,8 +4324,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Series_shift_le">Series_shift_le</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) (<span class="id">he</span> : <span class="id">ex_series</span> <span class="id">a</span>)<br/>
 &nbsp;&nbsp;: <span class="kwd">forall</span> <span class="id">N</span>, <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id">a</span> (<span class="id">N</span> + <span class="id">j</span>)%<span class="id">nat</span>) &lt;= <span class="id">Series</span> <span class="id">a</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof282')">Proof.</span></div>
-<div class="proofscript" id="proof282">
+<div><span class="toggleproof" onclick="toggleDisplay('proof283')">Proof.</span></div>
+<div class="proofscript" id="proof283">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">N</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.eq_decidable">Nat.eq_decidable</a></span> <span class="id">N</span> 0); <span class="id">subst</span>.<br/>
 &nbsp;&nbsp;+ <span class="id">right</span>. <span class="id">apply</span> <span class="id">Series_ext</span>; <span class="id">intros</span>. <span class="id">f_equal</span>.<br/>
@@ -4321,8 +4336,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_sub_zero">is_lim_seq_sub_zero</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">x0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">x</span> <span class="id">x0</span> &lt;-&gt; <span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id">x</span> <span class="id">j</span> - <span class="id">x0</span>) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof283')">Proof.</span></div>
-<div class="proofscript" id="proof283">
+<div><span class="toggleproof" onclick="toggleDisplay('proof284')">Proof.</span></div>
+<div class="proofscript" id="proof284">
 &nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id">is_lim_seq_Reals</span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rseries.html#Un_cv">Rseries.Un_cv</a></span>,<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#R_dist">R_dist</a></span>. <span class="id">now</span> <span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rminus_0_r">Rminus_0_r</a></span>.<br/>
@@ -4332,8 +4347,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_seq_minus_1">is_lim_seq_seq_minus_1</a></span> {<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">a0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">ha</span> : <span class="id">is_lim_seq</span> <span class="id">a</span> <span class="id">a0</span>) (<span class="id">hb</span> : <span class="id">is_lim_seq</span> <span class="id">b</span> 1) : <span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id">a</span> <span class="id">j</span> - <span class="id">b</span> <span class="id">j</span> * <span class="id">a0</span>) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof284')">Proof.</span></div>
-<div class="proofscript" id="proof284">
+<div><span class="toggleproof" onclick="toggleDisplay('proof285')">Proof.</span></div>
+<div class="proofscript" id="proof285">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rminus">Rminus</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> 0 <span class="kwd">with</span> (<span class="id">a0</span> - 1*<span class="id">a0</span>) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_minus</span>'; <span class="id">trivial</span>.<br/>
@@ -4343,8 +4358,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_finite_Lim_bounded">is_finite_Lim_bounded</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">m</span> <span class="id">M</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">m</span> &lt;= <span class="id">f</span> <span class="id">n</span> &lt;= <span class="id">M</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id">is_finite</span> (<span class="id">Lim_seq</span> <span class="id">f</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof285')">Proof.</span></div>
-<div class="proofscript" id="proof285">
+<div><span class="toggleproof" onclick="toggleDisplay('proof286')">Proof.</span></div>
+<div class="proofscript" id="proof286">
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Lim_seq_le_loc</span> <span class="id">f</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">M</span>)); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Lim_seq_le_loc</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">m</span>) <span class="id">f</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H</span>.<br/>
@@ -4366,8 +4381,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="kwd">forall</span> <span class="id">n</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">a</span> <span class="id">n</span> <span class="id">j</span>)) /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Lim_seq</span> (<span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">a</span> <span class="id">n</span> <span class="id">j</span>)))) <span class="id">c</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof286')">Proof.</span></div>
-<div class="proofscript" id="proof286">
+<div><span class="toggleproof" onclick="toggleDisplay('proof287')">Proof.</span></div>
+<div class="proofscript" id="proof287">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">c</span> ?].<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">c</span>; <span class="id">intros</span>.<br/>
@@ -4398,8 +4413,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Lim_seq_pos">Lim_seq_pos</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">f</span> <span class="id">n</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id">Rbar_le</span> 0 (<span class="id">Lim_seq</span> <span class="id">f</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof287')">Proof.</span></div>
-<div class="proofscript" id="proof287">
+<div><span class="toggleproof" onclick="toggleDisplay('proof288')">Proof.</span></div>
+<div class="proofscript" id="proof288">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Lim_seq_le_loc</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) <span class="id">f</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Lim_seq_const</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
@@ -4415,8 +4430,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="kwd">forall</span> <span class="id">n</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">a</span> <span class="id">n</span> <span class="id">j</span>)) /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">a</span> <span class="id">n</span> <span class="id">j</span>)) &lt; <span class="id">c</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof288')">Proof.</span></div>
-<div class="proofscript" id="proof288">
+<div><span class="toggleproof" onclick="toggleDisplay('proof289')">Proof.</span></div>
+<div class="proofscript" id="proof289">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Lim_seq_partial_sums_bounded">Lim_seq_partial_sums_bounded</a></span> <span class="id">_</span> <span class="id">H</span>) <span class="kwd">as</span> [<span class="id">c</span> ?].<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">c</span>+1); <span class="id">intros</span>.<br/>
@@ -4447,8 +4462,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">n</span> &gt;= <span class="id">N</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">sum_n</span> <span class="id">f</span> <span class="id">N</span> = <span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="kwd">if</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#le_dec">le_dec</a></span> <span class="id">j</span> <span class="id">N</span>) <span class="kwd">then</span> (<span class="id">f</span> <span class="id">j</span>) <span class="kwd">else</span> 0) <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof289')">Proof.</span></div>
-<div class="proofscript" id="proof289">
+<div><span class="toggleproof" onclick="toggleDisplay('proof290')">Proof.</span></div>
+<div class="proofscript" id="proof290">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> (<span class="id">n</span>) <span class="kwd">with</span> (<span class="id">N</span> + (<span class="id">n</span> - <span class="id">N</span>))%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> (<span class="id">n</span>-<span class="id">N</span>)%<span class="id">nat</span>.<br/>
@@ -4467,8 +4482,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails">zerotails</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">ex_series</span> <span class="id">a</span> -&gt; <span class="id">is_lim_seq</span> (<span class="kwd">fun</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) =&gt; <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id">n</span>+<span class="id">k</span>)%<span class="id">nat</span>))) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof290')">Proof.</span></div>
-<div class="proofscript" id="proof290">
+<div><span class="toggleproof" onclick="toggleDisplay('proof291')">Proof.</span></div>
+<div class="proofscript" id="proof291">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id">H</span>' := <span class="id">H</span>).<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">ex_series</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -4491,8 +4506,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="LimSup_seq_series">LimSup_seq_series</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, <span class="id">LimSup_seq</span> (<span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>)) = <span class="id">Series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span>(<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof291')">Proof.</span></div>
-<div class="proofscript" id="proof291">
+<div><span class="toggleproof" onclick="toggleDisplay('proof292')">Proof.</span></div>
+<div class="proofscript" id="proof292">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">m</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">ex_series_incr_n</span> <span class="kwd">with</span> (<span class="id">n</span>:=<span class="id">m</span>) <span class="kwd">in</span> <span class="id">ha</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id">ha</span>' : <span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id">k</span> + <span class="id">m</span>)%<span class="id">nat</span>))<br/>
@@ -4503,8 +4518,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Lim_seq_sup_le">Lim_seq_sup_le</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Lim_seq</span> <span class="id">f</span>) (<span class="id">LimSup_seq</span> <span class="id">f</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof292')">Proof.</span></div>
-<div class="proofscript" id="proof292">
+<div><span class="toggleproof" onclick="toggleDisplay('proof293')">Proof.</span></div>
+<div class="proofscript" id="proof293">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Lim_seq</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">LimSup_LimInf_seq_le</span> <span class="id">f</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> (<span class="id">LimSup_seq</span> <span class="id">f</span>) <span class="kwd">with</span> (<span class="id">Rbar_div_pos</span> (<span class="id">Rbar_plus</span> (<span class="id">LimSup_seq</span> <span class="id">f</span>) (<span class="id">LimSup_seq</span> <span class="id">f</span>))<br/>
@@ -4527,8 +4542,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="list_sum0_is0">list_sum0_is0</a></span> <span class="id">l</span> :<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">x</span> = 0) <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> <span class="id">l</span> = 0%<span class="id">R</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof293')">Proof.</span></div>
-<div class="proofscript" id="proof293">
+<div><span class="toggleproof" onclick="toggleDisplay('proof294')">Proof.</span></div>
+<div class="proofscript" id="proof294">
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="id">inversion</span> 1; <span class="id">subst</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">IHl</span>; <span class="id">trivial</span>.<br/>
@@ -4538,8 +4553,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="nneg_lt_eps_zero">nneg_lt_eps_zero</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;0 &lt;= <span class="id">x</span> -&gt;<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">eps</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>), <span class="id">x</span> &lt; <span class="id">eps</span>) -&gt; <span class="id">x</span> = 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof294')">Proof.</span></div>
-<div class="proofscript" id="proof294">
+<div><span class="toggleproof" onclick="toggleDisplay('proof295')">Proof.</span></div>
+<div class="proofscript" id="proof295">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rgt_dec">Rgt_dec</a></span> <span class="id">x</span> 0).<br/>
 &nbsp;&nbsp;- <span class="id">specialize</span> (<span class="id">H0</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id">r</span>)).<br/>
@@ -4549,8 +4564,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_min">is_lim_seq_min</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span> <span class="id">x</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>)) <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof295')">Proof.</span></div>
-<div class="proofscript" id="proof295">
+<div><span class="toggleproof" onclick="toggleDisplay('proof296')">Proof.</span></div>
+<div class="proofscript" id="proof296">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_spec</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_lim_seq</span>'.<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -4574,8 +4589,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Lim_seq_min">Lim_seq_min</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span> <span class="id">x</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>)) = <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof296')">Proof.</span></div>
-<div class="proofscript" id="proof296">
+<div><span class="toggleproof" onclick="toggleDisplay('proof297')">Proof.</span></div>
+<div class="proofscript" id="proof297">
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#is_lim_seq_min">is_lim_seq_min</a></span> <span class="id">x</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">is_lim_seq_unique</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 Qed.</div>
@@ -4586,8 +4601,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_r_plus_distr">Rbar_mult_r_plus_distr</a></span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <span class="id">x</span> <span class="id">y</span>:<br/>
 &nbsp;&nbsp;<span class="id">Rbar_mult</span> <span class="id">c</span> (<span class="id">Rbar_plus</span> <span class="id">x</span> <span class="id">y</span>) =<br/>
 &nbsp;&nbsp;<span class="id">Rbar_plus</span> (<span class="id">Rbar_mult</span> <span class="id">c</span> <span class="id">x</span>) (<span class="id">Rbar_mult</span> <span class="id">c</span> <span class="id">y</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof297')">Proof.</span></div>
-<div class="proofscript" id="proof297">
+<div><span class="toggleproof" onclick="toggleDisplay('proof298')">Proof.</span></div>
+<div class="proofscript" id="proof298">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">destruct</span> <span class="id">y</span>; <span class="id">simpl</span>;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">try</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">solve</span> [<br/>
@@ -4608,8 +4623,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_abs_mult_distr">Rbar_abs_mult_distr</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_abs</span> (<span class="id">Rbar_mult</span> <span class="id">x</span> <span class="id">y</span>) = <span class="id">Rbar_mult</span> (<span class="id">Rbar_abs</span> <span class="id">x</span>) (<span class="id">Rbar_abs</span> <span class="id">y</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof298')">Proof.</span></div>
-<div class="proofscript" id="proof298">
+<div><span class="toggleproof" onclick="toggleDisplay('proof299')">Proof.</span></div>
+<div class="proofscript" id="proof299">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">destruct</span> <span class="id">y</span>; <span class="id">simpl</span>; <span class="id">trivial</span><br/>
 &nbsp;&nbsp;; <span class="id">try</span> <span class="id">solve</span>[(<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rcase_abs">Rcase_abs</a></span> <span class="id">r</span>)<br/>
@@ -4635,8 +4650,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_plus_distr_fin_r">Rbar_mult_plus_distr_fin_r</a></span> (<span class="id">a</span> <span class="id">b</span>:<span class="id">Rbar</span>) (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_mult</span> (<span class="id">Rbar_plus</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">c</span> = <span class="id">Rbar_plus</span> (<span class="id">Rbar_mult</span> <span class="id">a</span> <span class="id">c</span>) (<span class="id">Rbar_mult</span> <span class="id">b</span> <span class="id">c</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof299')">Proof.</span></div>
-<div class="proofscript" id="proof299">
+<div><span class="toggleproof" onclick="toggleDisplay('proof300')">Proof.</span></div>
+<div class="proofscript" id="proof300">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">a</span>; <span class="id">destruct</span> <span class="id">b</span>; <span class="id">simpl</span><br/>
 &nbsp;&nbsp;; <span class="id">try</span> (<span class="id">simpl</span>; <span class="id">f_equal</span>; <span class="id">lra</span>)<br/>
 &nbsp;&nbsp;; (<span class="id">try</span> <span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> 0 <span class="id">c</span>)<br/>
@@ -4651,15 +4666,15 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_minus_plus_fin">Rbar_minus_plus_fin</a></span> (<span class="id">x</span>:<span class="id">Rbar</span>) (<span class="id">y</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_minus</span> (<span class="id">Rbar_plus</span> <span class="id">x</span> <span class="id">y</span>) <span class="id">y</span> = <span class="id">x</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof300')">Proof.</span></div>
-<div class="proofscript" id="proof300">
+<div><span class="toggleproof" onclick="toggleDisplay('proof301')">Proof.</span></div>
+<div class="proofscript" id="proof301">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="id">f_equal</span>; <span class="id">lra</span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="scale_Rbar_max0">scale_Rbar_max0</a></span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) <span class="id">x</span> : (<span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_max">Rbar_max</a></span> (<span class="id">Rbar_mult</span> <span class="id">c</span> <span class="id">x</span>) 0 = <span class="id">Rbar_mult</span> <span class="id">c</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_max">Rbar_max</a></span> <span class="id">x</span> 0)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof301')">Proof.</span></div>
-<div class="proofscript" id="proof301">
+<div><span class="toggleproof" onclick="toggleDisplay('proof302')">Proof.</span></div>
+<div class="proofscript" id="proof302">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_max">Rbar_max</a></span>, <span class="id">Rbar_mult</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">simpl</span><br/>
 &nbsp;&nbsp;; <span class="id">destruct</span> <span class="id">c</span> <span class="kwd">as</span> [<span class="id">c</span> <span class="id">cpos</span>]; <span class="id">simpl</span><br/>
@@ -4690,8 +4705,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rmult_nnneg_neg">Rmult_nnneg_neg</a></span> {<span class="id">x</span> <span class="id">y</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} :<br/>
 &nbsp;&nbsp;(~ 0 &lt;= <span class="id">x</span> * <span class="id">y</span>) -&gt; <span class="id">x</span> &lt; 0 \/ <span class="id">y</span> &lt; 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof302')">Proof.</span></div>
-<div class="proofscript" id="proof302">
+<div><span class="toggleproof" onclick="toggleDisplay('proof303')">Proof.</span></div>
+<div class="proofscript" id="proof303">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rnot_le_lt">Rnot_le_lt</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> 0 <span class="id">x</span>); [| <span class="id">lra</span>].<br/>
@@ -4702,8 +4717,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rmult_pos_parts">Rmult_pos_parts</a></span> {<span class="id">x</span> <span class="id">y</span>}: (0 &lt; <span class="id">x</span> * <span class="id">y</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0 &lt; <span class="id">x</span> /\ 0 &lt; <span class="id">y</span>) \/ (<span class="id">x</span> &lt; 0 /\ <span class="id">y</span> &lt; 0).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof303')">Proof.</span></div>
-<div class="proofscript" id="proof303">
+<div><span class="toggleproof" onclick="toggleDisplay('proof304')">Proof.</span></div>
+<div class="proofscript" id="proof304">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_dec">Rlt_dec</a></span> 0 <span class="id">x</span>)<br/>
 &nbsp;&nbsp;; <span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_dec">Rlt_dec</a></span> 0 <span class="id">y</span>).<br/>
@@ -4726,8 +4741,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rmult_le_pos_from_neg">Rmult_le_pos_from_neg</a></span>: <span class="kwd">forall</span> <span class="id">r1</span> <span class="id">r2</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>, <span class="id">r1</span> &lt;= 0 -&gt; <span class="id">r2</span> &lt;= 0 -&gt; 0 &lt;= <span class="id">r1</span> * <span class="id">r2</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof304')">Proof.</span></div>
-<div class="proofscript" id="proof304">
+<div><span class="toggleproof" onclick="toggleDisplay('proof305')">Proof.</span></div>
+<div class="proofscript" id="proof305">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (0 &lt;= (- <span class="id">r1</span>) * (- <span class="id">r2</span>)).<br/>
 &nbsp;&nbsp;{<br/>
@@ -4757,8 +4772,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_assoc">Rbar_mult_assoc</a></span> (<span class="id">a</span> <span class="id">b</span> <span class="id">c</span>:<span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_mult</span> <span class="id">a</span> (<span class="id">Rbar_mult</span> <span class="id">b</span> <span class="id">c</span>) = <span class="id">Rbar_mult</span> (<span class="id">Rbar_mult</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">c</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof305')">Proof.</span></div>
-<div class="proofscript" id="proof305">
+<div><span class="toggleproof" onclick="toggleDisplay('proof306')">Proof.</span></div>
+<div class="proofscript" id="proof306">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_mult</span>, <span class="id">Rbar_mult</span>'.<br/>
 <br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">a</span>; <span class="id">destruct</span> <span class="id">b</span>; <span class="id">destruct</span> <span class="id">c</span>; <span class="id">simpl</span><br/>
@@ -4768,8 +4783,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_plus_distr_l">Rbar_mult_plus_distr_l</a></span> {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>:<span class="id">Rbar</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> 0 <span class="id">y</span> -&gt; <span class="id">Rbar_le</span> 0 <span class="id">z</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_mult</span> <span class="id">x</span> (<span class="id">Rbar_plus</span> <span class="id">y</span> <span class="id">z</span>) = <span class="id">Rbar_plus</span> (<span class="id">Rbar_mult</span> <span class="id">x</span> <span class="id">y</span>) (<span class="id">Rbar_mult</span> <span class="id">x</span> <span class="id">z</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof306')">Proof.</span></div>
-<div class="proofscript" id="proof306">
+<div><span class="toggleproof" onclick="toggleDisplay('proof307')">Proof.</span></div>
+<div class="proofscript" id="proof307">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_mult</span>, <span class="id">Rbar_mult</span>', <span class="id">Rbar_plus</span>, <span class="id">Rbar_plus</span>'.<br/>
 <br/>
@@ -4780,8 +4795,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_plus_assoc_nneg">Rbar_plus_assoc_nneg</a></span> {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>:<span class="id">Rbar</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Rbar_le</span> 0 <span class="id">x</span>) -&gt; (<span class="id">Rbar_le</span> 0 <span class="id">y</span>) -&gt; (<span class="id">Rbar_le</span> 0 <span class="id">z</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_plus</span> (<span class="id">Rbar_plus</span>  <span class="id">x</span> <span class="id">y</span>) <span class="id">z</span> = <span class="id">Rbar_plus</span> <span class="id">x</span> (<span class="id">Rbar_plus</span> <span class="id">y</span> <span class="id">z</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof307')">Proof.</span></div>
-<div class="proofscript" id="proof307">
+<div><span class="toggleproof" onclick="toggleDisplay('proof308')">Proof.</span></div>
+<div class="proofscript" id="proof308">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_plus</span>, <span class="id">Rbar_plus</span>'.<br/>
 <br/>
@@ -4792,8 +4807,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_plus_assoc">Rbar_plus_assoc</a></span> {<span class="id">x</span> <span class="id">y</span> <span class="id">z</span>:<span class="id">Rbar</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_Rbar_plus</span> <span class="id">x</span> <span class="id">y</span> -&gt; <span class="id">ex_Rbar_plus</span> <span class="id">y</span> <span class="id">z</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_plus</span> (<span class="id">Rbar_plus</span>  <span class="id">x</span> <span class="id">y</span>) <span class="id">z</span> = <span class="id">Rbar_plus</span> <span class="id">x</span> (<span class="id">Rbar_plus</span> <span class="id">y</span> <span class="id">z</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof308')">Proof.</span></div>
-<div class="proofscript" id="proof308">
+<div><span class="toggleproof" onclick="toggleDisplay('proof309')">Proof.</span></div>
+<div class="proofscript" id="proof309">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_plus</span>, <span class="id">Rbar_plus</span>'.<br/>
 <br/>
@@ -4803,8 +4818,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_mult_div_fin_cancel_l">Rbar_mult_div_fin_cancel_l</a></span> (<span class="id">a</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">b</span>:<span class="id">Rbar</span>) : <span class="id">a</span> &lt;&gt; 0 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_mult</span> (/ <span class="id">a</span>) (<span class="id">Rbar_mult</span> <span class="id">a</span> <span class="id">b</span>) = <span class="id">b</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof309')">Proof.</span></div>
-<div class="proofscript" id="proof309">
+<div><span class="toggleproof" onclick="toggleDisplay('proof310')">Proof.</span></div>
+<div class="proofscript" id="proof310">
 &nbsp;&nbsp;<span class="id">intros</span> .<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">b</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;- <span class="id">f_equal</span>; <span class="id">now</span> <span class="id">field_simplify</span>.<br/>
@@ -4843,8 +4858,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_LimInf_seq_const_plus">is_LimInf_seq_const_plus</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span>:<span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;<span class="id">is_LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">g</span> + <span class="id">f</span> <span class="id">n</span>) <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id">is_LimInf_seq</span> <span class="id">f</span> (<span class="id">Rbar_minus</span> <span class="id">l</span> <span class="id">g</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof310')">Proof.</span></div>
-<div class="proofscript" id="proof310">
+<div><span class="toggleproof" onclick="toggleDisplay('proof311')">Proof.</span></div>
+<div class="proofscript" id="proof311">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;- <span class="id">intros</span> <span class="id">HH</span> <span class="id">eps</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH</span> <span class="id">eps</span>).<br/>
@@ -4874,8 +4889,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="LimInf_seq_const_plus">LimInf_seq_const_plus</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">g</span> + <span class="id">f</span> <span class="id">n</span>) = <span class="id">Rbar_plus</span> <span class="id">g</span> (<span class="id">LimInf_seq</span> <span class="id">f</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof311')">Proof.</span></div>
-<div class="proofscript" id="proof311">
+<div><span class="toggleproof" onclick="toggleDisplay('proof312')">Proof.</span></div>
+<div class="proofscript" id="proof312">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">LimInf_seq</span> <span class="kwd">at</span> 1, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#is_LimInf_seq_const_plus">is_LimInf_seq_const_plus</a></span> <span class="kwd">in</span> <span class="id">i</span>.<br/>
@@ -4886,8 +4901,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="LimInf_seq_const_minus">LimInf_seq_const_minus</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">LimInf_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">g</span> - <span class="id">f</span> <span class="id">n</span>) = <span class="id">Rbar_minus</span> <span class="id">g</span> (<span class="id">LimSup_seq</span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof312')">Proof.</span></div>
-<div class="proofscript" id="proof312">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof313')">Proof.</span></div>
+<div class="proofscript" id="proof313">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rminus">Rminus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#LimInf_seq_const_plus">LimInf_seq_const_plus</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; - <span class="id">f</span> <span class="id">n</span>) <span class="id">g</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
@@ -4896,8 +4911,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rbar_le_scaled">rbar_le_scaled</a></span> (<span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">x</span> <span class="id">y</span> :<span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> <span class="id">x</span> (<span class="id">Rbar_mult</span> <span class="id">c</span> <span class="id">y</span>) &lt;-&gt; <span class="id">Rbar_le</span> (<span class="id">Rbar_div</span> <span class="id">x</span> <span class="id">c</span>) <span class="id">y</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof313')">Proof.</span></div>
-<div class="proofscript" id="proof313">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof314')">Proof.</span></div>
+<div class="proofscript" id="proof314">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">symmetry</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_mult_pos_le</span> <span class="kwd">with</span> (<span class="id">z</span> := <span class="id">c</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_mult_comm</span>.<br/>
@@ -4907,8 +4922,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rbar_le_scaled2">rbar_le_scaled2</a></span> (<span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">x</span> <span class="id">y</span> :<span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Rbar_mult</span> <span class="id">c</span> <span class="id">x</span>) <span class="id">y</span> &lt;-&gt; <span class="id">Rbar_le</span> <span class="id">x</span> (<span class="id">Rbar_div</span> <span class="id">y</span> <span class="id">c</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof314')">Proof.</span></div>
-<div class="proofscript" id="proof314">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof315')">Proof.</span></div>
+<div class="proofscript" id="proof315">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">symmetry</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Rbar_mult_pos_le</span> <span class="kwd">with</span> (<span class="id">z</span> := <span class="id">c</span>).     <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_div_mult_pos">Rbar_div_mult_pos</a></span>.<br/>
@@ -4918,8 +4933,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Sup_seq_plus">Sup_seq_plus</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Sup_seq</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; (<span class="id">a</span> <span class="id">x</span>) + (<span class="id">b</span> <span class="id">x</span>))) (<span class="id">Rbar_plus</span> (<span class="id">Sup_seq</span> <span class="id">a</span>) (<span class="id">Sup_seq</span> <span class="id">b</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof315')">Proof.</span></div>
-<div class="proofscript" id="proof315">
+<div><span class="toggleproof" onclick="toggleDisplay('proof316')">Proof.</span></div>
+<div class="proofscript" id="proof316">
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Rbar_sup_eq_lub</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_lub</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
@@ -4934,8 +4949,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Inf_seq_plus">Inf_seq_plus</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Rbar_plus</span> (<span class="id">Inf_seq</span> <span class="id">a</span>) (<span class="id">Inf_seq</span> <span class="id">b</span>)) (<span class="id">Inf_seq</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; (<span class="id">a</span> <span class="id">x</span>) + (<span class="id">b</span> <span class="id">x</span>))).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof316')">Proof.</span></div>
-<div class="proofscript" id="proof316">
+<div><span class="toggleproof" onclick="toggleDisplay('proof317')">Proof.</span></div>
+<div class="proofscript" id="proof317">
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Inf_eq_glb</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_glb</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
@@ -4949,8 +4964,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Sup_seq_const">Sup_seq_const</a></span> <span class="id">c</span> : <span class="id">Sup_seq</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">c</span>) = <span class="id">c</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof317')">Proof.</span></div>
-<div class="proofscript" id="proof317">
+<div><span class="toggleproof" onclick="toggleDisplay('proof318')">Proof.</span></div>
+<div class="proofscript" id="proof318">
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Rbar_sup_eq_lub</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_lub</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
@@ -4963,8 +4978,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Inf_seq_const">Inf_seq_const</a></span> <span class="id">c</span> : <span class="id">Inf_seq</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">c</span>) = <span class="id">c</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof318')">Proof.</span></div>
-<div class="proofscript" id="proof318">
+<div><span class="toggleproof" onclick="toggleDisplay('proof319')">Proof.</span></div>
+<div class="proofscript" id="proof319">
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Inf_eq_glb</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_glb</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
@@ -4978,8 +4993,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Sup_seq_scale">Sup_seq_scale</a></span> <span class="id">c</span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : 0 &lt;= <span class="id">c</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id">Sup_seq</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">c</span> * <span class="id">a</span> <span class="id">x</span>) = <span class="id">Rbar_mult</span> <span class="id">c</span> (<span class="id">Sup_seq</span> <span class="id">a</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof319')">Proof.</span></div>
-<div class="proofscript" id="proof319">
+<div><span class="toggleproof" onclick="toggleDisplay('proof320')">Proof.</span></div>
+<div class="proofscript" id="proof320">
 &nbsp;&nbsp;<span class="id">intros</span> [<span class="id">cpos</span>|?].<br/>
 &nbsp;&nbsp;- <span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Rbar_sup_eq_lub</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_lub</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
@@ -5012,8 +5027,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Inf_seq_scale">Inf_seq_scale</a></span> <span class="id">c</span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : 0 &lt;= <span class="id">c</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id">Inf_seq</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">c</span> * <span class="id">a</span> <span class="id">x</span>) = <span class="id">Rbar_mult</span> <span class="id">c</span> (<span class="id">Inf_seq</span> <span class="id">a</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof320')">Proof.</span></div>
-<div class="proofscript" id="proof320">
+<div><span class="toggleproof" onclick="toggleDisplay('proof321')">Proof.</span></div>
+<div class="proofscript" id="proof321">
 &nbsp;&nbsp;<span class="id">intros</span> [<span class="id">cpos</span>|?].<br/>
 &nbsp;&nbsp;- <span class="id">repeat</span> <span class="id">rewrite</span> <span class="id">Inf_eq_glb</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Rbar_glb</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
@@ -5046,16 +5061,16 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_abs_triang">Rbar_abs_triang</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_le</span> (<span class="id">Rbar_abs</span> (<span class="id">Rbar_plus</span> <span class="id">a</span> <span class="id">b</span>)) (<span class="id">Rbar_plus</span> (<span class="id">Rbar_abs</span> <span class="id">a</span>) (<span class="id">Rbar_abs</span> <span class="id">b</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof321')">Proof.</span></div>
-<div class="proofscript" id="proof321">
+<div><span class="toggleproof" onclick="toggleDisplay('proof322')">Proof.</span></div>
+<div class="proofscript" id="proof322">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">a</span>; <span class="id">destruct</span> <span class="id">b</span>; <span class="id">simpl</span>; <span class="id">rbar_prover</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_triang">Rabs_triang</a></span>.<br/>
 Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Rbar_abs_minus_sym">Rbar_abs_minus_sym</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;<span class="id">Rbar_abs</span> (<span class="id">Rbar_minus</span> <span class="id">x</span> <span class="id">y</span>) = <span class="id">Rbar_abs</span> (<span class="id">Rbar_minus</span> <span class="id">y</span> <span class="id">x</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof322')">Proof.</span></div>
-<div class="proofscript" id="proof322">
+<div><span class="toggleproof" onclick="toggleDisplay('proof323')">Proof.</span></div>
+<div class="proofscript" id="proof323">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x</span>; <span class="id">destruct</span> <span class="id">y</span>; <span class="id">simpl</span>; <span class="id">try</span> <span class="id">solve</span> [<span class="id">rbar_prover</span>; <span class="id">trivial</span>].<br/>
 &nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_minus_sym">Rabs_minus_sym</a></span>.<br/>
@@ -5075,8 +5090,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="zsep1">zsep1</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">y</span> - <span class="id">x</span> &gt; 1 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">x</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#IZR">IZR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#up">up</a></span> <span class="id">x</span>) &lt; <span class="id">y</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof323')">Proof.</span></div>
-<div class="proofscript" id="proof323">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof324')">Proof.</span></div>
+<div class="proofscript" id="proof324">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#archimed">archimed</a></span> <span class="id">x</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">H</span>.<br/>
@@ -5086,8 +5101,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="zsep2">zsep2</a></span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">y</span> - <span class="id">x</span> &gt; 0 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">n</span> | (<span class="id">n</span> &gt; 0)%<span class="id">Z</span> /\ <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#IZR">IZR</a></span>(<span class="id">n</span>)*(<span class="id">y</span>-<span class="id">x</span>) &gt; 1}.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof324')">Proof.</span></div>
-<div class="proofscript" id="proof324">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof325')">Proof.</span></div>
+<div class="proofscript" id="proof325">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#archimed">archimed</a></span> (/ (<span class="id">y</span> - <span class="id">x</span>))); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#up">up</a></span> (/ (<span class="id">y</span> - <span class="id">x</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
@@ -5101,8 +5116,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Qmult_den">Qmult_den</a></span> (<span class="id">num</span> <span class="id">den</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.BinNums.html#Z">Z</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(0 &lt; <span class="id">den</span>)%<span class="id">Z</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#IZR">IZR</a></span> <span class="id">num</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#IZR">IZR</a></span> <span class="id">den</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.QArith_base.html#Qmake">Qmake</a></span> <span class="id">num</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.ZArith.BinInt.html#Z.to_pos">Z.to_pos</a></span> <span class="id">den</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof325')">Proof.</span></div>
-<div class="proofscript" id="proof325">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof326')">Proof.</span></div>
+<div class="proofscript" id="proof326">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
@@ -5118,8 +5133,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span> <span class="id">r</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">l</span> &lt; <span class="id">r</span>)%<span class="id">R</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id">m</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span> | <span class="id">l</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> <span class="id">m</span> &lt; <span class="id">r</span>}.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof326')">Proof.</span></div>
-<div class="proofscript" id="proof326">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof327')">Proof.</span></div>
+<div class="proofscript" id="proof327">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">r</span> - <span class="id">l</span> &gt; 0) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#zsep2">zsep2</a></span> <span class="id">l</span> <span class="id">r</span> <span class="id">H0</span>) <span class="kwd">as</span> [? [? ?]].<br/>
@@ -5138,8 +5153,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">Q_dense</span>' :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span> <span class="id">r</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id">l</span> &lt;&gt; <span class="id">r</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id">m</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span> | <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span> <span class="id">l</span> <span class="id">r</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> <span class="id">m</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">l</span> <span class="id">r</span>}.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof327')">Proof.</span></div>
-<div class="proofscript" id="proof327">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof328')">Proof.</span></div>
+<div class="proofscript" id="proof328">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_dec">Rlt_dec</a></span> <span class="id">l</span> <span class="id">r</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Q_dense">Q_dense</a></span>  <span class="id">l</span> <span class="id">r</span> <span class="id">r0</span>).<br/>
@@ -5156,8 +5171,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Qrnext_prop">Qrnext_prop</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">prev</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.QArith_base.html#Q">Q</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> <span class="id">prev</span> &lt;&gt; <span class="id">x</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> <span class="id">prev</span>) / 2 &lt;&gt; <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof328')">Proof.</span></div>
-<div class="proofscript" id="proof328">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof329')">Proof.</span></div>
+<div class="proofscript" id="proof329">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<br/>
@@ -5176,8 +5191,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Qr_dist">Qr_dist</a></span> (<span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>) - <span class="id">x</span>) &lt;= (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span>) / (2^<span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof329')">Proof.</span></div>
-<div class="proofscript" id="proof329">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof330')">Proof.</span></div>
+<div class="proofscript" id="proof330">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.RMicromega.html#Q2R_0">RMicromega.Q2R_0</a></span>.<br/>
@@ -5255,8 +5270,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ln_nneg">ln_nneg</a></span> <span class="id">x</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;1 &lt;= <span class="id">x</span> -&gt; 0 &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rpower.html#ln">ln</a></span> <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof330')">Proof.</span></div>
-<div class="proofscript" id="proof330">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof331')">Proof.</span></div>
+<div class="proofscript" id="proof331">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_dec">Rlt_dec</a></span> 1 <span class="id">x</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">left</span>.<br/>
@@ -5269,8 +5284,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Qr_lim">Qr_lim</a></span> <span class="id">x</span> : <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>)) <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof331')">Proof.</span></div>
-<div class="proofscript" id="proof331">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof332')">Proof.</span></div>
+<div class="proofscript" id="proof332">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">xpos</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_spec</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">eps</span>.<br/>
@@ -5368,8 +5383,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">h1</span> <span class="id">h2</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt; <span class="id">h1</span> &lt; <span class="id">h2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">g</span> (<span class="id">x</span>+<span class="id">h1</span>) - <span class="id">g</span> <span class="id">x</span>)/<span class="id">h1</span> &lt;= (<span class="id">g</span> (<span class="id">x</span>+<span class="id">h2</span>) - <span class="id">g</span> <span class="id">x</span>)/<span class="id">h2</span>. <br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof332')">Proof.</span></div>
-<div class="proofscript" id="proof332">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof333')">Proof.</span></div>
+<div class="proofscript" id="proof333">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">g</span> (<span class="id">x</span> + <span class="id">h1</span>) &lt;= ((<span class="id">h2</span>-<span class="id">h1</span>)/<span class="id">h2</span>) * (<span class="id">g</span> <span class="id">x</span>) + (<span class="id">h1</span>/<span class="id">h2</span>) * (<span class="id">g</span> (<span class="id">x</span> + <span class="id">h2</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -5405,8 +5420,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">h1</span> <span class="id">h2</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt; <span class="id">h1</span> -&gt; 0 &lt; <span class="id">h2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">g</span> <span class="id">x</span> - <span class="id">g</span> (<span class="id">x</span> - <span class="id">h1</span>))/<span class="id">h1</span> &lt;= (<span class="id">g</span> (<span class="id">x</span> + <span class="id">h2</span>) - <span class="id">g</span> <span class="id">x</span>)/<span class="id">h2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof333')">Proof.</span></div>
-<div class="proofscript" id="proof333">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof334')">Proof.</span></div>
+<div class="proofscript" id="proof334">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> (<span class="id">h2</span> /(<span class="id">h1</span>+<span class="id">h2</span>)) (<span class="id">x</span>-<span class="id">h1</span>) (<span class="id">x</span>+<span class="id">h2</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#convex">convex</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -5440,8 +5455,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">phi</span> (<span class="id">x</span> + <span class="id">eps</span>) - <span class="id">phi</span>(<span class="id">x</span>))/<span class="id">eps</span> = <span class="id">z</span>)) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">phi</span> <span class="id">y</span>) &gt;= (<span class="id">phi</span> <span class="id">x</span> + (<span class="id">y</span>-<span class="id">x</span>)*(<span class="id">del</span> <span class="id">x</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof334')">Proof.</span></div>
-<div class="proofscript" id="proof334">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof335')">Proof.</span></div>
+<div class="proofscript" id="proof335">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">del</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Glb_Rbar</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>; <span class="id">match_destr</span>.<br/>
@@ -5534,8 +5549,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x0</span> :<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> | <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">a</span> * (<span class="id">x</span> - <span class="id">x0</span>) &lt;= <span class="id">phi</span> <span class="id">x</span> - <span class="id">phi</span> <span class="id">x0</span>}.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof335')">Proof.</span></div>
-<div class="proofscript" id="proof335">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof336')">Proof.</span></div>
+<div class="proofscript" id="proof336">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line0">convex_support_line0</a></span> <span class="id">phi</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
@@ -5551,8 +5566,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x1</span> <span class="id">x2</span> <span class="id">x3</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">x1</span> &lt; <span class="id">x2</span> &lt; <span class="id">x3</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id">phi</span> <span class="id">x2</span>) - (<span class="id">phi</span> <span class="id">x1</span>))/(<span class="id">x2</span> - <span class="id">x1</span>) &lt;= ((<span class="id">phi</span> <span class="id">x3</span>) - (<span class="id">phi</span> <span class="id">x2</span>))/(<span class="id">x3</span> - <span class="id">x2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof336')">Proof.</span></div>
-<div class="proofscript" id="proof336">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof337')">Proof.</span></div>
+<div class="proofscript" id="proof337">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#convex">convex</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">c</span> := (<span class="id">x3</span> - <span class="id">x2</span>)/(<span class="id">x3</span>-<span class="id">x1</span>)).<br/>
@@ -5589,8 +5604,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">eps1</span> <span class="id">eps2</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eps1</span> &gt; 0 -&gt; <span class="id">eps2</span> &gt; 0 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">phi</span> <span class="id">x</span> - <span class="id">phi</span> (<span class="id">x</span> - <span class="id">eps1</span>)) / <span class="id">eps1</span> &lt;= (<span class="id">phi</span> (<span class="id">x</span> + <span class="id">eps2</span>) - <span class="id">phi</span> <span class="id">x</span>) / <span class="id">eps2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof337')">Proof.</span></div>
-<div class="proofscript" id="proof337">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof338')">Proof.</span></div>
+<div class="proofscript" id="proof338">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_le1">convex_le1</a></span> <span class="id">phi</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H2</span> (<span class="id">x</span> - <span class="id">eps1</span>) <span class="id">x</span> (<span class="id">x</span> + <span class="id">eps2</span>)).<br/>
@@ -5605,8 +5620,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_convex_sup_lines_affine">Rbar_convex_sup_lines_affine</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">c</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_convex">Rbar_convex</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">Sup_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">a</span> <span class="id">n</span>)*<span class="id">x</span> + (<span class="id">b</span> <span class="id">n</span>))) <span class="id">c</span> <span class="id">x</span> <span class="id">y</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof338')">Proof.</span></div>
-<div class="proofscript" id="proof338">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof339')">Proof.</span></div>
+<div class="proofscript" id="proof339">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_convex">Rbar_convex</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Sup_seq_ext</span> <span class="kwd">with</span> (<span class="id">v</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">c</span> * (<span class="id">a</span> <span class="id">n</span> * <span class="id">x</span> + <span class="id">b</span> <span class="id">n</span>) + (1 - <span class="id">c</span>) * (<span class="id">a</span> <span class="id">n</span> * <span class="id">y</span> + <span class="id">b</span> <span class="id">n</span>)).<br/>
@@ -5622,8 +5637,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="convex_sup_lines_affine">convex_sup_lines_affine</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">is_finite</span> (<span class="id">Sup_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> * <span class="id">x</span> + <span class="id">b</span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">c</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.RealAdd.html#convex">convex</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">real</span> (<span class="id">Sup_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">a</span> <span class="id">n</span>)*<span class="id">x</span> + (<span class="id">b</span> <span class="id">n</span>)))) <span class="id">c</span> <span class="id">x</span> <span class="id">y</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof339')">Proof.</span></div>
-<div class="proofscript" id="proof339">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof340')">Proof.</span></div>
+<div class="proofscript" id="proof340">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#convex">convex</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>,<br/>
@@ -5659,8 +5674,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">a</span> &lt;= <span class="id">x</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">x</span> &lt;= <span class="id">b</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span> &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (- <span class="id">a</span>) <span class="id">b</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof340')">Proof.</span></div>
-<div class="proofscript" id="proof340">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof341')">Proof.</span></div>
+<div class="proofscript" id="proof341">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> 0 <span class="id">x</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_right">Rabs_right</a></span>; <span class="id">try</span> <span class="id">lra</span>.<br/>
@@ -5681,8 +5696,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span> &lt; <span class="id">x</span>) /\ (<span class="id">x</span> &lt; <span class="id">y</span> &lt; <span class="id">b</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">f</span> <span class="id">y</span> - <span class="id">f</span> <span class="id">x</span>) &lt;= <span class="id">M</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">y</span> - <span class="id">x</span>)).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof341')">Proof.</span></div>
-<div class="proofscript" id="proof341">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof342')">Proof.</span></div>
+<div class="proofscript" id="proof342">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (- (<span class="id">f</span> <span class="id">a</span> - <span class="id">f</span> (<span class="id">a</span> - 1))) (<span class="id">f</span> (<span class="id">b</span> + 1) - <span class="id">f</span> <span class="id">b</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -5719,8 +5734,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">y</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span> &lt;= <span class="id">m</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">y</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id">m</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof342')">Proof.</span></div>
-<div class="proofscript" id="proof342">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof343')">Proof.</span></div>
+<div class="proofscript" id="proof343">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (0 &lt;= <span class="id">m</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">y</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -5745,8 +5760,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">a</span> &lt; <span class="id">x</span> /\ <span class="id">x</span> &lt; <span class="id">y</span> /\ <span class="id">y</span> &lt; <span class="id">b</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">y</span> - <span class="id">x</span>) &lt; <span class="id">delta</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">f</span> <span class="id">y</span> - <span class="id">f</span> <span class="id">x</span>) &lt; <span class="id">eps</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof343')">Proof.</span></div>
-<div class="proofscript" id="proof343">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof344')">Proof.</span></div>
+<div class="proofscript" id="proof344">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_Lipschitz_continuity">convex_Lipschitz_continuity</a></span> <span class="id">f</span> <span class="id">a</span> <span class="id">b</span> <span class="id">H</span> <span class="id">H0</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [<span class="id">m</span> ?].<br/>
@@ -5791,8 +5806,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="convex_continuous">convex_continuous</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">c</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.RealAdd.html#convex">convex</a></span> <span class="id">f</span> <span class="id">c</span> <span class="id">x</span> <span class="id">y</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">a</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#continuity_pt">continuity_pt</a></span> <span class="id">f</span> <span class="id">a</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof344')">Proof.</span></div>
-<div class="proofscript" id="proof344">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof345')">Proof.</span></div>
+<div class="proofscript" id="proof345">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">red</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -5837,8 +5852,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">x1</span> &lt;= <span class="id">x2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line">convex_support_line</a></span> <span class="id">phi</span> <span class="id">conv</span> <span class="id">x1</span>) &lt;=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line">convex_support_line</a></span> <span class="id">phi</span> <span class="id">conv</span> <span class="id">x2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof345')">Proof.</span></div>
-<div class="proofscript" id="proof345">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof346')">Proof.</span></div>
+<div class="proofscript" id="proof346">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id">x1</span> <span class="id">x2</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id">e</span>.<br/>
@@ -5877,8 +5892,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">c1</span> <span class="id">c2</span> :<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c1</span> &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line">convex_support_line</a></span> <span class="id">phi</span> <span class="id">conv</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>))) &lt;= <span class="id">c2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof346')">Proof.</span></div>
-<div class="proofscript" id="proof346">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof347')">Proof.</span></div>
+<div class="proofscript" id="proof347">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr_dist">Qr_dist</a></span> <span class="id">x</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>)) &lt;= 2 * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">x</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -5949,8 +5964,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span>  (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line">convex_support_line</a></span> <span class="id">phi</span> <span class="id">conv</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>))))  &lt; <span class="id">c</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof347')">Proof.</span></div>
-<div class="proofscript" id="proof347">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof348')">Proof.</span></div>
+<div class="proofscript" id="proof348">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#qr_support_line_bound">qr_support_line_bound</a></span> <span class="id">phi</span> <span class="id">x</span> <span class="id">conv</span>) <span class="kwd">as</span> [<span class="id">c1</span> [<span class="id">c2</span> ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (0 &lt; ((<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">c1</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">c2</span>)) + 1)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -5989,8 +6004,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">x</span> - (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>))) * <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line">convex_support_line</a></span> <span class="id">phi</span> <span class="id">conv</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Qr">Qr</a></span> <span class="id">x</span> <span class="id">n</span>)))) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">L</span> (<span class="id">phi</span> <span class="id">x</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof348')">Proof.</span></div>
-<div class="proofscript" id="proof348">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof349')">Proof.</span></div>
+<div class="proofscript" id="proof349">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">Finite</span> (<span class="id">phi</span> <span class="id">x</span>)) <span class="kwd">with</span> (<span class="id">Rbar_plus</span> (<span class="id">phi</span> <span class="id">x</span>) 0) <span class="kwd">by</span> <span class="id">now</span> <span class="id">rewrite</span> <span class="id">Rbar_plus_0_r</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_plus</span>'.<br/>
@@ -6039,8 +6054,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">x</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_sup_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">a</span> <span class="id">n</span>) * <span class="id">x</span> + (<span class="id">b</span> <span class="id">n</span>)) (<span class="id">phi</span> <span class="id">x</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof349')">Proof.</span></div>
-<div class="proofscript" id="proof349">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof350')">Proof.</span></div>
+<div class="proofscript" id="proof350">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">n_to_Q_to_R</span> := <span class="kwd">fun</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.QArith.Qreals.html#Q2R">Q2R</a></span> (<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">a</span> := <span class="kwd">fun</span> (<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#convex_support_line">convex_support_line</a></span> <span class="id">phi</span> <span class="id">H</span> (<span class="id">n_to_Q_to_R</span> <span class="id">n</span>))).<br/>
@@ -6090,8 +6105,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="tail_succ_sub">tail_succ_sub</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span> = <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span> - <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof350')">Proof.</span></div>
-<div class="proofscript" id="proof350">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof351')">Proof.</span></div>
+<div class="proofscript" id="proof351">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>. <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">Series_incr_1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#plus_n_Sm">plus_n_Sm</a></span>.<br/>
@@ -6101,8 +6116,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="tail_series_nonneg_le">tail_series_nonneg_le</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>)(<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) &lt;= <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof351')">Proof.</span></div>
-<div class="proofscript" id="proof351">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof352')">Proof.</span></div>
+<div class="proofscript" id="proof352">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span>.<br/>
@@ -6117,8 +6132,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="tail_series_pos_lt">tail_series_pos_lt</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>)(<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) &lt; <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof352')">Proof.</span></div>
-<div class="proofscript" id="proof352">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof353')">Proof.</span></div>
+<div class="proofscript" id="proof353">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span>.<br/>
@@ -6135,8 +6150,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="kwd">exists</span> <span class="id">h</span>, 0 &lt; <span class="id">a</span> (<span class="id">n</span> + <span class="id">h</span>)%<span class="id">nat</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> <span class="id">a</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof353')">Proof.</span></div>
-<div class="proofscript" id="proof353">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof354')">Proof.</span></div>
+<div class="proofscript" id="proof354">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>. <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">H0</span> <span class="id">n</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_le_trans">Rlt_le_trans</a></span>; <span class="id">eauto</span>.<br/>
@@ -6162,8 +6177,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux1_nonneg">rudin_12_b_aux1_nonneg</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>)(<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">ha</span>'' : <span class="kwd">forall</span> <span class="id">n</span>, <span class="kwd">exists</span> <span class="id">h</span>, 0 &lt; <span class="id">a</span> (<span class="id">n</span> + <span class="id">h</span>)%<span class="id">nat</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) &lt;= 2*<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof354')">Proof.</span></div>
-<div class="proofscript" id="proof354">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof355')">Proof.</span></div>
+<div class="proofscript" id="proof355">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (2*<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>)) <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>)) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat_l">Rplus_le_compat_l</a></span> <span class="kwd">with</span> (<span class="id">r</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span> (<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>)).<br/>
@@ -6174,8 +6189,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux2_nonneg">rudin_12_b_aux2_nonneg</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>)(<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span> = (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof355')">Proof.</span></div>
-<div class="proofscript" id="proof355">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof356')">Proof.</span></div>
+<div class="proofscript" id="proof356">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_plus_minus">Rsqr_plus_minus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#Rsqr_sqrt">Rsqr_sqrt</a></span>;[| <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Series_nonneg">Series_nonneg</a></span>].<br/>
@@ -6190,8 +6205,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux3_nonneg">rudin_12_b_aux3_nonneg</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) (<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">ha</span>'' : <span class="kwd">forall</span> <span class="id">n</span>, <span class="kwd">exists</span> <span class="id">h</span>, 0 &lt; <span class="id">a</span> (<span class="id">n</span> + <span class="id">h</span>)%<span class="id">nat</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> <span class="id">n</span>*/<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>) &lt;= 2*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof356')">Proof.</span></div>
-<div class="proofscript" id="proof356">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof357')">Proof.</span></div>
+<div class="proofscript" id="proof357">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series_nonneg_le">tail_series_nonneg_le</a></span> <span class="id">ha</span> <span class="id">ha</span>'); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">hr1</span> : 0 &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>)).<br/>
@@ -6220,8 +6235,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="rudin_12_b_aux4_nonneg">rudin_12_b_aux4_nonneg</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span> : <span class="id">ex_series</span> <span class="id">a</span>) (<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;&nbsp;(<span class="id">ha</span>'' : <span class="kwd">forall</span> <span class="id">n</span>, <span class="kwd">exists</span> <span class="id">h</span>, 0 &lt; <span class="id">a</span> (<span class="id">n</span> + <span class="id">h</span>)%<span class="id">nat</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#sum_f_R0">sum_f_R0</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> */ <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>)) <span class="id">m</span> &lt;= 2*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> 0%<span class="id">nat</span>) - <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqrt.html#sqrt">sqrt</a></span>(<span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span>(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof357')">Proof.</span></div>
-<div class="proofscript" id="proof357">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof358')">Proof.</span></div>
+<div class="proofscript" id="proof358">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">m</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">m</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#rudin_12_b_aux3_nonneg">rudin_12_b_aux3_nonneg</a></span> <span class="id">ha</span> <span class="id">ha</span>' <span class="id">ha</span>'').<br/>
@@ -6233,8 +6248,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_inv_pos_p_infty">is_lim_seq_inv_pos_p_infty</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}(<span class="id">ha</span>: <span class="id">is_lim_seq</span> <span class="id">a</span> 0) (<span class="id">ha</span>' : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; / <span class="id">a</span> <span class="id">n</span>) <span class="id">p_infty</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof358')">Proof.</span></div>
-<div class="proofscript" id="proof358">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof359')">Proof.</span></div>
+<div class="proofscript" id="proof359">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">is_lim_seq_p_infty_Reals</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">is_lim_seq_Reals</span> <span class="kwd">in</span> <span class="id">ha</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.SeqProp.html#cv_infty">cv_infty</a></span>. <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rseries.html#Un_cv">Rseries.Un_cv</a></span> <span class="kwd">in</span> <span class="id">ha</span>.<br/>
@@ -6275,8 +6290,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">b</span> <span class="id">n</span>) /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">b</span> <span class="id">p_infty</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> * <span class="id">b</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof359')">Proof.</span></div>
-<div class="proofscript" id="proof359">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof360')">Proof.</span></div>
+<div class="proofscript" id="proof360">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Ha1</span> <span class="id">Hpos</span> <span class="id">Ha2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">r</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.utils.RealAdd.html#tail_series">tail_series</a></span> <span class="id">a</span> <span class="id">n</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hr</span> : <span class="id">is_lim_seq</span> <span class="id">r</span> 0).<br/>
@@ -6334,14 +6349,64 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">b</span> <span class="id">n</span>) /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">b</span> <span class="id">p_infty</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> * <span class="id">b</span> <span class="id">n</span>).<br/>
-<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof360')">Proof.</span></div>
-<div class="proofscript" id="proof360">
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof361')">Proof.</span></div>
+<div class="proofscript" id="proof361">
 &nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Ha</span> : <span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) <span class="kwd">by</span> (<span class="id">intros</span> <span class="id">n</span> ; <span class="id">left</span>; <span class="id">auto</span>).<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#Paolo_converge_nonneg">Paolo_converge_nonneg</a></span> <span class="id">a</span> <span class="id">Ha</span>); <span class="id">intros</span> <span class="id">Hn</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Hn</span>; <span class="id">auto</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">intros</span>. <span class="kwd">exists</span> 0%<span class="id">nat</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;Qed.</div>
+<br/>
+&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="eventually_pos_dec">eventually_pos_dec</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;{(<span class="kwd">forall</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="kwd">exists</span> <span class="id">h</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, 0 &lt; <span class="id">a</span> (<span class="id">n</span> + <span class="id">h</span>)%<span class="id">nat</span>)} +{~(<span class="kwd">forall</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="kwd">exists</span> <span class="id">h</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, 0 &lt; <span class="id">a</span> (<span class="id">n</span> + <span class="id">h</span>)%<span class="id">nat</span>)}.<br/>
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof362')">Proof.</span></div>
+<div class="proofscript" id="proof362">
+&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">EM_dec</span>'.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Classical_Prop.html#classic">classic</a></span>.<br/>
+&nbsp;Qed.</div>
+<br/>
+&nbsp;<span class="kwd">Theorem</span> <span class="id"><a name="Paolo_final">Paolo_final</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>):<br/>
+&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> <span class="id">a</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">b</span> <span class="id">n</span>) /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">b</span> <span class="id">p_infty</span> /\<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">a</span> <span class="id">n</span> * <span class="id">b</span> <span class="id">n</span>).<br/>
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof363')">Proof.</span></div>
+<div class="proofscript" id="proof363">
+&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.RealAdd.html#eventually_pos_dec">eventually_pos_dec</a></span> <span class="id">a</span>) <span class="kwd">as</span> [<span class="id">H1</span>|<span class="id">H2</span>].<br/>
+&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Paolo_converge_nonneg">Paolo_converge_nonneg</a></span>; <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;+ <span class="id">push_neg_in</span> <span class="id">H2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [<span class="id">N0</span> <span class="id">HN0</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 1 + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_comm">Rplus_comm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">INRp1_pos</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">generalize</span> (<span class="id">is_lim_seq_INR</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">is_lim_seq_le_p_loc</span> <span class="kwd">with</span> (<span class="id">u</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>); <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> 0%<span class="id">nat</span>. <span class="id">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_plus_distr_l">Rmult_plus_distr_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_1_r">Rmult_1_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">ex_series_plus</span> <span class="kwd">with</span> (<span class="id">b</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">a</span> <span class="id">n</span>)*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>)); <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">ex_series_incr_n</span>  <span class="kwd">with</span> (<span class="id">n</span> := <span class="id">N0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">a</span> (<span class="id">N0</span> + <span class="id">n</span>)%<span class="id">nat</span> = 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_antisym">Rle_antisym</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rge_le">Rge_le</a></span>, <span class="id">HN0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">ex_series_ext</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a0</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0); <span class="id">try</span> (<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#ex_series_const0">ex_series_const0</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;Qed.</div>
 <br/>
 &nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.RealAdd.html#tails">tails</a></span>.<br/>
