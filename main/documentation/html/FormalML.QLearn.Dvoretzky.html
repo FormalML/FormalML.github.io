@@ -2225,7 +2225,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">subst</span>; <span class="id">lra</span>.<br/>
 &nbsp;Qed.</div>
 <br/>
-&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_max">is_lim_seq_max</a></span> (<span class="id">f</span> <span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_lim_seq_max">is_lim_seq_max</a></span> (<span class="id">f</span> <span class="id">g</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span> : <span class="id">Rbar</span>) :<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">f</span> <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">g</span> <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (<span class="id">f</span> <span class="id">n</span>) (<span class="id">g</span> <span class="id">n</span>)) <span class="id">l</span>.<br/>
@@ -2236,14 +2236,25 @@
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_spec</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_spec</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_lim_seq</span>' <span class="kwd">in</span> *; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">H</span> <span class="id">eps</span>).<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">H0</span> <span class="id">eps</span>).<br/>
-&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#max">max</a></span> <span class="id">x</span> <span class="id">x0</span>); <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">n</span>); <span class="id">specialize</span> (<span class="id">H2</span> <span class="id">n</span>).<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H1</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H2</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">l</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id">H</span> <span class="id">eps</span>); <span class="id">destruct</span> (<span class="id">H0</span> <span class="id">eps</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#max">max</a></span> <span class="id">x</span> <span class="id">x0</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">n</span>); <span class="id">specialize</span> (<span class="id">H2</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H1</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H2</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>; <span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id">H</span> <span class="id">M</span>); <span class="id">destruct</span> (<span class="id">H0</span> <span class="id">M</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#max">max</a></span> <span class="id">x</span> <span class="id">x0</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">n</span>); <span class="id">specialize</span> (<span class="id">H2</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H1</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H2</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>; <span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id">H</span> <span class="id">M</span>); <span class="id">destruct</span> (<span class="id">H0</span> <span class="id">M</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Peano.html#max">max</a></span> <span class="id">x</span> <span class="id">x0</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">n</span>); <span class="id">specialize</span> (<span class="id">H2</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H1</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H2</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>; <span class="id">match_destr</span>.<br/>
 &nbsp;Qed.</div>
 <br/>
 &nbsp;<span class="kwd">Theorem</span> <span class="id"><a name="Dvoretzky_DS">Dvoretzky_DS</a></span><br/>
@@ -2269,7 +2280,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#Derman_Sacks.Ts">Ts</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0 <span class="id">x</span>)) -&gt;<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span> <span class="id">omega</span>, (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id">T</span> <span class="id">n</span>) <span class="id">omega</span>) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (<span class="id">alpha</span> <span class="id">n</span>) ((1+<span class="id">beta</span> <span class="id">n</span>)*(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id">X</span> <span class="id">n</span>) <span class="id">omega</span>) - <span class="id">gamma</span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id">Y</span> <span class="id">n</span>))) -&gt;<br/>
-&nbsp;&nbsp;<span class="id">ex_series</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id">Y</span> <span class="id">n</span>)) / <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">alpha</span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">alpha</span> 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="id">ex_series</span> <span class="id">beta</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="id">sum_n</span> <span class="id">gamma</span>) <span class="id">p_infty</span> -&gt;<br/>
@@ -2293,7 +2303,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_dec">Rlt_dec</a></span> (<span class="id">T</span> <span class="id">n0</span> <span class="id">x</span>) 0).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> <span class="id">sign_eq_m1</span>; <span class="id">trivial</span>. <span class="id">rewrite</span> <span class="id">Rabs_m1</span>; <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">assert</span> (<span class="id">T</span> <span class="id">n0</span> <span class="id">x</span> = 0) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H7</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H6</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">sign_0</span>; <span class="id">try</span> (<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_R0">Rabs_R0</a></span>); <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Haux</span> : <span class="id"><a href="FormalML.ProbTheory.Almost.html#almost">almost</a></span> <span class="id">_</span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="kwd">exists</span> <span class="id">N</span>, <span class="kwd">forall</span> <span class="id">n</span>, (<span class="id">N</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvabs">rvabs</a></span> (<span class="id">X</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) <span class="id">omega</span> &lt;=<br/>
@@ -2304,7 +2314,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">w</span> <span class="id">Hw</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">H</span>α <span class="id">w</span> <span class="id">Hw</span>) <span class="kwd">as</span> [<span class="id">N</span> <span class="id">HN</span>]. <span class="id">clear</span> <span class="id">H</span>α.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">N</span>; <span class="id">intros</span>. <span class="id">rv_unfold</span>. <span class="id">rewrite</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HN</span> <span class="id">n</span> <span class="id">H7</span>). <span class="id">clear</span> <span class="id">H7</span>. <span class="id">clear</span> <span class="id">Hw</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HN</span> <span class="id">n</span> <span class="id">H6</span>). <span class="id">clear</span> <span class="id">H6</span>. <span class="id">clear</span> <span class="id">Hw</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax_Rle">Rmax_Rle</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span>(<span class="id">T</span> <span class="id">n</span> <span class="id">w</span>)) (<span class="id">A</span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--  <span class="id">left</span>. <span class="id">replace</span> (2*<span class="id">A</span> <span class="id">n</span>) <span class="kwd">with</span> (<span class="id">A</span> <span class="id">n</span> + <span class="id">A</span> <span class="id">n</span>) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
@@ -2332,9 +2342,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>; [<span class="id">apply</span> <span class="id">H1</span>| <span class="id">now</span> <span class="id">right</span>].<br/>
 &nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.Dvoretzky.html#DS_Dvor_ash_6_2_1">DS_Dvor_ash_6_2_1</a></span> <span class="id">X</span> <span class="id">Y</span> <span class="id">T</span> <span class="id">isfilt</span> <span class="id">filt_sub</span>); <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H7</span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H7</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">H7</span>; <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_impl">almost_impl</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H6</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H6</span>.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">H6</span>; <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_impl">almost_impl</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">Haux</span>; <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_impl">almost_impl</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#all_almost">all_almost</a></span>; <span class="id">intros</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">zser</span>.<br/>
@@ -2353,23 +2363,19 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_scal_l</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">A</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#is_lim_seq_max">is_lim_seq_max</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;+&nbsp;destruct&nbsp;H7.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exists&nbsp;x0;&nbsp;intros.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(H7&nbsp;n&nbsp;H8).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;admit.*)</span><br/>
-&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">is_lim_seq_spec</span> <span class="kwd">in</span> <span class="id">H8</span>.<br/>
+&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">is_lim_seq_spec</span> <span class="kwd">in</span> <span class="id">H7</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_spec</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_lim_seq</span>' <span class="kwd">in</span> *; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H8</span> <span class="id">eps</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H8</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H7</span> <span class="id">eps</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H7</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">x0</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H8</span> <span class="id">n</span> <span class="id">H9</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H7</span> <span class="id">n</span> <span class="id">H8</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rminus_0_r">Rminus_0_r</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rminus_0_r">Rminus_0_r</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_Rabsolu">Rabs_Rabsolu</a></span> <span class="kwd">in</span> <span class="id">H8</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rminus_0_r">Rminus_0_r</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_Rabsolu">Rabs_Rabsolu</a></span> <span class="kwd">in</span> <span class="id">H7</span>.<br/>
 &nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">ex_series_ext</span> <span class="kwd">with</span> (<span class="id">a</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#Derman_Sacks.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvsqr">rvsqr</a></span> (<span class="id">Y</span> <span class="id">n</span>))); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation_simple">FiniteExpectation_simple</a></span> <span class="kwd">with</span> (<span class="id">isfe</span> := (<span class="id">fey</span> <span class="id">n</span>)).<br/>
-&nbsp;Admitted.</div>
+&nbsp;Qed.</div>
 <br/>
 <br/>
 <br/>
