@@ -2793,6 +2793,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">left</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">lra</span>.<br/>
 &nbsp;Qed.</div>
+&nbsp;<br/>
 <br/>
 &nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lim_seq_sum_shift_inf1">lim_seq_sum_shift_inf1</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">N</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="id">sum_n</span> <span class="id">f</span>) <span class="id">p_infty</span> &lt;-&gt;<br/>
@@ -2850,11 +2851,49 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>; <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="paolo2">paolo2</a></span> (<span class="id">gamma</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">gamma</span> <span class="id">n</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="id">sum_n</span> <span class="id">gamma</span>) <span class="id">p_infty</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">rho</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">rho</span> 0 /\ <span class="id">is_lim_seq</span> (<span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">rho</span> <span class="id">n</span> * <span class="id">gamma</span> <span class="id">n</span>)) <span class="id">p_infty</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
+<div class="proofscript" id="proof61">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">exists</span> <span class="id">N</span>, 0 &lt; <span class="id">gamma</span> <span class="id">N</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_spec</span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">is_lim_seq</span>' <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [<span class="id">N</span> ?].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> <span class="id">N</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H0</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#pos_ind_sum">pos_ind_sum</a></span> <span class="kwd">with</span> (<span class="id">N</span> := <span class="id">N</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [<span class="id">N</span> ?].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.Dvoretzky.html#paolo2_pos">paolo2_pos</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">gamma</span> (<span class="id">n</span> + <span class="id">N</span>)%<span class="id">nat</span>)); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H2</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">H2</span> <span class="kwd">as</span> [<span class="id">rho</span> [? ?]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (0 &lt; 1) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="kwd">if</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#lt_dec">lt_dec</a></span> <span class="id">n</span> <span class="id">N</span>) <span class="kwd">then</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id">H4</span>) <span class="kwd">else</span> <span class="id">rho</span> (<span class="id">n</span> - <span class="id">N</span>)%<span class="id">nat</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">is_lim_seq_incr_n</span> <span class="kwd">with</span> (<span class="id">N</span> := <span class="id">N</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_ext</span> <span class="kwd">with</span> (<span class="id">u</span> := <span class="id">rho</span>); <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">replace</span> (<span class="id">n</span> + <span class="id">N</span> - <span class="id">N</span>)%<span class="id">nat</span> <span class="kwd">with</span> (<span class="id">n</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#lim_seq_sum_shift_inf">lim_seq_sum_shift_inf</a></span> <span class="kwd">with</span> (<span class="id">N</span> := <span class="id">N</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">is_lim_seq_ext</span> <span class="kwd">with</span> (<span class="id">u</span> := <span class="id">sum_n</span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">rho</span> <span class="id">n</span> * <span class="id">gamma</span> (<span class="id">n</span> + <span class="id">N</span>)%<span class="id">nat</span>)); <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">sum_n_ext</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">replace</span> (<span class="id">n0</span> + <span class="id">N</span> - <span class="id">N</span>)%<span class="id">nat</span> <span class="kwd">with</span> (<span class="id">n0</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#lim_seq_sum_shift_inf">lim_seq_sum_shift_inf</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 <span class="kwd">Theorem</span> <span class="id"><a name="Dvoretzky_DS_scale_prop">Dvoretzky_DS_scale_prop</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#Derman_Sacks.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">T</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.QLearn.Dvoretzky.html#Derman_Sacks.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">alpha</span> <span class="id">beta</span> <span class="id">gamma</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">hpos0</span> : 0 &lt; <span class="id">gamma</span> 0%<span class="id">nat</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">hpos1</span> : <span class="kwd">forall</span> <span class="id">n</span> , 0 &lt;= <span class="id">alpha</span> <span class="id">n</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">hpos2</span> : <span class="kwd">forall</span> <span class="id">n</span> , 0 &lt;= <span class="id">beta</span> <span class="id">n</span> )<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">hpos3</span> : <span class="kwd">forall</span> <span class="id">n</span> , 0 &lt;= <span class="id">gamma</span> <span class="id">n</span>) :<br/>
@@ -2868,10 +2907,10 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> <span class="id">alpha2</span> 0 /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">is_lim_seq</span> (<span class="id">sum_n</span> <span class="id">gamma2</span>) <span class="id">p_infty</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span> <span class="id">omega</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">T</span> <span class="id">n</span> <span class="id">omega</span>) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (<span class="id">alpha2</span> <span class="id">n</span>) ((1+<span class="id">beta</span> <span class="id">n</span>)*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">X</span> <span class="id">n</span> <span class="id">omega</span>)) - <span class="id">gamma2</span> <span class="id">n</span>).<br/>
-<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
-<div class="proofscript" id="proof61">
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
+<div class="proofscript" id="proof62">
 &nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.QLearn.Dvoretzky.html#paolo2_pos">paolo2_pos</a></span> <span class="id">gamma</span> <span class="id">hpos0</span> <span class="id">hpos3</span> <span class="id">H2</span>) <span class="kwd">as</span> [<span class="id">rho</span> [? ?]].<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.QLearn.Dvoretzky.html#paolo2">paolo2</a></span> <span class="id">gamma</span> <span class="id">hpos3</span> <span class="id">H2</span>) <span class="kwd">as</span> [<span class="id">rho</span> [? ?]].<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">alpha2</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (<span class="id">alpha</span> <span class="id">n</span>) ((1 + <span class="id">beta</span> <span class="id">n</span>) * <span class="id">rho</span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">gamma2</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">rho</span> <span class="id">n</span>) *(<span class="id">gamma</span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">alpha2</span>; <span class="kwd">exists</span> <span class="id">gamma2</span>.<br/>
