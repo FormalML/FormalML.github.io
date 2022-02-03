@@ -13,7 +13,7 @@
 <body onload="hideAll('proofscript')">
 <h1 class="title">Module FormalML.ProbTheory.RandomVariable</h1>
 <div class="coq">
-<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Program.html">Program</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lia.html">Lia</a></span>.<br/>
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span> <span class="id"><a href="FormalML.utils.BasicUtils.html">BasicUtils</a></span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html">ProbSpace</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html">SigmaAlgebras</a></span>.<br/>
@@ -869,6 +869,43 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#adapted">adapted</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="prod_space">prod_space</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span> <span class="id">Td1</span> <span class="id">Td2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} {<span class="id">cod1</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Td1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">cod2</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Td2</span>}.<br/>
+<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="product_sa_rv">product_sa_rv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X1</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.Ts">Ts</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.Td1">Td1</a></span>) (<span class="id">X2</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.Ts">Ts</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.Td2">Td2</a></span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv1</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.cod1">cod1</a></span> <span class="id">X1</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.cod2">cod2</a></span> <span class="id">X2</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.dom">dom</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#product_sa">product_sa</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.cod1">cod1</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space.cod2">cod2</a></span>) (<span class="kwd">fun</span> <span class="id">a</span> =&gt; (<span class="id">X1</span> <span class="id">a</span>, <span class="id">X2</span> <span class="id">a</span>)).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof47')">Proof.</span></div>
+<div class="proofscript" id="proof47">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">rv1</span>, <span class="id">rv2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_preimage">event_preimage</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">B</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa_closure">generated_sa_closure</a></span> <span class="kwd">in</span> <span class="id">s</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">dependent</span> <span class="id">induction</span> <span class="id">s</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [?[?[?[??]]]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_proper">sa_proper</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> (<span class="id">rv1</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> (<span class="id">rv2</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">H0</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_countable_union">sa_countable_union</a></span>. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_complement">sa_complement</a></span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_space">prod_space</a></span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
