@@ -1054,6 +1054,60 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_eq">vector_nth_eq</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_apply">vector_nth_apply</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_map">vector_nth_map</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_const">vector_nth_const</a></span>.<br/>
 Qed.</div>
+<br/>
+<span class="id">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_cons">vector_cons</a></span> {<span class="id">n</span>} {<span class="id">A</span>} (<span class="id">x</span>:<span class="id">A</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)<br/>
+&nbsp;&nbsp;:= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> (<span class="id">x</span>::<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">v</span>) <span class="id">_</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof77')">Next Obligation.</span></div>
+<div class="proofscript" id="proof77">
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">v</span>; <span class="id">simpl</span>; <span class="id">congruence</span>.<br/>
+Defined.</div>
+<br/>
+<span class="kwd">Definition</span> <span class="id"><a name="vector_singleton">vector_singleton</a></span> {<span class="id">A</span>} (<span class="id">x</span>:<span class="id">A</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> 1%<span class="id">nat</span><br/>
+&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.DVector.html#vector_cons">vector_cons</a></span> <span class="id">x</span> <span class="id"><a href="FormalML.utils.DVector.html#vector0">vector0</a></span>.<br/>
+<br/>
+<span class="id">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="vector_add_to_end">vector_add_to_end</a></span> {<span class="id">n</span>} {<span class="id">A</span>} (<span class="id">x</span>:<span class="id">A</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)<br/>
+&nbsp;&nbsp;:= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">v</span> ++ <span class="id">x</span>::<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>) <span class="id">_</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof78')">Next Obligation.</span></div>
+<div class="proofscript" id="proof78">
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">v</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#app_length">app_length</a></span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.add_1_r">Nat.add_1_r</a></span>.<br/>
+&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
+Defined.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_singleton">vector_nth_singleton</a></span> {<span class="id">A</span>} (<span class="id">x</span>:<span class="id">A</span>) <span class="id">i</span> <span class="id">pf</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_singleton">vector_singleton</a></span> <span class="id">x</span>) = <span class="id">x</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof79')">Proof.</span></div>
+<div class="proofscript" id="proof79">
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">i</span>; [| <span class="id">lia</span>].<br/>
+&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_add_to_end_prefix">vector_nth_add_to_end_prefix</a></span> {<span class="id">n</span>} {<span class="id">A</span>} (<span class="id">x</span>:<span class="id">A</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) <span class="id">i</span> <span class="id">pf</span> (<span class="id">pf2</span>:(<span class="id">i</span>&lt;<span class="id">n</span>)%<span class="id">nat</span>):<br/>
+&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_add_to_end">vector_add_to_end</a></span> <span class="id">x</span> <span class="id">v</span>) = <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf2</span> <span class="id">v</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
+<div class="proofscript" id="proof80">
+&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth_in">vector_nth_in</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_add_to_end">vector_add_to_end</a></span> <span class="id">x</span> <span class="id">v</span>)); <span class="id">intros</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth_in">vector_nth_in</a></span> <span class="id">i</span> <span class="id">pf2</span> <span class="id">v</span>); <span class="id">intros</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;<span class="id">cut</span> ( <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nth_error">nth_error</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_add_to_end">vector_add_to_end</a></span> <span class="id">x</span> <span class="id">v</span>)) <span class="id">i</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nth_error">nth_error</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">v</span>) <span class="id">i</span>)<br/>
+&nbsp;&nbsp;; [<span class="id">congruence</span> | ].<br/>
+&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nth_error_app1">nth_error_app1</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_length">vector_length</a></span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_add_to_end_suffix">vector_nth_add_to_end_suffix</a></span> {<span class="id">n</span>} {<span class="id">A</span>} (<span class="id">x</span>:<span class="id">A</span>) (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) <span class="id">pf</span> :<br/>
+&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">n</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_add_to_end">vector_add_to_end</a></span> <span class="id">x</span> <span class="id">v</span>) = <span class="id">x</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
+<div class="proofscript" id="proof81">
+&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth_in">vector_nth_in</a></span> <span class="id">n</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_add_to_end">vector_add_to_end</a></span> <span class="id">x</span> <span class="id">v</span>)); <span class="id">intros</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nth_error_app2">nth_error_app2</a></span> <span class="kwd">in</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_length">vector_length</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.sub_diag">Nat.sub_diag</a></span> <span class="kwd">in</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
+&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_length">vector_length</a></span>; <span class="id">reflexivity</span>.<br/>
+Qed.</div>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
