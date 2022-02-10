@@ -1004,22 +1004,18 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#plus">plus</a></span> <span class="kwd">in</span> *; <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Series_nonneg">Series_nonneg</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} : <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span> -&gt; (<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) -&gt; 0 &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Series_nonneg">Series_nonneg</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} : (<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) -&gt; 0 &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">a</span>.<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
 <div class="proofscript" id="proof84">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Ha</span> <span class="id">Hpos</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series_le">Series_le</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 0) <span class="id">a</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= 0 &lt;= <span class="id">a</span> <span class="id">n</span>) <span class="kwd">by</span> (<span class="id">intro</span> <span class="id">n</span>; <span class="id">split</span> ; <span class="id">try</span> (<span class="id">lra</span> ; <span class="id">trivial</span>) ; <span class="id">try</span> (<span class="id">trivial</span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">H0</span> <span class="id">Ha</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) = 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hnneg</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) = (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0))<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> (<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">FunctionalExtensionality.functional_extensionality</a></span> ; <span class="id">intros</span> ; <span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#sum_n_zero">sum_n_zero</a></span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H1</span>. <span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq_const">Lim_seq_const</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">H1</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq_le_loc">Lim_seq_le_loc</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq_const">Lim_seq_const</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq">Lim_seq</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">a</span>)); <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">trivial</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="kwd">exists</span> 0%<span class="id">nat</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#sum_n_nneg">sum_n_nneg</a></span>; <span class="id">intros</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Series_pos">Series_pos</a></span> {<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} : <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span> -&gt; (<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt; <span class="id">a</span> <span class="id">n</span>) -&gt; 0 &lt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">a</span>.<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
@@ -1028,13 +1024,10 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series_incr_1">Series_incr_1</a></span> ; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_lt_le_0_compat">Rplus_lt_le_0_compat</a></span> ; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Series_nonneg">Series_nonneg</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">rewrite</span> &lt;-<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series_incr_1">ex_series_incr_1</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> <span class="id">n</span>. <span class="id">left</span>. <span class="id">apply</span> (<span class="id">Hpos</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>. <span class="id">left</span>. <span class="id">apply</span> (<span class="id">Hpos</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.RealAdd.html#sum_n">sum_n</a></span>.<br/>
-<br/>
-<br/>
 <br/>
 <span class="kwd">Section</span> <span class="id"><a name="expprops">expprops</a></span>.<br/>
 <br/>
