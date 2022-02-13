@@ -1783,159 +1783,21 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_pos">Rmult_le_pos</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Section</span> <span class="id"><a name="martingale.find">find</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">P</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="kwd">Prop</span>} (<span class="id">dec</span>:<span class="kwd">forall</span> <span class="id">a</span>, {<span class="id">P</span> <span class="id">a</span>} + {~ <span class="id">P</span> <span class="id">a</span>}).<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="find_first">find_first</a></span>  <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#option">option</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0 =&gt; <span class="kwd">if</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.find.dec">dec</a></span> 0%<span class="id">nat</span> <span class="kwd">then</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> 0%<span class="id">nat</span> <span class="kwd">else</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span> =&gt; <span class="kwd">match</span> <span class="id">find_first</span> <span class="id">k</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">x</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">x</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="kwd">if</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.find.dec">dec</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="kwd">then</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="kwd">else</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="find_first_some">find_first_some</a></span> <span class="id">n</span> <span class="id">k</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first">find_first</a></span> <span class="id">n</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">k</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.find.P">P</a></span> <span class="id">k</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_destr</span>; <span class="id">congruence</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_option</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>; <span class="id">apply</span> <span class="id">IHn</span>; <span class="id">congruence</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">match_destr</span>; <span class="id">congruence</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="find_first_none">find_first_none</a></span> <span class="id">n</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first">find_first</a></span> <span class="id">n</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> -&gt; <span class="kwd">forall</span> <span class="id">k</span>, (<span class="id">k</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt; ~ <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.find.P">P</a></span> <span class="id">k</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_destr</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">k</span> = 0)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_option</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.le_succ_r">Nat.le_succ_r</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">auto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">congruence</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="find_first_some_first">find_first_some_first</a></span> <span class="id">n</span> <span class="id">k</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first">find_first</a></span> <span class="id">n</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">k</span> -&gt; <span class="kwd">forall</span> <span class="id">i</span>, (<span class="id">i</span> &lt; <span class="id">k</span>)%<span class="id">nat</span> -&gt; ~ <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.find.P">P</a></span> <span class="id">i</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_destr</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H</span>; <span class="id">lia</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_option</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>; <span class="id">apply</span> <span class="id">IHn</span>; <span class="id">congruence</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">match_destr</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first_none">find_first_none</a></span> <span class="id">n</span>); <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
-&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.find">find</a></span>.<br/>
-&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="classic_min_of_sumbool">classic_min_of_sumbool</a></span> (<span class="id">P</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="kwd">Prop</span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> | <span class="id">P</span> <span class="id">n</span> /\ <span class="kwd">forall</span> <span class="id">k</span>, (<span class="id">k</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt; ~ <span class="id">P</span> <span class="id">k</span>} + {<span class="kwd">forall</span> <span class="id">n</span>, ~ <span class="id">P</span> <span class="id">n</span>}.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
-<div class="proofscript" id="proof52">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalDescription.html#excluded_middle_informative">ClassicalDescription.excluded_middle_informative</a></span> (<span class="kwd">exists</span> <span class="id">n</span>, <span class="id">P</span> <span class="id">n</span> /\ <span class="kwd">forall</span> <span class="id">k</span>, (<span class="id">k</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt; ~ <span class="id">P</span> <span class="id">k</span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">left</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> ( <span class="kwd">exists</span>! <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id">P</span> <span class="id">n</span> /\ (<span class="kwd">forall</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, (<span class="id">k</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt; ~ <span class="id">P</span> <span class="id">k</span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">e</span> <span class="kwd">as</span> [<span class="id">n</span> [<span class="id">Pn</span> <span class="id">Pmin</span>]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">n</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; [<span class="id">auto</span>| <span class="id">intros</span> ?[??]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.Natural.Peano.NPeano.html#Nat.nlt_ge">NPeano.Nat.nlt_ge</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">Pmin</span> <span class="id">_</span> <span class="id">H1</span>); <span class="id">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.Natural.Peano.NPeano.html#Nat.nlt_ge">NPeano.Nat.nlt_ge</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H0</span> <span class="id">_</span> <span class="id">H1</span>); <span class="id">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Description.html#constructive_definite_description">constructive_definite_description</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">k</span> <span class="id">pk</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case_eq</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first">find_first</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#classic_dec">classic_dec</a></span> <span class="id">P</span>) <span class="id">k</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">n</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">n0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first_some">find_first_some</a></span>; <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first_some_first">find_first_some_first</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#find_first_none">find_first_none</a></span> <span class="kwd">in</span> <span class="id">HH</span>; <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="classic_min_of">classic_min_of</a></span> (<span class="id">P</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="kwd">Prop</span>) : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#option">option</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_sumbool">classic_min_of_sumbool</a></span> <span class="id">P</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#inleft">inleft</a></span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="id">n</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#inright">inright</a></span> <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="classic_min_of_some">classic_min_of_some</a></span> <span class="id">P</span> <span class="id">k</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> <span class="id">P</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">k</span> -&gt; <span class="id">P</span> <span class="id">k</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
-<div class="proofscript" id="proof53">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [?[??]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">intros</span> <span class="id">HH</span>; <span class="id">invcs</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="id">P</span> <span class="id">k</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> <span class="id">P</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">k</span> -&gt; <span class="kwd">forall</span> <span class="id">j</span>, (<span class="id">j</span> &lt; <span class="id">k</span>)%<span class="id">nat</span> -&gt; ~ <span class="id">P</span> <span class="id">j</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
-<div class="proofscript" id="proof54">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [?[??]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">intros</span> <span class="id">HH</span>; <span class="id">invcs</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="classic_min_of_none">classic_min_of_none</a></span> <span class="id">P</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> <span class="id">P</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> -&gt; <span class="kwd">forall</span> <span class="id">k</span>, ~ <span class="id">P</span> <span class="id">k</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
-<div class="proofscript" id="proof55">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="classic_min_of_proper">classic_min_of_proper</a></span> :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
-<div class="proofscript" id="proof56">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [?[??]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">s0</span> <span class="kwd">as</span> [?[??]]; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#not_lt">not_lt</a></span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span> <span class="kwd">in</span> <span class="id">y0</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">n</span> <span class="id">_</span> <span class="id">HH</span>); <span class="id">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#not_lt">not_lt</a></span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span> <span class="kwd">in</span> <span class="id">x1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">n0</span> <span class="id">_</span> <span class="id">HH</span>); <span class="id">tauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [?[??]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">elim</span> (<span class="id">n</span> <span class="id">x0</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">s</span> <span class="kwd">as</span> [?[??]].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">elim</span> (<span class="id">n</span> <span class="id">x0</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="hitting_time">hitting_time</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span>:<span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.Ts">Ts</a></span>) : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#option">option</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">B</span> (<span class="id">X</span> <span class="id">k</span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">B</span> (<span class="id">X</span> <span class="id">k</span> <span class="id">a</span>)).<br/>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="hitting_time_proper">hitting_time_proper</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) ==&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
-<div class="proofscript" id="proof57">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
+<div class="proofscript" id="proof52">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_proper">classic_min_of_proper</a></span>; <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_proper">classic_min_of_proper</a></span>; <span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
@@ -1945,8 +1807,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">filt</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">adaptX</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#IsAdapted">IsAdapted</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>) : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#is_stopping_time">is_stopping_time</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span> <span class="id">X</span> <span class="id">B</span>) <span class="id">sas</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
-<div class="proofscript" id="proof58">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
+<div class="proofscript" id="proof53">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#stopping_time_pre_event">stopping_time_pre_event</a></span>.<br/>
@@ -1954,21 +1816,21 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">k</span>, (<span class="id">k</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt; ~ <span class="id">B</span> (<span class="id">X</span> <span class="id">k</span> <span class="id">x</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">case_eq</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">B</span> (<span class="id">X</span> <span class="id">k</span> <span class="id">x</span>))); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">case_eq</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">B</span> (<span class="id">X</span> <span class="id">k</span> <span class="id">x</span>))); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">destruct</span> <span class="id">HH</span> <span class="kwd">as</span> [??].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#not_lt">not_lt</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">eapply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">specialize</span> (<span class="id">H1</span> <span class="id">_</span> <span class="id">HH</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_none">classic_min_of_none</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">eapply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_none">classic_min_of_none</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">elim</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some_first">classic_min_of_some_first</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some_first">classic_min_of_some_first</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">adaptX</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_pre_countable_inter">sa_pre_countable_inter</a></span>; <span class="id">intros</span>.<br/>
@@ -1995,7 +1857,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> =&gt; <span class="kwd">match</span> <span class="id">hitting_time_n</span> <span class="id">X</span> <span class="id">B</span> <span class="id">m</span> <span class="id">a</span> <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">hitk</span> =&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">B</span> (<span class="id">X</span> (<span class="id">k</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span> <span class="id">a</span>)) <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">B</span> (<span class="id">X</span> (<span class="id">k</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span> <span class="id">a</span>)) <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">a</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">a</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span><br/>
@@ -2008,8 +1870,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">filt</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">adaptX</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#IsAdapted">IsAdapted</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>) <span class="id">n</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#is_stopping_time">is_stopping_time</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_n">hitting_time_n</a></span> <span class="id">X</span> <span class="id">B</span> <span class="id">n</span>) <span class="id">sas</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
-<div class="proofscript" id="proof59">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
+<div class="proofscript" id="proof54">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_is_stop">hitting_time_is_stop</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">a</span>.<br/>
@@ -2018,7 +1880,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">exists</span> <span class="id">hitk</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">hitk</span> &lt; <span class="id">a</span>)%<span class="id">nat</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_n">hitting_time_n</a></span> <span class="id">X</span> <span class="id">B</span> <span class="id">n</span> <span class="id">x</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">hitk</span> /\<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">B</span> (<span class="id">X</span> (<span class="id">k</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span> <span class="id">x</span>)) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">a</span>-<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">B</span> (<span class="id">X</span> (<span class="id">k</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span> <span class="id">x</span>)) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id">a</span>-<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">hitk</span>)%<span class="id">nat</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">destruct</span> <span class="id">HH</span> <span class="kwd">as</span> [?[?[??]]].<br/>
@@ -2075,8 +1937,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) <span class="id">sas</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
-<div class="proofscript" id="proof60">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
+<div class="proofscript" id="proof55">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">stop1</span> <span class="id">stop2</span> <span class="id">incr2</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#stopping_time_pre_event">stopping_time_pre_event</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_proper">sa_proper</a></span> <span class="id">_</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="kwd">exists</span> <span class="id">old</span>, <span class="id">old</span> &lt;= <span class="id">n</span> /\ <span class="id">t1</span> <span class="id">x</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">old</span> /\ <span class="id">t2</span> <span class="id">old</span> <span class="id">x</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">n</span>)%<span class="id">nat</span>).<br/>
@@ -2114,8 +1976,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="hitting_time_from_proper">hitting_time_from_proper</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
-<div class="proofscript" id="proof61">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
+<div class="proofscript" id="proof56">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??????????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">subst</span>.<br/>
@@ -2130,8 +1992,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">a</span>:<span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.Ts">Ts</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span> <span class="id">X</span> 0%<span class="id">nat</span> <span class="id">B</span> <span class="id">a</span> = <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span> <span class="id">X</span> <span class="id">B</span> <span class="id">a</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
-<div class="proofscript" id="proof62">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
+<div class="proofscript" id="proof57">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_proper">hitting_time_proper</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">shelve</span>.<br/>
@@ -2153,8 +2015,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">filt</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">adaptX</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#IsAdapted">IsAdapted</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">X</span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>) : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#is_stopping_time">is_stopping_time</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span> <span class="id">X</span> <span class="id">old</span> <span class="id">B</span>) <span class="id">sas</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
-<div class="proofscript" id="proof63">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
+<div class="proofscript" id="proof58">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span>, <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#stopping_time_pre_event">stopping_time_pre_event</a></span>.<br/>
@@ -2164,27 +2026,27 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">case_eq</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">B</span> (<span class="id">X</span> (<span class="id">k</span>+<span class="id">old</span>)%<span class="id">nat</span> <span class="id">x</span>))); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">case_eq</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">B</span> (<span class="id">X</span> (<span class="id">k</span>+<span class="id">old</span>)%<span class="id">nat</span> <span class="id">x</span>))); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">destruct</span> <span class="id">HH</span> <span class="kwd">as</span> [??].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#not_lt">not_lt</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span> (<span class="id">n</span>-<span class="id">old</span>)); [<span class="id">lia</span> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span> (<span class="id">n</span>-<span class="id">old</span>)); [<span class="id">lia</span> |].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">replace</span> (<span class="id">n</span> - <span class="id">old</span> + <span class="id">old</span>)%<span class="id">nat</span> <span class="kwd">with</span> <span class="id">n</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">specialize</span> (<span class="id">H1</span> (<span class="id">n0</span> + <span class="id">old</span>)%<span class="id">nat</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H1</span>; [| <span class="id">lia</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_none">classic_min_of_none</a></span> <span class="kwd">with</span> (<span class="id">k</span>:=(<span class="id">n</span>-<span class="id">old</span>)%<span class="id">nat</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">eapply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_none">classic_min_of_none</a></span> <span class="kwd">with</span> (<span class="id">k</span>:=(<span class="id">n</span>-<span class="id">old</span>)%<span class="id">nat</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">elim</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">n</span> - <span class="id">old</span> + <span class="id">old</span>)%<span class="id">nat</span> <span class="kwd">with</span> <span class="id">n</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">match_option_in</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">eqq</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">eqq</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">eqq</span> (<span class="id">k</span>-<span class="id">old</span>)%<span class="id">nat</span>); <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">eqq</span> (<span class="id">k</span>-<span class="id">old</span>)%<span class="id">nat</span>); <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id">k</span> - <span class="id">old</span> + <span class="id">old</span>)%<span class="id">nat</span> <span class="kwd">with</span> <span class="id">k</span> <span class="kwd">in</span> <span class="id">HH</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
@@ -2226,8 +2088,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span>) <span class="id">ts</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span> <span class="id">X</span> <span class="id">old</span> <span class="id">B</span> <span class="id">ts</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">n</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">old</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
-<div class="proofscript" id="proof64">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
+<div class="proofscript" id="proof59">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_from">hitting_time_from</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>; <span class="id">invcs</span> <span class="id">HH</span>.<br/>
@@ -2260,8 +2122,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="upcrossing_times_is_stop">upcrossing_times_is_stop</a></span> <span class="id">a</span> <span class="id">b</span> <span class="id">n</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#is_stopping_time">is_stopping_time</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_times">upcrossing_times</a></span> <span class="id">a</span> <span class="id">b</span> <span class="id">n</span>) <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_times.sas">sas</a></span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
-<div class="proofscript" id="proof65">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
+<div class="proofscript" id="proof60">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#is_stopping_time_constant">is_stopping_time_constant</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
@@ -2275,7 +2137,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="upcrossing_var">upcrossing_var</a></span> <span class="id">a</span> <span class="id">b</span> <span class="id">n</span> <span class="id">ts</span> :=<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="kwd">match</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_times">upcrossing_times</a></span> <span class="id">a</span> <span class="id">b</span> (2*<span class="id">k</span>) <span class="id">ts</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="kwd">match</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_times">upcrossing_times</a></span> <span class="id">a</span> <span class="id">b</span> (2*<span class="id">k</span>) <span class="id">ts</span> <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">k</span> =&gt; (<span class="id">k</span> &gt; <span class="id">n</span>)%<span class="id">nat</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#False">False</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>) <span class="kwd">with</span><br/>
@@ -2305,8 +2167,8 @@
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="levy_martingale_rv">levy_martingale_rv</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy_martingale">levy_martingale</a></span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
-<div class="proofscript" id="proof66">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
+<div class="proofscript" id="proof61">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy_martingale">levy_martingale</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteCondexp_rv">FiniteCondexp_rv</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.sub">sub</a></span> <span class="id">n</span>) <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.X">X</a></span>).<br/>
@@ -2316,8 +2178,8 @@
 <br/>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="levy_martingale_is_adapted">levy_martingale_is_adapted</a></span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#IsAdapted">IsAdapted</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy_martingale">levy_martingale</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.sas">sas</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
-<div class="proofscript" id="proof67">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
+<div class="proofscript" id="proof62">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy_martingale">levy_martingale</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteCondexp_rv">FiniteCondexp_rv</a></span>.<br/>
@@ -2325,8 +2187,8 @@
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="levy_martingale_is_martingale">levy_martingale_is_martingale</a></span> {<span class="id">filt</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.sas">sas</a></span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#IsMartingale">IsMartingale</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy_martingale">levy_martingale</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.sas">sas</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof68')">Proof.</span></div>
-<div class="proofscript" id="proof68">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
+<div class="proofscript" id="proof63">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy_martingale">levy_martingale</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">FiniteCondexp_tower</span>' <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.sub">sub</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) (<span class="id">filt</span> <span class="id">n</span>) <span class="id"><a href="FormalML.ProbTheory.Martingale.html#levy.X">X</a></span>)<br/>
@@ -2374,8 +2236,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">hy</span> : <span class="id"><a href="FormalML.ProbTheory.Martingale.html#IsMartingale">IsMartingale</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#MartingaleDifferenceSeq.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">Y</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#MartingaleDifferenceSeq.sas">sas</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, <span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#MartingaleDifferenceSeq.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#MartingaleDifferenceSeq.X">X</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvminus">rvminus</a></span> (<span class="id">Y</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) (<span class="id">Y</span> <span class="id">n</span>))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#IsMDS">IsMDS</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#MartingaleDifferenceSeq.sas">sas</a></span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#MartingaleDifferenceSeq.X">X</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof69')">Proof.</span></div>
-<div class="proofscript" id="proof69">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
+<div class="proofscript" id="proof64">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Hn</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
@@ -2412,20 +2274,20 @@
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_witness_pack">zerotails_witness_pack</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span> -&gt; <span class="kwd">forall</span> (ϵ:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>), { <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> | <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span> <span class="id">a</span> ϵ <span class="id">n</span>  /\ <span class="kwd">forall</span> <span class="id">n</span>', <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span> <span class="id">a</span> ϵ <span class="id">n</span>' -&gt; (<span class="id">n</span> &lt;= <span class="id">n</span>')%<span class="id">nat</span> }.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof70')">Proof.</span></div>
-<div class="proofscript" id="proof70">
+<div><span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
+<div class="proofscript" id="proof65">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
-&nbsp;&nbsp;<span class="id">case_eq</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of">classic_min_of</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span> <span class="id">a</span> ϵ)).<br/>
+&nbsp;&nbsp;<span class="id">case_eq</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of">classic_min_of</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span> <span class="id">a</span> ϵ)).<br/>
 &nbsp;&nbsp;- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some">classic_min_of_some</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.Natural.Peano.NPeano.html#Nat.nlt_ge">NPeano.Nat.nlt_ge</a></span>; <span class="id">intros</span> <span class="id">nlt</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="kwd">in</span> <span class="id">H0</span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">nlt</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="kwd">in</span> <span class="id">H0</span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">nlt</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">tauto</span>.<br/>
 &nbsp;&nbsp;- <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#classic_min_of_none">classic_min_of_none</a></span> <span class="id">_</span> <span class="id">H0</span>); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_none">classic_min_of_none</a></span> <span class="id">_</span> <span class="id">H0</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#zerotails">zerotails</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_spec">is_lim_seq_spec</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -2443,8 +2305,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_witness_prop">zerotails_witness_prop</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) (ϵ:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">N</span>, ((<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span> <span class="id">a</span> <span class="id">pf</span> ϵ) &lt;= <span class="id">N</span>)%<span class="id">nat</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">N</span> + <span class="id">k</span>)%<span class="id">nat</span>)) &lt; ϵ.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
-<div class="proofscript" id="proof71">
+<div><span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
+<div class="proofscript" id="proof66">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;<span class="id">tauto</span>.<br/>
@@ -2453,8 +2315,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_prop_nondecr">zerotails_prop_nondecr</a></span> <span class="id">a</span> ϵ1 ϵ2 <span class="id">n</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;ϵ1 &lt;= ϵ2 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span> <span class="id">a</span> ϵ1 <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span> <span class="id">a</span> ϵ2 <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof72')">Proof.</span></div>
-<div class="proofscript" id="proof72">
+<div><span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
+<div class="proofscript" id="proof67">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_prop">zerotails_prop</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">eapply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_le_trans">Rlt_le_trans</a></span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">H0</span>.<br/>
@@ -2463,8 +2325,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_witness_min">zerotails_witness_min</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) (ϵ:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>', (<span class="kwd">forall</span> <span class="id">N</span>, (<span class="id">n</span>' &lt;= <span class="id">N</span>)%<span class="id">nat</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">N</span> + <span class="id">k</span>)%<span class="id">nat</span>)) &lt; ϵ) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span> <span class="id">a</span> <span class="id">pf</span> ϵ) &lt;= <span class="id">n</span>')%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof73')">Proof.</span></div>
-<div class="proofscript" id="proof73">
+<div><span class="toggleproof" onclick="toggleDisplay('proof68')">Proof.</span></div>
+<div class="proofscript" id="proof68">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;<span class="id">tauto</span>.<br/>
@@ -2473,8 +2335,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_witness_nondecr">zerotails_witness_nondecr</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) (ϵ1 ϵ2:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;ϵ2 &lt;= ϵ1 -&gt;<br/>
 &nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span> <span class="id">a</span> <span class="id">pf</span> ϵ1 &lt;= <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span> <span class="id">a</span> <span class="id">pf</span> ϵ2)%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof74')">Proof.</span></div>
-<div class="proofscript" id="proof74">
+<div><span class="toggleproof" onclick="toggleDisplay('proof69')">Proof.</span></div>
+<div class="proofscript" id="proof69">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>; <span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">a0</span>.<br/>
@@ -2483,8 +2345,8 @@ Qed.</div>
 Qed.</div>
 <br/>
 <span class="kwd">Definition</span> <span class="id"><a name="inv_2_pow_posreal">inv_2_pow_posreal</a></span> (<span class="id">k</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof75')">Proof.</span></div>
-<div class="proofscript" id="proof75">
+<div><span class="toggleproof" onclick="toggleDisplay('proof70')">Proof.</span></div>
+<div class="proofscript" id="proof70">
 &nbsp;&nbsp;<span class="kwd">exists</span> (/ (2 ^ <span class="id">k</span>)).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_0_lt_compat">Rinv_0_lt_compat</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rfunctions.html#pow_lt">pow_lt</a></span>; <span class="id">lra</span>.<br/>
@@ -2498,8 +2360,8 @@ Defined.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_eps2k_fun_shifted_bound">zerotails_eps2k_fun_shifted_bound</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) (<span class="id">k</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>)<br/>
 &nbsp;&nbsp;: <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id">x</span>+ (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">k</span>)%<span class="id">nat</span>)))) &lt; (/ (2 ^ <span class="id">k</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof76')">Proof.</span></div>
-<div class="proofscript" id="proof76">
+<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
+<div class="proofscript" id="proof71">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">zerotails_eps2k_fun</span>'.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness">zerotails_witness</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
@@ -2515,8 +2377,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_eps2k_double_sum_ex">zerotails_eps2k_double_sum_ex</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id">x</span>+ (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">k</span>)%<span class="id">nat</span>)))).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof77')">Proof.</span></div>
-<div class="proofscript" id="proof77">
+<div><span class="toggleproof" onclick="toggleDisplay('proof72')">Proof.</span></div>
+<div class="proofscript" id="proof72">
 &nbsp;&nbsp;<span class="id">eapply</span> (@<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series_le">ex_series_le</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#R_AbsRing">R_AbsRing</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#R_CompleteNormedModule">R_CompleteNormedModule</a></span> <span class="id">_</span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt;  (/ (2 ^ <span class="id">k</span>)))).<br/>
 &nbsp;&nbsp;- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">left</span>.<br/>
@@ -2533,8 +2395,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id">zerotails_eps2k_fun</span>'<span class="id">_nondecr</span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span> :<br/>
 &nbsp;&nbsp;((<span class="id">zerotails_eps2k_fun</span>' <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span>) &lt;= (<span class="id">zerotails_eps2k_fun</span>'  <span class="id">a</span> <span class="id">pf</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof78')">Proof.</span></div>
-<div class="proofscript" id="proof78">
+<div><span class="toggleproof" onclick="toggleDisplay('proof73')">Proof.</span></div>
+<div class="proofscript" id="proof73">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id">zerotails_eps2k_fun</span>'.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_witness_nondecr">zerotails_witness_nondecr</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">simpl</span>.<br/>
@@ -2555,8 +2417,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_strict_incr">zerotails_incr_mult_strict_incr</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span> :<br/>
 &nbsp;&nbsp;((<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span>) &lt; (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof79')">Proof.</span></div>
-<div class="proofscript" id="proof79">
+<div><span class="toggleproof" onclick="toggleDisplay('proof74')">Proof.</span></div>
+<div class="proofscript" id="proof74">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">zerotails_eps2k_fun</span>'<span class="id">_nondecr</span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span>); <span class="id">lia</span>.<br/>
 Qed.</div>
@@ -2564,8 +2426,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_strict_incr_lt">zerotails_incr_mult_strict_incr_lt</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">m</span> <span class="id">n</span> :<br/>
 &nbsp;&nbsp;(<span class="id">m</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;((<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">m</span>) &lt; (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span>))%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
-<div class="proofscript" id="proof80">
+<div><span class="toggleproof" onclick="toggleDisplay('proof75')">Proof.</span></div>
+<div class="proofscript" id="proof75">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult_strict_incr">zerotails_incr_mult_strict_incr</a></span>.<br/>
@@ -2578,8 +2440,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_ex">zerotails_incr_mult_ex</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) <span class="id">n</span> :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="kwd">if</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#le_dec">le_dec</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n0</span>)) <span class="id">n</span> <span class="kwd">then</span> 1 <span class="kwd">else</span> 0).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
-<div class="proofscript" id="proof81">
+<div><span class="toggleproof" onclick="toggleDisplay('proof76')">Proof.</span></div>
+<div class="proofscript" id="proof76">
 &nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series_incr_n">ex_series_incr_n</a></span> <span class="id">_</span> <span class="id">n</span>).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series_ext">ex_series_ext</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0)).<br/>
 &nbsp;&nbsp;- <span class="id">intros</span>.<br/>
@@ -2593,8 +2455,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_trunc">zerotails_incr_mult_trunc</a></span>  (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) <span class="id">n</span> :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span> = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="kwd">if</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#le_dec">le_dec</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n0</span>)) <span class="id">n</span> <span class="kwd">then</span> 1 <span class="kwd">else</span> 0) <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
-<div class="proofscript" id="proof82">
+<div><span class="toggleproof" onclick="toggleDisplay('proof77')">Proof.</span></div>
+<div class="proofscript" id="proof77">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#is_series_unique">is_series_unique</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#series_is_lim_seq">series_is_lim_seq</a></span>.<br/>
@@ -2618,8 +2480,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_eps2k_fun_unbounded">zerotails_eps2k_fun_unbounded</a></span> <span class="id">a</span> <span class="id">pf</span> :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, <span class="kwd">exists</span> <span class="id">k</span>, (<span class="id">m</span> &lt; (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">k</span>))%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
-<div class="proofscript" id="proof83">
+<div><span class="toggleproof" onclick="toggleDisplay('proof78')">Proof.</span></div>
+<div class="proofscript" id="proof78">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>).<br/>
 &nbsp;&nbsp;<span class="id">lia</span>.<br/>
@@ -2628,8 +2490,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="filter_le_length">filter_le_length</a></span> {<span class="id">A</span>:<span class="kwd">Type</span>} (<span class="id">f1</span> <span class="id">f2</span>:<span class="id">A</span>-&gt;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#bool">bool</a></span>) (<span class="id">l</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l</span> -&gt; <span class="id">f1</span> <span class="id">x</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span> -&gt; <span class="id">f2</span> <span class="id">x</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span>) -&gt;<br/>
 &nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> <span class="id">f1</span> <span class="id">l</span>) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> <span class="id">f2</span> <span class="id">l</span>))%<span class="id">nat</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
-<div class="proofscript" id="proof84">
+<div><span class="toggleproof" onclick="toggleDisplay('proof79')">Proof.</span></div>
+<div class="proofscript" id="proof79">
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">trivial</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">IHl</span>; [| <span class="id">firstorder</span>].<br/>
 &nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">a</span>).<br/>
@@ -2642,8 +2504,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_incr">zerotails_incr_mult_incr</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span> :<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">m</span>, (<span class="id">n</span> &lt; <span class="id">m</span>)%<span class="id">nat</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span> + 1 &lt;= <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">m</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
-<div class="proofscript" id="proof85">
+<div><span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
+<div class="proofscript" id="proof80">
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun_unbounded">zerotails_eps2k_fun_unbounded</a></span> <span class="id">a</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) <span class="kwd">as</span> [<span class="id">m</span> <span class="id">HH</span>].<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> ((<span class="id">n</span> + <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">m</span>))%<span class="id">nat</span>).<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id">nlt</span>:(<span class="id">n</span> &lt; <span class="id">n</span> + <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_eps2k_fun">zerotails_eps2k_fun</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">m</span>)%<span class="id">nat</span>).<br/>
@@ -2683,8 +2545,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_unbounded_nat">zerotails_incr_mult_unbounded_nat</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">M</span> :<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">m</span>, (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">M</span> &lt;= <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">m</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
-<div class="proofscript" id="proof86">
+<div><span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
+<div class="proofscript" id="proof81">
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">M</span>.<br/>
 &nbsp;&nbsp;- <span class="kwd">exists</span> 0%<span class="id">nat</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
@@ -2702,8 +2564,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_incr_incr">zerotails_incr_mult_incr_incr</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">x</span> <span class="id">n</span> :<br/>
 &nbsp;&nbsp;(<span class="id">x</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;((<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">x</span>) &lt;= (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span> <span class="id">n</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
-<div class="proofscript" id="proof87">
+<div><span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
+<div class="proofscript" id="proof82">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series_le">Series_le</a></span>.<br/>
@@ -2715,8 +2577,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="zerotails_incr_mult_unbounded">zerotails_incr_mult_unbounded</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">pf</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#zerotails_incr_mult">zerotails_incr_mult</a></span> <span class="id">a</span> <span class="id">pf</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
-<div class="proofscript" id="proof88">
+<div><span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
+<div class="proofscript" id="proof83">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_spec">is_lim_seq_spec</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">red</span>.<br/>
