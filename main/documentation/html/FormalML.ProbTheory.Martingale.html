@@ -2694,16 +2694,17 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="upcrossing_bound_transform_ge">upcrossing_bound_transform_ge</a></span> <span class="id">a</span> <span class="id">b</span> <span class="id">n</span> : <span class="id">a</span> &lt; <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">m</span> <span class="id">x</span>, <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_times.M">M</a></span> <span class="id">m</span> <span class="id">x</span> &gt;= <span class="id">a</span>) -&gt; <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> (<span class="id">b</span>-<span class="id">a</span>) (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_var">upcrossing_var</a></span> <span class="id">a</span> <span class="id">b</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale_transform">martingale_transform</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_bound">upcrossing_bound</a></span> <span class="id">a</span> <span class="id">b</span>) <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_times.M">M</a></span> <span class="id">n</span>).<br/>
 <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
 <div class="proofscript" id="proof81">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">Mgea</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_var">upcrossing_var</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>; <span class="id">lra</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_bound_transform_ge_Sn">upcrossing_bound_transform_ge_Sn</a></span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_bound_transform_ge_Sn">upcrossing_bound_transform_ge_Sn</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_times">doob_upcrossing_times</a></span>.<br/>
 <br/>
@@ -2991,8 +2992,14 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
-<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_bound_transform_ge">upcrossing_bound_transform_ge</a></span> <span class="id">Y</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_ineq.sas">sas</a></span> <span class="id">a</span> <span class="id">b</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) <span class="id">altb</span>); <span class="id">intros</span> <span class="id">leup</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Ygea</span>: <span class="kwd">forall</span> <span class="id">m</span> <span class="id">x</span>, <span class="id">Y</span> <span class="id">m</span> <span class="id">x</span> &gt;= <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Y</span>, ϕ.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_bound_transform_ge">upcrossing_bound_transform_ge</a></span> <span class="id">Y</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_ineq.sas">sas</a></span> <span class="id">a</span> <span class="id">b</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) <span class="id">altb</span> <span class="id">Ygea</span>); <span class="id">intros</span> <span class="id">leup</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">nneg1</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#NonnegativeFunction">NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> (<span class="id">b</span> - <span class="id">a</span>) (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#upcrossing_var">upcrossing_var</a></span> <span class="id">Y</span> <span class="id">a</span> <span class="id">b</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#scale_nneg_nnf">scale_nneg_nnf</a></span>.<br/>
@@ -3193,7 +3200,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">right</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation_pf_irrel">FiniteExpectation_pf_irrel</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#martingale.doob_upcrossing_ineq">doob_upcrossing_ineq</a></span>.<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Section</span> <span class="id"><a name="martingale.mart_conv">mart_conv</a></span>.<br/>
