@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.utils.quotient_space</title>
+<meta name="description" content="Documentation of Coq module FormalML.utils.quotient_space" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.utils.quotient_space</h1>
+<div class="coq">
+<br/>
+<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html">Coq.Logic.FunctionalExtensionality</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html">Coq.Logic.PropExtensionality</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Description.html">Coq.Logic.Description</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Relations.Relation_Definitions.html">Coq.Relations.Relation_Definitions</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html">Coq.Classes.RelationClasses</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Unicode.Utf8.html">Coq.Unicode.Utf8</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Coq.Classes.Morphisms</a></span>.<br/>
+<br/>
+<span class="kwd">Set</span> <span class="kwd">Implicit</span> <span class="kwd">Arguments</span>.<br/>
+<span class="id">Unset</span> <span class="id">Strict</span> <span class="kwd">Implicit</span>.<br/>
+<span class="id">Unset</span> <span class="id">Printing</span> <span class="kwd">Implicit</span> <span class="id">Defensive</span>.<br/>
+<div class="doc">Quotients are crucial in mathematical practice, and it is a shame that they
+are not available in Coq's standard library.  There was a recent discussion on
+the <a href=https://github.com/coq/coq/issues/10871>Coq GitHub page</a> on
+this issue and the consequences of implementing quotients like #&lt;a
+href=https://leanprover.github.io/&gt;Lean&lt;/a&gt;# does, where the eliminator for
+function types has a reduction rule that breaks pleasant metatheoretic
+properties such as subject reduction.
+In this post, we are going to define quotients in Coq with three standard
+axioms:
+<ul>
+<li>
+ Functional extensionality
+</li>
+<li>
+ Propositional extensionality
+</li>
+<li>
+ Constructive definite description (also known as the axiom of unique choice) </li>
+</ul>
+</div>
+<br/>
+<br/>
+<div class="doc">As far as axioms go, these three are relatively harmless.  In particular,
+they are valid in any #&lt;a
+href=https://en.wikipedia.org/wiki/ToposElementary_topoi_(topoi_in_logic)&gt;elementary
+topos&lt;/a&gt;#, which are generally regarded as a good universe for doing
+constructive, higher-order reasoning.  (Naturally, adding axioms in type theory
+does not come for free: since they have no useful reduction behavior, our
+quotients won't compute.) </div>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="Quotient">Quotient</a></span>.<br/>
+<br/>
+<div class="doc">We define the quotient of <span class="bracket"><span class="id">T</span></span> by an equivalence relation <span class="bracket"><span class="id">R</span></span> as usual: it is
+the type of equivalence classes of <span class="bracket"><span class="id">R</span></span>. </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">T</span> : <span class="kwd">Type</span>} (<span class="id">R</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Relations.Relation_Definitions.html#relation">relation</a></span> <span class="id">T</span>) {<span class="id">RP</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>}.<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Unset</span> <span class="id">Elimination</span> <span class="id">Schemes</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Record</span> <span class="id"><a name="quot">quot</a></span> := <span class="id"><a name="Quot_">Quot_</a></span> {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="quot_class">quot_class</a></span>  : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.T">T</a></span> → <span class="kwd">Prop</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a name="quot_classP">quot_classP</a></span> : ∃ <span class="id">x</span>, <span class="id">quot_class</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+&nbsp;&nbsp;<span class="kwd">Set</span> <span class="id">Elimination</span> <span class="id">Schemes</span>.<br/>
+<br/>
+<div class="doc">The projection into the quotient is given by the <span class="bracket"><span class="id">Quot</span></span> constructor below,
+which maps <span class="bracket"><span class="id">x</span></span> to its equivalence class <span class="bracket"><span class="id">R</span> <span class="id">x</span></span>.  This definition satisfies the
+usual properties: <span class="bracket"><span class="id">Quot</span> <span class="id">x</span> = <span class="id">Quot</span> <span class="id">y</span></span> if and only if <span class="bracket"><span class="id">R</span> <span class="id">x</span> <span class="id">y</span></span>.  The "if" direction
+requires the principle of proof irrelevance, which is a consequence of
+propositional extensionality. </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="Quot">Quot</a></span> (<span class="id">x</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.T">T</a></span>) : <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.utils.quotient_space.html#Quot_">Quot_</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#ex_intro">ex_intro</a></span> <span class="id">_</span> <span class="id">x</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>)).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Quot_inj">Quot_inj</a></span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">y</span> → <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span> <span class="id">y</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof1')">Proof.</span></div>
+<div class="proofscript" id="proof1">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">inversion</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="eq_Quot">eq_Quot</a></span> <span class="id">x</span> <span class="id">y</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span> <span class="id">y</span> → <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">y</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof2')">Proof.</span></div>
+<div class="proofscript" id="proof2">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">eqq</span>:<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">y</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">functional_extensionality</a></span>; <span class="id">intros</span> <span class="id">z</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html#propositional_extensionality">propositional_extensionality</a></span>; <span class="id">rewrite</span> <span class="id">e</span>; <span class="id">tauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#ex_intro">ex_intro</a></span> (λ <span class="id">x0</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.T">T</a></span>, <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">y</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x0</span>) <span class="id">y</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span>); <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">eqq</span>; <span class="id">intros</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html#proof_irrelevance">proof_irrelevance</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">We can also show that <span class="bracket"><span class="id">Quot</span></span> is surjective by extracting the witness in the
+existential. </div>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Quot_inv">Quot_inv</a></span> <span class="id">q</span> : ∃ <span class="id">x</span>, <span class="id">q</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof3')">Proof.</span></div>
+<div class="proofscript" id="proof3">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">quot_classP0</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<div class="doc">Unique choice comes into play when defining the elimination principles for
+the quotient.  In its usual non-dependent form, the principle says that we can
+lift a function <span class="bracket"><span class="id">f</span> : <span class="id">T</span> → <span class="id">S</span></span> to another function <span class="bracket"><span class="id">quot</span> → <span class="id">S</span></span> provided that <span class="bracket"><span class="id">f</span></span> is
+constant on equivalence classes.  We define a more general dependently typed
+version, which allows in particular to prove a property <span class="bracket"><span class="id">S</span> <span class="id">q</span></span> by proving that <span class="bracket"><span class="id">S</span>
+(<span class="id">Quot</span> <span class="id">x</span>)</span> holds for any <span class="bracket"><span class="id">x</span></span>.  The statement of the compatibility condition for
+<span class="bracket"><span class="id">f</span></span> is a bit complicated because it needs to equate terms of different types <span class="bracket"><span class="id">S</span>
+(<span class="id">Quot</span> <span class="id">x</span>)</span> and <span class="bracket"><span class="id">S</span> (<span class="id">Quot</span> <span class="id">y</span>)</span>, which requires us to transport the left-hand side
+along the equivalence <span class="bracket"><span class="id">R</span> <span class="id">x</span> <span class="id">y</span></span>. </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Section</span> <span class="id"><a name="Quotient.Elim">Elim</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="cast">cast</a></span> <span class="id">A</span> <span class="id">B</span> (<span class="id">e</span> : <span class="id">A</span> = <span class="id">B</span>) : <span class="id">A</span> → <span class="id">B</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">e</span> <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>) =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#id">id</a></span> <span class="kwd">end</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Context</span> (<span class="id">S</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> → <span class="kwd">Type</span>) (<span class="id">f</span> : ∀ <span class="id">x</span>, <span class="id">S</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Context</span> (<span class="id">fP</span> : ∀ <span class="id">x</span> <span class="id">y</span> (<span class="id">exy</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span> <span class="id">y</span>), <span class="id"><a href="FormalML.utils.quotient_space.html#cast">cast</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#f_equal">f_equal</a></span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.S">S</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#eq_Quot">eq_Quot</a></span> <span class="id">exy</span>)) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.f">f</a></span> <span class="id">x</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.f">f</a></span> <span class="id">y</span>).<br/>
+<br/>
+<div class="doc">We begin with an auxiliary result that uniquely characterizes the result of
+applying the eliminator to an element <span class="bracket"><span class="id">q</span> : <span class="id">quot</span></span>.  Thanks to unique choice, this
+allows us to define the eliminator as a function <span class="bracket"><span class="id">quot_rect</span></span>. </div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_rect_subproof">quot_rect_subproof</a></span> (<span class="id">q</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span>! <span class="id">a</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.S">S</a></span> <span class="id">q</span>, ∃ <span class="id">x</span> (<span class="id">exq</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span> = <span class="id">q</span>), <span class="id">a</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#cast">cast</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#f_equal">f_equal</a></span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.S">S</a></span> <span class="id">exq</span>) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.f">f</a></span> <span class="id">x</span>).<br/>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof4')">Proof.</span></div>
+<div class="proofscript" id="proof4">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">q</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">quot_classP0</span> <span class="kwd">as</span> [<span class="id">x</span> <span class="id">q</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">q</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.f">f</a></span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> <span class="id">x</span>' [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">inversion</span> <span class="id">x1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">eqq</span>:<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x0</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quot_inj">Quot_inj</a></span>; <span class="id">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#eq_Quot">eq_Quot</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H0</span>; <span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (@<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.fP">fP</a></span> <span class="id">x0</span> <span class="id">x</span> <span class="id">eqq</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">do</span> 2 <span class="id">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html#proof_irrelevance">proof_irrelevance</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exact</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="quot_rect">quot_rect</a></span> <span class="id">q</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.S">S</a></span> <span class="id">q</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Description.html#constructive_definite_description">constructive_definite_description</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rect_subproof">quot_rect_subproof</a></span> <span class="id">q</span>)).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_rectE">quot_rectE</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#quot_rect">quot_rect</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.f">f</a></span> <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof5')">Proof.</span></div>
+<div class="proofscript" id="proof5">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_rect">quot_rect</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> ( (<span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Description.html#constructive_definite_description">constructive_definite_description</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(λ <span class="id">a</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.S">S</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;∃ (<span class="id">x0</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.T">T</a></span>) (<span class="id">exq</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x0</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>), <span class="id">a</span> = <span class="id"><a href="FormalML.utils.quotient_space.html#cast">cast</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#f_equal">f_equal</a></span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.S">S</a></span> <span class="id">exq</span>) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.f">f</a></span> <span class="id">x0</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rect_subproof">quot_rect_subproof</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>)))) <span class="kwd">as</span> [?[?[??]]]; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> &lt;- (@<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim.fP">fP</a></span> <span class="id">_</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">do</span> 2 <span class="id">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html#proof_irrelevance">proof_irrelevance</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quot_inj">Quot_inj</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Elim">Elim</a></span>.<br/>
+<br/>
+<div class="doc">In the non-dependent case, the compatibility condition acquires its usual
+form. </div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Section</span> <span class="id"><a name="Quotient.Rec">Rec</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Context</span> <span class="id">S</span> (<span class="id">f</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.T">T</a></span> → <span class="id">S</span>) (<span class="id">fP</span> : ∀ <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.R">R</a></span> <span class="id">x</span> <span class="id">y</span> → <span class="id">f</span> <span class="id">x</span> = <span class="id">f</span> <span class="id">y</span>).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="congr1CE">congr1CE</a></span> (<span class="id">A</span> <span class="id">B</span> : <span class="kwd">Type</span>) (<span class="id">b</span> : <span class="id">B</span>) <span class="id">x</span> <span class="id">y</span> (<span class="id">e</span> : <span class="id">x</span> = <span class="id">y</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#f_equal">f_equal</a></span> (λ <span class="id">_</span> : <span class="id">A</span>, <span class="id">b</span>) <span class="id">e</span> = (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">e</span> <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>) =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_refl">eq_refl</a></span> <span class="id">_</span>) <span class="kwd">end</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="quot_rec">quot_rec</a></span> : <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.S">S</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rect">quot_rect</a></span> (λ <span class="id">_</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.S">S</a></span>) <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.f">f</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(λ <span class="id">x</span> <span class="id">y</span> <span class="id">exy</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#trans_eq">trans_eq</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#f_equal">f_equal</a></span> (λ <span class="id">p</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#cast">cast</a></span> <span class="id">p</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.f">f</a></span> <span class="id">x</span>)) (<span class="id"><a href="FormalML.utils.quotient_space.html#congr1CE">congr1CE</a></span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.S">S</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#eq_Quot">eq_Quot</a></span> <span class="id">exy</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.fP">fP</a></span> <span class="id">exy</span>)).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_recE">quot_recE</a></span> <span class="id">x</span> : <span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">x</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec.f">f</a></span> <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof6')">Proof.</span></div>
+<div class="proofscript" id="proof6">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_rectE">quot_rectE</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient.Rec">Rec</a></span>.<br/>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Quotient">Quotient</a></span>.<br/>
+<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="Lift">Lift</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="quot_lift">quot_lift</a></span> {<span class="id">T1</span> <span class="id">T2</span> : <span class="kwd">Type</span>} (<span class="id">R1</span> : <span class="id">T1</span>-&gt;<span class="id">T1</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">R2</span> : <span class="id">T2</span>-&gt;<span class="id">T2</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR1</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R1</span>} {<span class="id">equivR2</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T1</span> -&gt; <span class="id">T2</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R1</span> ==&gt; <span class="id">R2</span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R1</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R2</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof7')">Proof.</span></div>
+<div class="proofscript" id="proof7">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hpf</span>:<span class="kwd">forall</span> <span class="id">x0</span> <span class="id">y</span> : <span class="id">T1</span>, <span class="id">R1</span> <span class="id">x0</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R2</span> (<span class="id">f</span> <span class="id">x0</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R2</span> (<span class="id">f</span> <span class="id">y</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#eq_Quot">eq_Quot</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR1</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R2</span>) (<span class="kwd">fun</span> <span class="id">y</span> =&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R2</span> (<span class="id">f</span> <span class="id">y</span>)) <span class="id">Hpf</span>).<br/>
+&nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Arguments</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift">quot_lift</a></span> {<span class="id">T1</span> <span class="id">T2</span>} {<span class="id">R1</span> <span class="id">R2</span>} {<span class="id">equivR1</span>} {<span class="id">equivR2</span>} <span class="id">f</span> {<span class="id">propR</span>}.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_liftE">quot_liftE</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">T1</span> <span class="id">T2</span> : <span class="kwd">Type</span>} (<span class="id">R1</span> : <span class="id">T1</span>-&gt;<span class="id">T1</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">R2</span> : <span class="id">T2</span>-&gt;<span class="id">T2</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR1</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R1</span>} {<span class="id">equivR2</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R2</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T1</span> -&gt; <span class="id">T2</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R1</span> ==&gt; <span class="id">R2</span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift">quot_lift</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R1</span> <span class="id">x</span>) = @<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">R2</span> (<span class="id">f</span> <span class="id">x</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof8')">Proof.</span></div>
+<div class="proofscript" id="proof8">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift">quot_lift</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="quot_lift2">quot_lift2</a></span> {<span class="id">T1</span> <span class="id">T2</span> <span class="id">T3</span> : <span class="kwd">Type</span>} (<span class="id">R1</span> : <span class="id">T1</span>-&gt;<span class="id">T1</span>-&gt;<span class="kwd">Prop</span>)  (<span class="id">R2</span> : <span class="id">T2</span>-&gt;<span class="id">T2</span>-&gt;<span class="kwd">Prop</span>)  (<span class="id">R3</span> : <span class="id">T3</span>-&gt;<span class="id">T3</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR1</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R1</span>} {<span class="id">equivR2</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R2</span>} {<span class="id">equivR3</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R3</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T1</span> -&gt; <span class="id">T2</span> -&gt; <span class="id">T3</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R1</span> ==&gt; <span class="id">R2</span> ==&gt; <span class="id">R3</span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R1</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R2</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R3</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof9')">Proof.</span></div>
+<div class="proofscript" id="proof9">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hpf</span>:<span class="kwd">forall</span> <span class="id">x</span>, <span class="kwd">forall</span> <span class="id">x0</span> <span class="id">y</span> : <span class="id">T2</span>, <span class="id">R2</span> <span class="id">x0</span> <span class="id">y</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R3</span> (<span class="id">f</span> <span class="id">x</span> <span class="id">x0</span>) = <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R3</span> (<span class="id">f</span> <span class="id">x</span> <span class="id">y</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#eq_Quot">eq_Quot</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR1</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R2</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R3</span>)).<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">refine</span> (<span class="id">HH</span> (<span class="kwd">fun</span> <span class="id">x</span>:<span class="id">T1</span> =&gt; (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR2</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R3</span>) (<span class="kwd">fun</span> <span class="id">y</span>:<span class="id">T2</span> =&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R3</span> (<span class="id">f</span> <span class="id">x</span> <span class="id">y</span>)) (<span class="id">Hpf</span> <span class="id">x</span>) )) <span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;we&nbsp;might&nbsp;be&nbsp;able&nbsp;to&nbsp;avoid&nbsp;this,&nbsp;but&nbsp;since&nbsp;quotients&nbsp;use&nbsp;it&nbsp;anyway,&nbsp;it&nbsp;does&nbsp;not&nbsp;really&nbsp;matter&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">FunctionalExtensionality.functional_extensionality</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot_inv">Quot_inv</a></span> <span class="id">x0</span>); <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.quotient_space.html#eq_Quot">eq_Quot</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Arguments</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2">quot_lift2</a></span> {<span class="id">T1</span> <span class="id">T2</span> <span class="id">T3</span>} {<span class="id">R1</span> <span class="id">R2</span> <span class="id">R3</span>} {<span class="id">equivR1</span>} {<span class="id">equivR2</span>} {<span class="id">equivR3</span>} <span class="id">f</span> {<span class="id">propR</span>}.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_lift2E">quot_lift2E</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">T1</span> <span class="id">T2</span> <span class="id">T3</span> : <span class="kwd">Type</span>} (<span class="id">R1</span> : <span class="id">T1</span>-&gt;<span class="id">T1</span>-&gt;<span class="kwd">Prop</span>)  (<span class="id">R2</span> : <span class="id">T2</span>-&gt;<span class="id">T2</span>-&gt;<span class="kwd">Prop</span>)  (<span class="id">R3</span> : <span class="id">T3</span>-&gt;<span class="id">T3</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR1</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R1</span>} {<span class="id">equivR2</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R2</span>} {<span class="id">equivR3</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R3</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T1</span> -&gt; <span class="id">T2</span> -&gt; <span class="id">T3</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R1</span> ==&gt; <span class="id">R2</span> ==&gt; <span class="id">R3</span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2">quot_lift2</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R1</span> <span class="id">x</span>) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R2</span> <span class="id">y</span>) = @<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">_</span> <span class="id">R3</span> (<span class="id">f</span> <span class="id">x</span> <span class="id">y</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof10')">Proof.</span></div>
+<div class="proofscript" id="proof10">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2">quot_lift2</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="quot_lift2_to">quot_lift2_to</a></span> {<span class="id">T</span> <span class="id">S</span> : <span class="kwd">Type</span>} (<span class="id">R</span> : <span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T</span> -&gt; <span class="id">T</span> -&gt; <span class="id">S</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R</span> ==&gt; <span class="id">R</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R</span> -&gt; <span class="id">S</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof11')">Proof.</span></div>
+<div class="proofscript" id="proof11">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R</span> -&gt; <span class="id">S</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hpf</span>:<span class="kwd">forall</span> <span class="id">x</span>, <span class="kwd">forall</span> <span class="id">x0</span> <span class="id">y</span> : <span class="id">T</span>, <span class="id">R</span> <span class="id">x0</span> <span class="id">y</span> -&gt; (<span class="id">f</span> <span class="id">x</span> <span class="id">x0</span>) = (<span class="id">f</span> <span class="id">x</span> <span class="id">y</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">refine</span> (<span class="id">HH</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR</span> <span class="id">S</span> (<span class="kwd">fun</span> <span class="id">y</span> =&gt;  (<span class="id">f</span> <span class="id">x</span> <span class="id">y</span>)) (<span class="id">Hpf</span> <span class="id">x</span>) )) <span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;we&nbsp;might&nbsp;be&nbsp;able&nbsp;to&nbsp;avoid&nbsp;this,&nbsp;but&nbsp;since&nbsp;quotients&nbsp;use&nbsp;it&nbsp;anyway,&nbsp;it&nbsp;does&nbsp;not&nbsp;really&nbsp;matter&nbsp;*)</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">FunctionalExtensionality.functional_extensionality</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot_inv">Quot_inv</a></span> <span class="id">x0</span>); <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Arguments</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2_to">quot_lift2_to</a></span> {<span class="id">T</span>} {<span class="id">S</span>} <span class="id">R</span> {<span class="id">equivR</span>} <span class="id">f</span> {<span class="id">propR</span>}.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_lift2_toE">quot_lift2_toE</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">T</span> <span class="id">S</span> : <span class="kwd">Type</span>} (<span class="id">R</span> : <span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T</span> -&gt; <span class="id">T</span> -&gt; <span class="id">S</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R</span> ==&gt; <span class="id">R</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2_to">quot_lift2_to</a></span> <span class="id">R</span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R</span> <span class="id">x</span>) (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R</span> <span class="id">y</span>) = <span class="id">f</span> <span class="id">x</span> <span class="id">y</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof12')">Proof.</span></div>
+<div class="proofscript" id="proof12">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift2_to">quot_lift2_to</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="quot_lift_ball">quot_lift_ball</a></span> {<span class="id">T</span> <span class="id">S</span> : <span class="kwd">Type</span>} (<span class="id">R</span> : <span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T</span> -&gt; <span class="id">S</span> -&gt; <span class="id">T</span> -&gt; <span class="kwd">Prop</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id">R</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R</span> -&gt; <span class="id">S</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R</span> -&gt; <span class="kwd">Prop</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof13')">Proof.</span></div>
+<div class="proofscript" id="proof13">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH</span> (<span class="id">S</span> -&gt; <span class="id"><a href="FormalML.utils.quotient_space.html#quot">quot</a></span> <span class="id">R</span> -&gt; <span class="kwd">Prop</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Hpf</span>:<span class="kwd">forall</span> <span class="id">x</span> <span class="id">s</span>, <span class="kwd">forall</span> <span class="id">x0</span> <span class="id">y</span> : <span class="id">T</span>, <span class="id">R</span> <span class="id">x0</span> <span class="id">y</span> -&gt; (<span class="id">f</span> <span class="id">x</span> <span class="id">s</span> <span class="id">x0</span>) = (<span class="id">f</span> <span class="id">x</span> <span class="id">s</span> <span class="id">y</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html#propositional_extensionality">propositional_extensionality</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">propR</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">refine</span> (<span class="id">HH</span> (<span class="kwd">fun</span> <span class="id">x</span> <span class="id">s</span> =&gt; (@<span class="id"><a href="FormalML.utils.quotient_space.html#quot_rec">quot_rec</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">equivR</span> <span class="kwd">Prop</span> (<span class="kwd">fun</span> <span class="id">y</span> =&gt;  (<span class="id">f</span> <span class="id">x</span> <span class="id">s</span> <span class="id">y</span>)) (<span class="id">Hpf</span> <span class="id">x</span> <span class="id">s</span>) )) <span class="id">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">FunctionalExtensionality.functional_extensionality</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">FunctionalExtensionality.functional_extensionality</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot_inv">Quot_inv</a></span> <span class="id">x1</span>); <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.PropExtensionality.html#propositional_extensionality">propositional_extensionality</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">propR</span>.<br/>
+&nbsp;&nbsp;Defined.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Arguments</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift_ball">quot_lift_ball</a></span> {<span class="id">T</span>} {<span class="id">S</span>} <span class="id">R</span> {<span class="id">equivR</span>} <span class="id">f</span> {<span class="id">propR</span>}.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="quot_lift_ballE">quot_lift_ballE</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">T</span> <span class="id">S</span> : <span class="kwd">Type</span>} (<span class="id">R</span> : <span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">equivR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">T</span> -&gt; <span class="id">S</span> -&gt; <span class="id">T</span> -&gt; <span class="kwd">Prop</span>) {<span class="id">propR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id">R</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> ==&gt; <span class="id">R</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id">f</span>} :<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span> <span class="id">e</span> <span class="id">y</span>, <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift_ball">quot_lift_ball</a></span> <span class="id">R</span> <span class="id">f</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R</span> <span class="id">x</span>) <span class="id">e</span> (<span class="id"><a href="FormalML.utils.quotient_space.html#Quot">Quot</a></span> <span class="id">R</span> <span class="id">y</span>) = <span class="id">f</span> <span class="id">x</span> <span class="id">e</span> <span class="id">y</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof14')">Proof.</span></div>
+<div class="proofscript" id="proof14">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_lift_ball">quot_lift_ball</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.quotient_space.html#quot_recE">quot_recE</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.utils.quotient_space.html#Lift">Lift</a></span>.<br/>
+<br/>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>

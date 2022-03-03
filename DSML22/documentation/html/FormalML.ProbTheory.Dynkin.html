@@ -1,0 +1,477 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.ProbTheory.Dynkin</title>
+<meta name="description" content="Documentation of Coq module FormalML.ProbTheory.Dynkin" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.ProbTheory.Dynkin</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lia.html">Lia</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html">Permutation</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html">Equivalence</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Classical.html">Classical</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalFacts.html">ClassicalFacts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalChoice.html">ClassicalChoice</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">Utils</a></span>.<br/>
+<span class="kwd">Import</span> <span class="id">ListNotations</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.ProbTheory.Event.html">Event</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html">SigmaAlgebras</a></span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html">ProbSpace</a></span>.<br/>
+<br/>
+<span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
+<br/>
+<span class="id">Local</span> <span class="kwd">Open</span> <span class="kwd">Scope</span> <span class="id">prob</span>.<br/>
+<span class="kwd">Section</span> <span class="id"><a name="dynkin">dynkin</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">T</span>:<span class="kwd">Type</span>}.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Class</span> <span class="id"><a name="Pi_system">Pi_system</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a name="pi_inter">pi_inter</a></span> : <span class="kwd">forall</span> <span class="id">a</span>, <span class="id">c</span> <span class="id">a</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">b</span>, <span class="id">c</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span> <span class="id">a</span> <span class="id">b</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Class</span> <span class="id"><a name="Lambda_system">Lambda_system</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a name="mk_lambda_system">mk_lambda_system</a></span> {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lambda_</span>Ω : <span class="id">c</span> <span class="id">pre_</span>Ω<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="lambda_proper">lambda_proper</a></span> :&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id">c</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="lambda_complement">lambda_complement</a></span> {<span class="id">a</span>} : <span class="id">c</span> <span class="id">a</span> -&gt; <span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span> <span class="id">a</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id"><a name="lambda_disjoint_countable_union">lambda_disjoint_countable_union</a></span> (<span class="id">an</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">c</span> (<span class="id">an</span> <span class="id">x</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_collection_is_pairwise_disjoint">pre_collection_is_pairwise_disjoint</a></span> <span class="id">an</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_union_of_collection">pre_union_of_collection</a></span> <span class="id">an</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lambda_none">lambda_none</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">c_lambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>}: <span class="id">c</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof1')">Proof.</span></div>
+<div class="proofscript" id="proof1">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_not_all">pre_event_not_all</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement">lambda_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">lambda_</span>Ω.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lambda_disjoint_list_union">lambda_disjoint_list_union</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">c_lambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>} <span class="id">l</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> <span class="id">x</span> <span class="id">l</span> -&gt; <span class="id">c</span> <span class="id">x</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#ForallOrdPairs">ForallOrdPairs</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_disjoint">pre_event_disjoint</a></span> <span class="id">l</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_union">pre_list_union</a></span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof2')">Proof.</span></div>
+<div class="proofscript" id="proof2">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_union_union">pre_list_union_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_disjoint_countable_union">lambda_disjoint_countable_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_collection">pre_list_collection</a></span>.      <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nth_in_or_default">nth_in_or_default</a></span> <span class="id">x</span> <span class="id">l</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>); <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_none">lambda_none</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_collection_disjoint">pre_list_collection_disjoint</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lambda_disjoint_union">lambda_disjoint_union</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">c_lambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>} <span class="id">a</span> <span class="id">b</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> <span class="id">a</span> -&gt; <span class="id">c</span> <span class="id">b</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_disjoint">pre_event_disjoint</a></span> <span class="id">a</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span> <span class="id">a</span> <span class="id">b</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof3')">Proof.</span></div>
+<div class="proofscript" id="proof3">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_union2">pre_list_union2</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_disjoint_list_union">lambda_disjoint_list_union</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>; <span class="id">intuition</span> <span class="id">congruence</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">repeat</span> <span class="id">constructor</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lambda_complement_alt">lambda_complement_alt</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">c_lambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>} <span class="id">a</span> <span class="id">b</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> <span class="id">a</span> -&gt; <span class="id">c</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">a</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_diff">pre_event_diff</a></span> <span class="id">b</span> <span class="id">a</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof4')">Proof.</span></div>
+<div class="proofscript" id="proof4">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_diff_derived">pre_event_diff_derived</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_proper">lambda_proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_union">pre_event_union</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span> <span class="id">b</span>) <span class="id">a</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement_union">pre_event_complement_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_not_not">pre_event_not_not</a></span>; <span class="id">try</span> <span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Classical_Prop.html#classic">classic</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement">lambda_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_disjoint_union">lambda_disjoint_union</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement">lambda_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lambda_complement_alt_suffices">lambda_complement_alt_suffices</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">lambda_</span>Ω : <span class="id">c</span> <span class="id">pre_</span>Ω)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">lambda_proper</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id">c</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">lambda_complement</span> : <span class="kwd">forall</span> <span class="id">a</span> <span class="id">b</span>, <span class="id">c</span> <span class="id">a</span> -&gt; <span class="id">c</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">a</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_diff">pre_event_diff</a></span> <span class="id">b</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">lambda_disjoint_countable_union</span> : <span class="kwd">forall</span> (<span class="id">an</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">c</span> (<span class="id">an</span> <span class="id">x</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_collection_is_pairwise_disjoint">pre_collection_is_pairwise_disjoint</a></span> <span class="id">an</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_union_of_collection">pre_union_of_collection</a></span> <span class="id">an</span>)) : <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof5')">Proof.</span></div>
+<div class="proofscript" id="proof5">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">lambda_complement</span> <span class="id">a</span> <span class="id">pre_</span>Ω).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_diff_true_l">pre_event_diff_true_l</a></span> <span class="kwd">in</span> <span class="id">lambda_complement</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">lambda_complement</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub_true">pre_event_sub_true</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="Pi_Lambda_sa">Pi_Lambda_sa</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) (<span class="id">c_pi</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> <span class="id">c</span>) {<span class="id">c_lambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= {|<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> := <span class="id">c</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;|}.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof6')">Next Obligation.</span></div>
+<div class="proofscript" id="proof6">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#make_pre_collection_disjoint_union">make_pre_collection_disjoint_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_disjoint_countable_union">lambda_disjoint_countable_union</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#make_pre_collection_disjoint">make_pre_collection_disjoint</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_diff_derived">pre_event_diff_derived</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#pi_inter">pi_inter</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement_union_of_collection">pre_event_complement_union_of_collection</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_inter_of_collection">pre_inter_of_collection</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>; <span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_proper">lambda_proper</a></span> <span class="id">pre_</span>Ω).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id">lambda_</span>Ω.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_proper">lambda_proper</a></span> (<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span> (<span class="id">collection</span> <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_inter_of_collection">pre_inter_of_collection</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span> (<span class="kwd">if</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Compare_dec.html#lt_dec">Compare_dec.lt_dec</a></span> <span class="id">n</span> <span class="id">x</span> <span class="kwd">then</span> <span class="id">collection</span> <span class="id">n</span> <span class="kwd">else</span> ∅))))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_inter_of_collection">pre_inter_of_collection</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span> [<span class="id">HH1</span> ?] ? <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.eq_dec">PeanoNat.Nat.eq_dec</a></span> <span class="id">n</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">congruence</span>. <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> (<span class="id">H0</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">specialize</span> (<span class="id">HH</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; [| <span class="id">tauto</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">HH</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#pi_inter">pi_inter</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement">lambda_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#make_pre_collection_disjoint_disjoint">make_pre_collection_disjoint_disjoint</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof7')">Next Obligation.</span></div>
+<div class="proofscript" id="proof7">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement">lambda_complement</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof8')">Next Obligation.</span></div>
+<div class="proofscript" id="proof8">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">lambda_</span>Ω.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="lambda_system_inter">lambda_system_inter</a></span> (<span class="id">coll</span>:(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>-&gt;<span class="kwd">Prop</span>)-&gt;<span class="kwd">Prop</span>) : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">fun</span> <span class="id">e</span> =&gt; <span class="kwd">forall</span> <span class="id">a</span>, <span class="id">coll</span> <span class="id">a</span> -&gt; <span class="id">a</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="lambda_system_inter_lambda">lambda_system_inter_lambda</a></span> (<span class="id">coll</span>:(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>-&gt;<span class="kwd">Prop</span>)-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">lcoll</span>: <span class="kwd">forall</span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>), <span class="id">coll</span> <span class="id">c</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_system_inter">lambda_system_inter</a></span> <span class="id">coll</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof9')">Proof.</span></div>
+<div class="proofscript" id="proof9">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_system_inter">lambda_system_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">lcoll</span> <span class="id">_</span> <span class="id">H</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">lambda_</span>Ω.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ???.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> ???<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">specialize</span> (<span class="id">lcoll</span> <span class="id">_</span> <span class="id">H1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> &lt;- <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">H0</span> <span class="id">_</span> <span class="id">H1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">H0</span> <span class="id">_</span> <span class="id">H1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">lcoll</span> <span class="id">_</span> <span class="id">H0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement">lambda_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">H</span> <span class="id">_</span> <span class="id">H0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">lcoll</span> <span class="id">_</span> <span class="id">H1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_disjoint_countable_union">lambda_disjoint_countable_union</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">exact</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">H</span> <span class="id">x</span> <span class="id">_</span> <span class="id">H1</span>).<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="lambda_system_intersection_sub">lambda_system_intersection_sub</a></span> (<span class="id">coll</span>:(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>-&gt;<span class="kwd">Prop</span>)-&gt;<span class="kwd">Prop</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;: <span class="kwd">forall</span> <span class="id">s</span>, <span class="id">coll</span> <span class="id">s</span> -&gt; <span class="kwd">forall</span> <span class="id">x</span>, (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_system_inter">lambda_system_inter</a></span> <span class="id">coll</span>) <span class="id">x</span> -&gt;  <span class="id">s</span> <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof10')">Proof.</span></div>
+<div class="proofscript" id="proof10">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="lambda_all_included">lambda_all_included</a></span> (<span class="id">F</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) : (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>-&gt;<span class="kwd">Prop</span>)-&gt;<span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">fun</span> <span class="id">l</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">l</span> /\ <span class="kwd">forall</span> (<span class="id">e</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>), <span class="id">F</span> <span class="id">e</span> -&gt; <span class="id">l</span> <span class="id">e</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="lambda_all_included_proper">lambda_all_included_proper</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span>) <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_all_included">lambda_all_included</a></span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof11')">Proof.</span></div>
+<div class="proofscript" id="proof11">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="lambda_all_included_lambda">lambda_all_included_lambda</a></span> (<span class="id">F</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) : <span class="kwd">forall</span> <span class="id">c</span>, <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_all_included">lambda_all_included</a></span> <span class="id">F</span> <span class="id">c</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof12')">Proof.</span></div>
+<div class="proofscript" id="proof12">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="generated_lambda">generated_lambda</a></span> (<span class="id">F</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_system_inter">lambda_system_inter</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_all_included">lambda_all_included</a></span> <span class="id">F</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="generated_lambda_lambda">generated_lambda_lambda</a></span> (<span class="id">F</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) : <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">F</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof13')">Proof.</span></div>
+<div class="proofscript" id="proof13">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_system_inter_lambda">lambda_system_inter_lambda</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_all_included_lambda">lambda_all_included_lambda</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="generated_lambda_sub">generated_lambda_sub</a></span> (<span class="id">F</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">F</span> <span class="id">x</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">F</span> <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof14')">Proof.</span></div>
+<div class="proofscript" id="proof14">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="generated_lambda_minimal">generated_lambda_minimal</a></span> (<span class="id">F</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) (<span class="id">c</span>:(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>-&gt;<span class="kwd">Prop</span>)) {<span class="id">c_lambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">c</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">F</span> <span class="id">c</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">F</span>) <span class="id">c</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof15')">Proof.</span></div>
+<div class="proofscript" id="proof15">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="pi_generated_lambda_pi">pi_generated_lambda_pi</a></span> (<span class="id">C</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">cpi</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> <span class="id">C</span>} : <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof16')">Proof.</span></div>
+<div class="proofscript" id="proof16">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">Da</span> := <span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">fun</span> <span class="id">x</span> =&gt; (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span> <span class="id">a</span> <span class="id">x</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">lambda_Da</span> : <span class="kwd">forall</span> <span class="id">a</span>, (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span>) <span class="id">a</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> (<span class="id">Da</span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">a</span> <span class="id">D</span>'<span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Da</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement_alt_suffices">lambda_complement_alt_suffices</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter_true_r">pre_event_inter_true_r</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ???.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">pre_event_inter_diff</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_complement_alt">lambda_complement_alt</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda_lambda">generated_lambda_lambda</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">rewrite</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter_countable_union_distr">pre_event_inter_countable_union_distr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#lambda_disjoint_countable_union">lambda_disjoint_countable_union</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_collection_is_pairwise_disjoint_inter">pre_collection_is_pairwise_disjoint_inter</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Pi_almost</span>:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">C</span> <span class="id">a</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span> <span class="id">b</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span> <span class="id">a</span> <span class="id">b</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">subc</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">C</span> (<span class="id">Da</span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span> ?? [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">cpi</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">subDa</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span>) (<span class="id">Da</span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda_minimal">generated_lambda_minimal</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">lambda_Da</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda_sub">generated_lambda_sub</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">subDa</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">subc</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">C</span> (<span class="id">Da</span> <span class="id">b</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">Da</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter_comm">pre_event_inter_comm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">Pi_almost</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda_minimal">generated_lambda_minimal</a></span> <span class="kwd">in</span> <span class="id">subc</span>; [| <span class="id">auto</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter_comm">pre_event_inter_comm</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">subc</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="pi_generated_lambda_sa">pi_generated_lambda_sa</a></span> (<span class="id">C</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">cpi</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> <span class="id">C</span>} : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_Lambda_sa">Pi_Lambda_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda">generated_lambda</a></span> <span class="id">C</span>) (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#pi_generated_lambda_pi">pi_generated_lambda_pi</a></span> <span class="id">C</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="SigmaAlgebra_Lambda">SigmaAlgebra_Lambda</a></span> (<span class="id">sa</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>) : <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">x</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof17')">Proof.</span></div>
+<div class="proofscript" id="proof17">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ???.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_proper">sa_proper</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_complement">sa_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_countable_union">sa_countable_union</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="SigmaAlgebra_Pi">SigmaAlgebra_Pi</a></span> (<span class="id">sa</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span>) : <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">x</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof18')">Proof.</span></div>
+<div class="proofscript" id="proof18">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ????.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_inter">sa_inter</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="pi_generated_lambda_generated_sa">pi_generated_lambda_generated_sa</a></span> (<span class="id">C</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">cpi</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> <span class="id">C</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#pi_generated_lambda_sa">pi_generated_lambda_sa</a></span> <span class="id">C</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof19')">Proof.</span></div>
+<div class="proofscript" id="proof19">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">simpl</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ??; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#SigmaAlgebra_Lambda">SigmaAlgebra_Lambda</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">auto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> (<span class="id">HH</span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#pi_generated_lambda_sa">pi_generated_lambda_sa</a></span> <span class="id">C</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda_sub">generated_lambda_sub</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Theorem</span> <span class="id"><a name="Dynkin">Dynkin</a></span> (<span class="id">C</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) (<span class="id">D</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin.T">T</a></span> -&gt; <span class="kwd">Prop</span>) {<span class="id">cpi</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> <span class="id">C</span>} {<span class="id">dlambda</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">D</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">C</span> <span class="id">D</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> (@<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>)) <span class="id">D</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof20')">Proof.</span></div>
+<div class="proofscript" id="proof20">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">csub</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#pi_generated_lambda_generated_sa">pi_generated_lambda_generated_sa</a></span> <span class="id">C</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span>; <span class="id">simpl</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_lambda_minimal">generated_lambda_minimal</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#dynkin">dynkin</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="extension_uniqueness">extension_uniqueness</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="generated_sa_base_event">generated_sa_base_event</a></span> {<span class="id">T</span>} {<span class="id">C</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span> -&gt; <span class="kwd">Prop</span>} {<span class="id">a</span>} (<span class="id">Ca</span>:<span class="id">C</span> <span class="id">a</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">a</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa_sub">generated_sa_sub</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">Ca</span>).<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="pi_prob_extension_unique">pi_prob_extension_unique</a></span> {<span class="id">T</span>} (<span class="id">C</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span> -&gt; <span class="kwd">Prop</span>) {<span class="id">cpi</span>:<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Pi_system">Pi_system</a></span> <span class="id">C</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">P1</span> <span class="id">P2</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span> (<span class="id">Ca</span>:<span class="id">C</span> <span class="id">a</span>), <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">P1</span>) (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_sa_base_event">generated_sa_base_event</a></span> <span class="id">Ca</span>) = <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">P2</span>) (<span class="id"><a href="FormalML.ProbTheory.Dynkin.html#generated_sa_base_event">generated_sa_base_event</a></span> <span class="id">Ca</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">P1</span>) <span class="id">a</span> = <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">P2</span>) <span class="id">a</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof21')">Proof.</span></div>
+<div class="proofscript" id="proof21">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">A</span> := <span class="kwd">fun</span> <span class="id">e</span> =&gt; <span class="kwd">exists</span> <span class="id">pf</span>, <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">P1</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">e</span> <span class="id">pf</span>) = <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">P2</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">e</span> <span class="id">pf</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">csub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">C</span> <span class="id">A</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??; <span class="id">red</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">asub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">A</span> (@<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">intros</span> ? [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}     <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">lambda_A</span> : <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Lambda_system">Lambda_system</a></span> <span class="id">A</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">subst</span> <span class="id">A</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="kwd">exists</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span> <span class="id">_</span> Ω) <span class="kwd">by</span> <span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one">ps_one</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span> <span class="id">_</span> Ω) <span class="kwd">by</span> <span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_one">ps_one</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ???.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">assert</span> (<span class="id">say</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">SigmaAlgebra</span>:=(@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">T</span> <span class="id">C</span>)) <span class="id">y</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">say</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">etransitivity</span>; [<span class="id">etransitivity</span> |]; [| <span class="id">apply</span> <span class="id">H0</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>; <span class="id">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">assert</span> (<span class="id">sax</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">SigmaAlgebra</span>:=(@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">T</span> <span class="id">C</span>)) <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">sax</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">etransitivity</span>; [<span class="id">etransitivity</span> |]; [| <span class="id">apply</span> <span class="id">H0</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>; <span class="id">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ? [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_complement">sa_complement</a></span> <span class="id">_</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> (<span class="kwd">fun</span> <span class="id">e</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">e</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_complement">pre_event_complement</a></span> <span class="id">a</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_complement">sa_complement</a></span> <span class="id">a</span> <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">with</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_complement">event_complement</a></span> (σ:=<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">a</span> <span class="id">x</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_complement">ps_complement</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rcomplements.html#Rminus_eq_compat_l">Rcomplements.Rminus_eq_compat_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">etransitivity</span>; [<span class="id">etransitivity</span> |]; [| <span class="id">apply</span> <span class="id">H</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>; <span class="id">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">sa_an</span>:<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">SigmaAlgebra</span>:=(@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">T</span> <span class="id">C</span>)) (<span class="id">an</span> <span class="id">x</span>)) <span class="kwd">by</span> <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_countable_union">sa_countable_union</a></span> <span class="id">_</span> <span class="id">sa_an</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">eqq1</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> (<span class="kwd">fun</span> <span class="id">e</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">e</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_union_of_collection">pre_union_of_collection</a></span> <span class="id">an</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_countable_union">sa_countable_union</a></span> <span class="id">an</span> <span class="id">sa_an</span>)) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#union_of_collection">union_of_collection</a></span> (σ:=<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>) (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> (<span class="id">an</span> <span class="id">n</span>) (<span class="id">sa_an</span> <span class="id">n</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#union_of_collection_as_pre">union_of_collection_as_pre</a></span>; <span class="id">intros</span> ?; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#collection_pre">collection_pre</a></span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">eqq1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">disj</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#collection_is_pairwise_disjoint">collection_is_pairwise_disjoint</a></span> (σ:=<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>) (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">an</span> <span class="id">n</span>) (<span class="id">sa_an</span> <span class="id">n</span>))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#collection_is_pairwise_disjoint_pre">collection_is_pairwise_disjoint_pre</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_countable_disjoint_union">ps_countable_disjoint_union</a></span> <span class="id">_</span> <span class="id">disj</span> (<span class="id">ProbSpace</span>:=<span class="id">P1</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_countable_disjoint_union">ps_countable_disjoint_union</a></span> <span class="id">_</span> <span class="id">disj</span> (<span class="id">ProbSpace</span>:=<span class="id">P2</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">HH1</span>, <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">infinite_sum</span>'<span class="id">_unique</span>; <span class="id">try</span> <span class="id">eapply</span> <span class="id">HH1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">infinite_sum</span>'<span class="id">_ext</span>; <span class="id">try</span> <span class="id">apply</span> <span class="id">HH2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">H</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">etransitivity</span>; [<span class="id">etransitivity</span> |]; [| <span class="id">apply</span> <span class="id">H1</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>; <span class="id">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#Dynkin">Dynkin</a></span> <span class="kwd">in</span> <span class="id">csub</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span> <span class="id">A</span> (@<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">C</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">a</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Ax</span> :<span class="id">A</span> <span class="id">x</span>) <span class="kwd">by</span> <span class="id">now</span> <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">Ax</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">etransitivity</span>; [<span class="id">etransitivity</span> |]; [| <span class="id">apply</span> <span class="id">H0</span> | ].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>; <span class="id">symmetry</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>; <span class="id">red</span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Dynkin.html#extension_uniqueness">extension_uniqueness</a></span>.<br/>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>

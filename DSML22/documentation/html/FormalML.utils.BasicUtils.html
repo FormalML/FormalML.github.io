@@ -1,0 +1,78 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.utils.BasicUtils</title>
+<meta name="description" content="Documentation of Coq module FormalML.utils.BasicUtils" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.utils.BasicUtils</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html">Equivalence</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtilsCoqLibAdd.html">LibUtilsCoqLibAdd</a></span>.<br/>
+<br/>
+<span class="kwd">Definition</span> <span class="id"><a name="coerce">coerce</a></span> {<span class="id">A</span> <span class="id">B</span>:<span class="kwd">Type</span>} (<span class="id">pf</span>:<span class="id">A</span>=<span class="id">B</span>) : <span class="id">A</span> -&gt; <span class="id">B</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof1')">Proof.</span></div>
+<div class="proofscript" id="proof1">
+&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">pf</span>.<br/>
+&nbsp;&nbsp;<span class="id">intro</span> <span class="id">a</span>; <span class="id">exact</span> <span class="id">a</span>.<br/>
+Defined.</div>
+<br/>
+<span class="id">Local</span> <span class="id">Existing</span> <span class="kwd">Instance</span> <span class="id">Equivalence_pullback</span>.<br/>
+<br/>
+<span class="id">Local</span> <span class="kwd">Instance</span> <span class="id"><a name="EqDec_pullback">EqDec_pullback</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">eqR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>} {<span class="id">decR</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id">R</span>} (<span class="id">f</span>:<span class="id">B</span>-&gt;<span class="id">A</span>) :<br/>
+&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">B</span> (<span class="kwd">fun</span> <span class="id">x</span> <span class="id">y</span> : <span class="id">B</span> =&gt; <span class="id">R</span> (<span class="id">f</span> <span class="id">x</span>) (<span class="id">f</span> <span class="id">y</span>)).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof2')">Proof.</span></div>
+<div class="proofscript" id="proof2">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span> <span class="id">y</span>.<br/>
+&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">decR</span> (<span class="id">f</span> <span class="id">x</span>) (<span class="id">f</span> <span class="id">y</span>)).<br/>
+&nbsp;&nbsp;- <span class="id">left</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">trivial</span>.<br/>
+Defined.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="dec_complement">dec_complement</a></span> {<span class="id">A</span>} {<span class="id">p</span>:<span class="id">A</span>-&gt;<span class="kwd">Prop</span>} (<span class="id">dec_p</span>: <span class="kwd">forall</span> <span class="id">x</span>, {<span class="id">p</span> <span class="id">x</span>} + {~ <span class="id">p</span> <span class="id">x</span>}) :<br/>
+&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>, {~ <span class="id">p</span> <span class="id">x</span>} + {~ ~ <span class="id">p</span> <span class="id">x</span>}.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof3')">Proof.</span></div>
+<div class="proofscript" id="proof3">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id">dec_p</span> <span class="id">x</span>).<br/>
+&nbsp;&nbsp;- <span class="id">right</span>; <span class="id">tauto</span>.<br/>
+&nbsp;&nbsp;- <span class="id">left</span>; <span class="id">trivial</span>.<br/>
+Defined.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="ne_symm">ne_symm</a></span> {<span class="id">A</span>} (<span class="id">x</span> <span class="id">y</span> : <span class="id">A</span>) : <span class="id">x</span> &lt;&gt; <span class="id">y</span> &lt;-&gt; <span class="id">y</span> &lt;&gt; <span class="id">x</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof4')">Proof.</span></div>
+<div class="proofscript" id="proof4">
+&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;* <span class="id">intros</span> <span class="id">Hxy</span> ; <span class="id">symmetry</span> <span class="kwd">in</span> <span class="id">Hxy</span> ; <span class="id">firstorder</span>.<br/>
+&nbsp;&nbsp;* <span class="id">intros</span> <span class="id">Hxy</span> ; <span class="id">symmetry</span> <span class="kwd">in</span> <span class="id">Hxy</span> ; <span class="id">firstorder</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Definition</span> <span class="id"><a name="rv_eq">rv_eq</a></span> {<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>} : (<span class="id">Ts</span> -&gt; <span class="id">Td</span>) -&gt; (<span class="id">Ts</span> -&gt; <span class="id">Td</span>) -&gt; <span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;:=  <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">Ts</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>.<br/>
+<br/>
+<span class="id">Local</span> <span class="kwd">Instance</span> <span class="id"><a name="rv_eq_equiv">rv_eq_equiv</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">Ts</span> <span class="id">Td</span>:<span class="kwd">Type</span>} :<br/>
+&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> (@<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">Ts</span> <span class="id">Td</span>).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof5')">Proof.</span></div>
+<div class="proofscript" id="proof5">
+&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="refl_refl">refl_refl</a></span> {<span class="id">T</span>} {<span class="id">R</span>:<span class="id">T</span>-&gt;<span class="id">T</span>-&gt;<span class="kwd">Prop</span>} {<span class="id">refl</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> <span class="id">R</span>} <span class="id">x</span> <span class="id">y</span> : <span class="id">x</span> = <span class="id">y</span> -&gt; <span class="id">R</span> <span class="id">x</span> <span class="id">y</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof6')">Proof.</span></div>
+<div class="proofscript" id="proof6">
+&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;<span class="id">apply</span> <span class="id">refl</span>.<br/>
+Qed.</div>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>
