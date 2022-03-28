@@ -2333,6 +2333,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Expectation_Rbar_Expectation">Expectation_Rbar_Expectation</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="finiteExp_Rbar_rvabs">finiteExp_Rbar_rvabs</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.Ts">Ts</a></span> -&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar">Rbar</a></span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">f</span>}:<br/>
@@ -2801,10 +2802,31 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_Expectation_const">Rbar_Expectation_const</a></span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">c</span>).<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="Rbar_IsFiniteExpectation_scale">Rbar_IsFiniteExpectation_scale</a></span> <span class="id">c</span> <span class="id">f</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">f</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">c</span>)) <span class="id">f</span>).<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof109')">Proof.</span></div>
 <div class="proofscript" id="proof109">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id">c</span> 0) <span class="kwd">as</span> [<span class="id">e</span>|<span class="id">ne</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_const">Rbar_IsFiniteExpectation_const</a></span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_proper">Rbar_IsFiniteExpectation_proper</a></span>; <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_mult_0_l">Rbar_mult_0_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_scale">Rbar_Expectation_scale</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">c</span>) <span class="id">f</span> <span class="id">ne</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">simpl</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_option_in</span> <span class="id">isfe</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe</span>; <span class="id">simpl</span>; <span class="id">rbar_prover</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_Expectation_const">Rbar_Expectation_const</a></span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">c</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof110')">Proof.</span></div>
+<div class="proofscript" id="proof110">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Expectation_Rbar_Expectation">Expectation_Rbar_Expectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation_const">Expectation_const</a></span>.<br/>
@@ -2815,8 +2837,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id">P</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">f</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> <span class="id">f</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof110')">Proof.</span></div>
-<div class="proofscript" id="proof110">
+<div><span class="toggleproof" onclick="toggleDisplay('proof111')">Proof.</span></div>
+<div class="proofscript" id="proof111">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> <span class="id">f</span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span> <span class="id">x</span>))<br/>
@@ -2839,8 +2861,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_IsFiniteExpectation_Finite">Rbar_IsFiniteExpectation_Finite</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar">Rbar</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id">x</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> | <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">x</span>)}.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof111')">Proof.</span></div>
-<div class="proofscript" id="proof111">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof112')">Proof.</span></div>
+<div class="proofscript" id="proof112">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">isfe</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfe</span>; <span class="id">try</span> <span class="id">contradiction</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">r</span>; <span class="id">try</span> <span class="id">contradiction</span>.<br/>
@@ -2858,9 +2880,25 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| [<span class="id">H</span>: <span class="id">context</span> [<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> ?<span class="id">x</span>] |- <span class="id">_</span>] =&gt; <span class="id">destruct</span> <span class="id">x</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="FinExp_Rbar_FinExp">FinExp_Rbar_FinExp</a></span> (<span class="id">f</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.Ts">Ts</a></span>-&gt;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">f</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.prts">prts</a></span> <span class="id">f</span>}:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span> =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.prts">prts</a></span> <span class="id">f</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof113')">Proof.</span></div>
+<div class="proofscript" id="proof113">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span>, <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_Finite">IsFiniteExpectation_Finite</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_Finite">Rbar_IsFiniteExpectation_Finite</a></span>.        <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Expectation_Rbar_Expectation">Expectation_Rbar_Expectation</a></span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">e</span> <span class="kwd">in</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">invcs</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_FiniteExpectation_const">Rbar_FiniteExpectation_const</a></span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) : <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>) = <span class="id">c</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof112')">Proof.</span></div>
-<div class="proofscript" id="proof112">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof114')">Proof.</span></div>
+<div class="proofscript" id="proof114">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span>; <span class="id">Rbar_simpl_finite</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_const">Rbar_Expectation_const</a></span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
@@ -2874,8 +2912,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">e1</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">e2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> (<span class="id">e1</span> + <span class="id">e2</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof113')">Proof.</span></div>
-<div class="proofscript" id="proof113">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof115')">Proof.</span></div>
+<div class="proofscript" id="proof115">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">isfe1</span>: <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X1</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -2924,8 +2962,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvplus">rvplus</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">f</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#pos_fun_part">pos_fun_part</a></span> <span class="id">g</span>))).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof114')">Proof.</span></div>
-<div class="proofscript" id="proof114">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof116')">Proof.</span></div>
+<div class="proofscript" id="proof116">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intro</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
@@ -2946,8 +2984,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">f</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">g</span>))).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof115')">Proof.</span></div>
-<div class="proofscript" id="proof115">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof117')">Proof.</span></div>
+<div class="proofscript" id="proof117">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">explus</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span>, <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvopp">Rbar_rvopp</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_max">Rbar_max</a></span>.<br/>
@@ -2969,8 +3007,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_plus">Rbar_plus</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">f</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">g</span>))).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof116')">Proof.</span></div>
-<div class="proofscript" id="proof116">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof118')">Proof.</span></div>
+<div class="proofscript" id="proof118">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#pos_part_neg_part_Rbar_rvplus">pos_part_neg_part_Rbar_rvplus</a></span> <span class="id">f</span> <span class="id">g</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span><br/>
@@ -3006,8 +3044,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">posX</span>: <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">X</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfeX</span>: <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_finite">is_finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span>  <span class="id">X</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof117')">Proof.</span></div>
-<div class="proofscript" id="proof117">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof119')">Proof.</span></div>
+<div class="proofscript" id="proof119">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">isfeX</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_pos_pofrf">Rbar_Expectation_pos_pofrf</a></span> <span class="kwd">with</span> (<span class="id">nnf</span>:=<span class="id">posX</span>) <span class="kwd">in</span> <span class="id">isfeX</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">isfeX</span>; <span class="id">try</span> <span class="id">tauto</span>.<br/>
@@ -3019,8 +3057,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#Rbar_rv_le">Rbar_rv_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X1</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X2</span>)).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof118')">Proof.</span></div>
-<div class="proofscript" id="proof118">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof120')">Proof.</span></div>
+<div class="proofscript" id="proof120">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">explus</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_max">Rbar_max</a></span>.<br/>
@@ -3032,8 +3070,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#Rbar_rv_le">Rbar_rv_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> <span class="id">rv_X1</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> <span class="id">rv_X2</span>)).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof119')">Proof.</span></div>
-<div class="proofscript" id="proof119">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
+<div class="proofscript" id="proof121">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">explus</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rbar_max">Rbar_max</a></span>.<br/>
@@ -3046,8 +3084,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X1</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_finite">is_finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X1</span>)) /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_finite">is_finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> <span class="id">rv_X1</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof120')">Proof.</span></div>
-<div class="proofscript" id="proof120">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof122')">Proof.</span></div>
+<div class="proofscript" id="proof122">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_parts">Rbar_IsFiniteExpectation_parts</a></span> <span class="id">rv_X1</span> <span class="id">H</span>).     <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteNonnegExpectation">Rbar_IsFiniteNonnegExpectation</a></span>.<br/>
@@ -3059,8 +3097,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X1</span>) = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_finite">is_finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> <span class="id">rv_X1</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
-<div class="proofscript" id="proof121">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof123')">Proof.</span></div>
+<div class="proofscript" id="proof123">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_pos">Rbar_NonnegExpectation_pos</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X1</span>)); <span class="id">intros</span>.         <br/>
@@ -3087,8 +3125,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#m_infty">m_infty</a></span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_finite">is_finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X1</span>)) /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> <span class="id">rv_X1</span>) = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof122')">Proof.</span></div>
-<div class="proofscript" id="proof122">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof124')">Proof.</span></div>
+<div class="proofscript" id="proof124">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_pos">Rbar_NonnegExpectation_pos</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> <span class="id">rv_X1</span>)); <span class="id">intros</span>.         <br/>
@@ -3118,8 +3156,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">e1</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">e2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_plus">Rbar_plus</a></span> <span class="id">e1</span> <span class="id">e2</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof123')">Proof.</span></div>
-<div class="proofscript" id="proof123">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
+<div class="proofscript" id="proof125">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X1</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -3204,8 +3242,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">e1</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">e2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_plus">Rbar_plus</a></span> <span class="id">e1</span> <span class="id">e2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof124')">Proof.</span></div>
-<div class="proofscript" id="proof124">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
+<div class="proofscript" id="proof126">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_plus_comm">Rbar_plus_comm</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X2</span> <span class="id">rv_X1</span>)).<br/>
@@ -3230,8 +3268,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">e2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#ex_Rbar_plus">ex_Rbar_plus</a></span> <span class="id">e1</span> <span class="id">e2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_plus">Rbar_plus</a></span> <span class="id">e1</span> <span class="id">e2</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
-<div class="proofscript" id="proof125">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
+<div class="proofscript" id="proof127">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_pos_part_neg_part_Rbar_rvplus">Rbar_NonnegExpectation_pos_part_neg_part_Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">e1</span>.<br/>
@@ -3308,8 +3346,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">e1</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X2</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">e2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> (<span class="id">e1</span> - <span class="id">e2</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
-<div class="proofscript" id="proof126">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
+<div class="proofscript" id="proof128">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_sum_finite">Rbar_Expectation_sum_finite</a></span>; <span class="id">trivial</span>.<br/>
@@ -3324,8 +3362,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_FiniteExpectation_Rbar_Expectation">Rbar_FiniteExpectation_Rbar_Expectation</a></span> (<span class="id">rv_X</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.Ts">Ts</a></span>-&gt;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar">Rbar</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X</span>} : <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
-<div class="proofscript" id="proof127">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
+<div class="proofscript" id="proof129">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="kwd">in</span> <span class="id">isfe</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span>.<br/>
@@ -3336,8 +3374,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">nnf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">rv_X</span>} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X</span>} : <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
-<div class="proofscript" id="proof128">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
+<div class="proofscript" id="proof130">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_pos_pofrf">Rbar_Expectation_pos_pofrf</a></span> <span class="id">rv_X</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation_Rbar_Expectation">Rbar_FiniteExpectation_Rbar_Expectation</a></span> <span class="id">_</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
@@ -3352,8 +3390,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
-<div class="proofscript" id="proof129">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
+<div class="proofscript" id="proof131">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation_Rbar_Expectation">Rbar_FiniteExpectation_Rbar_Expectation</a></span> <span class="id">rv_X1</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation_Rbar_Expectation">Rbar_FiniteExpectation_Rbar_Expectation</a></span> <span class="id">rv_X2</span>).<br/>
@@ -3369,8 +3407,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X1</span> + <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
-<div class="proofscript" id="proof130">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
+<div class="proofscript" id="proof132">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_Finite">Rbar_IsFiniteExpectation_Finite</a></span> <span class="id">rv_X1</span>) <span class="kwd">as</span> [<span class="id">r1</span> <span class="id">e1</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_Finite">Rbar_IsFiniteExpectation_Finite</a></span> <span class="id">rv_X2</span>) <span class="kwd">as</span> [<span class="id">r2</span> <span class="id">e2</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_sum_finite">Rbar_Expectation_sum_finite</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">r1</span> <span class="id">r2</span> <span class="id">e1</span> <span class="id">e2</span>); <span class="id">trivial</span><br/>
@@ -3387,8 +3425,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">rv_X</span>} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>: <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvopp">Rbar_rvopp</a></span> <span class="id">rv_X</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
-<div class="proofscript" id="proof131">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
+<div class="proofscript" id="proof133">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_opp">Rbar_Expectation_opp</a></span> <span class="id">rv_X</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span>.<br/>
@@ -3405,8 +3443,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>: <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X1</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>: <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
-<div class="proofscript" id="proof132">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
+<div class="proofscript" id="proof134">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_is_finite_expectation_isfe_plus">Rbar_is_finite_expectation_isfe_plus</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
@@ -3421,8 +3459,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">rv_X2</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X1</span> - <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
-<div class="proofscript" id="proof133">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
+<div class="proofscript" id="proof135">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_Finite">Rbar_IsFiniteExpectation_Finite</a></span> <span class="id">rv_X1</span>) <span class="kwd">as</span> [<span class="id">r1</span> <span class="id">e1</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_Finite">Rbar_IsFiniteExpectation_Finite</a></span> <span class="id">rv_X2</span>) <span class="kwd">as</span> [<span class="id">r2</span> <span class="id">e2</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_minus_finite">Rbar_Expectation_minus_finite</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> <span class="id">r1</span> <span class="id">r2</span> <span class="id">e1</span> <span class="id">e2</span>); <span class="id">trivial</span><br/>
@@ -3448,8 +3486,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">nnf12</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_minus">Rbar_minus</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X1</span>) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
-<div class="proofscript" id="proof134">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
+<div class="proofscript" id="proof136">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">isf</span>:<span class="kwd">forall</span> <span class="id">omega</span>, <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_finite">is_finite</a></span> (<span class="id">rv_X2</span> <span class="id">omega</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">omega</span>.<br/>
@@ -3510,8 +3548,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">eqq</span>: <span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X1</span> = <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
-<div class="proofscript" id="proof135">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
+<div class="proofscript" id="proof137">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">eqq</span> <span class="kwd">in</span> <span class="id">e</span>.<br/>
@@ -3524,8 +3562,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X1</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">rv_X2</span> (<span class="id">isfe</span>:=<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#proj1">proj1</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_proper">Rbar_IsFiniteExpectation_proper</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">eqq</span>) <span class="id">isfe1</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
-<div class="proofscript" id="proof136">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
+<div class="proofscript" id="proof138">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation_ext">Rbar_FiniteExpectation_ext</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -3540,9 +3578,9 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfeg</span>: <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">g</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#Rbar_rv_le">Rbar_rv_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvabs">Rbar_rvabs</a></span> (<span class="id">fn</span> <span class="id">n</span>)) <span class="id">g</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq">is_Elim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">fn</span> <span class="id">n</span> <span class="id">x</span>) (<span class="id">f</span> <span class="id">x</span>)) -&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq">is_Elim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id">fn</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
-<div class="proofscript" id="proof137">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id">fn</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
+<div class="proofscript" id="proof139">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">le1</span> <span class="id">lim1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvplus">Rbar_rvplus</a></span> <span class="id">g</span> (<span class="id">fn</span> <span class="id">n</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -3693,7 +3731,6 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#x_plus_x_div_2">x_plus_x_div_2</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">H15</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq_fin">is_Elim_seq_fin</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq_correct">Lim_seq_correct</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#ex_lim_LimSup_LimInf_seq">ex_lim_LimSup_LimInf_seq</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
@@ -3735,9 +3772,9 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">g</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.prts">prts</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvabs">Rbar_rvabs</a></span> (<span class="id">fn</span> <span class="id">n</span>)) <span class="id">g</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost">almost</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq">is_Elim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">fn</span> <span class="id">n</span> <span class="id">x</span>) (<span class="id">f</span> <span class="id">x</span>))) -&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq">is_Elim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id">fn</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
-<div class="proofscript" id="proof138">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id">fn</span> <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
+<div class="proofscript" id="proof140">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">isfeg</span> <span class="id">ale</span> <span class="id">islim</span>.<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#finexp_almost_finite_part">finexp_almost_finite_part</a></span> <span class="id">g</span> <span class="id">isfeg</span>); <span class="id">intros</span> <span class="id">almostg</span>.<br/>
@@ -3776,8 +3813,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation_proper_almostR2">Rbar_IsFiniteExpectation_proper_almostR2</a></span> (<span class="id">fn</span> <span class="id">n</span>)); <span class="id">trivial</span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut</span> (<span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq">is_Elim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id">fn</span>' <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq_ext">is_Elim_seq_ext</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> (<span class="id">fn</span>' <span class="id">n</span>)) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation">Rbar_FiniteExpectation</a></span> <span class="id">f</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_ext">is_lim_seq_ext</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation_proper_almostR2">Rbar_FiniteExpectation_proper_almostR2</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_and">almost_and</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_forall">almost_forall</a></span> <span class="id">_</span> <span class="id">eqqfn</span>) <span class="id">islim</span>) <span class="kwd">as</span> [<span class="id">p</span> [<span class="id">pone</span> <span class="id">ph</span>]].<br/>
@@ -3836,7 +3873,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">eqq1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">HH</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.ELim_Seq.html#is_Elim_seq_ext">is_Elim_seq_ext</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_ext">is_lim_seq_ext</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_FiniteExpectation_proper_almostR2">Rbar_FiniteExpectation_proper_almostR2</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">p</span>; <span class="id">split</span>; <span class="id">trivial</span>; <span class="id">intros</span>.<br/>
@@ -3872,6 +3909,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_mult_0_r">Rbar_mult_0_r</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#almost">almost</a></span>.<br/>
 <br/>
 <span class="kwd">Section</span> <span class="id"><a name="sa_sub">sa_sub</a></span>.<br/>
@@ -3891,8 +3929,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom2">dom2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.sub">sub</a></span>) <span class="id">x</span> <span class="id">pofrf</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id">x</span> <span class="id">pofrf</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
-<div class="proofscript" id="proof139">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
+<div class="proofscript" id="proof141">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> ((<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.sub">sub</a></span> <span class="id">x</span> (<span class="id">rv_x</span>:=<span class="id">rv</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">rv1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
@@ -3942,8 +3980,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom2">dom2</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">x</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom2">dom2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.sub">sub</a></span>)  <span class="id">x</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation">Rbar_Expectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.Ts">Ts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
-<div class="proofscript" id="proof140">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
+<div class="proofscript" id="proof142">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> ((<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.sub">sub</a></span> <span class="id">x</span> (<span class="id">rv_x</span>:=<span class="id">rv</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">intros</span> <span class="id">rv1</span>.<br/>
 <br/>
@@ -3957,8 +3995,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom2">dom2</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">x</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.sub">sub</a></span>) <span class="id">x</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
-<div class="proofscript" id="proof141">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
+<div class="proofscript" id="proof143">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_prob_space_sa_sub">Rbar_Expectation_prob_space_sa_sub</a></span> <span class="kwd">in</span> <span class="id">isfe</span> <span class="kwd">by</span> <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -3968,8 +4006,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.dom2">dom2</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> <span class="id">x</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id">x</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.prts">prts</a></span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#sa_sub.sub">sub</a></span>) <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
-<div class="proofscript" id="proof142">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof144')">Proof.</span></div>
+<div class="proofscript" id="proof144">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_Expectation_prob_space_sa_sub">Rbar_Expectation_prob_space_sa_sub</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -3981,8 +4019,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rbar_NonnegExpectation_const_pinfty">Rbar_NonnegExpectation_const_pinfty</a></span> {<span class="id">Ts</span>} {<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} (<span class="id">prts</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">pf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> (<span class="id">B</span>:=<span class="id">Ts</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>) = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
-<div class="proofscript" id="proof143">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof145')">Proof.</span></div>
+<div class="proofscript" id="proof145">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_pos">Rbar_NonnegExpectation_pos</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>)); <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span>, <span class="id"><a href="FormalML.ProbTheory.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span> <span class="kwd">in</span> *.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lub.html#Lub_Rbar">Lub_Rbar</a></span> <span class="kwd">in</span> *.<br/>
@@ -4008,8 +4046,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id">Rbar_NonnegExpectation_const</span>' {<span class="id">Ts</span>} {<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} (<span class="id">prts</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">c</span> : <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar">Rbar</a></span>) (<span class="id">nneg</span>:<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span> 0 <span class="id">c</span>) (<span class="id">nnf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> (<span class="id">B</span>:=<span class="id">Ts</span>) <span class="id">c</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>) = <span class="id">c</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof144')">Proof.</span></div>
-<div class="proofscript" id="proof144">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof146')">Proof.</span></div>
+<div class="proofscript" id="proof146">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_pos">Rbar_NonnegExpectation_pos</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>)); <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">c</span>; <span class="id">simpl</span> <span class="kwd">in</span> *; <span class="id">try</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">eapply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_const">Rbar_NonnegExpectation_const</a></span>.<br/>
@@ -4024,8 +4062,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">pofrf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>))} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">P</span> &lt;&gt; 0 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>)) = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof145')">Proof.</span></div>
-<div class="proofscript" id="proof145">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof147')">Proof.</span></div>
+<div class="proofscript" id="proof147">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_pos">Rbar_NonnegExpectation_pos</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> <span class="id">dec</span>))); <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span>, <span class="id"><a href="FormalML.ProbTheory.Expectation.html#SimpleExpectationSup">SimpleExpectationSup</a></span> <span class="kwd">in</span> *.<br/>
@@ -4073,8 +4111,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">pofrf</span>:<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">rv_X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#sa_pinf_Rbar">sa_pinf_Rbar</a></span> <span class="id">rv_X</span> <span class="id">rv</span>)) &lt;&gt; 0 -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X</span> = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof146')">Proof.</span></div>
-<div class="proofscript" id="proof146">
+<div><span class="toggleproof" onclick="toggleDisplay('proof148')">Proof.</span></div>
+<div class="proofscript" id="proof148">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> <span class="id">rv_X</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#classic_dec">classic_dec</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id">rv_X</span> <span class="id">x</span> = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>)))) = <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>).<br/>
@@ -4130,8 +4168,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span> 0 <span class="id">c</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvmult">Rbar_rvmult</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">c</span>) <span class="id">rv_X</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_mult">Rbar_mult</a></span> <span class="id">c</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof147')">Proof.</span></div>
-<div class="proofscript" id="proof147">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof149')">Proof.</span></div>
+<div class="proofscript" id="proof149">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">c</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H</span>; <span class="id">try</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">H</span>.<br/>
@@ -4197,8 +4235,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Xn_rv</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> (<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n</span>=&gt; <span class="id">Xn</span> <span class="id">n</span> <span class="id">a</span>) <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof148')">Proof.</span></div>
-<div class="proofscript" id="proof148">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof150')">Proof.</span></div>
+<div class="proofscript" id="proof150">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> 0%<span class="id">nat</span>.<br/>
@@ -4215,8 +4253,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="kwd">forall</span> <span class="id">n</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>)) <span class="id">n</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>)) <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof149')">Proof.</span></div>
-<div class="proofscript" id="proof149">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof151')">Proof.</span></div>
+<div class="proofscript" id="proof151">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
@@ -4280,8 +4318,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="id">Xn</span> <span class="id">n</span>))) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELim_seq">ELim_seq</a></span> (<span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; (<span class="id">Xn</span> <span class="id">n</span> <span class="id">omega</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof150')">Proof.</span></div>
-<div class="proofscript" id="proof150">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof152')">Proof.</span></div>
+<div class="proofscript" id="proof152">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n">sum_Rbar_n</a></span> (<span class="kwd">fun</span> <span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">Xn</span> <span class="id">i</span> <span class="id">omega</span>) <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
@@ -4311,8 +4349,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe1</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">prts</span> <span class="id">rv_X2</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span>:<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">prts</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>)} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_IsFiniteExpectation">Rbar_IsFiniteExpectation</a></span> <span class="id">prts</span> <span class="id">rv_X1</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof151')">Proof.</span></div>
-<div class="proofscript" id="proof151">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof153')">Proof.</span></div>
+<div class="proofscript" id="proof153">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">rv3</span>: <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">by</span> (<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus_rv">Rbar_rvminus_rv</a></span>; <span class="id">trivial</span>).<br/>
 <br/>
@@ -4343,8 +4381,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">nnf2</span> : <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_NonnegativeFunction">Rbar_NonnegativeFunction</a></span> <span class="id">rv_X2</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> <span class="id">_</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span> <span class="id">rv_X1</span> <span class="id">rv_X2</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X1</span>) (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation">Rbar_NonnegExpectation</a></span> <span class="id">rv_X2</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof152')">Proof.</span></div>
-<div class="proofscript" id="proof152">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof154')">Proof.</span></div>
+<div class="proofscript" id="proof154">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#almostR2_map_Rbar_split_l_const_bounded">almostR2_map_Rbar_split_l_const_bounded</a></span> <span class="id">_</span> 0 <span class="id">nnf2</span> <span class="id">H</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">as</span> [<span class="id">f1</span> [? [? [??]]]].<br/>
@@ -4365,8 +4403,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#Rbar_rv_le">Rbar_rv_le</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">omega</span>)) <span class="id">x</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Ts</span> =&gt; (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span> (<span class="id">f</span> <span class="id">n</span>)) <span class="id">omega</span>)) <span class="id">x</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof153')">Proof.</span></div>
-<div class="proofscript" id="proof153">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof155')">Proof.</span></div>
+<div class="proofscript" id="proof155">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_pos_fun_part">Rbar_pos_fun_part</a></span>; <span class="id">simpl</span>.<br/>
 <br/>
@@ -4395,8 +4433,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimSup_seq">ELimSup_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">omega</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">Ts</span> =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Ts</span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">x</span>) <span class="id">omega</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof154')">Proof.</span></div>
-<div class="proofscript" id="proof154">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof156')">Proof.</span></div>
+<div class="proofscript" id="proof156">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">ts</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#ELimInf_seq_pos_fun_part">ELimInf_seq_pos_fun_part</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvopp">Rbar_rvopp</a></span> (<span class="id">f</span> <span class="id">n</span>)) <span class="id">ts</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">etransitivity</span>; [<span class="id">etransitivity</span> |]; [| <span class="id">apply</span> <span class="id">H</span> |]<br/>
@@ -4419,8 +4457,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> (<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">Ts</span> =&gt; <span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">omega</span>))) <span class="id">ts</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.ELim_Seq.html#ELimInf_seq">ELimInf_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Ts</span> =&gt; <span class="id">f</span> <span class="id">n</span> <span class="id">x</span>) <span class="id">ts</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof155')">Proof.</span></div>
-<div class="proofscript" id="proof155">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof157')">Proof.</span></div>
+<div class="proofscript" id="proof157">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#ELimInf_seq_sup_neg_fun_part">ELimInf_seq_sup_neg_fun_part</a></span> <span class="id">f</span> <span class="id">ts</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_neg_fun_part">Rbar_neg_fun_part</a></span>.<br/>
