@@ -1,0 +1,61 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Module FormalML.ProbTheory.Independence</title>
+<meta name="description" content="Documentation of Coq module FormalML.ProbTheory.Independence" />
+<link href="coq2html.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="coq2html.js"> </script>
+</head>
+
+<body onload="hideAll('proofscript')">
+<h1 class="title">Module FormalML.ProbTheory.Independence</h1>
+<div class="coq">
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbase.html">Coq.Reals.Rbase</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lra.html">Lra</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lia.html">Lia</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html">Morphisms</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Classical.html">Classical</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.ClassicalFacts.html">ClassicalFacts</a></span>.<br/>
+<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">utils.Utils</a></span>.<br/>
+<span class="kwd">Import</span> <span class="id">ListNotations</span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.ProbTheory.Event.html">Event</a></span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html">ProbSpace</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html">SigmaAlgebras</a></span>.<br/>
+<br/>
+<span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="sigma_indep">sigma_indep</a></span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="id">Local</span> <span class="kwd">Open</span> <span class="kwd">Scope</span> <span class="id">R</span>.<br/>
+&nbsp;&nbsp;<span class="id">Local</span> <span class="kwd">Open</span> <span class="kwd">Scope</span> <span class="id">prob</span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="independent_sas">independent_sas</a></span> {<span class="id">dom1</span>} (<span class="id">sub1</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom1</span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.dom">dom</a></span>) {<span class="id">dom2</span>} (<span class="id">sub2</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.dom">dom</a></span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">forall</span> (<span class="id">A</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id">dom1</span>) (<span class="id">B</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> <span class="id">dom2</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#independent_events">independent_events</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> <span class="id">sub1</span> <span class="id">A</span>) (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> <span class="id">sub2</span> <span class="id">B</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="independent_sa_collection">independent_sa_collection</a></span> (<span class="id">doms</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.Ts">Ts</a></span>) {<span class="id">sub</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.dom">dom</a></span> <span class="id">doms</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">l</span>:<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> (<span class="id">doms</span> <span class="id">n</span>)),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#independent_event_collection">independent_event_collection</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> (<span class="id">sub</span> <span class="id">n</span>) (<span class="id">l</span> <span class="id">n</span>)).<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="pairwise_independent_sa_collection">pairwise_independent_sa_collection</a></span> (<span class="id">doms</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.Ts">Ts</a></span>) {<span class="id">sub</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.dom">dom</a></span> <span class="id">doms</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">forall</span> (<span class="id">l</span>:<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> (<span class="id">doms</span> <span class="id">n</span>)),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#pairwise_independent_event_collection">pairwise_independent_event_collection</a></span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep.prts">prts</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_sa_sub">event_sa_sub</a></span> (<span class="id">sub</span> <span class="id">n</span>) (<span class="id">l</span> <span class="id">n</span>)).<br/>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.Independence.html#sigma_indep">sigma_indep</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;<br/>
+<br/>
+
+</div>
+<div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
+</body>
+</html>
