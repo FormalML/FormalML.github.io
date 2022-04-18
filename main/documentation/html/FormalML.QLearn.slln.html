@@ -26,6 +26,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">utils.Utils</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html">ConditionalExpectation</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.ProbTheory.Independence.html">Independence</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.QLearn.sumtest.html">sumtest</a></span>.<br/>
 <br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
 <span class="kwd">Set</span> <span class="id">Default</span> <span class="kwd">Goal</span> <span class="id">Selector</span> "!".<br/>
@@ -5210,6 +5211,46 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RbarAdd.html#sum_Rbar_n_finite_sum_n">sum_Rbar_n_finite_sum_n</a></span>.          <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="bound_m_quo">bound_m_quo</a></span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">x</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 &lt;= <span class="id">x</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(/ <span class="id">x</span>) + (/ <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">x</span>) &lt;= 2 / <span class="id">x</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof152')">Proof.</span></div>
+<div class="proofscript" id="proof152">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (/  <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">x</span> &lt;= /<span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rcomplements.html#Rinv_le_contravar">Rinv_le_contravar</a></span>; <span class="id">try</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (0 &lt; <span class="id">x</span>) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_l">Rmult_le_compat_l</a></span> <span class="kwd">with</span> (<span class="id">r</span> := <span class="id">x</span>) <span class="kwd">in</span> <span class="id">H</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (2 / <span class="id">x</span>) <span class="kwd">with</span> (/ <span class="id">x</span> + / <span class="id">x</span>) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat_l">Rplus_le_compat_l</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sum_inv_sq_lim">sum_inv_sq_lim</a></span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le">Rbar_le</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq">Lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; / <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">k</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> + <span class="id">n</span>)%<span class="id">nat</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(2 / (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>))).<br/>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof153')">Proof.</span></div>
+<div class="proofscript" id="proof153">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.sumtest.html#ub_lim_sum_inv_sq_alt">ub_lim_sum_inv_sq_alt</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>)); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut_to</span> <span class="id">H</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#Lim_seq_ext">Lim_seq_ext</a></span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">v</span> := (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; / (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">k</span>)²) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> + <span class="id">n</span>))) <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">eapply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_le_trans">Rbar_le_trans</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.slln.html#bound_m_quo">bound_m_quo</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> 1 <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> 1%<span class="id">nat</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#le_INR">le_INR</a></span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_Reals">sum_n_m_Reals</a></span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Ash_6_2_5_0">Ash_6_2_5_0</a></span> (<span class="id">X</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.QLearn.slln.html#slln_extra.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.slln.html#slln_extra.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id">X</span> <span class="id">n</span>)} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.Expectation.html#Expectation">Expectation</a></span> (<span class="id">X</span> <span class="id">n</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Rbar.Finite</a></span> 0)) -&gt;<br/>
