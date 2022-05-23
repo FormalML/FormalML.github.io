@@ -4076,16 +4076,81 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa">generated_sa</a></span> <span class="id">F</span>) (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clear&nbsp;Fpi&nbsp;indep.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros&nbsp;?;&nbsp;split;&nbsp;intros&nbsp;HH.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;admit.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subst&nbsp;F.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;induction&nbsp;n.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;simpl&nbsp;in&nbsp;*;&nbsp;apply&nbsp;generated_sa_sub';&nbsp;eauto.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;simpl&nbsp;filtrate_sa&nbsp;in&nbsp;HH.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;union_sa&nbsp;in&nbsp;HH.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;revert&nbsp;HH.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;generated_sa_sub_sub;&nbsp;intros&nbsp;??.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;H0.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;simpl&nbsp;in&nbsp;*;&nbsp;apply&nbsp;generated_sa_sub';&nbsp;eauto.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;cut_to&nbsp;IHn.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros&nbsp;?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}  <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Independence.html#independent_eventcoll">independent_eventcoll</a></span> <span class="id"><a href="FormalML.QLearn.slln.html#slln_extra.Prts">Prts</a></span> <span class="id">F</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">sas</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros&nbsp;??&nbsp;[?[??]]&nbsp;?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;induction&nbsp;x.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;rewrite&nbsp;pre_list_inter_nil&nbsp;in&nbsp;H2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(eqq:A&nbsp;===&nbsp;Ω);&nbsp;[intros&nbsp;?;&nbsp;apply&nbsp;H2&nbsp;|].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;eqq.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;independent_events_all_l.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;unfold&nbsp;collection_take&nbsp;in&nbsp;H1;&nbsp;simpl&nbsp;in&nbsp;H1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invcs&nbsp;H1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;pre_list_inter_cons&nbsp;in&nbsp;H2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(sax:sa_sigma&nbsp;dom&nbsp;(pre_list_inter&nbsp;x)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;revert&nbsp;H9.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;sub.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clear.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;revert&nbsp;x.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;1%nat.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;induction&nbsp;n.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;simpl;&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;invcs&nbsp;H9.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;pre_list_inter_nil.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;sa_all.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simpl&nbsp;in&nbsp;*.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;x;&nbsp;simpl&nbsp;in&nbsp;*;&nbsp;invcs&nbsp;H9.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;pre_list_inter_cons.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;sa_inter;&nbsp;[|&nbsp;eauto].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eapply&nbsp;sub;&nbsp;eauto.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(sap:&nbsp;sa_sigma&nbsp;dom&nbsp;p)&nbsp;by&nbsp;(eapply&nbsp;sub;&nbsp;eauto).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(A&nbsp;===&nbsp;event_inter&nbsp;(exist&nbsp;_&nbsp;_&nbsp;sap)&nbsp;(exist&nbsp;_&nbsp;_&nbsp;sax)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros&nbsp;?;&nbsp;apply&nbsp;H2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;H1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;red.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;red&nbsp;in&nbsp;indep.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;red.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> ( <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">F</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id"><a href="FormalML.QLearn.slln.html#slln_extra.dom">dom</a></span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_sub">pre_event_sub</a></span> <span class="id">F</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> <span class="id"><a href="FormalML.QLearn.slln.html#slln_extra.dom">dom</a></span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ? [?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_pre_list_inter">sa_pre_list_inter</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#Forall2_In_l">Forall2_In_l</a></span> <span class="id">H2</span> <span class="id">H4</span>) <span class="kwd">as</span> [? [??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H5</span> <span class="kwd">as</span> [? [??]]; <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">sub</span>; <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.Independence.html#independent_eventcoll_generated_l">independent_eventcoll_generated_l</a></span> <span class="id"><a href="FormalML.QLearn.slln.html#slln_extra.Prts">Prts</a></span> <span class="id">F</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id">sas</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))); <span class="id">intros</span>.<br/>
