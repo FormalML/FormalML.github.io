@@ -812,10 +812,24 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat">Rplus_le_compat</a></span>.<br/>
 Qed.</div>
 <br/>
-<br/>
-&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="expt_value_const">expt_value_const</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>) : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">c</span>) = <span class="id">c</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="expt_value_lbdd">expt_value_lbdd</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} {<span class="id">D</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} {<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>} (<span class="id">hf</span> : <span class="kwd">forall</span> <span class="id">a</span>:<span class="id">A</span>, <span class="id">D</span> &lt;= (<span class="id">f</span> <span class="id">a</span>)) (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">D</span> &lt;= (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> <span class="id">f</span>).<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
 <div class="proofscript" id="proof54">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> <span class="id">D</span> <span class="kwd">with</span> (<span class="id">D</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R1">R1</a></span>) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#sum1_compat">sum1_compat</a></span> <span class="id">p</span>). <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">p</span>.(<span class="id"><a href="FormalML.CertRL.pmf_monad.html#outcomes">outcomes</a></span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">simpl</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">simpl</span> <span class="kwd">in</span> *. <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rmult_plus_distr_l">Rmult_plus_distr_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> ( <span class="id">D</span> * <span class="id">a</span>.1 &lt;= <span class="id">f</span> <span class="id">a</span>.2 * <span class="id">a</span>.1). <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_r">Rmult_le_compat_r</a></span>. <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_nonneg">cond_nonneg</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">hf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_le_compat">Rplus_le_compat</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="expt_value_const">expt_value_const</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>) : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">c</span>) = <span class="id">c</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
+<div class="proofscript" id="proof55">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">p</span> <span class="kwd">as</span> [<span class="id">lp</span> <span class="id">Hp</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
@@ -830,8 +844,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">B</span>) (<span class="id">la</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">b</span> =&gt; <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id">map</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) <span class="id">la</span>)) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">b</span> =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)) <span class="id">la</span>).<br/>
-<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
-<div class="proofscript" id="proof55">
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
+<div class="proofscript" id="proof56">
 &nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">p</span> <span class="kwd">as</span> [<span class="id">lp</span> <span class="id">Hlp</span>].<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">simpl</span>. <span class="id">clear</span> <span class="id">Hlp</span>.<br/>
@@ -849,8 +863,8 @@ Qed.</div>
 <br/>
 &nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="expt_value_minus">expt_value_minus</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>):<br/>
 &nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; - (<span class="id">f</span> <span class="id">x</span>)) = - <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> <span class="id">f</span>.<br/>
-<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
-<div class="proofscript" id="proof56">
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
+<div class="proofscript" id="proof57">
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_opp_r_uniq">Rplus_opp_r_uniq</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value_add">expt_value_add</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#Rplus_opp_r">Rplus_opp_r</a></span>.<br/>
@@ -859,8 +873,8 @@ Qed.</div>
 <br/>
 &nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="expt_value_prod_pmf">expt_value_prod_pmf</a></span> {<span class="id">A</span> <span class="id">B</span> : <span class="kwd">Type</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>) (<span class="id">q</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">B</span>):<br/>
 &nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf_prod">Pmf_prod</a></span> <span class="id">p</span> <span class="id">q</span>) (<span class="kwd">fun</span> '(<span class="id">a</span>,<span class="id">b</span>) =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>) = <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">q</span> (<span class="kwd">fun</span> <span class="id">b</span> =&gt; <span class="id">f</span> <span class="id">a</span> <span class="id">b</span>)).<br/>
-<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
-<div class="proofscript" id="proof57">
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
+<div class="proofscript" id="proof58">
 &nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf_prod">Pmf_prod</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value_bind">expt_value_bind</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value_bind">expt_value_bind</a></span>.<br/>
@@ -876,8 +890,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="variance_eq">variance_eq</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>) (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#variance">variance</a></span> <span class="id">p</span> <span class="id">f</span> = <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; (<span class="id">f</span> <span class="id">a</span>)²) - (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> <span class="id">f</span>)².<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
-<div class="proofscript" id="proof58">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
+<div class="proofscript" id="proof59">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#variance">variance</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_plus">Rsqr_plus</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">setoid_rewrite</span> &lt;-<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_neg">Rsqr_neg</a></span>.<br/>
@@ -897,8 +911,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="variance_le_expt_value_sqr">variance_le_expt_value_sqr</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">p</span> : <span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>) (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#variance">variance</a></span> <span class="id">p</span> <span class="id">f</span> &lt;= <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; (<span class="id">f</span> <span class="id">a</span>)²).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
-<div class="proofscript" id="proof59">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
+<div class="proofscript" id="proof60">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#variance_eq">variance_eq</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rcomplements.html#Rle_minus_l">Rle_minus_l</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_0_r">Rplus_0_r</a></span>) <span class="kwd">at</span> 1.<br/>
@@ -911,8 +925,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="list_sum_sqr_pos">list_sum_sqr_pos</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id">map</span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; (<span class="id">f</span> <span class="id">x</span>)²) <span class="id">l</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
-<div class="proofscript" id="proof60">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
+<div class="proofscript" id="proof61">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">list_sum_pos_pos</span>'.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">List.Forall_forall</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">List.in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H</span> *; <span class="id">intros</span>.<br/>
@@ -924,8 +938,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="total_variance_eq_sum">total_variance_eq_sum</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">lp</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>)) (<span class="id">lf</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#total_variance">total_variance</a></span> <span class="id">lp</span> <span class="id">lf</span> = <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id">map</span> (<span class="kwd">fun</span> '(<span class="id">f</span>,<span class="id">p</span>) =&gt; <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.ssr.ssrfun.html#comp">comp</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">f</span>)) (<span class="id">zip</span> <span class="id">lf</span> <span class="id">lp</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id">map</span> (<span class="kwd">fun</span> '(<span class="id">f</span>,<span class="id">p</span>) =&gt; (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> <span class="id">f</span>)²) (<span class="id">zip</span> <span class="id">lf</span> <span class="id">lp</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
-<div class="proofscript" id="proof61">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
+<div class="proofscript" id="proof62">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum_map_sub">list_sum_map_sub</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#total_variance">total_variance</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum_map_ext">list_sum_map_ext</a></span>; <span class="id">intros</span>.<br/>
@@ -934,8 +948,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="total_variance_le_expt_sqr">total_variance_le_expt_sqr</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">lp</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="FormalML.CertRL.pmf_monad.html#Pmf">Pmf</a></span> <span class="id">A</span>)) (<span class="id">lf</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#total_variance">total_variance</a></span> <span class="id">lp</span> <span class="id">lf</span> &lt;= <span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id">map</span> (<span class="kwd">fun</span> '(<span class="id">f</span>,<span class="id">p</span>) =&gt; <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="id">p</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.ssr.ssrfun.html#comp">comp</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">f</span>)) (<span class="id">zip</span> <span class="id">lf</span> <span class="id">lp</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
-<div class="proofscript" id="proof62">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
+<div class="proofscript" id="proof63">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#total_variance_eq_sum">total_variance_eq_sum</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rcomplements.html#Rle_minus_l">Rle_minus_l</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;-(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_0_r">Rplus_0_r</a></span>) <span class="kwd">at</span> 1.<br/>
