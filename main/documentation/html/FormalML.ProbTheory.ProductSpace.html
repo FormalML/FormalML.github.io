@@ -797,144 +797,15 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt; <span class="kwd">fun</span> '(<span class="id">hd</span>,<span class="id">tl</span>) =&gt; <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#product_ps">product_ps</a></span> <span class="id">hd</span> (<span class="id">ivector_ps</span> <span class="id">tl</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
-&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="ivector_fold_left">ivector_fold_left</a></span> {<span class="id">A</span>} {<span class="id">n</span>} {<span class="id">T</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">T</span> -&gt; <span class="id">A</span>) : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">n</span> -&gt; <span class="id">A</span> -&gt; <span class="id">A</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0%<span class="id">nat</span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> <span class="id">acc</span> =&gt; <span class="id">acc</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">fun</span> '(<span class="id">hd</span>,<span class="id">tl</span>) <span class="id">acc</span> =&gt; <span class="id">ivector_fold_left</span> <span class="id">f</span> <span class="id">tl</span> (<span class="id">f</span> <span class="id">acc</span> <span class="id">hd</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="ivector_fold_right">ivector_fold_right</a></span> {<span class="id">A</span>} {<span class="id">n</span>} {<span class="id">T</span>} (<span class="id">f</span> : <span class="id">T</span> -&gt; <span class="id">A</span> -&gt; <span class="id">A</span>) (<span class="id">init</span>:<span class="id">A</span>) : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">n</span> -&gt; <span class="id">A</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0%<span class="id">nat</span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">init</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">fun</span> '(<span class="id">hd</span>,<span class="id">tl</span>) =&gt; <span class="id">f</span> <span class="id">hd</span> (<span class="id">ivector_fold_right</span> <span class="id">f</span> <span class="id">init</span> <span class="id">tl</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="ivector_Forall2">ivector_Forall2</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">B</span>-&gt;<span class="kwd">Prop</span>): <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> <span class="id">n</span> -&gt; <span class="kwd">Prop</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0%<span class="id">nat</span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt; <span class="kwd">fun</span> '(<span class="id">hd1</span>,<span class="id">tl1</span>) '(<span class="id">hd2</span>,<span class="id">tl2</span>) =&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">R</span> <span class="id">hd1</span> <span class="id">hd2</span> /\ <span class="id">ivector_Forall2</span> <span class="id">R</span> <span class="id">tl1</span> <span class="id">tl2</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_Forall2_refl">ivector_Forall2_refl</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">refl</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Reflexive">Reflexive</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">R</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof24')">Proof.</span></div>
-<div class="proofscript" id="proof24">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??]; <span class="id">auto</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_Forall2_sym">ivector_Forall2_sym</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">sym</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Symmetric">Symmetric</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Symmetric">Symmetric</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">R</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof25')">Proof.</span></div>
-<div class="proofscript" id="proof25">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??][??]; <span class="id">firstorder</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_Forall2_trans">ivector_Forall2_trans</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">trans</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Transitive">Transitive</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">R</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof26')">Proof.</span></div>
-<div class="proofscript" id="proof26">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??][??][??]; <span class="id">firstorder</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_Forall2_equiv">ivector_Forall2_equiv</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">trans</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">R</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof27')">Proof.</span></div>
-<div class="proofscript" id="proof27">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_Forall2_pre">ivector_Forall2_pre</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">trans</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">R</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof28')">Proof.</span></div>
-<div class="proofscript" id="proof28">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">constructor</span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_Forall2_part">ivector_Forall2_part</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">eqA</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">equivA</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#Equivalence">Equivalence</a></span> <span class="id">eqA</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">A</span>-&gt;<span class="kwd">Prop</span>) {<span class="id">preo</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PreOrder">PreOrder</a></span> <span class="id">R</span>} {<span class="id">part</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> <span class="id">eqA</span> <span class="id">R</span>} : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#PartialOrder">PartialOrder</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">eqA</span>) (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="id">n</span>:=<span class="id">n</span>) <span class="id">R</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof29')">Proof.</span></div>
-<div class="proofscript" id="proof29">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">red</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#relation_conjunction">relation_conjunction</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#predicate_intersection">predicate_intersection</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#pointwise_extension">pointwise_extension</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#flip">flip</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; [<span class="id">tauto</span> |].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??][??].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="ivector_sa_proper">ivector_sa_proper</a></span> {<span class="id">n</span>} {<span class="id">T</span>} :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa">ivector_sa</a></span> <span class="id">n</span> <span class="id">T</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof30')">Proof.</span></div>
-<div class="proofscript" id="proof30">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#respectful">respectful</a></span>; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">reflexivity</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> [??][??] [??] ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#product_sa_proper">product_sa_proper</a></span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">symmetry</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id">IHn</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">symmetry</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#product_sa_proper">product_sa_proper</a></span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id">IHn</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivector_sa_sa">ivector_sa_sa</a></span> {<span class="id">n</span>} {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} (<span class="id">a</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> σ) <span class="id">n</span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sigma">sa_sigma</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa">ivector_sa</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_const">ivector_const</a></span> <span class="id">n</span> σ))<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">v</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="kwd">fun</span> <span class="id">a</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#event_pre">event_pre</a></span> <span class="id">a</span> <span class="id">x</span>) <span class="id">a</span> <span class="id">v</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof31')">Proof.</span></div>
-<div class="proofscript" id="proof31">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">a</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; [<span class="id">firstorder</span> |].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [<span class="id">hd</span> <span class="id">tl</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa_sub">generated_sa_sub</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event_pre">event_pre</a></span> <span class="id">hd</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span>  (<span class="kwd">fun</span> <span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="kwd">fun</span> (<span class="id">a0</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> σ) (<span class="id">x</span> : <span class="id">T</span>) =&gt; <span class="id">a0</span> <span class="id">x</span>) <span class="id">tl</span> <span class="id">v</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; [| <span class="id">split</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">destruct</span> <span class="id">hd</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">IHn</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">reflexivity</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="ivector_sa_event">ivector_sa_event</a></span> {<span class="id">n</span>} {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} (<span class="id">a</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> σ) <span class="id">n</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;: <span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa">ivector_sa</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_const">ivector_const</a></span> <span class="id">n</span> σ))<br/>
-&nbsp;&nbsp;:= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_sa_sa">ivector_sa_sa</a></span> <span class="id">a</span>).<br/>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="ivector_map">ivector_map</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span> ) : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> <span class="id">n</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0%<span class="id">nat</span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">fun</span> '(<span class="id">hd</span>,<span class="id">tl</span>) =&gt; (<span class="id">f</span> <span class="id">hd</span>, <span class="id">ivector_map</span> <span class="id">f</span> <span class="id">tl</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="ivector_zip">ivector_zip</a></span> {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id">A</span>*<span class="id">B</span>) <span class="id">n</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0%<span class="id">nat</span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">fun</span> '(<span class="id">hd1</span>,<span class="id">tl1</span>) '(<span class="id">hd2</span>,<span class="id">tl2</span>) =&gt; ((<span class="id">hd1</span>,<span class="id">hd2</span>), <span class="id">ivector_zip</span> <span class="id">tl1</span> <span class="id">tl2</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-<br/>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivector_sa_event_as_prod">ivector_sa_event_as_prod</a></span> {<span class="id">n</span>} {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} (<span class="id">hd</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> σ) (<span class="id">tl</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> σ) <span class="id">n</span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_sa_event">ivector_sa_event</a></span> (<span class="id">n</span>:=<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) (<span class="id">hd</span>, <span class="id">tl</span>) === <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#product_sa_event">product_sa_event</a></span> <span class="id">hd</span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_sa_event">ivector_sa_event</a></span> <span class="id">tl</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof32')">Proof.</span></div>
-<div class="proofscript" id="proof32">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span>; <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
-&nbsp;&nbsp;Qed.</div>
-<br/>
 &nbsp;&nbsp;<span class="kwd">Theorem</span> <span class="id"><a name="ivector_sa_product">ivector_sa_product</a></span> {<span class="id">n</span>} {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} (<span class="id">vps</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> σ) <span class="id">n</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">ve</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#event">event</a></span> σ) <span class="id">n</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_ps">ivector_ps</a></span> <span class="id">vps</span>) (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_sa_event">ivector_sa_event</a></span> <span class="id">ve</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;= <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_fold_left">ivector_fold_left</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_map">ivector_map</a></span> (<span class="kwd">fun</span> '(<span class="id">p</span>,<span class="id">e</span>) =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">p</span>) <span class="id">e</span>) (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_zip">ivector_zip</a></span> <span class="id">vps</span> <span class="id">ve</span>)) 1.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof33')">Proof.</span></div>
-<div class="proofscript" id="proof33">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut</span> (<span class="kwd">forall</span> <span class="id">acc</span>, <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_ps">ivector_ps</a></span> <span class="id">vps</span>) (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_sa_event">ivector_sa_event</a></span> <span class="id">ve</span>) * <span class="id">acc</span> =<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_fold_left">ivector_fold_left</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_map">ivector_map</a></span> (<span class="kwd">fun</span> '(<span class="id">p</span>, <span class="id">e</span>) =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">e</span>) (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_zip">ivector_zip</a></span> <span class="id">vps</span> <span class="id">ve</span>)) <span class="id">acc</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_ps">ivector_ps</a></span> <span class="id">vps</span>) (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa_event">ivector_sa_event</a></span> <span class="id">ve</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;= <span class="id"><a href="FormalML.utils.DVector.html#ivector_fold_left">ivector_fold_left</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_map">ivector_map</a></span> (<span class="kwd">fun</span> '(<span class="id">p</span>,<span class="id">e</span>) =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id">p</span>) <span class="id">e</span>) (<span class="id"><a href="FormalML.utils.DVector.html#ivector_zip">ivector_zip</a></span> <span class="id">vps</span> <span class="id">ve</span>)) 1.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof24')">Proof.</span></div>
+<div class="proofscript" id="proof24">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut</span> (<span class="kwd">forall</span> <span class="id">acc</span>, <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id">ProbSpace</span>:=<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_ps">ivector_ps</a></span> <span class="id">vps</span>) (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa_event">ivector_sa_event</a></span> <span class="id">ve</span>) * <span class="id">acc</span> =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_fold_left">ivector_fold_left</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_map">ivector_map</a></span> (<span class="kwd">fun</span> '(<span class="id">p</span>, <span class="id">e</span>) =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> <span class="id">e</span>) (<span class="id"><a href="FormalML.utils.DVector.html#ivector_zip">ivector_zip</a></span> <span class="id">vps</span> <span class="id">ve</span>)) <span class="id">acc</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{ <span class="id">intros</span> <span class="id">HH</span>; <span class="id">rewrite</span> &lt;- <span class="id">HH</span>; <span class="id">lra</span>. }<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">vps</span> <span class="id">ve</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
@@ -945,7 +816,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> [??] [??] <span class="id">acc</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">IHn</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_sa_event_as_prod">ivector_sa_event_as_prod</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa_event_as_prod">ivector_sa_event_as_prod</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#product_sa_product">product_sa_product</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -954,8 +825,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#product_sa">product_sa</a></span> <span class="id">a</span> <span class="id">b</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">a</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof34')">Proof.</span></div>
-<div class="proofscript" id="proof34">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof25')">Proof.</span></div>
+<div class="proofscript" id="proof25">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
@@ -977,8 +848,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#product_sa">product_sa</a></span> <span class="id">a</span> <span class="id">b</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">b</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#snd">snd</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof35')">Proof.</span></div>
-<div class="proofscript" id="proof35">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof26')">Proof.</span></div>
+<div class="proofscript" id="proof26">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span>.<br/>
@@ -1001,8 +872,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa">ivector_sa</a></span> <span class="id">ivsa</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">n</span> <span class="id">idx</span> <span class="id">idx_lt</span> <span class="id">ivsa</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">n</span> <span class="id">idx</span> <span class="id">idx_lt</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof36')">Proof.</span></div>
-<div class="proofscript" id="proof36">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof27')">Proof.</span></div>
+<div class="proofscript" id="proof27">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">ivsa</span> <span class="id">idx</span> <span class="id">idx_lt</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; [<span class="id">lia</span> |].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??] <span class="id">idx</span> <span class="id">idx_lt</span>.<br/>
