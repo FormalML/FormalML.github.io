@@ -1226,6 +1226,25 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">firstorder</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Fixpoint</span> <span class="id"><a name="ivector_Forall">ivector_Forall</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">P</span>:<span class="id">A</span>-&gt;<span class="kwd">Prop</span>): <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span> -&gt; <span class="kwd">Prop</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">n</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 0%<span class="id">nat</span> =&gt; <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#True">True</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">_</span> =&gt; <span class="kwd">fun</span> '(<span class="id">hd</span>,<span class="id">tl</span>) =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">P</span> <span class="id">hd</span> /\ <span class="id">ivector_Forall</span> <span class="id">P</span> <span class="id">tl</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivector_Forall2_Forall_zip">ivector_Forall2_Forall_zip</a></span>  {<span class="id">A</span> <span class="id">B</span>} {<span class="id">n</span>} (<span class="id">R</span>:<span class="id">A</span>-&gt;<span class="id">B</span>-&gt;<span class="kwd">Prop</span>) (<span class="id">v1</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span>) (<span class="id">v2</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> <span class="id">n</span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2">ivector_Forall2</a></span> <span class="id">R</span> <span class="id">v1</span> <span class="id">v2</span> &lt;-&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall">ivector_Forall</a></span> (<span class="kwd">fun</span> '(<span class="id">a</span>,<span class="id">b</span>) =&gt; <span class="id">R</span> <span class="id">a</span> <span class="id">b</span>) (<span class="id"><a href="FormalML.utils.DVector.html#ivector_zip">ivector_zip</a></span> <span class="id">v1</span> <span class="id">v2</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
+<div class="proofscript" id="proof88">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">v1</span> <span class="id">v2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; [<span class="id">tauto</span> |].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??] [??].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id">IHn</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<br/>
+<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span>.<br/>
 
 </div>
