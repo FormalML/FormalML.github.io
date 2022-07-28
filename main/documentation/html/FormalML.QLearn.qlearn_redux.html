@@ -1376,6 +1376,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
+<br/>
 &nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fun_finite_sum_one_aux">fun_finite_sum_one_aux</a></span> {<span class="id">A</span> <span class="id">B</span> : <span class="kwd">Type</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">decA</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">decB</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">B</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>)        <br/>
@@ -1513,6 +1514,117 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decAB</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>) <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#nodupA">nodupA</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#holds_on_dec">holds_on_dec</a></span> <span class="id">decB</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decA</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)) <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">clear</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;Admitted.</div>
+<br/>
+&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fun_finite_sum_prob_aux">fun_finite_sum_prob_aux</a></span> {<span class="id">A</span> <span class="id">B</span> : <span class="kwd">Type</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">decA</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">decB</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">B</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>)        <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">decAB</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> (<span class="id">A</span> -&gt; <span class="id">B</span>) <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">elmsA</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">nnilA</span> : <span class="id">elmsA</span> &lt;&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">finB</span>:<span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">B</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">elmsAB</span>: <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> (<span class="id">A</span> -&gt; <span class="id">B</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">fab</span> : <span class="id">A</span> -&gt; <span class="id">B</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sumone</span>:(<span class="kwd">forall</span> (<span class="id">a</span> : <span class="id">A</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="id">fab</span> <span class="id">a</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decB</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)) = 1)) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">aa</span> : <span class="id">A</span>) (<span class="id">bb</span> : <span class="id">B</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">sp</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#fold_right">fold_right</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> 1 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id">fab</span> <span class="id">a</span> (<span class="id">sp</span> <span class="id">a</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">elmsA</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">ff</span> =&gt; <span class="kwd">if</span> (<span class="id">decB</span> (<span class="id">ff</span> <span class="id">aa</span>) <span class="id">bb</span>) <span class="kwd">then</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span> <span class="kwd">else</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#false">false</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#nodupA">nodupA</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#holds_on_dec">holds_on_dec</a></span> <span class="id">decB</span> <span class="id">elmsA</span>) <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))) = <span class="id">fab</span> <span class="id">aa</span> <span class="id">bb</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof49')">Proof.</span></div>
+<div class="proofscript" id="proof49">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">elmsA</span>; [<span class="id">simpl</span>; <span class="id">congruence</span> | <span class="id">clear</span> <span class="id">nnilA</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">elmsA</span>; [<span class="id">clear</span> <span class="id">IHelmsA</span> | <span class="id">cut_to</span> <span class="id">IHelmsA</span>; <span class="id">trivial</span>]; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#nodupA">nodupA</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#holds_on_dec">holds_on_dec</a></span>; <span class="id">simpl</span>.<br/>
+<span class="comment">(*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-&nbsp;(sumone&nbsp;a)&nbsp;at&nbsp;1.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;list_sum_perm_eq.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transitivity&nbsp;(map&nbsp;(fab&nbsp;a)&nbsp;(map&nbsp;(fun&nbsp;sp&nbsp;:&nbsp;A&nbsp;-&gt;&nbsp;B&nbsp;=&gt;&nbsp;(sp&nbsp;a))&nbsp;(nodupA&nbsp;(holds_on_dec&nbsp;decB&nbsp;(a&nbsp;::&nbsp;nil))&nbsp;elms))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;map_map.&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;refl_refl.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;map_ext;&nbsp;intros&nbsp;?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lra.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;Permutation_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;finB;&nbsp;simpl.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;NoDup_Permutation'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;apply&nbsp;NoDupA_eq.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;NoDupA_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eapply&nbsp;NoDupA_subr;&nbsp;[|&nbsp;reflexivity&nbsp;|&nbsp;apply&nbsp;NoDupA_nodupA].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfold&nbsp;equiv,&nbsp;flip;&nbsp;intros&nbsp;????&nbsp;inn.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simpl&nbsp;in&nbsp;inn.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;inn;&nbsp;[|&nbsp;tauto].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;congruence.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;apply&nbsp;NoDup_nodup.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;intros&nbsp;b;&nbsp;split;&nbsp;intros&nbsp;inn.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;apply&nbsp;nodup_In.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;finite.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;apply&nbsp;in_map_iff.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;elmsAB;&nbsp;simpl.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(finite0&nbsp;(fun&nbsp;_&nbsp;=&gt;&nbsp;b));&nbsp;intros&nbsp;inn2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;(In_nodupA&nbsp;(holds_on_dec&nbsp;decB&nbsp;(a&nbsp;::&nbsp;nil)))&nbsp;in&nbsp;inn2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;SetoidList.InA_alt&nbsp;in&nbsp;inn2.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;destruct&nbsp;inn2&nbsp;as&nbsp;[?[??]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;red&nbsp;in&nbsp;H.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exists&nbsp;x.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;split;&nbsp;trivial.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;symmetry;&nbsp;apply&nbsp;H;&nbsp;simpl;&nbsp;tauto.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;revert&nbsp;IHelmsA.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(HH:a0&nbsp;::&nbsp;elmsA&nbsp;&lt;&gt;&nbsp;nil)&nbsp;by&nbsp;congruence.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;revert&nbsp;HH.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generalize&nbsp;(a0&nbsp;::&nbsp;elmsA);&nbsp;clear&nbsp;a0&nbsp;elmsA;&nbsp;intros&nbsp;elmsA&nbsp;elmsAnnil.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros&nbsp;IHelmsA.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;simpl.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;specialize&nbsp;(sumone&nbsp;a).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(perm1:Permutation<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nodupA&nbsp;(holds_on_dec&nbsp;decB&nbsp;(a&nbsp;::&nbsp;elmsA))&nbsp;elms)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(concat&nbsp;(map<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fun&nbsp;b&nbsp;=&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fun&nbsp;f&nbsp;=&gt;&nbsp;fun&nbsp;x&nbsp;=&gt;&nbsp;if&nbsp;decA&nbsp;x&nbsp;a&nbsp;then&nbsp;b&nbsp;else&nbsp;f&nbsp;x)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(nodupA&nbsp;(holds_on_dec&nbsp;decB&nbsp;elmsA)&nbsp;elms))&nbsp;(nodup&nbsp;decB&nbsp;elms)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;admit.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;erewrite&nbsp;list_sum_perm_eq;&nbsp;[|&nbsp;apply&nbsp;Permutation_map;&nbsp;apply&nbsp;perm1].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;concat_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat&nbsp;rewrite&nbsp;map_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;erewrite&nbsp;map_ext;&nbsp;[|&nbsp;intros;&nbsp;rewrite&nbsp;map_map;&nbsp;match_destr;&nbsp;[|&nbsp;congruence];&nbsp;reflexivity].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;list_sum_map_concat.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-&nbsp;sumone.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f_equal.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;map_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;map_ext.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-&nbsp;map_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;list_sum_mult_const.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace&nbsp;(fab&nbsp;a&nbsp;a0)&nbsp;with&nbsp;((fab&nbsp;a&nbsp;a0)&nbsp;*&nbsp;1)&nbsp;at&nbsp;2&nbsp;by&nbsp;lra.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f_equal.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;map_map.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;&lt;-&nbsp;IHelmsA.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f_equal.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;map_ext.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rewrite&nbsp;sumone.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f_equal.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;map_ext_in.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(NoDup&nbsp;(a&nbsp;::&nbsp;elmsA))&nbsp;by&nbsp;admit.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;NoDup_cons_iff&nbsp;in&nbsp;H0.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;match_destr.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;rewrite&nbsp;e&nbsp;in&nbsp;H.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;congruence.<br/>
+&nbsp;*)</span><br/>
 &nbsp;&nbsp;Admitted.</div>
 <br/>
 &nbsp;&nbsp;<br/>
@@ -1534,8 +1646,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">ff</span> =&gt; <span class="kwd">if</span> (<span class="id">decB</span> (<span class="id">ff</span> <span class="id">aa</span>) <span class="id">bb</span>) <span class="kwd">then</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span> <span class="kwd">else</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#false">false</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decAB</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))) = <span class="id">fab</span> <span class="id">aa</span> <span class="id">bb</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof49')">Proof.</span></div>
-<div class="proofscript" id="proof49">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof50')">Proof.</span></div>
+<div class="proofscript" id="proof50">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
@@ -1545,8 +1657,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#inhabited">inhabited</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_pmf_pmf">fun_space_sa_pmf_pmf</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_eqdec">fun_space_sa_eqdec</a></span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)) = 1.<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof50')">Proof.</span></div>
-<div class="proofscript" id="proof50">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof51')">Proof.</span></div>
+<div class="proofscript" id="proof51">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#f_sa_sum_one">f_sa_sum_one</a></span>); <span class="id">intros</span> <span class="id">fsa_sum_one</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_pmf_pmf">fun_space_sa_pmf_pmf</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_finite_sum_one">fun_finite_sum_one</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#sigT_eqdec">sigT_eqdec</a></span>  <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>) <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.act_eqdec">act_eqdec</a></span>) (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>)) <span class="id">_</span> <span class="id">_</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#f_sa">f_sa</a></span>); <span class="id">intros</span>.<br/>
@@ -1555,8 +1667,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fun_space_pmf_finite_sum_one">fun_space_pmf_finite_sum_one</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_pmf_pmf">fun_space_pmf_pmf</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_eqdec">fun_space_eqdec</a></span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)) = 1.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof51')">Proof.</span></div>
-<div class="proofscript" id="proof51">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
+<div class="proofscript" id="proof52">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_pmf_pmf">fun_space_pmf_pmf</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
 <br/>
@@ -1565,8 +1677,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id">acc</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">Forall</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; 0 &lt;= <span class="id">x</span>) <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#fold_right">fold_right</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> <span class="id">acc</span> <span class="id">l</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
-<div class="proofscript" id="proof52">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
+<div class="proofscript" id="proof53">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">acc</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">trivial</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">invcs</span> <span class="id">H0</span>.<br/>
@@ -1574,8 +1686,8 @@
 &nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fun_space_pmf_nneg">fun_space_pmf_nneg</a></span> <span class="id">sp</span> : 0 &lt;= <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_pmf_pmf">fun_space_pmf_pmf</a></span> <span class="id">sp</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
-<div class="proofscript" id="proof53">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
+<div class="proofscript" id="proof54">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fold_right_Rmult_nneg">fold_right_Rmult_nneg</a></span>; [<span class="id">lra</span> |].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -1589,8 +1701,8 @@
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fun_space_sa_pmf_pmf_nonneg">fun_space_sa_pmf_pmf_nonneg</a></span> (<span class="id">sp</span>:<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa">fun_space_sa</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_pmf_pmf">fun_space_sa_pmf_pmf</a></span> <span class="id">sp</span>.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
-<div class="proofscript" id="proof54">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
+<div class="proofscript" id="proof55">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fold_right_Rmult_nneg">fold_right_Rmult_nneg</a></span>; [<span class="id">lra</span> |].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall_forall">Forall_forall</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -1602,8 +1714,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.pmf_monad.html#list_fst_sum">list_fst_sum</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">fsa</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mknonnegreal">mknonnegreal</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_pmf_pmf_nonneg">fun_space_sa_pmf_pmf_nonneg</a></span> <span class="id">fsa</span>), <span class="id">fsa</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_eqdec">fun_space_sa_eqdec</a></span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)) = 1.<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
-<div class="proofscript" id="proof55">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
+<div class="proofscript" id="proof56">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#list_fst_sum_compat">list_fst_sum_compat</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">list_fst_sum</span>'.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa_pmf_finite_sum_one">fun_space_sa_pmf_finite_sum_one</a></span> <span class="id">inh</span>); <span class="id">intros</span>.<br/>
@@ -1625,8 +1737,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;:= <span class="kwd">let</span> (<span class="id">s</span>,<span class="id">a</span>) := <span class="id">sa</span> <span class="kwd">in</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.f">f</a></span> <span class="id">s</span> <span class="id">a</span>.<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_space_pmf_nneg">sa_space_pmf_nneg</a></span> <span class="id">sa</span> <span class="id">s</span> : 0 &lt;= <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#sa_space_pmf_pmf">sa_space_pmf_pmf</a></span> <span class="id">sa</span> <span class="id">s</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
-<div class="proofscript" id="proof56">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
+<div class="proofscript" id="proof57">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#sa_space_pmf_pmf">sa_space_pmf_pmf</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">sa</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_nonneg">cond_nonneg</a></span>.<br/>
@@ -1635,8 +1747,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="countable_finite_eqdec">countable_finite_eqdec</a></span> {<span class="id">A</span> : <span class="kwd">Type</span>} (<span class="id">fsA</span> : <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">A</span>) (<span class="id">eqdec</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#Countable">Countable</a></span> <span class="id">A</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
-<div class="proofscript" id="proof57">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
+<div class="proofscript" id="proof58">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#finite_countable">finite_countable</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -1646,8 +1758,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, (<span class="id">m</span>&gt;<span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_inv">countable_inv</a></span> <span class="id">A</span> <span class="id">_</span> <span class="id">m</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
-<div class="proofscript" id="proof58">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
+<div class="proofscript" id="proof59">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#list_max">list_max</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_index">countable_index</a></span> (@<span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span> <span class="id">_</span> <span class="id">fsA</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -1676,8 +1788,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">m</span>, (<span class="id">m</span>&gt;=<span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_inv">countable_inv</a></span> <span class="id">A</span> <span class="id">_</span> <span class="id">m</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
-<div class="proofscript" id="proof59">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
+<div class="proofscript" id="proof60">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_countable_inv">finite_countable_inv</a></span> <span class="id">fsA</span> <span class="id">eqdec</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_sum">countable_sum</a></span>.<br/>
@@ -1714,8 +1826,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="kwd">match</span> <span class="id">x</span> <span class="kwd">with</span> | <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> <span class="id">_</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span> | <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#None">None</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#false">false</a></span> <span class="kwd">end</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (@<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_inv">countable_inv</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#countable_finite_eqdec">countable_finite_eqdec</a></span> <span class="id">_</span> <span class="id">eqdec</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">seq</a></span> 0 <span class="id">x</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#Some">Some</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">eqdec</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
-<div class="proofscript" id="proof60">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
+<div class="proofscript" id="proof61">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">NoDup_Permutation</span>'.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">clear</span> <span class="id">H</span>.<br/>
@@ -1763,8 +1875,8 @@
 <br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fun_space_pmf_one">fun_space_pmf_one</a></span> : <span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_sum">countable_sum</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_pmf_pmf">fun_space_pmf_pmf</a></span> 1.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
-<div class="proofscript" id="proof61">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
+<div class="proofscript" id="proof62">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_countable_inv_sum">finite_countable_inv_sum</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_pmf_pmf">fun_space_pmf_pmf</a></span> <span class="id">_</span> <span class="id">_</span>) <span class="kwd">as</span> [? [? ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_sum">countable_sum</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> ((<span class="id">sum_f_R0</span>'<br/>
@@ -1846,8 +1958,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">s</span>:<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)) (<span class="id">a</span> : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>) <span class="id">s</span>) (<span class="id">s</span>' : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#exist">exist</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#sa_discrete">sa_discrete</a></span> (<span class="kwd">fun</span> (<span class="id">omega</span> : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space">fun_space</a></span>) =&gt; (<span class="id">omega</span> <span class="id">s</span> <span class="id">a</span>) = <span class="id">s</span>'))) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.f">f</a></span> <span class="id">s</span> <span class="id">a</span> <span class="id">s</span>'.<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
-<div class="proofscript" id="proof62">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
+<div class="proofscript" id="proof63">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_ps">fun_space_ps</a></span>.<br/>
@@ -1859,8 +1971,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sa_space_pmf_one">sa_space_pmf_one</a></span> (<span class="id">sa</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) : <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;@<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#countable_sum">countable_sum</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#countable_finite_eqdec">countable_finite_eqdec</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>)) (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#sa_space_pmf_pmf">sa_space_pmf_pmf</a></span> <span class="id">sa</span>) 1.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
-<div class="proofscript" id="proof63">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
+<div class="proofscript" id="proof64">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_countable_inv_sum">finite_countable_inv_sum</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#sa_space_pmf_pmf">sa_space_pmf_pmf</a></span> <span class="id">sa</span>) <span class="id">_</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>)) <span class="kwd">as</span> [? [? ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> ((<span class="id">sum_f_R0</span>'<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt;<br/>
@@ -1948,10 +2060,48 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id">a</span> :: <span class="id">l</span>' =&gt; (<span class="id">a</span>, <span class="id">ivector_from_list</span> <span class="id">l</span>')<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
-&nbsp;&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;<span class="id">Program</span> <span class="kwd">Definition</span> <span class="id"><a name="ivector_from_map">ivector_from_map</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">f</span> : <span class="id">A</span> -&gt; <span class="id">B</span>) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_from_list">ivector_from_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">f</span> <span class="id">l</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof65')">Next Obligation.</span></div>
+<div class="proofscript" id="proof65">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_length">map_length</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="sa_fun_space_ps">sa_fun_space_ps</a></span> :=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_ps">ivector_ps</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_from_list">ivector_from_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#sa_space_ps">sa_space_ps</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#sigT_eqdec">sigT_eqdec</a></span>  <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>) <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.act_eqdec">act_eqdec</a></span>) <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))).<br/>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="finite_fun_to_ivector">finite_fun_to_ivector</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">finA</span> : <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">A</span>) (<span class="id">decA</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) (<span class="id">g</span> : <span class="id">A</span> -&gt; <span class="id">B</span>) :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_from_map">ivector_from_map</a></span> <span class="id">g</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decA</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="ivector_to_finite_fun">ivector_to_finite_fun</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">finA</span> : <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">A</span>) (<span class="id">decA</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decA</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))) : <span class="id">A</span> -&gt; <span class="id">B</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> (<span class="id">a</span> : <span class="id">A</span>) =&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">_</span> (@<span class="id"><a href="FormalML.utils.Finite.html#finite_index">finite_index</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">a</span>) (<span class="id"><a href="FormalML.utils.Finite.html#finite_index_bound">finite_index_bound</a></span> <span class="id">_</span> <span class="id">_</span> ) <span class="id">vec</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="fun_space_sa_to_ivector">fun_space_sa_to_ivector</a></span> (<span class="id">g</span> : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa">fun_space_sa</a></span>) := <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_fun_to_ivector">finite_fun_to_ivector</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#sigT_eqdec">sigT_eqdec</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>) <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.act_eqdec">act_eqdec</a></span>) <span class="id">g</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="ivector_to_fun_space_sa">ivector_to_fun_space_sa</a></span> (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#sigT_eqdec">sigT_eqdec</a></span>  <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>) <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.act_eqdec">act_eqdec</a></span>) <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))) : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#fun_space_sa">fun_space_sa</a></span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_to_finite_fun">ivector_to_finite_fun</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">vec</span>.<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="finite_fun_iso_f_b">finite_fun_iso_f_b</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">finA</span> : <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">A</span>) (<span class="id">decA</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">B</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decA</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))), <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_fun_to_ivector">finite_fun_to_ivector</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_to_finite_fun">ivector_to_finite_fun</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">vec</span>) = <span class="id">vec</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
+<div class="proofscript" id="proof66">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_to_finite_fun">ivector_to_finite_fun</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_fun_to_ivector">finite_fun_to_ivector</a></span>.<br/>
+&nbsp;&nbsp;Admitted.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="finite_fun_iso_b_f">finite_fun_iso_b_f</a></span> {<span class="id">A</span> <span class="id">B</span>} (<span class="id">finA</span> : <span class="id"><a href="FormalML.utils.Finite.html#Finite">Finite</a></span> <span class="id">A</span>) (<span class="id">decA</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html#EqDec">EqDec</a></span> <span class="id">A</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">g</span> : <span class="id">A</span> -&gt; <span class="id">B</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_to_finite_fun">ivector_to_finite_fun</a></span> <span class="id">_</span> <span class="id">_</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_fun_to_ivector">finite_fun_to_ivector</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">g</span>)  = <span class="id">g</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
+<div class="proofscript" id="proof67">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_to_finite_fun">ivector_to_finite_fun</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_fun_to_ivector">finite_fun_to_ivector</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.FunctionalExtensionality.html#functional_extensionality">functional_extensionality</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff">stuff</a></span>.<br/>
 <br/>
 <span class="kwd">Section</span> <span class="id"><a name="FiniteDomain">FiniteDomain</a></span>.<br/>
@@ -1963,8 +2113,8 @@
 <br/>
 <span class="id">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="finite_frf">finite_frf</a></span> (<span class="id">rv_X</span> : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#FiniteRangeFunction">FiniteRangeFunction</a></span> <span class="id">rv_X</span> := { <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#frf_vals">frf_vals</a></span> :=  <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id">rv_X</span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span> }.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof64')">Next Obligation.</span></div>
-<div class="proofscript" id="proof64">
+<div><span class="toggleproof" onclick="toggleDisplay('proof68')">Next Obligation.</span></div>
+<div class="proofscript" id="proof68">
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.fin">fin</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map">in_map</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id">finite</span>.<br/>
@@ -1974,8 +2124,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.Ts">Ts</a></span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">rv_X</span>}  :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.prts">prts</a></span> <span class="id">rv_X</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
-<div class="proofscript" id="proof65">
+<div><span class="toggleproof" onclick="toggleDisplay('proof69')">Proof.</span></div>
+<div class="proofscript" id="proof69">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_simple">IsFiniteExpectation_simple</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 Qed.</div>
@@ -1989,8 +2139,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#preimage_singleton">preimage_singleton</a></span> <span class="id">rv_X</span> <span class="id">v</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#discrete_singleton">discrete_singleton</a></span> <span class="id">a</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#filter">filter</a></span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="kwd">if</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> (<span class="id">rv_X</span> <span class="id">a</span>) <span class="id">v</span> <span class="kwd">then</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#true">true</a></span> <span class="kwd">else</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#false">false</a></span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.eqdec">eqdec</a></span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))).<br/>
-<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
-<div class="proofscript" id="proof66">
+<div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof70')">Proof.</span></div>
+<div class="proofscript" id="proof70">
 &nbsp;&nbsp;&nbsp;Admitted.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Expectation_finite_domain">Expectation_finite_domain</a></span> <br/>
@@ -1999,8 +2149,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.prts">prts</a></span> <span class="id">rv_X</span> =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">a</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.Rmult">Rmult</a></span> (<span class="id">rv_X</span> <span class="id">a</span>) (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#discrete_singleton">discrete_singleton</a></span> <span class="id">a</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#FiniteDomain.eqdec">eqdec</a></span> <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
-<div class="proofscript" id="proof67">
+<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
+<div class="proofscript" id="proof71">
 &nbsp;&nbsp;<span class="id">generalize</span> <span class="id"><a href="FormalML.CertRL.pmf_prob.html#pmf_value_FiniteExpectation">pmf_prob.pmf_value_FiniteExpectation</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.pmf_monad.html#expt_value">expt_value</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation_simple">FiniteExpectation_simple</a></span> <span class="kwd">with</span> (<span class="id">rvx_rv</span> := <span class="id">rv</span>) (<span class="id">frf</span> := <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_frf">finite_frf</a></span> <span class="id">rv_X</span>).<br/>
