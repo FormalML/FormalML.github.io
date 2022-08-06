@@ -2424,10 +2424,20 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivector_nth_create">ivector_nth_create</a></span> {<span class="id">T</span>} {<span class="id">n</span>} (<span class="id">f0</span>: <span class="kwd">forall</span> <span class="id">i</span> (<span class="id">pf</span>:(<span class="id">i</span>&lt;<span class="id">n</span>)%<span class="id">nat</span>), <span class="id">T</span>) <span class="id">j</span> <span class="id">pf2</span>:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf1</span> <span class="id">pf2</span>, <span class="id">f0</span> <span class="id">i</span> <span class="id">pf1</span> = <span class="id">f0</span> <span class="id">i</span> <span class="id">pf2</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">j</span> <span class="id">pf2</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_create">ivector_create</a></span> <span class="id">n</span> <span class="id">f0</span>) = <span class="id">f0</span> <span class="id">j</span> <span class="id">pf2</span>.<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
 <div class="proofscript" id="proof82">
-&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">j</span> <span class="id">pf2</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">intros</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">IHn</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivector_nth_const">ivector_nth_const</a></span> {<span class="id">A</span>} {<span class="id">n</span>} <span class="id">i</span> <span class="id">pf</span> (<span class="id">a</span> : <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_const">ivector_const</a></span> <span class="id">n</span> <span class="id">a</span>) = <span class="id">a</span>.<br/>
@@ -2460,7 +2470,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_fold_left_Rmult_allbut_i_ident">ivector_fold_left_Rmult_allbut_i_ident</a></span> <span class="id">i</span> <span class="id">pf</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_map">ivector_nth_map</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_zip">ivector_nth_zip</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">ve</span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span> <span class="kwd">in</span> <span class="id">H</span>; [|<span class="id">intros</span>; <span class="id">match_destr</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H</span>; <span class="id">try</span> <span class="id">congruence</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_proper">ps_proper</a></span>.<br/>
@@ -2469,7 +2479,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_preimage">pre_event_preimage</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_singleton">pre_event_singleton</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2_nth_iff">ivector_Forall2_nth_iff</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span>; [|<span class="id">intros</span>; <span class="id">match_destr</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> &lt;- <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
@@ -2477,18 +2487,18 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_prf_irrelevance">ivector_nth_prf_irrelevance</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">now</span> <span class="id">unfold</span> <span class="id">pre_</span>Ω.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">specialize</span> (<span class="id">H0</span> <span class="id">i</span> <span class="id">pf</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span> <span class="kwd">in</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span> <span class="kwd">in</span> <span class="id">H0</span>; [| <span class="id">intros</span>; <span class="id">match_destr</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr_in</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">congruence</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_eq">ivector_nth_eq</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_map">ivector_nth_map</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_zip">ivector_nth_zip</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_map">ivector_nth_map</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_zip">ivector_nth_zip</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span>; [|<span class="id">intros</span>; <span class="id">match_destr</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_map">ivector_nth_map</a></span>, <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_zip">ivector_nth_zip</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">e</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>; <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_ext">ivector_nth_ext</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id">ve</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#ivector_nth_create">ivector_nth_create</a></span>; [|<span class="id">intros</span>; <span class="id">match_destr</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">try</span> <span class="id">congruence</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_all">ps_all</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;Qed.</div>
@@ -3078,7 +3088,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f_b">iso_f_b</a></span> := <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#finite_fun_iso_b_f">finite_fun_iso_b_f</a></span> <span class="id">finA</span> <span class="id">decA</span> }.<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="vec_finite_fun_encoder_alt">vec_finite_fun_encoder_alt</a></span> :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Isomorphism.html#Isomorphism">Isomorphism</a></span>  (<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#sigT_eqdec">sigT_eqdec</a></span>  <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>) <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.act_eqdec">act_eqdec</a></span>) <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))) ((<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) -&gt; <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Isomorphism.html#Isomorphism">Isomorphism</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> (<span class="id"><a href="FormalML.utils.BasicUtils.html#sigT_eqdec">sigT_eqdec</a></span>  <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#st_eqdec">st_eqdec</a></span>) <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.act_eqdec">act_eqdec</a></span>) <span class="id"><a href="FormalML.utils.Finite.html#elms">elms</a></span>))) ((<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> (<span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) -&gt; <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#stuff.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)).<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof105')">Proof.</span></div>
 <div class="proofscript" id="proof105">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.qlearn_redux.html#vec_finite_fun_encoder">vec_finite_fun_encoder</a></span>.<br/>
