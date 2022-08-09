@@ -16,7 +16,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html">Program.Basics</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html">List</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lia.html">Lia</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Logic.Eqdep_dec.html">Eqdep_dec</a></span>.<br/>
-<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html">Equivalence</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html">Equivalence</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.EquivDec.html">EquivDec</a></span> <span class="id"><a href="FormalML.utils.Isomorphism.html">Isomorphism</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.lib_utils.LibUtils.html">LibUtils</a></span> <span class="id"><a href="FormalML.utils.ListAdd.html">ListAdd</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Arith.html">Arith</a></span>.<br/>
 <br/>
@@ -1423,22 +1423,82 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;| <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>' =&gt; <span class="kwd">fun</span> '(<span class="id">hd</span>,<span class="id">tl</span>) =&gt; <span class="id"><a href="FormalML.utils.DVector.html#vector_cons">vector_cons</a></span> <span class="id">hd</span> (<span class="id">ivector_to_vector</span> <span class="id">tl</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 <br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="vec_to_ivec_to_vec">vec_to_ivec_to_vec</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">vec</span> = <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span> <span class="id">vec</span>).<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="vector_to_ivector_nth">vector_to_ivector_nth</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) <span class="id">i</span> <span class="id">pf</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">vec</span> = <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span> <span class="id">vec</span>).<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof102')">Proof.</span></div>
 <div class="proofscript" id="proof102">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
-<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivec_to_vec_to_ivec">ivec_to_vec_to_ivec</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">ivec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span>) :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">ivec</span> = <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span> <span class="id">ivec</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">vec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_packed">vector_nth_packed</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq_rect">eq_rect</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_from_list">ivector_nth_from_list</a></span> <span class="id">_</span> <span class="id">i</span> <span class="id">pf</span>) <span class="kwd">in</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">invcs</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_cons_0">vector_nth_cons_0</a></span> {<span class="id">A</span>} {<span class="id">n</span>} <span class="id">a</span> (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) <span class="id">pf</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> 0 <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_cons">vector_cons</a></span> <span class="id">a</span> <span class="id">vec</span>) = <span class="id">a</span>.<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof103')">Proof.</span></div>
 <div class="proofscript" id="proof103">
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_cons">vector_cons</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 <br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_cons_S">vector_nth_cons_S</a></span> {<span class="id">A</span>} {<span class="id">n</span>} <span class="id">a</span> (<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) <span class="id">i</span> <span class="id">pf</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">i</span>) <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_cons">vector_cons</a></span> <span class="id">a</span> <span class="id">vec</span>) = <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Lt.html#lt_S_n">lt_S_n</a></span> <span class="id">i</span> <span class="id">n</span> <span class="id">pf</span>) <span class="id">vec</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof104')">Proof.</span></div>
+<div class="proofscript" id="proof104">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_cons">vector_cons</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">vec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> <span class="kwd">in</span> *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">e1</span> <span class="kwd">in</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">invcs</span> <span class="id">e0</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ivector_to_vector_nth">ivector_to_vector_nth</a></span> {<span class="id">A</span>} {<span class="id">n</span>} (<span class="id">ivec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span>) <span class="id">i</span> <span class="id">pf</span> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">ivec</span> = <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span> <span class="id">ivec</span>).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof105')">Proof.</span></div>
+<div class="proofscript" id="proof105">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">i</span> <span class="id">pf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">ivec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">i</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_cons_0">vector_nth_cons_0</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_cons_S">vector_nth_cons_S</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">IHn</span>.<br/>
+&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+&nbsp;&nbsp;<span class="id">Program</span> <span class="kwd">Instance</span> <span class="id"><a name="vec_to_ivec_encoder">vec_to_ivec_encoder</a></span> {<span class="id">A</span>} {<span class="id">n</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Isomorphism.html#Isomorphism">Isomorphism</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;:= {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span> := <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector">vector_to_ivector</a></span>;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.Isomorphism.html#iso_b">iso_b</a></span> := <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector">ivector_to_vector</a></span> }.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof106')">Next Obligation.</span></div>
+<div class="proofscript" id="proof106">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_eq">ivector_nth_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector_nth">vector_to_ivector_nth</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector_nth">ivector_to_vector_nth</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof107')">Next Obligation.</span></div>
+<div class="proofscript" id="proof107">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_eq">vector_nth_eq</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#ivector_to_vector_nth">ivector_to_vector_nth</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_to_ivector_nth">vector_to_ivector_nth</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<br/>
-<br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span>.<br/>
 
 </div>
