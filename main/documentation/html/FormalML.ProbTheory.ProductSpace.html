@@ -4977,13 +4977,30 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sequence_to_ivector_take">sequence_to_ivector_take</a></span> {<span class="id">T</span>} (<span class="id">x1</span> <span class="id">xx</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">default</span> : <span class="id">T</span>)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">xx</span>)) <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">vec</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">xx</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pf</span> :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#sequence_to_ivector">sequence_to_ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_to_sequence">ivector_to_sequence</a></span> <span class="id">vec</span> <span class="id">default</span>) 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x1</span>) = <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_take">ivector_take</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">xx</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">x1</span>) <span class="id">pf</span> <span class="id">vec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#sequence_to_ivector">sequence_to_ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivector_to_sequence">ivector_to_sequence</a></span> <span class="id">vec</span> <span class="id">default</span>) 0 <span class="id">x1</span> = <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_take">ivector_take</a></span> <span class="id">xx</span> <span class="id">x1</span> <span class="id">pf</span> <span class="id">vec</span>.<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof167')">Proof.</span></div>
 <div class="proofscript" id="proof167">
-&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">x1</span> <span class="id">pf</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">xx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">x1</span> = 0)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x1</span>; <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">vec</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ivec_sequence_cons">ivec_sequence_cons</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">IHxx</span> <span class="id">i</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#sequence_to_ivector_cons">sequence_to_ivector_cons</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">IHxx</span> <span class="id">x1</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Le.html#le_S_n">le_S_n</a></span> <span class="id">x1</span> <span class="id">xx</span> <span class="id">pf</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">IHxx</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="seq_nth_independent_rv">seq_nth_independent_rv</a></span> {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">inh</span> : <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#NonEmpty">NonEmpty</a></span> <span class="id">T</span>}<br/>
