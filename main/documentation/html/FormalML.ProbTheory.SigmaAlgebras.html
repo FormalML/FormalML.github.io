@@ -22,6 +22,7 @@
 <br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.Utils.html">Utils</a></span> <span class="id"><a href="FormalML.utils.DVector.html">DVector</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Export</span> <span class="id"><a href="FormalML.ProbTheory.Event.html">Event</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.micromega.Lia.html">Lia</a></span>.<br/>
 <br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>".<br/>
 <br/>
@@ -1390,30 +1391,25 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">sav</span> <span class="id">x</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">x</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">sav</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.      <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">destruct</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_none">sa_none</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> <span class="id">H</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">specialize</span> (<span class="id">H</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#trivial_sa">trivial_sa</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#unit">unit</a></span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">destruct</span> <span class="id">H</span>; <span class="id">rewrite</span>  <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_none">sa_none</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_all">sa_all</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> (<span class="id">H</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#trivial_sa">trivial_sa</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#unit">unit</a></span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [? [? ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">right</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">try</span> <span class="id">easy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>; <span class="id">right</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">easy</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">sav</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">IHn</span> <span class="id">i</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>; <span class="id">split</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [? [? [? [? ?]]]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [? [? [? [? ?]]]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">IHn</span> <span class="id">x1</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_equiv">pre_event_equiv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> '(<span class="id">x</span>₁, <span class="id">x</span>₂) =&gt; <span class="id">x0</span> <span class="id">x</span>₁ /\ <span class="id">x1</span> <span class="id">x</span>₂)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_inter">pre_event_inter</a></span><br/>
@@ -1422,21 +1418,21 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x2</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>; <span class="id">easy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">easy</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H4</span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H1</span> <span class="kwd">as</span> [? [? ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#pre_event_set_product">pre_event_set_product</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case_eq</span> <span class="id">x0</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">p</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="kwd">fun</span> <span class="id">v</span> =&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2">ivector_Forall2</a></span> (<span class="kwd">fun</span> <span class="id">a0</span> (<span class="id">x</span> : <span class="id">T</span>) =&gt; <span class="id">a0</span> <span class="id">x</span>) <span class="id">i0</span> <span class="id">v</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">H1</span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.Natural.Peano.NPeano.html#Nat.lt_0_succ">NPeano.Nat.lt_0_succ</a></span> <span class="id">n</span>)); <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H4</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H4</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id">IHn</span>.<br/>
@@ -1445,28 +1441,27 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">i0</span>; <span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">i1</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Lt.html#lt_n_S">Lt.lt_n_S</a></span> <span class="id">i1</span> <span class="id">n</span> <span class="id">pf</span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H3</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#lt_S_n_S">lt_S_n_S</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2_nth_iff">ivector_Forall2_nth_iff</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> <span class="id">H2</span>, <span class="id">H3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> <span class="id">H2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">x0</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">H5</span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.Natural.Peano.NPeano.html#Nat.lt_0_succ">NPeano.Nat.lt_0_succ</a></span> <span class="id">n</span>)); <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H6</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">H4</span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Numbers.Natural.Peano.NPeano.html#Nat.lt_0_succ">NPeano.Nat.lt_0_succ</a></span> <span class="id">n</span>)); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2_nth_iff">ivector_Forall2_nth_iff</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H5</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">i2</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Lt.html#lt_n_S">Lt.lt_n_S</a></span> <span class="id">i2</span> <span class="id">n</span> <span class="id">pf</span>)).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#lt_S_n_S">lt_S_n_S</a></span> <span class="kwd">in</span> <span class="id">H5</span>.             <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">destruct</span> <span class="id">H5</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2_nth_iff">ivector_Forall2_nth_iff</a></span> <span class="kwd">in</span> <span class="id">H6</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H4</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">i2</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.Lt.html#lt_n_S">Lt.lt_n_S</a></span> <span class="id">i2</span> <span class="id">n</span> <span class="id">pf</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span> <span class="kwd">in</span> <span class="id">H4</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#lt_S_n_S">lt_S_n_S</a></span> <span class="kwd">in</span> <span class="id">H4</span>.             <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">destruct</span> <span class="id">H4</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.utils.DVector.html#ivector_Forall2_nth_iff">ivector_Forall2_nth_iff</a></span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">i2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">now</span> <span class="id">simpl</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id">H6</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++ <span class="id">apply</span> <span class="id">H5</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admitted.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector">ivector</a></span>.<br/>
