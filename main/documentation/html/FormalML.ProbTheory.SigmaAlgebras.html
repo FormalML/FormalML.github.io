@@ -2088,13 +2088,31 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H2</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H3</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="kwd">exists</span> (<span class="id">f</span> <span class="id">x0</span>).<br/>
-&nbsp;Qed.</div>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="ivector_rev_ind">ivector_rev_ind</a></span> {<span class="id">i</span>} {<span class="id">n</span>} :<br/>
+&nbsp;&nbsp;<span class="id">i</span> &lt; <span class="id">n</span> -&gt; (<span class="id">n</span> - <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">i</span>) &lt; <span class="id">n</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
+<div class="proofscript" id="proof125">
+&nbsp;&nbsp;<span class="id">lia</span>.<br/>
+Qed.</div>
+<br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="ivector_nth_rev">ivector_nth_rev</a></span> {<span class="id">T</span>} {<span class="id">n</span>} (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">n</span>) :<br/>
+&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span> <span class="id">v</span>) = <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_rev_ind">ivector_rev_ind</a></span> <span class="id">pf</span>) <span class="id">v</span>.<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
+<div class="proofscript" id="proof126">
+&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;- <span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;- <br/>
+Admitted.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="pullback_ivector_sa_rev">pullback_ivector_sa_rev</a></span> {<span class="id">T</span>} {<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">sav</span>: <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>) <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa">ivector_sa</a></span> <span class="id">sav</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#pullback_sa">pullback_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa">ivector_sa</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span> <span class="id">sav</span>)) <span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
-<div class="proofscript" id="proof125">
+<div><span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
+<div class="proofscript" id="proof127">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">do</span> 2 <span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_sa_countable_union_nth">ivector_sa_countable_union_nth</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_pullback_comm">countable_union_pullback_comm</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_sa_proper">countable_union_sa_proper</a></span>.<br/>
@@ -2102,6 +2120,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#nested_pullback_sa_equiv">nested_pullback_sa_equiv</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">a</span> <span class="id">l</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span> <span class="id">sav</span>)) (@<span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span> <span class="id">n</span> <span class="id">T</span>)  (<span class="kwd">fun</span> <span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">a</span> <span class="id">l</span> <span class="id">v</span>) <span class="id">x</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_nth_rev">ivector_nth_rev</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#pullback_sa_sigma">pullback_sa_sigma</a></span>.<br/>
@@ -2116,6 +2135,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> (<span class="id">H</span> <span class="id">a0</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#nested_pullback_sa_equiv">nested_pullback_sa_equiv</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">a</span> <span class="id">l</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span> <span class="id">sav</span>)) (@<span class="id"><a href="FormalML.utils.DVector.html#ivector_rev">ivector_rev</a></span> <span class="id">n</span> <span class="id">T</span>)  (<span class="kwd">fun</span> <span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">T</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">a</span> <span class="id">l</span> <span class="id">v</span>) <span class="id">x</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#ivector_nth_rev">ivector_nth_rev</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [? [[?|?] ?]].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">left</span>.<br/>
@@ -2157,8 +2177,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="pre_is_partition_list_partition">pre_is_partition_list_partition</a></span> {<span class="id">T</span>} {<span class="id">l</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event">pre_event</a></span> <span class="id">T</span>)} :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_pre_partition_list">is_pre_partition_list</a></span> <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_pre_partition">is_pre_partition</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_collection">pre_list_collection</a></span> <span class="id">l</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_event_none">pre_event_none</a></span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
-<div class="proofscript" id="proof126">
+<div><span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
+<div class="proofscript" id="proof128">
 &nbsp;&nbsp;<span class="id">intros</span> [??].<br/>
 &nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#pre_list_collection_disjoint">pre_list_collection_disjoint</a></span>.<br/>
@@ -2179,8 +2199,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">isp</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_pre_partition_list">is_pre_partition_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_pre">event_pre</a></span> <span class="id">l</span>)) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> <span class="id">l</span> &lt;-&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_pre_partition_list">is_pre_partition_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_pre">event_pre</a></span> <span class="id">l</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
-<div class="proofscript" id="proof127">
+<div><span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
+<div class="proofscript" id="proof129">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span>, <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_pre_partition_list">is_pre_partition_list</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#list_union_as_pre">list_union_as_pre</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Equivalence.html#equiv">equiv</a></span>.<br/>
@@ -2197,8 +2217,8 @@ Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="is_partition_list_perm">is_partition_list_perm</a></span> {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>}  :<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (@<span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">_</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> <span class="id">T</span> σ).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
-<div class="proofscript" id="proof128">
+<div><span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
+<div class="proofscript" id="proof130">
 &nbsp;&nbsp;<span class="id">cut</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (@<span class="id"><a href="https://coq.inria.fr/library/Coq.Sorting.Permutation.html#Permutation">Permutation</a></span> <span class="id">_</span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span>).<br/>
 &nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#respectful">respectful</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>; <span class="id">intros</span> <span class="id">HH</span> <span class="id">x</span> <span class="id">y</span> <span class="id">perm</span>.<br/>
@@ -2218,8 +2238,8 @@ Qed.</div>
 <br/>
 <span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="is_partition_list_event_equiv">is_partition_list_event_equiv</a></span> {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>}:<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> <span class="id">T</span> σ).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
-<div class="proofscript" id="proof129">
+<div><span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
+<div class="proofscript" id="proof131">
 &nbsp;&nbsp;<span class="id">cut</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall2">Forall2</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#event_equiv">event_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span>).<br/>
 &nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#respectful">respectful</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>; <span class="id">intros</span> <span class="id">HH</span> <span class="id">x</span> <span class="id">y</span> <span class="id">perm</span>.<br/>
@@ -2239,8 +2259,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_partition_list_trivial">is_partition_list_trivial</a></span> {<span class="id">T</span>} {σ:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">T</span>} :<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> (Ω :: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nil">nil</a></span>) (σ:=σ).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
-<div class="proofscript" id="proof130">
+<div><span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
+<div class="proofscript" id="proof132">
 &nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;- <span class="id">repeat</span> <span class="id">constructor</span>.<br/>
 &nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#list_union_singleton">list_union_singleton</a></span>.<br/>
@@ -2254,8 +2274,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#dsa_event">dsa_event</a></span> <span class="id">l1</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#dsa_event">dsa_event</a></span> <span class="id">l2</span>) -&gt;    <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> <span class="id"><a href="FormalML.ProbTheory.Event.html#dsa_event">dsa_event</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#refine_dec_sa_partitions">refine_dec_sa_partitions</a></span> <span class="id">l1</span> <span class="id">l2</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
-<div class="proofscript" id="proof131">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
+<div class="proofscript" id="proof133">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#is_partition_list">is_partition_list</a></span>, <span class="id"><a href="FormalML.ProbTheory.Event.html#refine_dec_sa_partitions">refine_dec_sa_partitions</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> [??] [??].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
@@ -2276,8 +2296,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="is_filtration_le">is_filtration_le</a></span> (<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) {<span class="id">isf</span>:<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> <span class="id">sas</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;: <span class="kwd">forall</span> <span class="id">k</span> <span class="id">n</span>, <span class="id">k</span> &lt;= <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> (<span class="id">sas</span> <span class="id">k</span>) (<span class="id">sas</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
-<div class="proofscript" id="proof132">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
+<div class="proofscript" id="proof134">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> 1.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id">IHle</span>.<br/>
@@ -2285,16 +2305,16 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="is_filtration_const">is_filtration_const</a></span> (<span class="id">c</span>:<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) : <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> (<span class="kwd">fun</span> <span class="id">_</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">c</span>).<br/>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
-<div class="proofscript" id="proof133">
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
+<div class="proofscript" id="proof135">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsSubAlgebras_proper">IsSubAlgebras_proper</a></span> {<span class="id">Idx</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> --&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id">Idx</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
-<div class="proofscript" id="proof134">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
+<div class="proofscript" id="proof136">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ????????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id">H0</span>, <span class="id">H1</span>.<br/>
@@ -2302,8 +2322,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id">IsSubAlgebras_eq_proper</span>' {<span class="id">Idx</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id">Idx</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
-<div class="proofscript" id="proof135">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
+<div class="proofscript" id="proof137">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras_proper">IsSubAlgebras_proper</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id">H</span>; <span class="id">reflexivity</span>.<br/>
@@ -2314,8 +2334,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsSubAlgebras_eq_proper">IsSubAlgebras_eq_proper</a></span> {<span class="id">Idx</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) (@<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id">Idx</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
-<div class="proofscript" id="proof136">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
+<div class="proofscript" id="proof138">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">apply</span> <span class="id">IsSubAlgebras_eq_proper</span>'; <span class="id">trivial</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">now</span> <span class="id">symmetry</span>.<br/>
@@ -2324,8 +2344,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id">IsFiltration_proper</span>' :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#impl">impl</a></span>) <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
-<div class="proofscript" id="proof137">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
+<div class="proofscript" id="proof139">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id">H</span> <span class="id">n</span>), &lt;- (<span class="id">H</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>.<br/>
@@ -2333,8 +2353,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="IsFiltration_proper">IsFiltration_proper</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#iff">iff</a></span>) <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
-<div class="proofscript" id="proof138">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
+<div class="proofscript" id="proof140">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ???.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">apply</span> <span class="id">IsFiltration_proper</span>'; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">symmetry</span>.<br/>
@@ -2351,15 +2371,15 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="filtrate_sa_is_filtration">filtrate_sa_is_filtration</a></span> (<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsFiltration">IsFiltration</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
-<div class="proofscript" id="proof139">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
+<div class="proofscript" id="proof141">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#union_sa_sub_r">union_sa_sub_r</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="filtrate_sa_sub">filtrate_sa_sub</a></span> (<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) (<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) : <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> (<span class="id">sas</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span> <span class="id">n</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
-<div class="proofscript" id="proof140">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
+<div class="proofscript" id="proof142">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">reflexivity</span>.<br/>
@@ -2368,8 +2388,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="filtrate_sa_sub_all">filtrate_sa_sub_all</a></span> (<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) (<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) (<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">k</span>, <span class="id">k</span> &lt;= <span class="id">n</span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> (<span class="id">sas</span> <span class="id">k</span>) <span class="id">dom</span>) -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span> <span class="id">n</span>) <span class="id">dom</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
-<div class="proofscript" id="proof141">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
+<div class="proofscript" id="proof143">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">H</span>; <span class="id">trivial</span>.<br/>
@@ -2379,8 +2399,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="filtrate_sa_is_sub_algebra">filtrate_sa_is_sub_algebra</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) (<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) {<span class="id">subs</span> : <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id">dom</span> <span class="id">sas</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#IsSubAlgebras">IsSubAlgebras</a></span> <span class="id">dom</span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
-<div class="proofscript" id="proof142">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof144')">Proof.</span></div>
+<div class="proofscript" id="proof144">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa_sub_all">filtrate_sa_sub_all</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">subs</span>.<br/>
@@ -2388,8 +2408,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="filtrate_sa_countable_union">filtrate_sa_countable_union</a></span> (<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_sa">countable_union_sa</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span>)) (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_sa">countable_union_sa</a></span> <span class="id">sas</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
-<div class="proofscript" id="proof143">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof145')">Proof.</span></div>
+<div class="proofscript" id="proof145">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_sa">countable_union_sa</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#generated_sa_equiv_subs">generated_sa_equiv_subs</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
@@ -2413,15 +2433,15 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="filtrate_sa_countable_union_sub">filtrate_sa_countable_union_sub</a></span>  (<span class="id">sas</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtration.Ts">Ts</a></span>) <span class="id">n</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span> <span class="id">sas</span> <span class="id">n</span>) (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_sa">countable_union_sa</a></span> <span class="id">sas</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof144')">Proof.</span></div>
-<div class="proofscript" id="proof144">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof146')">Proof.</span></div>
+<div class="proofscript" id="proof146">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa_countable_union">filtrate_sa_countable_union</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#countable_union_sa_sub">countable_union_sa_sub</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="filtrate_sa_sub_proper">filtrate_sa_sub_proper</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span>) <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof145')">Proof.</span></div>
-<div class="proofscript" id="proof145">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof147')">Proof.</span></div>
+<div class="proofscript" id="proof147">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ??? <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">H</span>.<br/>
@@ -2429,8 +2449,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="filtrate_sa_proper">filtrate_sa_proper</a></span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#Proper">Proper</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span> ==&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.Morphisms.html#pointwise_relation">pointwise_relation</a></span> <span class="id">_</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv">sa_equiv</a></span>) <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa">filtrate_sa</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof146')">Proof.</span></div>
-<div class="proofscript" id="proof146">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof148')">Proof.</span></div>
+<div class="proofscript" id="proof148">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Classes.RelationClasses.html#antisymmetry">antisymmetry</a></span>; <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#filtrate_sa_sub_proper">filtrate_sa_sub_proper</a></span>; <span class="id">intros</span> <span class="id">n</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;; <span class="id">specialize</span> (<span class="id">H</span> <span class="id">n</span>); <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_equiv_subs">sa_equiv_subs</a></span> <span class="kwd">in</span> <span class="id">H</span><br/>
