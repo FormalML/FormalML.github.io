@@ -34,7 +34,7 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Reals.html">Reals</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Coquelicot.html">Coquelicot.Coquelicot</a></span>.<br/>
 <br/>
-<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html">Martingale</a></span>.<br/>
+<span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html">Martingale</a></span> <span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html">MartingaleStopped</a></span>.<br/>
 <br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>". <br/>
 <br/>
@@ -3381,6 +3381,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#rvplus_rv">rvplus_rv</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+<br/>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sup_martingale_convergence_3">sup_martingale_convergence_3</a></span> (<span class="id">Y</span> <span class="id">X</span> <span class="id">Z</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.MartingaleConvergence.html#mct.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sas</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.ProbTheory.MartingaleConvergence.html#mct.Ts">Ts</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvY</span>:<span class="kwd">forall</span> <span class="id">n</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.MartingaleConvergence.html#mct.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id">Y</span> <span class="id">n</span>)}<br/>
@@ -3614,6 +3616,20 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.MartingaleConvergence.html#sup_martingale_convergence">sup_martingale_convergence</a></span> <span class="id">SS</span> <span class="id">sas</span>); <span class="id">intros</span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">Zsum</span> <span class="id">t</span> := <span class="id">Z</span> <span class="id">t</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">tau</span> <span class="id">a</span> := <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span> <span class="id">Zsum</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_gt">event_gt</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#id">id</a></span> <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">tau_stopped_stopped</span> : <span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="FormalML.ProbTheory.Martingale.html#IsStoppingTime">IsStoppingTime</a></span> (<span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span> <span class="id">Zsum</span> (<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_gt">event_gt</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#id">id</a></span> <span class="id">a</span>)) <span class="id">sas</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time_is_stop">hitting_time_is_stop</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">tau_stopped_mart</span>: <span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="FormalML.ProbTheory.Martingale.html#IsMartingale">IsMartingale</a></span> <span class="id"><a href="FormalML.ProbTheory.MartingaleConvergence.html#mct.prts">prts</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rge">Rge</a></span> (<span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html#process_stopped_at">process_stopped_at</a></span> <span class="id">RR</span> (<span class="id">tau</span> <span class="id">a</span>)) <span class="id">sas</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html#process_stopped_at_super_martingale">process_stopped_at_super_martingale</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">split</span>.<br/>
