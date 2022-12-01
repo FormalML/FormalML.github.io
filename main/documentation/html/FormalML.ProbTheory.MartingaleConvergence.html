@@ -3709,18 +3709,34 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">nnZ</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">tau_stopped_bound</span>: <span class="kwd">forall</span> <span class="id">a</span> <span class="id">t</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">tau_stopped_bound</span>: <span class="kwd">forall</span> <span class="id">a</span> (<span class="id">pf</span>:0 &lt;= <span class="id">a</span>) <span class="id">t</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rv_le">rv_le</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#neg_fun_part">neg_fun_part</a></span> (<span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html#process_stopped_at">process_stopped_at</a></span> <span class="id">RR</span> (<span class="id">tau</span> <span class="id">a</span>) <span class="id">t</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> <span class="id">a</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html#process_stopped_at">process_stopped_at</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">tau</span>, <span class="id"><a href="FormalML.ProbTheory.Martingale.html#hitting_time">hitting_time</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ω.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html#process_stopped_at">process_stopped_at</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>, <span class="id"><a href="FormalML.ProbTheory.MartingaleStopped.html#lift1_min">lift1_min</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_option</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_some_first">classic_min_of_some_first</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">eqq</span>); <span class="id">intros</span> <span class="id">gta</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_gt">event_gt</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#id">id</a></span>, <span class="id">Zsum</span> <span class="kwd">in</span> <span class="id">gta</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">gta</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">RR_bound_Zsum</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Nat.html#min">Init.Nat.min</a></span> <span class="id">t</span> <span class="id">n</span>) ω); <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">RR_bound_Zsum</span> |- *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">RR_bound_Zsum</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">case_eq</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Nat.html#min">Init.Nat.min</a></span> <span class="id">t</span> <span class="id">n</span>); <span class="id">trivial</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">sum_f_R0_sum_f_R0</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rnot_gt_le">Rnot_gt_le</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">gta</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.ClassicUtils.html#classic_min_of_none">classic_min_of_none</a></span> <span class="id">_</span> <span class="id">eqq</span>); <span class="id">intros</span> <span class="id">ngta</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#event_gt">event_gt</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Ranalysis1.html#id">id</a></span>, <span class="id">Zsum</span> <span class="kwd">in</span> <span class="id">ngta</span>; <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">ngta</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">RR_bound_Zsum</span> <span class="id">t</span> ω); <span class="id">simpl</span> <span class="kwd">in</span> <span class="id">RR_bound_Zsum</span> |- *.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">RR_bound_Zsum</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">t</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">sum_f_R0_sum_f_R0</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">ngta</span> <span class="id">t</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">repeat</span> <span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvlim_rv">Rbar_rvlim_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
