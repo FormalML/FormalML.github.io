@@ -35,7 +35,6 @@
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.NumberIso.html">NumberIso</a></span>.<br/>
 <span class="kwd">Require</span> <span class="kwd">Import</span> <span class="id"><a href="FormalML.utils.PushNeg.html">PushNeg</a></span>.<br/>
 <br/>
-<br/>
 <span class="kwd">Set</span> <span class="id">Bullet</span> <span class="id">Behavior</span> "<span class="id">Strict</span> <span class="id">Subproofs</span>". <br/>
 <br/>
 <span class="kwd">Section</span> <span class="id"><a name="is_cond_exp">is_cond_exp</a></span>.<br/>
@@ -7723,6 +7722,26 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#condexp">condexp</a></span>.<br/>
+<br/>
+<span class="kwd">Ltac</span> <span class="id">rewrite_condexp</span> <span class="id">H</span><br/>
+&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">type</span> <span class="id">of</span> <span class="id">H</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| @<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonNegCondexp">NonNegCondexp</a></span> ?<span class="id">Ts</span> ?<span class="id">dom</span> ?<span class="id">prts</span> ?<span class="id">dom2</span> ?<span class="id">sub</span> ?<span class="id">f</span> ?<span class="id">rv1</span> ?<span class="id">nnf1</span> ?<span class="id">x</span> = <span class="id">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">goal</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[|- <span class="id">context</span> [@<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonNegCondexp">NonNegCondexp</a></span> ?<span class="id">Ts</span> ?<span class="id">dom</span> ?<span class="id">prts</span> ?<span class="id">dom2</span> ?<span class="id">sub</span> ?<span class="id">g</span> ?<span class="id">rv2</span> ?<span class="id">nnf2</span> ?<span class="id">x</span>]] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="kwd">fun</span> <span class="id">pf</span> =&gt; @<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonNegCondexp_ext">NonNegCondexp_ext</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Ts</span> <span class="id">dom</span> <span class="id">prts</span> <span class="id">dom2</span> <span class="id">sub</span> <span class="id">f</span> <span class="id">g</span> <span class="id">rv1</span> <span class="id">rv2</span> <span class="id">nnf1</span> <span class="id">nnf2</span> <span class="id">pf</span> <span class="id">x</span>); [<span class="id">rewrite</span> <span class="id">H</span> | <span class="id">try</span> <span class="id">reflexivity</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
+<br/>
+<span class="kwd">Ltac</span> <span class="id">rewrite_condexp_in</span> <span class="id">H</span> <span class="id">H2</span><br/>
+&nbsp;&nbsp;:= <span class="kwd">match</span> <span class="id">type</span> <span class="id">of</span> <span class="id">H</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| @<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonNegCondexp">NonNegCondexp</a></span> ?<span class="id">Ts</span> ?<span class="id">dom</span> ?<span class="id">prts</span> ?<span class="id">dom2</span> ?<span class="id">sub</span> ?<span class="id">f</span> ?<span class="id">rv1</span> ?<span class="id">nnf1</span> ?<span class="id">x</span> = <span class="id">_</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">match</span> <span class="id">type</span> <span class="id">of</span> <span class="id">H2</span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">context</span> [@<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonNegCondexp">NonNegCondexp</a></span> ?<span class="id">Ts</span> ?<span class="id">dom</span> ?<span class="id">prts</span> ?<span class="id">dom2</span> ?<span class="id">sub</span> ?<span class="id">g</span> ?<span class="id">rv2</span> ?<span class="id">nnf2</span> ?<span class="id">x</span>] =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="kwd">fun</span> <span class="id">pf</span> =&gt; @<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#NonNegCondexp_ext">NonNegCondexp_ext</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Ts</span> <span class="id">dom</span> <span class="id">prts</span> <span class="id">dom2</span> <span class="id">sub</span> <span class="id">f</span> <span class="id">g</span> <span class="id">rv1</span> <span class="id">rv2</span> <span class="id">nnf1</span> <span class="id">nnf2</span> <span class="id">pf</span> <span class="id">x</span>) <span class="kwd">in</span> <span class="id">H2</span>; [<span class="id">rewrite</span> <span class="id">H</span> <span class="kwd">in</span> <span class="id">H2</span>| <span class="id">try</span> <span class="id">reflexivity</span>]<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">end</span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
