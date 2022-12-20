@@ -1976,21 +1976,18 @@ Qed.</div>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.utils.DVector.html#Sequence">Sequence</a></span>.<br/>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="bounded_nat_ex_choice_ivector">bounded_nat_ex_choice_ivector</a></span> {<span class="id">A</span>:<span class="kwd">Type</span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">P</span>:<span class="kwd">forall</span> <span class="id">i</span>, (<span class="id">i</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt; <span class="id">A</span> -&gt; <span class="kwd">Prop</span>) :<br/>
-&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf1</span> <span class="id">pf2</span> <span class="id">x</span>, <span class="id">P</span> <span class="id">i</span> <span class="id">pf1</span> <span class="id">x</span> &lt;-&gt; <span class="id">P</span> <span class="id">i</span> <span class="id">pf2</span> <span class="id">x</span>) -&gt;<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) (<span class="id">pf</span> : (<span class="id">i</span> &lt; <span class="id">n</span>)%<span class="id">nat</span>), <span class="kwd">exists</span> <span class="id">y</span>, <span class="id">P</span> <span class="id">i</span> <span class="id">pf</span> <span class="id">y</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#ivector">ivector</a></span> <span class="id">A</span> <span class="id">n</span>),<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) (<span class="id">pf</span> : (<span class="id">i</span> &lt; <span class="id">n</span>)%<span class="id">nat</span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">P</span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_nth">ivector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">l</span>).<br/>
 <div><span class="toggleproof" onclick="toggleDisplay('proof142')">Proof.</span></div>
 <div class="proofscript" id="proof142">
-&nbsp;&nbsp;<span class="id">intros</span> <span class="id">pf_irrel</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;- <span class="kwd">exists</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#tt">tt</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;- <span class="id">specialize</span> (<span class="id">IHn</span> (<span class="kwd">fun</span> <span class="id">i</span> <span class="id">pf</span> <span class="id">a</span> =&gt; <span class="id">P</span> <span class="id">i</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.lt_lt_succ_r">Nat.lt_lt_succ_r</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf</span>) <span class="id">a</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">IHn</span> <span class="kwd">as</span> [<span class="id">l</span> <span class="id">Pl</span>].<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">pf_irrel</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>; <span class="id">apply</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">destruct</span> (<span class="id">HH</span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.lt_succ_diag_r">Nat.lt_succ_diag_r</a></span> <span class="id">n</span>)) <span class="kwd">as</span> [<span class="id">a</span> <span class="id">Pa</span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.utils.DVector.html#ivector_add_to_end">ivector_add_to_end</a></span> <span class="id">a</span> <span class="id">l</span>).<br/>
@@ -1998,14 +1995,40 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.eq_dec">Nat.eq_dec</a></span> <span class="id">i</span> <span class="id">n</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** <span class="id">subst</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_add_to_end2">ivector_nth_add_to_end2</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">pf_irrel</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsDigits.html#digit_pf_irrel">digit_pf_irrel</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf</span>) <span class="kwd">in</span> <span class="id">Pa</span>; <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** <span class="id">assert</span> (<span class="id">pf</span>':<span class="id">i</span> &lt; <span class="id">n</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#ivector_nth_add_to_end1">ivector_nth_add_to_end1</a></span> <span class="kwd">with</span> (<span class="id">pf2</span>:=<span class="id">pf</span>').<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> <span class="id">pf_irrel</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">Pl</span> <span class="id">i</span> <span class="id">pf</span>').<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsDigits.html#digit_pf_irrel">digit_pf_irrel</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf</span>) <span class="kwd">in</span> <span class="id">Pl</span>; <span class="id">eauto</span>.<br/>
 Qed.</div>
 <br/>
+<span class="kwd">Lemma</span> <span class="id"><a name="bounded_nat_ex_choice_vector">bounded_nat_ex_choice_vector</a></span> {<span class="id">A</span>:<span class="kwd">Type</span>} {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">P</span>:<span class="kwd">forall</span> <span class="id">i</span>, (<span class="id">i</span> &lt; <span class="id">n</span>)%<span class="id">nat</span> -&gt; <span class="id">A</span> -&gt; <span class="kwd">Prop</span>) :<br/>
+&nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) (<span class="id">pf</span> : (<span class="id">i</span> &lt; <span class="id">n</span>)%<span class="id">nat</span>), <span class="kwd">exists</span> <span class="id">y</span>, <span class="id">P</span> <span class="id">i</span> <span class="id">pf</span> <span class="id">y</span>) -&gt;<br/>
+&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">l</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id">A</span> <span class="id">n</span>),<br/>
+&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) (<span class="id">pf</span> : (<span class="id">i</span> &lt; <span class="id">n</span>)%<span class="id">nat</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">P</span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">l</span>).<br/>
+<div><span class="toggleproof" onclick="toggleDisplay('proof143')">Proof.</span></div>
+<div class="proofscript" id="proof143">
+&nbsp;&nbsp;<span class="id">intros</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
+&nbsp;&nbsp;- <span class="kwd">exists</span> <span class="id"><a href="FormalML.utils.DVector.html#vector0">vector0</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;- <span class="id">specialize</span> (<span class="id">IHn</span> (<span class="kwd">fun</span> <span class="id">i</span> <span class="id">pf</span> <span class="id">a</span> =&gt; <span class="id">P</span> <span class="id">i</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.lt_lt_succ_r">Nat.lt_lt_succ_r</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf</span>) <span class="id">a</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">IHn</span> <span class="kwd">as</span> [<span class="id">l</span> <span class="id">Pl</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>; <span class="id">apply</span> <span class="id">HH</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">destruct</span> (<span class="id">HH</span> <span class="id">_</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.lt_succ_diag_r">Nat.lt_succ_diag_r</a></span> <span class="id">n</span>)) <span class="kwd">as</span> [<span class="id">a</span> <span class="id">Pa</span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_add_to_end">vector_add_to_end</a></span> <span class="id">a</span> <span class="id">l</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.eq_dec">Nat.eq_dec</a></span> <span class="id">i</span> <span class="id">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_add_to_end_suffix">vector_nth_add_to_end_suffix</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsDigits.html#digit_pf_irrel">digit_pf_irrel</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf</span>) <span class="kwd">in</span> <span class="id">Pa</span>; <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;** <span class="id">assert</span> (<span class="id">pf</span>':<span class="id">i</span> &lt; <span class="id">n</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_add_to_end_prefix">vector_nth_add_to_end_prefix</a></span> <span class="kwd">with</span> (<span class="id">pf2</span>:=<span class="id">pf</span>').<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">Pl</span> <span class="id">i</span> <span class="id">pf</span>').<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsDigits.html#digit_pf_irrel">digit_pf_irrel</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">pf</span>) <span class="kwd">in</span> <span class="id">Pl</span>; <span class="id">eauto</span>.<br/>
+Qed.</div>
 <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
