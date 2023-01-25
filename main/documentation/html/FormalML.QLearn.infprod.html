@@ -510,11 +510,48 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#sum_split">sum_split</a></span>; <span class="id">lia</span>.<br/>
 Qed.</div>
 <br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="seq_sum_shift">seq_sum_shift</a></span> (α : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">nk</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>):<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> α) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> =&gt; α (<span class="id">n0</span> + <span class="id">nk</span>)%<span class="id">nat</span>)) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof36')">Proof.</span></div>
+<div class="proofscript" id="proof36">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Arith.PeanoNat.html#Nat.eq_dec">Nat.eq_dec</a></span> <span class="id">nk</span> 0).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">subst</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_ext">is_lim_seq_ext</a></span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">_</span> <span class="id">H</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Unshelve</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_ext">sum_n_ext</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>; <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-  <span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_incr_n">is_lim_seq_incr_n</a></span> <span class="kwd">with</span> (<span class="id">N</span> := <span class="id">nk</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (0 &lt; <span class="id">nk</span>)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_ext">is_lim_seq_ext</a></span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">with</span> (<span class="id">v</span> := (<span class="kwd">fun</span> <span class="id">n</span> =&gt; ((<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> α (<span class="id">nk</span>-1)%<span class="id">nat</span>) + <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">n1</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; α (<span class="id">n1</span> + <span class="id">nk</span>)%<span class="id">nat</span>) <span class="id">n</span>))%<span class="id">R</span> ))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">eapply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_minus">is_lim_seq_minus</a></span> <span class="kwd">with</span> (<span class="id">v</span> := <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> α (<span class="id">nk</span>-1)) <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">eapply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_ext">is_lim_seq_ext</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- <span class="id">intros</span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_const">is_lim_seq_const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* <span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_Rbar_minus">is_Rbar_minus</a></span>, <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#is_Rbar_plus">is_Rbar_plus</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.infprod.html#sum_split">sum_split</a></span> <span class="kwd">with</span> (<span class="id">m</span> := (<span class="id">nk</span>-1)%<span class="id">nat</span>); <span class="id">try</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_eq_compat_l">Rplus_eq_compat_l</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> (<span class="id">nk</span> - 1)) <span class="kwd">with</span> (<span class="id">nk</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.Sums.html#sum_n_m_shift">sum_n_m_shift</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Qed.</div>
+<br/>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="ex_seq_sum_shift">ex_seq_sum_shift</a></span> (α : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">nk</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#ex_lim_seq">ex_lim_seq</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> α) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#ex_lim_seq">ex_lim_seq</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">n0</span> =&gt; α (<span class="id">n0</span> + <span class="id">nk</span>)%<span class="id">nat</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof36')">Proof.</span></div>
-<div class="proofscript" id="proof36">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof37')">Proof.</span></div>
+<div class="proofscript" id="proof37">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">nk</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#ex_lim_seq_ext">ex_lim_seq_ext</a></span>; <span class="id">intros</span>.<br/>
@@ -551,8 +588,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="nneg_sum_n_m_sq">nneg_sum_n_m_sq</a></span>  (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">n</span> <span class="id">m</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;0 &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">a</span> <span class="id">k</span>)) <span class="id">n</span> <span class="id">m</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof37')">Proof.</span></div>
-<div class="proofscript" id="proof37">
+<div><span class="toggleproof" onclick="toggleDisplay('proof38')">Proof.</span></div>
+<div class="proofscript" id="proof38">
 &nbsp;&nbsp;<span class="id">replace</span> (0) <span class="kwd">with</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> - <span class="id">n</span>) * 0) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_const">sum_n_m_const</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_le">sum_n_m_le</a></span>.<br/>
@@ -564,8 +601,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span> -&gt;<br/>
 &nbsp;&nbsp;0 &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">a</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof38')">Proof.</span></div>
-<div class="proofscript" id="proof38">
+<div><span class="toggleproof" onclick="toggleDisplay('proof39')">Proof.</span></div>
+<div class="proofscript" id="proof39">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; 0) = 0).<br/>
 &nbsp;&nbsp;{<br/>
@@ -584,8 +621,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="nneg_series_sq">nneg_series_sq</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">a</span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;0 &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">a</span> <span class="id">n</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof39')">Proof.</span></div>
-<div class="proofscript" id="proof39">
+<div><span class="toggleproof" onclick="toggleDisplay('proof40')">Proof.</span></div>
+<div class="proofscript" id="proof40">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#nneg_series">nneg_series</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -596,8 +633,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">a</span> <span class="id">n</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">a</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">a</span> <span class="id">n</span> &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">a</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof40')">Proof.</span></div>
-<div class="proofscript" id="proof40">
+<div><span class="toggleproof" onclick="toggleDisplay('proof41')">Proof.</span></div>
+<div class="proofscript" id="proof41">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (0 &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series_incr_n">Series_incr_n</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) <span class="id">H1</span> <span class="id">H0</span>).<br/>
@@ -615,8 +652,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">fnsq</span> := (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">a</span> <span class="id">n</span>)) <span class="kwd">in</span>      <br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">fnsq</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">fnsq</span> <span class="id">n</span> &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">fnsq</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof41')">Proof.</span></div>
-<div class="proofscript" id="proof41">
+<div><span class="toggleproof" onclick="toggleDisplay('proof42')">Proof.</span></div>
+<div class="proofscript" id="proof42">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#sub_sum_limit_nneg">sub_sum_limit_nneg</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_0_sqr">Rle_0_sqr</a></span>.<br/>
@@ -625,8 +662,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="lim_sq_0">lim_sq_0</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#is_series">is_series</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">a</span> <span class="id">k</span>)) 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, 0 = <span class="id">a</span> <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof42')">Proof.</span></div>
-<div class="proofscript" id="proof42">
+<div><span class="toggleproof" onclick="toggleDisplay('proof43')">Proof.</span></div>
+<div class="proofscript" id="proof43">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id">H</span>' := <span class="id">H</span>).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#is_series_unique">is_series_unique</a></span> <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -662,8 +699,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="id">k</span> &lt;= <span class="id">m</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;(<span class="id">m</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;  <br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> <span class="id">k</span> <span class="id">n</span> &lt;= <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof43')">Proof.</span></div>
-<div class="proofscript" id="proof43">
+<div><span class="toggleproof" onclick="toggleDisplay('proof44')">Proof.</span></div>
+<div class="proofscript" id="proof44">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#fold_right_max_upper_list">fold_right_max_upper_list</a></span>.<br/>
@@ -677,8 +714,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">F</span> <span class="id">n</span> &lt;= 1) -&gt;<br/>
 &nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">n</span> &lt;= <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof44')">Proof.</span></div>
-<div class="proofscript" id="proof44">
+<div><span class="toggleproof" onclick="toggleDisplay('proof45')">Proof.</span></div>
+<div class="proofscript" id="proof45">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span> - <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>)%<span class="id">nat</span> <span class="kwd">with</span> (<span class="id">n</span> - <span class="id">m</span>)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
@@ -695,8 +732,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="max_bounded1">max_bounded1</a></span> (<span class="id">F</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">m</span> <span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">F</span> <span class="id">n</span> &lt;= 1) -&gt;<br/>
 &nbsp;&nbsp;(<span class="id">m</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt; <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">n</span> = <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof45')">Proof.</span></div>
-<div class="proofscript" id="proof45">
+<div><span class="toggleproof" onclick="toggleDisplay('proof46')">Proof.</span></div>
+<div class="proofscript" id="proof46">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">m</span>.<br/>
@@ -728,8 +765,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="lim_max_bounded1">lim_max_bounded1</a></span> (<span class="id">F</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">m</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">F</span> <span class="id">n</span> &lt;= 1) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> <span class="id">F</span>) 0 -&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">F</span> <span class="id">m</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof46')">Proof.</span></div>
-<div class="proofscript" id="proof46">
+<div><span class="toggleproof" onclick="toggleDisplay('proof47')">Proof.</span></div>
+<div class="proofscript" id="proof47">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_ext">is_lim_seq_ext</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id">F</span> (<span class="id">m</span> + <span class="id">k</span>)%<span class="id">nat</span>))).<br/>
 &nbsp;&nbsp;- <span class="id">intros</span>.<br/>
@@ -741,8 +778,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="pos_sq_bounded1">pos_sq_bounded1</a></span> (<span class="id">F</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">F</span> <span class="id">n</span> &lt;= 1 -&gt; (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) <span class="id">n</span> &lt;= 1.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof47')">Proof.</span></div>
-<div class="proofscript" id="proof47">
+<div><span class="toggleproof" onclick="toggleDisplay('proof48')">Proof.</span></div>
+<div class="proofscript" id="proof48">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span>, <span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq">pos_sq</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> (1) <span class="kwd">with</span> (1 * 1) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
@@ -753,8 +790,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="lim_max_bounded1_sq">lim_max_bounded1_sq</a></span> (<span class="id">F</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">m</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">F</span> <span class="id">n</span> &lt;= 1) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> <span class="id">F</span>) 0 -&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) <span class="id">m</span> (<span class="id">n</span>+<span class="id">m</span>)%<span class="id">nat</span>) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof48')">Proof.</span></div>
-<div class="proofscript" id="proof48">
+<div><span class="toggleproof" onclick="toggleDisplay('proof49')">Proof.</span></div>
+<div class="proofscript" id="proof49">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#lim_max_bounded1">lim_max_bounded1</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_bounded1">pos_sq_bounded1</a></span>.<br/>
@@ -766,8 +803,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">k</span> &lt;= <span class="id">m</span>)%<span class="id">nat</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> <span class="id">k</span> <span class="id">n</span> = <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof49')">Proof.</span></div>
-<div class="proofscript" id="proof49">
+<div><span class="toggleproof" onclick="toggleDisplay('proof50')">Proof.</span></div>
+<div class="proofscript" id="proof50">
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#fold_right_max_in">fold_right_max_in</a></span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">List.map</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> <span class="id">k</span> <span class="id">n</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#seq">List.seq</a></span> 0 (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>)))).<br/>
 &nbsp;&nbsp;- <span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_part_prod_n">pos_part_prod_n</a></span> <span class="id">F</span>); <span class="id">intros</span>.<br/>
@@ -785,8 +822,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="max_prod_n_S">max_prod_n_S</a></span> (<span class="id">a</span>: <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">m</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="id">m</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;(<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">a</span> <span class="id">m</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) = <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">a</span> <span class="id">m</span> <span class="id">n</span> * <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof50')">Proof.</span></div>
-<div class="proofscript" id="proof50">
+<div><span class="toggleproof" onclick="toggleDisplay('proof51')">Proof.</span></div>
+<div class="proofscript" id="proof51">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">mle</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.QLearn.infprod.html#fold_right_rmax_const">fold_right_rmax_const</a></span>.<br/>
@@ -803,8 +840,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="initial_max_prod_n">initial_max_prod_n</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">k</span> <span class="id">m</span> <span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>):<br/>
 &nbsp;&nbsp;(<span class="id">k</span> &lt;= <span class="id">m</span>)%<span class="id">nat</span> -&gt; <br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">a</span> <span class="id">k</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> + <span class="id">n</span>)%<span class="id">nat</span> = (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">a</span> <span class="id">k</span> <span class="id">m</span>) * (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> + <span class="id">n</span>)%<span class="id">nat</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof51')">Proof.</span></div>
-<div class="proofscript" id="proof51">
+<div><span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
+<div class="proofscript" id="proof52">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;- <span class="id">replace</span> (<span class="id">m</span>+0)%<span class="id">nat</span> <span class="kwd">with</span> (<span class="id">m</span>) <span class="kwd">by</span> <span class="id">lia</span>.<br/>
@@ -819,8 +856,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">k</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), (<span class="id">k</span>&lt;=<span class="id">m</span>)%<span class="id">nat</span> /\<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), (<span class="id">m</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> <span class="id">k</span> <span class="id">n</span> = <span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof52')">Proof.</span></div>
-<div class="proofscript" id="proof52">
+<div><span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
+<div class="proofscript" id="proof53">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id">m</span> &lt;= <span class="id">m</span>)%<span class="id">nat</span> <span class="kwd">by</span> <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_index_n">max_prod_index_n</a></span> <span class="id">F</span> <span class="id">m</span> <span class="id">m</span> <span class="id">H</span>); <span class="id">intros</span>.<br/>
@@ -840,8 +877,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="lim_max_prod_m_0">lim_max_prod_m_0</a></span> (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>):<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_pos">part_prod_pos</a></span> <span class="id">a</span>) 0 -&gt; <br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">m</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> <span class="id">a</span> <span class="id">m</span>) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof53')">Proof.</span></div>
-<div class="proofscript" id="proof53">
+<div><span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
+<div class="proofscript" id="proof54">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_index">max_prod_index</a></span> <span class="id">a</span> <span class="id">m</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H0</span> <span class="kwd">as</span> [<span class="id">k</span> <span class="id">H0</span>]; <span class="id">destruct</span> <span class="id">H0</span>.<br/>
@@ -857,8 +894,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="prod_sq_bounded_1">prod_sq_bounded_1</a></span> (<span class="id">F</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">r</span> <span class="id">s</span> :<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">F</span> <span class="id">n</span> &lt;= 1) -&gt; <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) <span class="id">r</span> <span class="id">s</span> &lt;= 1.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof54')">Proof.</span></div>
-<div class="proofscript" id="proof54">
+<div><span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
+<div class="proofscript" id="proof55">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_bounded1">pos_sq_bounded1</a></span> <span class="id">F</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span>.<br/>
@@ -884,8 +921,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">F</span> <span class="id">n</span> &lt;= 1) -&gt;<br/>
 &nbsp;&nbsp;(<span class="id">m</span> + <span class="id">k</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) <span class="id">m</span> <span class="id">n</span> &lt;= <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id">m</span> + <span class="id">k</span>)%<span class="id">nat</span> <span class="id">n</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof55')">Proof.</span></div>
-<div class="proofscript" id="proof55">
+<div><span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
+<div class="proofscript" id="proof56">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">k</span>.<br/>
 &nbsp;&nbsp;- <span class="id">replace</span> (<span class="id">m</span> + 0)%<span class="id">nat</span> <span class="kwd">with</span> (<span class="id">m</span>) <span class="kwd">by</span> <span class="id">lia</span>; <span class="id">lra</span>.<br/>
@@ -907,8 +944,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">V</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) &lt;= <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id">sigma</span> <span class="id">k</span>)*(<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="id">n</span>)) <span class="id">n</span> + <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">V</span> 0%<span class="id">nat</span>)*(<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> <span class="id">F</span> 0 <span class="id">n</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof56')">Proof.</span></div>
-<div class="proofscript" id="proof56">
+<div><span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
+<div class="proofscript" id="proof57">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span>, <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span>; <span class="id">simpl</span>.<br/>
@@ -943,8 +980,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">r</span> <span class="id">s</span>, <span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) <span class="id">r</span> <span class="id">s</span> &lt;= <span class="id">A</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>))*(<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="id">n</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span> &lt;=<br/>
 &nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>) * <span class="id">A</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof57')">Proof.</span></div>
-<div class="proofscript" id="proof57">
+<div><span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
+<div class="proofscript" id="proof58">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_mult_r">sum_n_m_mult_r</a></span> <span class="kwd">with</span> (<span class="id">a</span> := <span class="id">A</span>).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_le">sum_n_m_le</a></span>; <span class="id">intros</span>.<br/>
@@ -959,8 +996,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span> &lt;= <span class="id">n</span>)%<span class="id">nat</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>))*(<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="id">n</span>)) <span class="id">m</span> &lt;=<br/>
 &nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>))) <span class="id">m</span>) * (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof58')">Proof.</span></div>
-<div class="proofscript" id="proof58">
+<div><span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
+<div class="proofscript" id="proof59">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_mult_r">sum_n_mult_r</a></span> <span class="kwd">with</span> (<span class="id">a</span> := (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.Sums.html#sum_n_le_loc">sum_n_le_loc</a></span>; <span class="id">intros</span>.<br/>
@@ -977,8 +1014,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>) * <span class="id">A</span> +<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> 0%<span class="id">nat</span>) + <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>))) <span class="id">m</span>) *<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof59')">Proof.</span></div>
-<div class="proofscript" id="proof59">
+<div><span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
+<div class="proofscript" id="proof60">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">F1</span> <span class="id">Vsqle</span> <span class="id">mn</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#Dvoretzky4_0">Dvoretzky4_0</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span>(<span class="id">sigma</span> <span class="id">k</span>)) (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> <span class="id">k</span>))).<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -1005,8 +1042,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">sigma</span> <span class="id">n</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id">sigma</span> <span class="id">k</span>)*(<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="id">n</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span> &lt;=<br/>
 &nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> <span class="id">sigma</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>) * <span class="id">A</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof60')">Proof.</span></div>
-<div class="proofscript" id="proof60">
+<div><span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
+<div class="proofscript" id="proof61">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_mult_r">sum_n_m_mult_r</a></span> <span class="kwd">with</span> (<span class="id">a</span> := <span class="id">A</span>).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m_le">sum_n_m_le</a></span>; <span class="id">intros</span>.<br/>
@@ -1020,8 +1057,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">n</span>, 0 &lt;= <span class="id">sigma</span> <span class="id">n</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; (<span class="id">sigma</span> <span class="id">k</span>)*(<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod_n">part_prod_n</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) <span class="id">n</span>)) <span class="id">m</span> &lt;=<br/>
 &nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">sigma</span> <span class="id">m</span>) * (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof61')">Proof.</span></div>
-<div class="proofscript" id="proof61">
+<div><span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
+<div class="proofscript" id="proof62">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_mult_r">sum_n_mult_r</a></span> <span class="kwd">with</span> (<span class="id">a</span> := (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>)).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.Sums.html#sum_n_le_loc">sum_n_le_loc</a></span>; <span class="id">intros</span>.<br/>
@@ -1042,8 +1079,8 @@ Qed.</div>
 &nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> <span class="id">sigma</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>) * <span class="id">A</span> +<br/>
 &nbsp;&nbsp;(<span class="id">V</span> 0%<span class="id">nat</span> + <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">sigma</span> <span class="id">m</span>) *<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof62')">Proof.</span></div>
-<div class="proofscript" id="proof62">
+<div><span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
+<div class="proofscript" id="proof63">
 &nbsp;&nbsp;<span class="id">intros</span> <span class="id">F1</span> <span class="id">Vle</span> <span class="id">Vpos</span> <span class="id">sigma_pos</span> <span class="id">mn</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#Dvoretzky4_0">Dvoretzky4_0</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) <span class="id">sigma</span> <span class="id">V</span>).<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -1073,8 +1110,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) &lt;= <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> (<span class="kwd">fun</span> <span class="id">k</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">k</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>) * <span class="id">A</span> +<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> 0%<span class="id">nat</span>) + <span class="id">sigmasum</span>) * (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>).      <br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof63')">Proof.</span></div>
-<div class="proofscript" id="proof63">
+<div><span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
+<div class="proofscript" id="proof64">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#Dvoretzky4_8_5">Dvoretzky4_8_5</a></span> <span class="id">F</span> <span class="id">sigma</span> <span class="id">V</span> <span class="id">n</span> <span class="id">m</span> <span class="id">A</span> <span class="id">H</span> <span class="id">H0</span> <span class="id">H2</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">k</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; (<span class="id">sigma</span> <span class="id">k</span>)²) <span class="id">m</span> &lt;= <span class="id">sigmasum</span>).<br/>
@@ -1105,8 +1142,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;<span class="id">V</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) &lt;= <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span> <span class="id">sigma</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>) * <span class="id">A</span> +<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">V</span> 0%<span class="id">nat</span> + <span class="id">sigmasum</span>) * (<span class="id"><a href="FormalML.QLearn.infprod.html#max_prod_fun">max_prod_fun</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#pos_sq_fun">pos_sq_fun</a></span> <span class="id">F</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">m</span>) <span class="id">n</span>).      <br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof64')">Proof.</span></div>
-<div class="proofscript" id="proof64">
+<div><span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
+<div class="proofscript" id="proof65">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#Dvoretzky4_8_5_V1">Dvoretzky4_8_5_V1</a></span> <span class="id">F</span> <span class="id">sigma</span> <span class="id">V</span> <span class="id">n</span> <span class="id">m</span> <span class="id">A</span> <span class="id">H</span> <span class="id">H0</span> <span class="id">H2</span> <span class="id">H1</span> <span class="id">H4</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">sigma</span> <span class="id">m</span> &lt;= <span class="id">sigmasum</span>).<br/>
@@ -1132,8 +1169,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">n</span>)) -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">n</span>)) + <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> 0%<span class="id">nat</span>) = 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">V</span> <span class="id">n</span> = 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof65')">Proof.</span></div>
-<div class="proofscript" id="proof65">
+<div><span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
+<div class="proofscript" id="proof66">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">remember</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">n</span>))) <span class="kwd">as</span> <span class="id">sigma_sum</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#nneg_series_sq">nneg_series_sq</a></span> <span class="id">sigma</span> <span class="id">H0</span>); <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
@@ -1163,8 +1200,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">sigma</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">sigma</span> + (<span class="id">V</span> 0%<span class="id">nat</span>) = 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span>, <span class="id">V</span> <span class="id">n</span> = 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof66')">Proof.</span></div>
-<div class="proofscript" id="proof66">
+<div><span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
+<div class="proofscript" id="proof67">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">remember</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Series">Series</a></span> <span class="id">sigma</span>) <span class="kwd">as</span> <span class="id">sigma_sum</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#nneg_series">nneg_series</a></span> <span class="id">sigma</span> <span class="id">H</span> <span class="id">H2</span>); <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
@@ -1192,8 +1229,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> <span class="id">F</span>) 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">n</span>)) -&gt;   <br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> <span class="id">n</span>)) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof67')">Proof.</span></div>
-<div class="proofscript" id="proof67">
+<div><span class="toggleproof" onclick="toggleDisplay('proof68')">Proof.</span></div>
+<div class="proofscript" id="proof68">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Cauchy_ex_series">Cauchy_ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> =&gt; (<span class="id">sigma</span> <span class="id">n</span>)²) <span class="id">H2</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Cauchy_series">Cauchy_series</a></span> <span class="kwd">in</span> <span class="id">H3</span>.<br/>
@@ -1280,8 +1317,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> <span class="id">F</span>) 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">sigma</span> -&gt;   <br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> <span class="id">V</span> 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof68')">Proof.</span></div>
-<div class="proofscript" id="proof68">
+<div><span class="toggleproof" onclick="toggleDisplay('proof69')">Proof.</span></div>
+<div class="proofscript" id="proof69">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Cauchy_ex_series">Cauchy_ex_series</a></span> <span class="id">sigma</span> <span class="id">H4</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#Cauchy_series">Cauchy_series</a></span> <span class="kwd">in</span> <span class="id">H5</span>.<br/>
@@ -1365,8 +1402,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> <span class="id">F</span>) 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">sigma</span> <span class="id">n</span>)) -&gt;   <br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">V</span> <span class="id">n</span>)) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof69')">Proof.</span></div>
-<div class="proofscript" id="proof69">
+<div><span class="toggleproof" onclick="toggleDisplay('proof70')">Proof.</span></div>
+<div class="proofscript" id="proof70">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#Dvoretzky4_A">Dvoretzky4_A</a></span> <span class="kwd">with</span> (<span class="id">F</span> := <span class="id">F</span>) (<span class="id">sigma</span> := <span class="id">sigma</span>) (<span class="id">A</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_0_1">Rlt_0_1</a></span>); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="id">intros</span>; <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#prod_sq_bounded_1">prod_sq_bounded_1</a></span>; <span class="id">trivial</span>.<br/>
@@ -1380,8 +1417,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="id"><a href="FormalML.QLearn.infprod.html#part_prod">part_prod</a></span> <span class="id">F</span>) 0 -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> <span class="id">sigma</span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> <span class="id">V</span> 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof70')">Proof.</span></div>
-<div class="proofscript" id="proof70">
+<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
+<div class="proofscript" id="proof71">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#Dvoretzky4_A_Vpos">Dvoretzky4_A_Vpos</a></span> <span class="kwd">with</span> (<span class="id">F</span> := <span class="id">F</span>) (<span class="id">sigma</span> := <span class="id">sigma</span>) (<span class="id">A</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mkposreal">mkposreal</a></span> <span class="id">_</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rlt_0_1">Rlt_0_1</a></span>); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;<span class="id">intros</span>; <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#prod_sq_bounded_1">prod_sq_bounded_1</a></span>; <span class="id">trivial</span>.<br/>
@@ -1391,8 +1428,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="inv_bound_gt">inv_bound_gt</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;/ <span class="id">a</span>  &gt; / (<span class="id">a</span> + <span class="id">b</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof71')">Proof.</span></div>
-<div class="proofscript" id="proof71">
+<div><span class="toggleproof" onclick="toggleDisplay('proof72')">Proof.</span></div>
+<div class="proofscript" id="proof72">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rinv_lt_contravar">Rinv_lt_contravar</a></span>.<br/>
 &nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_lt_0_compat">Rmult_lt_0_compat</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
@@ -1404,8 +1441,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="inv_bound_sq_gt">inv_bound_sq_gt</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ <span class="id">a</span>)  &gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ (<span class="id">a</span> + <span class="id">b</span>)).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof72')">Proof.</span></div>
-<div class="proofscript" id="proof72">
+<div><span class="toggleproof" onclick="toggleDisplay('proof73')">Proof.</span></div>
+<div class="proofscript" id="proof73">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_incrst_1">Rsqr_incrst_1</a></span>.<br/>
 &nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#inv_bound_gt">inv_bound_gt</a></span>.<br/>
 &nbsp;&nbsp;+ <span class="id">left</span>.<br/>
@@ -1417,8 +1454,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="inv_bound_exists_lt">inv_bound_exists_lt</a></span>  (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">j</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), / (<span class="id">a</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> ((<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) + <span class="id">j</span>))) &lt; / (<span class="id">a</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>) + <span class="id">b</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof73')">Proof.</span></div>
-<div class="proofscript" id="proof73">
+<div><span class="toggleproof" onclick="toggleDisplay('proof74')">Proof.</span></div>
+<div class="proofscript" id="proof74">
 &nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.ZArith.BinInt.html#Z.to_nat">Z.to_nat</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#up">up</a></span> (<span class="id">b</span>/<span class="id">a</span>))).<br/>
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span>  (<span class="id"><a href="FormalML.utils.RealAdd.html#up_pos">RealAdd.up_pos</a></span> (<span class="id">b</span>/<span class="id">a</span>)); <span class="id">intros</span>.<br/>
@@ -1450,8 +1487,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="genharmonic_series_sq">genharmonic_series_sq</a></span> (<span class="id">b</span> <span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series">ex_series</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ (<span class="id">b</span> + <span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof74')">Proof.</span></div>
-<div class="proofscript" id="proof74">
+<div><span class="toggleproof" onclick="toggleDisplay('proof75')">Proof.</span></div>
+<div class="proofscript" id="proof75">
 &nbsp;&nbsp;<span class="id">apply</span> (@<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series_le">ex_series_le</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#R_AbsRing">R_AbsRing</a></span>) <span class="kwd">with</span> (<span class="id">b</span> := <span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> ( / (<span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))).<br/>
 &nbsp;&nbsp;- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (0 &lt; <span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)).    <br/>
@@ -1490,8 +1527,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="genharmonic_sq_lim">genharmonic_sq_lim</a></span> (<span class="id">b</span> <span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ (<span class="id">b</span> + <span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))) 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof75')">Proof.</span></div>
-<div class="proofscript" id="proof75">
+<div><span class="toggleproof" onclick="toggleDisplay('proof76')">Proof.</span></div>
+<div class="proofscript" id="proof76">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Series.html#ex_series_lim_0">ex_series_lim_0</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.infprod.html#genharmonic_series_sq">genharmonic_series_sq</a></span>.<br/>
 Qed.</div>
@@ -1499,8 +1536,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="harmonic_increasing">harmonic_increasing</a></span> :<br/>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">f</span> := <span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 1 / <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) <span class="id">i</span> <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">n</span> <span class="id">m</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>, (<span class="id">n</span> &lt;= <span class="id">m</span>)%<span class="id">nat</span> -&gt; <span class="id">f</span> <span class="id">n</span> &lt;= <span class="id">f</span> <span class="id">m</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof76')">Proof.</span></div>
-<div class="proofscript" id="proof76">
+<div><span class="toggleproof" onclick="toggleDisplay('proof77')">Proof.</span></div>
+<div class="proofscript" id="proof77">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">subst</span> <span class="id">f</span>.<br/>
 &nbsp;&nbsp;<span class="id">simpl</span>.<br/>
@@ -1524,8 +1561,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="harmonic_series">harmonic_series</a></span> :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 1 / <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) <span class="id">i</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof77')">Proof.</span></div>
-<div class="proofscript" id="proof77">
+<div><span class="toggleproof" onclick="toggleDisplay('proof78')">Proof.</span></div>
+<div class="proofscript" id="proof78">
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_spec">is_lim_seq_spec</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">intro</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#eventually">eventually</a></span>.<br/>
@@ -1545,8 +1582,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="harmonic_series2">harmonic_series2</a></span> (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' (<span class="kwd">fun</span> <span class="id">n</span> =&gt;  1 / (<span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) <span class="id">i</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof78')">Proof.</span></div>
-<div class="proofscript" id="proof78">
+<div><span class="toggleproof" onclick="toggleDisplay('proof79')">Proof.</span></div>
+<div class="proofscript" id="proof79">
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> <span class="id">c</span>); <span class="id">intros</span> <span class="id">cpos</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> <span class="id"><a href="FormalML.QLearn.infprod.html#harmonic_series">harmonic_series</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_scal_l">is_lim_seq_scal_l</a></span> <span class="kwd">with</span> (<span class="id">a</span> := /<span class="id">c</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -1569,8 +1606,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="harmonic_series3">harmonic_series3</a></span> (<span class="id">j</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' <span class="id">f</span> <span class="id">i</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span> -&gt;<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id">f</span> (<span class="id">n</span> + <span class="id">j</span>)%<span class="id">nat</span>) <span class="id">i</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof79')">Proof.</span></div>
-<div class="proofscript" id="proof79">
+<div><span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
+<div class="proofscript" id="proof80">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_incr_n">is_lim_seq_incr_n</a></span> <span class="id">_</span> <span class="id">j</span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq_minus">is_lim_seq_minus</a></span> <span class="kwd">with</span> (<span class="id">v</span> := <span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">sum_f_R0</span>' <span class="id">f</span> <span class="id">j</span>) (<span class="id">l2</span> := <span class="id">sum_f_R0</span>' <span class="id">f</span> <span class="id">j</span>) (<span class="id">l1</span> := <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>) (<span class="id">l</span> := <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>) <span class="kwd">in</span> <span class="id">H</span>.<br/>
@@ -1586,8 +1623,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="genharmon">genharmon</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), / ((<span class="id">a</span>+<span class="id">b</span>)*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) &lt;= /(<span class="id">a</span>*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) + <span class="id">b</span>) &lt; /(<span class="id">a</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
-<div class="proofscript" id="proof80">
+<div><span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
+<div class="proofscript" id="proof81">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rcomplements.html#Rinv_le_contravar">Rinv_le_contravar</a></span>.<br/>
@@ -1615,8 +1652,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="genharmon_sq">genharmon_sq</a></span> (<span class="id">a</span> <span class="id">b</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ ((<span class="id">a</span>+<span class="id">b</span>)*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ (<span class="id">a</span>*(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) + <span class="id">b</span>)) &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (/ (<span class="id">a</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)))).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof81')">Proof.</span></div>
-<div class="proofscript" id="proof81">
+<div><span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
+<div class="proofscript" id="proof82">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#genharmon">genharmon</a></span> <span class="id">a</span> <span class="id">b</span> <span class="id">n</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H</span>.<br/>
@@ -1639,8 +1676,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="genharmonic_series">genharmonic_series</a></span> (<span class="id">b</span> <span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 1 / (<span class="id">b</span> + <span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) <span class="id">i</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof82')">Proof.</span></div>
-<div class="proofscript" id="proof82">
+<div><span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
+<div class="proofscript" id="proof83">
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span> <span class="id">c</span>); <span class="id">intros</span> <span class="id">cpos</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#inv_bound_exists_lt">inv_bound_exists_lt</a></span> <span class="id">c</span> <span class="id">b</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H</span> <span class="kwd">as</span> [<span class="id">j</span> <span class="id">H</span>].<br/>
@@ -1657,8 +1694,8 @@ Qed.</div>
 &nbsp;&nbsp;<br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="genharmonic_series2">genharmonic_series2</a></span> (<span class="id">b</span> <span class="id">c</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">i</span> =&gt; <span class="id">sum_f_R0</span>' (<span class="kwd">fun</span> <span class="id">n</span> =&gt; 1 / (<span class="id">b</span> + <span class="id">c</span> * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>))) <span class="id">i</span>) <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#p_infty">p_infty</a></span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
-<div class="proofscript" id="proof83">
+<div><span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
+<div class="proofscript" id="proof84">
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#genharmon">genharmon</a></span> <span class="id">c</span> <span class="id">b</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (0 &lt; <span class="id">c</span> + <span class="id">b</span>).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_lt_0_compat">Rplus_lt_0_compat</a></span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
@@ -1684,8 +1721,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">u</span> &lt;&gt; 0) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (1 - <span class="id">a</span> <span class="id">n</span> * <span class="id">g</span> <span class="id">u</span>) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (1-<span class="id">A</span>*(<span class="id">a</span> <span class="id">n</span>)) (<span class="id">B</span>*(<span class="id">a</span> <span class="id">n</span>) - 1).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
-<div class="proofscript" id="proof84">
+<div><span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
+<div class="proofscript" id="proof85">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">u</span> <span class="id">H0</span>).<br/>
 &nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H</span>.<br/>
@@ -1701,8 +1738,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Robbins_Monro_1">Robbins_Monro_1</a></span> (<span class="id">r</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">a</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">A</span> <span class="id">B</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;(<span class="kwd">forall</span> (<span class="id">u</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>), <span class="id">u</span> &lt;&gt; 0 -&gt; <span class="id">A</span> &lt;= <span class="id">f</span>(<span class="id">u</span>)/<span class="id">u</span> &lt;= <span class="id">B</span>) -&gt;<br/>
 &nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>), <span class="id">r</span> <span class="id">n</span> &lt;&gt; 0 -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">r</span> <span class="id">n</span> - <span class="id">a</span> <span class="id">n</span> * <span class="id">f</span> (<span class="id">r</span> <span class="id">n</span>)) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id">r</span> <span class="id">n</span>) * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (1-<span class="id">A</span>*(<span class="id">a</span> <span class="id">n</span>)) (<span class="id">B</span>*(<span class="id">a</span> <span class="id">n</span>) - 1).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
-<div class="proofscript" id="proof85">
+<div><span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
+<div class="proofscript" id="proof86">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">replace</span> (<span class="id">r</span> <span class="id">n</span> - <span class="id">a</span> <span class="id">n</span> * <span class="id">f</span> (<span class="id">r</span> <span class="id">n</span>)) <span class="kwd">with</span> ((<span class="id">r</span> <span class="id">n</span>)*(1 - <span class="id">a</span> <span class="id">n</span> * (<span class="id">f</span>(<span class="id">r</span> <span class="id">n</span>)/(<span class="id">r</span> <span class="id">n</span>)))).<br/>
 &nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_mult">Rabs_mult</a></span>.<br/>
@@ -1713,8 +1750,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="Robbins_Monro_1b">Robbins_Monro_1b</a></span> (<span class="id">a</span> <span class="id">A</span> <span class="id">B</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id">a</span> &lt; 2/(<span class="id">A</span> + <span class="id">B</span>) -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> (1-<span class="id">A</span>*<span class="id">a</span>) (<span class="id">B</span>*<span class="id">a</span>-1) = 1-<span class="id">A</span>*<span class="id">a</span>.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
-<div class="proofscript" id="proof86">
+<div><span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
+<div class="proofscript" id="proof87">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">assert</span> (0 &lt; <span class="id">A</span> + <span class="id">B</span>).<br/>
 &nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rplus_lt_0_compat">Rplus_lt_0_compat</a></span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_pos">cond_pos</a></span>.<br/>
@@ -1729,8 +1766,8 @@ Qed.</div>
 <br/>
 <span class="kwd">Lemma</span> <span class="id"><a name="is_derive_Rsqr">is_derive_Rsqr</a></span> (<span class="id">f</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">x</span> <span class="id">df</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive">is_derive</a></span> <span class="id">f</span> <span class="id">x</span> <span class="id">df</span> -&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive">is_derive</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">f</span> <span class="id">x0</span>)) <span class="id">x</span> (2 * (<span class="id">f</span> <span class="id">x</span>) * <span class="id">df</span>).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
-<div class="proofscript" id="proof87">
+<div><span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
+<div class="proofscript" id="proof88">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive_ext">is_derive_ext</a></span> (<span class="kwd">fun</span> <span class="id">x0</span> =&gt; (<span class="id">f</span> <span class="id">x0</span>) * (<span class="id">f</span> <span class="id">x0</span>))); [<span class="id">now</span> <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> |].<br/>
 &nbsp;&nbsp;<span class="id">replace</span> (2 * <span class="id">f</span> <span class="id">x</span> * <span class="id">df</span>) <span class="kwd">with</span> ((<span class="id">df</span> * <span class="id">f</span> <span class="id">x</span>) + (<span class="id">f</span> <span class="id">x</span> * <span class="id">df</span>)) <span class="kwd">by</span> <span class="id">lra</span>.<br/>
@@ -1741,8 +1778,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Robbins_Monro_2a">Robbins_Monro_2a</a></span> (<span class="id">A</span> <span class="id">sigma</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">a0</span> <span class="id">V</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">f</span> := <span class="kwd">fun</span> <span class="id">a</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (1-<span class="id">A</span>*<span class="id">a</span>) * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">V</span>)) + (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">sigma</span>)) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive">is_derive</a></span> <span class="id">f</span> <span class="id">a0</span> ((2 * (1-<span class="id">A</span>*<span class="id">a0</span>) * (-<span class="id">A</span>) * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">V</span>)) + (2 * <span class="id">a0</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">sigma</span>))).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
-<div class="proofscript" id="proof88">
+<div><span class="toggleproof" onclick="toggleDisplay('proof89')">Proof.</span></div>
+<div class="proofscript" id="proof89">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">apply</span> (@<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive_plus">is_derive_plus</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#R_AbsRing">R_AbsRing</a></span>).<br/>
 &nbsp;&nbsp;- <span class="id">apply</span> (@<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive_scal_l">is_derive_scal_l</a></span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#R_AbsRing">R_AbsRing</a></span>).<br/>
@@ -1762,8 +1799,8 @@ Qed.</div>
 <span class="kwd">Lemma</span> <span class="id"><a name="Robbins_Monro_2b">Robbins_Monro_2b</a></span> (<span class="id">A</span> <span class="id">sigma</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#posreal">posreal</a></span>) (<span class="id">V</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">a0</span> := (<span class="id">A</span> * <span class="id">V</span>^2) / (<span class="id">sigma</span>^2 + <span class="id">A</span>^2 * <span class="id">V</span>^2) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;(2 * (1-<span class="id">A</span>*<span class="id">a0</span>) * (-<span class="id">A</span>) * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">V</span>)) + (2 * <span class="id">a0</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">sigma</span>)) = 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof89')">Proof.</span></div>
-<div class="proofscript" id="proof89">
+<div><span class="toggleproof" onclick="toggleDisplay('proof90')">Proof.</span></div>
+<div class="proofscript" id="proof90">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">subst</span> <span class="id">a0</span>; <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span>.<br/>
 &nbsp;&nbsp;<span class="id">field</span>.<br/>
@@ -1781,8 +1818,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">f</span> := <span class="kwd">fun</span> <span class="id">a</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (1-<span class="id">A</span>*<span class="id">a</span>) * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">V</span>)) + (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">sigma</span>)) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">a0</span> := (<span class="id">A</span> * <span class="id">V</span>^2) / (<span class="id">sigma</span>^2 + <span class="id">A</span>^2 * <span class="id">V</span>^2) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Derive.html#is_derive">is_derive</a></span> <span class="id">f</span> <span class="id">a0</span> 0.<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof90')">Proof.</span></div>
-<div class="proofscript" id="proof90">
+<div><span class="toggleproof" onclick="toggleDisplay('proof91')">Proof.</span></div>
+<div class="proofscript" id="proof91">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">subst</span> <span class="id">f</span>.<br/>
 &nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.infprod.html#Robbins_Monro_2a">Robbins_Monro_2a</a></span> <span class="id">A</span> <span class="id">sigma</span> <span class="id">a0</span> <span class="id">V</span>); <span class="id">intros</span>.<br/>
@@ -1794,8 +1831,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">f</span> := <span class="kwd">fun</span> <span class="id">a</span> =&gt; (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (1-<span class="id">A</span>*<span class="id">a</span>) * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">V</span>)) + (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">a</span> * (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> <span class="id">sigma</span>)) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="kwd">let</span> <span class="id">a0</span> := (<span class="id">A</span> * <span class="id">V</span>^2) / (<span class="id">sigma</span>^2 + <span class="id">A</span>^2 * <span class="id">V</span>^2) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;<span class="id">f</span> <span class="id">a0</span> = <span class="id">sigma</span>^2 * <span class="id">V</span>^2 / (<span class="id">sigma</span>^2 + (<span class="id">A</span>*<span class="id">V</span>)^2).<br/>
-<div><span class="toggleproof" onclick="toggleDisplay('proof91')">Proof.</span></div>
-<div class="proofscript" id="proof91">
+<div><span class="toggleproof" onclick="toggleDisplay('proof92')">Proof.</span></div>
+<div class="proofscript" id="proof92">
 &nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<span class="id">subst</span> <span class="id">f</span>; <span class="id">subst</span> <span class="id">a0</span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span>.<br/>

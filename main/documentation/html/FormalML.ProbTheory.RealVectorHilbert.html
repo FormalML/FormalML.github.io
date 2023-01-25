@@ -1125,6 +1125,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_In">vector_nth_In</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_in">Rvector_max_abs_in</a></span> {<span class="id">n</span>} (<span class="id">v</span>:<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#proj1_sig">proj1_sig</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">v</span>)).<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof80')">Proof.</span></div>
@@ -1181,9 +1182,25 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_nonneg">Rvector_max_abs_nonneg</a></span> {<span class="id">n</span>} (<span class="id">v</span>: <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) : 0 &lt;= <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_nth_Rabs_le">Rvector_max_abs_nth_Rabs_le</a></span> {<span class="id">n</span>} (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)) (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span> &lt;= <span class="id">c</span> &lt;-&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> (<span class="id">i</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) (<span class="id">pf</span> : (<span class="id">i</span> &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">n</span>)%<span class="id">nat</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> <span class="id">v</span>) &lt;= <span class="id">c</span>.<br/>
 <div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof83')">Proof.</span></div>
 <div class="proofscript" id="proof83">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">eapply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_trans">Rle_trans</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs_nth_le">Rvector_max_abs_nth_le</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs_nth_in">Rvector_max_abs_nth_in</a></span> <span class="id">v</span>) <span class="kwd">as</span> [? [? ?]].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H0</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_nonneg">Rvector_max_abs_nonneg</a></span> {<span class="id">n</span>} (<span class="id">v</span>: <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) : 0 &lt;= <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>.<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
+<div class="proofscript" id="proof84">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_fold_left">vector_fold_left</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">v</span> <span class="kwd">as</span> [<span class="id">l</span> <span class="id">lpf</span>]; <span class="id">simpl</span>; <span class="id">clear</span> <span class="id">lpf</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#fold_left_Rmax_init_le">fold_left_Rmax_init_le</a></span>.<br/>
@@ -1191,8 +1208,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="sqr_max_abs_le_inner">sqr_max_abs_le_inner</a></span> {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>)² &lt;= <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span> <span class="id">v</span> <span class="id">v</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof84')">Proof.</span></div>
-<div class="proofscript" id="proof84">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
+<div class="proofscript" id="proof85">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#rsqr_Rvector_max_abs">rsqr_Rvector_max_abs</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_sqr_mult">Rvector_sqr_mult</a></span>.<br/>
@@ -1217,8 +1234,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="inner_le_sqr_max_abs">inner_le_sqr_max_abs</a></span> {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span> <span class="id">v</span> <span class="id">v</span> &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span> * (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>)².<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof85')">Proof.</span></div>
-<div class="proofscript" id="proof85">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
+<div class="proofscript" id="proof86">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#rsqr_Rvector_max_abs">rsqr_Rvector_max_abs</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_sqr_mult">Rvector_sqr_mult</a></span>.<br/>
@@ -1237,8 +1254,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="inner_le_mult_max_abs">inner_le_mult_max_abs</a></span> {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v</span> <span class="id">w</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span> <span class="id">v</span> <span class="id">w</span> &lt;= (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>) * (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">w</span>) * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof86')">Proof.</span></div>
-<div class="proofscript" id="proof86">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
+<div class="proofscript" id="proof87">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">destruct</span> <span class="id">v</span>; <span class="id">destruct</span> <span class="id">w</span>.<br/>
@@ -1266,8 +1283,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="abs_inner_le_mult_max_abs">abs_inner_le_mult_max_abs</a></span> {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v</span> <span class="id">w</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span> <span class="id">v</span> <span class="id">w</span>) &lt;= (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>) * (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">w</span>) * <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Raxioms.html#INR">INR</a></span> <span class="id">n</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof87')">Proof.</span></div>
-<div class="proofscript" id="proof87">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
+<div class="proofscript" id="proof88">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> 0 (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span> <span class="id">v</span> <span class="id">w</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_right">Rabs_right</a></span>; <span class="id">try</span> <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#inner_le_mult_max_abs">inner_le_mult_max_abs</a></span>.<br/>
@@ -1292,8 +1309,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="max_abs_le_sqrt_inner">max_abs_le_sqrt_inner</a></span> {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rsqrt_def.html#Rsqrt">Rsqrt</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mknonnegreal">mknonnegreal</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner">Rvector_inner</a></span> <span class="id">v</span> <span class="id">v</span>) (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_inner_pos">Rvector_inner_pos</a></span> <span class="id">v</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof88')">Proof.</span></div>
-<div class="proofscript" id="proof88">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof89')">Proof.</span></div>
+<div class="proofscript" id="proof89">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>) <span class="kwd">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonneg">nonneg</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mknonnegreal">mknonnegreal</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>) (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs_nonneg">Rvector_max_abs_nonneg</a></span> <span class="id">v</span>))) <span class="kwd">by</span> <span class="id">reflexivity</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rsqr_le_to_Rsqrt">Rsqr_le_to_Rsqrt</a></span>; <span class="id">simpl</span>.<br/>
@@ -1303,8 +1320,8 @@
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="vector_nth_sum_n">vector_nth_sum_n</a></span> {<span class="id">n</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>} <span class="id">i</span> <span class="id">pf</span> <span class="id">k</span> (<span class="id">f</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>-&gt;<span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> <span class="id">f</span> <span class="id">k</span>) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span> (<span class="kwd">fun</span> <span class="id">j</span> =&gt; <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id">f</span> <span class="id">j</span>)) <span class="id">k</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof89')">Proof.</span></div>
-<div class="proofscript" id="proof89">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof90')">Proof.</span></div>
+<div class="proofscript" id="proof90">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n">sum_n</a></span>, <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#sum_n_m">sum_n_m</a></span>, <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Iter.html#iter_nat">Iter.iter_nat</a></span>, <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#plus">plus</a></span>, <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Hierarchy.html#zero">zero</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (0%<span class="id">nat</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">k</span>; <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
@@ -1315,8 +1332,8 @@
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_zero">Rvector_max_abs_zero</a></span> {<span class="id">n</span>} (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span> = 0 &lt;-&gt; <span class="id">v</span> = <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_zero">Rvector_zero</a></span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof90')">Proof.</span></div>
-<div class="proofscript" id="proof90">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof91')">Proof.</span></div>
+<div class="proofscript" id="proof91">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span> <span class="id">HH</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.utils.DVector.html#vector_nth_eq">vector_nth_eq</a></span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth_In">vector_nth_In</a></span> <span class="id">v</span> <span class="id">i</span> <span class="id">pf</span>); <span class="id">intros</span> <span class="id">HH2</span>.<br/>
@@ -1339,8 +1356,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_scale">Rvector_max_abs_scale</a></span> {<span class="id">n</span>} <span class="id">c</span> (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_scale">Rvector_scale</a></span> <span class="id">c</span> <span class="id">v</span>) = <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> <span class="id">c</span> * <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof91')">Proof.</span></div>
-<div class="proofscript" id="proof91">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof92')">Proof.</span></div>
+<div class="proofscript" id="proof92">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">v</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_scale">Rvector_scale</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_map">vector_map</a></span>, <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span>, <span class="id"><a href="FormalML.utils.DVector.html#vector_fold_left">vector_fold_left</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">clear</span> <span class="id">e</span>.<br/>
@@ -1363,8 +1380,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_scale_nneg">Rvector_max_abs_scale_nneg</a></span> {<span class="id">n</span>} (<span class="id">c</span>:<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#nonnegreal">nonnegreal</a></span>) (<span class="id">v</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_scale">Rvector_scale</a></span> <span class="id">c</span> <span class="id">v</span>) = <span class="id">c</span> * <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof92')">Proof.</span></div>
-<div class="proofscript" id="proof92">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof93')">Proof.</span></div>
+<div class="proofscript" id="proof93">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs_scale">Rvector_max_abs_scale</a></span> <span class="id">c</span> <span class="id">v</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs_pos_eq">Rabs_pos_eq</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#cond_nonneg">cond_nonneg</a></span>.<br/>
@@ -1372,8 +1389,8 @@
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rvector_max_abs_triang">Rvector_max_abs_triang</a></span> {<span class="id">n</span>} (<span class="id">v1</span> <span class="id">v2</span> : <span class="id"><a href="FormalML.utils.DVector.html#vector">vector</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span> <span class="id">n</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> (<span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_plus">Rvector_plus</a></span> <span class="id">v1</span> <span class="id">v2</span>) &lt;= <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v1</span> + <span class="id"><a href="FormalML.ProbTheory.RealVectorHilbert.html#Rvector_max_abs">Rvector_max_abs</a></span> <span class="id">v2</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof93')">Proof.</span></div>
-<div class="proofscript" id="proof93">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof94')">Proof.</span></div>
+<div class="proofscript" id="proof94">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">n</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector0_0">vector0_0</a></span> <span class="id">_</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector0_0">vector0_0</a></span> <span class="id">v1</span>).<br/>
