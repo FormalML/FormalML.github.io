@@ -5771,12 +5771,44 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="isl2_qmin1">isl2_qmin1</a></span> (<span class="id">Q</span> : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> -&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct">Rfct</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">isrvQ</span> : <span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id">Q</span> ω <span class="id">sa</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">isfeQ</span> : <span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp">IsLp</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> 2 (<span class="kwd">fun</span> ω =&gt; <span class="id">Q</span> ω <span class="id">sa</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp">IsLp</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> 2 (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> (<span class="id">Q</span> ω) (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof102')">Proof.</span></div>
+<div class="proofscript" id="proof102">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp_bounded">IsLp_bounded</a></span> <span class="kwd">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X2</span> := <span class="kwd">fun</span> ω =&gt; (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#Rmax_all">Rmax_all</a></span> (<span class="kwd">fun</span> <span class="id">sa</span> =&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rsqr">Rsqr</a></span> (<span class="id">Q</span> ω <span class="id">sa</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#rvpower2">rvpower2</a></span>; [| <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#nnfabs">nnfabs</a></span>].<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_abs">Rsqr_abs</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#Rmax_all">Rmax_all</a></span>, <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">exists</span> <span class="id">sa0</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Min_</span>{ <span class="id"><a href="FormalML.CertRL.mdp.html#act_list">act_list</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> <span class="id">a</span>)}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">a0</span> : <span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> <span class="id">a</span>) =&gt; <span class="id">Q</span> <span class="id">a</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#existT">existT</a></span> (<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>) (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> <span class="id">a</span>) <span class="id">a0</span>)) = <span class="id">Q</span> <span class="id">a</span> <span class="id">sa0</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_spec">Rmax_spec</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> <span class="id">x</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#isfe_Rmax_all">isfe_Rmax_all</a></span>; <span class="id">try</span> <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;Admitted.</div>
+<br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="rv0">rv0</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Q0">Q0</a></span> <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof102')">Proof.</span></div>
-<div class="proofscript" id="proof102">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof103')">Proof.</span></div>
+<div class="proofscript" id="proof103">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -5784,8 +5816,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.F">F</a></span> 0%<span class="id">nat</span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Q0">Q0</a></span> <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof103')">Proof.</span></div>
-<div class="proofscript" id="proof103">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof104')">Proof.</span></div>
+<div class="proofscript" id="proof104">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -5793,8 +5825,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Q0">Q0</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof104')">Proof.</span></div>
-<div class="proofscript" id="proof104">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof105')">Proof.</span></div>
+<div class="proofscript" id="proof105">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -5802,24 +5834,24 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.F">F</a></span> 0%<span class="id">nat</span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Q0">Q0</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof105')">Proof.</span></div>
-<div class="proofscript" id="proof105">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof106')">Proof.</span></div>
+<div class="proofscript" id="proof106">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="isfe0">isfe0</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Q0">Q0</a></span> <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof106')">Proof.</span></div>
-<div class="proofscript" id="proof106">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof107')">Proof.</span></div>
+<div class="proofscript" id="proof107">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_const">IsFiniteExpectation_const</a></span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="isfe_qmin0">isfe_qmin0</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Q0">Q0</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof107')">Proof.</span></div>
-<div class="proofscript" id="proof107">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof108')">Proof.</span></div>
+<div class="proofscript" id="proof108">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -5827,8 +5859,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvf</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span>)) <span class="id">f</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#FiniteRangeFunction">FiniteRangeFunction</a></span> (<span class="kwd">fun</span> ω0 : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id">g</span> (<span class="id">f</span> ω0))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;:= { <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#frf_vals">frf_vals</a></span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">s</span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id">g</span> <span class="id">s</span>) <span class="id"><a href="FormalML.utils.FiniteType.html#fin_elms">fin_elms</a></span> }.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof108')">Next Obligation.</span></div>
-<div class="proofscript" id="proof108">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof109')">Next Obligation.</span></div>
+<div class="proofscript" id="proof109">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#in_map_iff">in_map_iff</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">exists</span> (<span class="id">f</span> <span class="id">x</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">trivial</span>.<br/>
@@ -5837,8 +5869,8 @@ Qed.</div>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="id">Global</span> <span class="kwd">Instance</span> <span class="id"><a name="HasPreimageSingleton_discrete">HasPreimageSingleton_discrete</a></span> {<span class="id">B</span>} : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#HasPreimageSingleton">HasPreimageSingleton</a></span> (<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#discrete_sa">discrete_sa</a></span> <span class="id">B</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof109')">Proof.</span></div>
-<div class="proofscript" id="proof109">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof110')">Proof.</span></div>
+<div class="proofscript" id="proof110">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?????.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">red</span> <span class="kwd">in</span> <span class="id">rv</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id">rv</span> (<span class="id"><a href="FormalML.ProbTheory.DiscreteProbSpace.html#discrete_singleton">DiscreteProbSpace.discrete_singleton</a></span> <span class="id">c</span>)).<br/>
@@ -5847,8 +5879,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="rv_qlearn_XF">rv_qlearn_XF</a></span> (<span class="id">g</span> : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> -&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct">Rfct</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rvg</span> : <span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id">g</span> ω <span class="id">sa</span>)) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span> (<span class="id">g</span> ω) <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof110')">Proof.</span></div>
-<div class="proofscript" id="proof110">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof111')">Proof.</span></div>
+<div class="proofscript" id="proof111">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#rvplus_rv">rvplus_rv</a></span>; <span class="id">try</span> <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#rvscale_rv">rvscale_rv</a></span>.<br/>
@@ -5878,8 +5910,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv</span> := <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#rv_qmin1">rv_qmin1</a></span> <span class="id">g</span> <span class="id">_</span> <span class="id">rvg</span> <span class="id">_</span>) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.filt_sub">filt_sub</a></span> <span class="id">t</span>')<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> (<span class="id">g</span> ω) (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)) ω))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof111')">Proof.</span></div>
-<div class="proofscript" id="proof111">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof112')">Proof.</span></div>
+<div class="proofscript" id="proof112">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -5888,8 +5920,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvg</span>: <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">g</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">fbounded</span>: <span class="kwd">forall</span> ω, 0 &lt;= <span class="id">f</span> ω &lt;= 1) {<span class="id">isfeg</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">g</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">f</span> <span class="id">g</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof112')">Proof.</span></div>
-<div class="proofscript" id="proof112">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof113')">Proof.</span></div>
+<div class="proofscript" id="proof113">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">eapply</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_bounded">IsFiniteExpectation_bounded</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmin">rvmin</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) <span class="id">g</span>) <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmax">rvmax</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0) <span class="id">g</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmin">rvmin</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>, <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span>, <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span>.<br/>
@@ -5916,8 +5948,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">isfe</span> : <span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; (<span class="id">g</span> ω <span class="id">sa</span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sa</span> : (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span> (<span class="id">g</span> ω) <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof113')">Proof.</span></div>
-<div class="proofscript" id="proof113">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof114')">Proof.</span></div>
+<div class="proofscript" id="proof114">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">rv2</span> : <span class="kwd">forall</span> <span class="id">a</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> <span class="id">v</span> : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> (<span class="id">g</span> <span class="id">a</span>) (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> <span class="id">v</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
@@ -5993,8 +6025,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">isfe</span> := <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#isfe_qmin1">isfe_qmin1</a></span> <span class="id">g</span> <span class="id">rvg</span> <span class="id">isfe</span> <span class="id">sa</span>)  <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.filt_sub">filt_sub</a></span> <span class="id">t</span>')<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> (<span class="id">g</span> ω) (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)) ω))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof114')">Proof.</span></div>
-<div class="proofscript" id="proof114">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof115')">Proof.</span></div>
+<div class="proofscript" id="proof115">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_plus">IsFiniteExpectation_plus</a></span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#rvmult_rv">rvmult_rv</a></span>; <span class="id">try</span> <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#isfe_small_mult">isfe_small_mult</a></span>; <span class="id">try</span> <span class="id">easy</span>.<br/>
@@ -6048,8 +6080,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="cost_F_rv">cost_F_rv</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">sa</span> <span class="id">n</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.F">F</a></span> <span class="id">n</span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.cost">cost</a></span> <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof115')">Proof.</span></div>
-<div class="proofscript" id="proof115">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof116')">Proof.</span></div>
+<div class="proofscript" id="proof116">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">n</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_sa_sub">RandomVariable_sa_sub</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.isfilt">isfilt</a></span> <span class="id">n</span>)).<br/>
@@ -6058,8 +6090,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="qlearn_Q_basic_rv">qlearn_Q_basic_rv</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">t</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.F">F</a></span> <span class="id">t</span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">t</span> ω <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof116')">Proof.</span></div>
-<div class="proofscript" id="proof116">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof117')">Proof.</span></div>
+<div class="proofscript" id="proof117">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">t</span>; <span class="id">simpl</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#rvplus_rv">rvplus_rv</a></span>.<br/>
@@ -6089,15 +6121,15 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="qlearn_Q_basic_rv_dom">qlearn_Q_basic_rv_dom</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">t</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">t</span> ω <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof117')">Proof.</span></div>
-<div class="proofscript" id="proof117">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof118')">Proof.</span></div>
+<div class="proofscript" id="proof118">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">t</span>; <span class="id">simpl</span>; <span class="id">intros</span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="isfe_qlearn_Q_basic">isfe_qlearn_Q_basic</a></span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">t</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">t</span> ω <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof118')">Proof.</span></div>
-<div class="proofscript" id="proof118">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof119')">Proof.</span></div>
+<div class="proofscript" id="proof119">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">sa</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">t</span>.<br/>
@@ -6114,8 +6146,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="isl2_qlearn_Q_basic">isl2_qlearn_Q_basic</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">isl2_sa</span>: <span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp">IsLp</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> 2 (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.cost">cost</a></span> <span class="id">sa</span>)):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">k</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp">IsLp</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> 2 (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">k</span> ω <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof119')">Proof.</span></div>
-<div class="proofscript" id="proof119">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof120')">Proof.</span></div>
+<div class="proofscript" id="proof120">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">sa</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">k</span>.<br/>
@@ -6152,16 +6184,12 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">k</span> ω <span class="id">sa</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">H0</span>; <span class="id">try</span> <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id">H0</span>; <span class="id">try</span> <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp_scale">IsLp_scale</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp_opp">IsLp_opp</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mknonnegreal">mknonnegreal</a></span> <span class="id">_</span> <span class="id">H</span>) (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">k</span> ω <span class="id">sa</span>)); <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">H1</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp_proper">IsLp_proper</a></span>; <span class="id">try</span> <span class="id">easy</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>'.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp_opp">IsLp_opp</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#mknonnegreal">mknonnegreal</a></span> <span class="id">_</span> <span class="id">H</span>) (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q_basic">qlearn_Q_basic</a></span> <span class="id">k</span> ω <span class="id">sa</span>)); <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">H1</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp_proper">IsLp_proper</a></span>; <span class="id">try</span> <span class="id">easy</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#IsLp">IsLp</a></span> <span class="kwd">in</span> <span class="id">H1</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">H1</span>.<br/>
@@ -6170,7 +6198,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableLpR.html#rvpower2">rvpower2</a></span>; [|<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#nnfabs">nnfabs</a></span>].<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">rewrite</span> &lt;- <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.R_sqr.html#Rsqr_abs">Rsqr_abs</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;Admitted.</div>
+&nbsp;&nbsp;&nbsp;Qed.</div>
 <br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Definition</span> <span class="id"><a name="qlearn_Q">qlearn_Q</a></span> (<span class="id">t</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> -&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct">Rfct</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))<br/>
@@ -6178,15 +6206,15 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="rv_qlearn_Q">rv_qlearn_Q</a></span> (<span class="id">t</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) <span class="id">sa</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q">qlearn_Q</a></span> <span class="id">t</span> ω <span class="id">sa</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof120')">Proof.</span></div>
-<div class="proofscript" id="proof120">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
+<div class="proofscript" id="proof121">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q">qlearn_Q</a></span>; <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Instance</span> <span class="id"><a name="isfe_qlearn_Q">isfe_qlearn_Q</a></span> (<span class="id">t</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#nat">nat</a></span>) <span class="id">sa</span> :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q">qlearn_Q</a></span> <span class="id">t</span> ω <span class="id">sa</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
-<div class="proofscript" id="proof121">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof122')">Proof.</span></div>
+<div class="proofscript" id="proof122">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Q">qlearn_Q</a></span>; <span class="id">match_destr</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
@@ -6207,8 +6235,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">iso_f</span> := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Isomorphism</span> := <span class="id"><a href="FormalML.utils.FiniteTypeVector.html#finite_fun_vec_encoder">finite_fun_vec_encoder</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.finA">finA</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#EqDecsigT">EqDecsigT</a></span> (<span class="id">B</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">sa</span>, <span class="id">P</span> (<span class="id">x</span> <span class="id">sa</span>)) &lt;-&gt; (<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">P</span> (<span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id">iso_f</span> <span class="id">x</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof122')">Proof.</span></div>
-<div class="proofscript" id="proof122">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof123')">Proof.</span></div>
+<div class="proofscript" id="proof123">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.FiniteTypeVector.html#finite_fun_to_vector">finite_fun_to_vector</a></span>; <span class="id">simpl</span>.<br/>
@@ -6224,8 +6252,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">iso_f</span> := <span class="id"><a href="FormalML.utils.Isomorphism.html#iso_f">iso_f</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">Isomorphism</span> := <span class="id"><a href="FormalML.utils.FiniteTypeVector.html#finite_fun_vec_encoder">finite_fun_vec_encoder</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.finA">finA</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#EqDecsigT">EqDecsigT</a></span> (<span class="id">B</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)) <span class="kwd">in</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">sa</span>, <span class="id">P</span> (<span class="kwd">fun</span> <span class="id">A</span> =&gt; <span class="id">x</span> <span class="id">A</span> <span class="id">sa</span>)) &lt;-&gt; (<span class="kwd">forall</span> <span class="id">i</span> <span class="id">pf</span>, <span class="id">P</span> (<span class="kwd">fun</span> <span class="id">A</span> =&gt; <span class="id"><a href="FormalML.utils.DVector.html#vector_nth">vector_nth</a></span> <span class="id">i</span> <span class="id">pf</span> (<span class="id">iso_f</span> (<span class="id">x</span> <span class="id">A</span>)))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof123')">Proof.</span></div>
-<div class="proofscript" id="proof123">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof124')">Proof.</span></div>
+<div class="proofscript" id="proof124">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>; <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="FormalML.utils.FiniteTypeVector.html#finite_fun_to_vector">finite_fun_to_vector</a></span>; <span class="id">simpl</span>.<br/>
@@ -6248,8 +6276,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="nodup_length_le">nodup_length_le</a></span> {<span class="id">A</span>} (<span class="id">decA</span> : <span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span> : <span class="id">A</span>, {<span class="id">x</span> = <span class="id">y</span>} + {<span class="id">x</span> &lt;&gt; <span class="id">y</span>}) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decA</span> <span class="id">l</span>) &lt;= <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>)%<span class="id">nat</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof124')">Proof.</span></div>
-<div class="proofscript" id="proof124">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
+<div class="proofscript" id="proof125">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">induction</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">simpl</span>; <span class="id">lia</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -6257,8 +6285,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="nodup_length_nzero">nodup_length_nzero</a></span> {<span class="id">A</span>} (<span class="id">decA</span> : <span class="kwd">forall</span> <span class="id">x</span> <span class="id">y</span> : <span class="id">A</span>, {<span class="id">x</span> = <span class="id">y</span>} + {<span class="id">x</span> &lt;&gt; <span class="id">y</span>}) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(0 &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id">decA</span> <span class="id">l</span>) &lt;-&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;0 &lt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> <span class="id">l</span>)%<span class="id">nat</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof125')">Proof.</span></div>
-<div class="proofscript" id="proof125">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
+<div class="proofscript" id="proof126">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">split</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#nodup_length_le">nodup_length_le</a></span> <span class="id">decA</span> <span class="id">l</span>); <span class="id">lia</span>.<br/>
@@ -6272,8 +6300,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="id">Existing</span> <span class="kwd">Instance</span> <span class="id">Rbar_le_pre</span>.<br/>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="fold_left_Rmax_abs">fold_left_Rmax_abs</a></span> <span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#Forall">List.Forall</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#Rle">Rle</a></span> 0) <span class="id">l</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#fold_left">fold_left</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span> <span class="id">l</span> 0 = <span class="id"><a href="FormalML.utils.RealAdd.html#Rmax_list">Rmax_list</a></span> <span class="id">l</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof126')">Proof.</span></div>
-<div class="proofscript" id="proof126">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
+<div class="proofscript" id="proof127">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#fold_symmetric">fold_symmetric</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">induction</span> <span class="id">l</span>; <span class="id">simpl</span>; <span class="id">trivial</span>.<br/>
@@ -6319,8 +6347,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">k</span> ω <span class="id">sa</span>, <span class="id">X</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#S">S</a></span> <span class="id">k</span>) ω <span class="id">sa</span> = <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">X</span> <span class="id">k</span> ω <span class="id">sa</span>) +  ((α <span class="id">k</span> ω <span class="id">sa</span>) * (((<span class="id">XF</span> (<span class="id">X</span> <span class="id">k</span> ω) <span class="id">sa</span>) - (<span class="id">X</span> <span class="id">k</span> ω <span class="id">sa</span>) ) +  (<span class="id">w</span> <span class="id">k</span> ω <span class="id">sa</span>)))) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost">almost</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rmax_norm">Rmax_norm</a></span> <span class="id">_</span> (<span class="id">X</span> <span class="id">n</span> ω)) 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof127')">Proof.</span></div>
-<div class="proofscript" id="proof127">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
+<div class="proofscript" id="proof128">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">pose</span> (<span class="id">Xvec</span> := <span class="kwd">fun</span> <span class="id">t</span> ω =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.our_iso_f">our_iso_f</a></span> (<span class="id">X</span> <span class="id">t</span> ω)).<br/>
@@ -6591,8 +6619,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span>) <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#ConditionalExpectation">ConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> (<span class="kwd">fun</span> ω =&gt; (<span class="id">f1</span> ω) - (<span class="id">f2</span> ω)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Rbar_rvminus">Rbar_rvminus</a></span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#ConditionalExpectation">ConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> <span class="id">f1</span>) (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#ConditionalExpectation">ConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> <span class="id">f2</span>)).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof128')">Proof.</span></div>
-<div class="proofscript" id="proof128">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
+<div class="proofscript" id="proof129">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#Condexp_minus">Condexp_minus</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> <span class="id">f1</span> <span class="id">f2</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_impl">almost_impl</a></span>, <span class="id"><a href="FormalML.ProbTheory.Almost.html#all_almost">all_almost</a></span>; <span class="id">intros</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">H</span>.<br/>
@@ -6605,8 +6633,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom2</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">sub</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#sa_sub">sa_sub</a></span> <span class="id">dom2</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.dom">dom</a></span>) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.BasicUtils.html#rv_eq">rv_eq</a></span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#ConditionalExpectation">ConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> (<span class="kwd">fun</span> <span class="id">_</span> =&gt; <span class="id">c</span>)) (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> (<span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> <span class="id">c</span>)).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof129')">Proof.</span></div>
-<div class="proofscript" id="proof129">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
+<div class="proofscript" id="proof130">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#Condexp_id">Condexp_id</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id">rvconst</span>'.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -6619,8 +6647,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almostR2">almostR2</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#prob_space_sa_sub">prob_space_sa_sub</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span>) <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Logic.html#eq">eq</a></span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#ConditionalExpectation">ConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> (<span class="kwd">fun</span> ω =&gt; (<span class="id">f</span> ω) - (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteConditionalExpectation">FiniteConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> <span class="id">f</span> ω)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof130')">Proof.</span></div>
-<div class="proofscript" id="proof130">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
+<div class="proofscript" id="proof131">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id">Condexp_minus</span>' <span class="id">f</span> (<span class="id"><a href="FormalML.ProbTheory.ConditionalExpectation.html#FiniteConditionalExpectation">FiniteConditionalExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> <span class="id">sub</span> <span class="id">f</span>) <span class="id">sub</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Almost.html#almost_impl">almost_impl</a></span>, <span class="id"><a href="FormalML.ProbTheory.Almost.html#all_almost">all_almost</a></span>; <span class="id">intros</span> ??.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id">H</span>.<br/>
@@ -6636,8 +6664,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id">Ts1</span> -&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct">Rfct</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom1</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id">rv_X</span> ω <span class="id">sa</span>)} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom1</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#finfun_sa">finfun_sa</a></span> <span class="id">rv_X</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof131')">Proof.</span></div>
-<div class="proofscript" id="proof131">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
+<div class="proofscript" id="proof132">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#finfun_sa">finfun_sa</a></span>; <span class="id">simpl</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#rv_cod_iso_sa_b">rv_cod_iso_sa_b</a></span> (<span class="id"><a href="FormalML.utils.FiniteTypeVector.html#finite_fun_vec_encoder">finite_fun_vec_encoder</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.finA">finA</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#EqDecsigT">EqDecsigT</a></span> (<span class="id">B</span> := <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">cut</span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom1</span> (<span class="id"><a href="FormalML.ProbTheory.VectorRandomVariable.html#Rvector_borel_sa">Rvector_borel_sa</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#EqDecsigT">EqDecsigT</a></span> <span class="id"><a href="FormalML.utils.FiniteType.html#fin_elms">fin_elms</a></span>)))<br/>
@@ -6661,8 +6689,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X</span> : <span class="id">Ts1</span> -&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct">Rfct</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom1</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#finfun_sa">finfun_sa</a></span> <span class="id">rv_X</span>} :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom1</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id">rv_X</span> ω <span class="id">sa</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof132')">Proof.</span></div>
-<div class="proofscript" id="proof132">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
+<div class="proofscript" id="proof133">
 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">rv</span>': <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom1</span> (<span class="id"><a href="FormalML.ProbTheory.VectorRandomVariable.html#Rvector_borel_sa">Rvector_borel_sa</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#length">length</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="FormalML.CertRL.qvalues.html#EqDecsigT">EqDecsigT</a></span> <span class="id"><a href="FormalML.utils.FiniteType.html#fin_elms">fin_elms</a></span>))) (<span class="kwd">fun</span> <span class="id">x</span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.our_iso_f">our_iso_f</a></span> (<span class="id">rv_X</span> <span class="id">x</span>))).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
@@ -6684,8 +6712,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω : <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.Ts">Ts</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id">x</span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span> ω)) =<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">v</span> : <span class="id"><a href="FormalML.CertRL.mdp.html#state">state</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span> =&gt; <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_Qmin">qlearn_Qmin</a></span> <span class="id">x</span> <span class="id">v</span> * <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ps_P">ps_P</a></span> (<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#preimage_singleton">preimage_singleton</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.next_state">next_state</a></span> <span class="id">sa</span>) <span class="id">v</span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.FiniteType.html#fin_elms">fin_elms</a></span> (<span class="id">FiniteType</span> := <span class="id"><a href="FormalML.utils.FiniteType.html#fin_finite_nodup">fin_finite_nodup</a></span> <span class="id">_</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof133')">Proof.</span></div>
-<div class="proofscript" id="proof133">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
+<div class="proofscript" id="proof134">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#FiniteExpectation_compose_Finite_type">FiniteExpectation_compose_Finite_type</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
@@ -6693,8 +6721,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rmin_list_map_add">Rmin_list_map_add</a></span> {<span class="id">A</span>} (<span class="id">f</span> <span class="id">g</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span> + <span class="id">g</span> <span class="id">a</span>)) &gt;=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span>)) + (<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">g</span> <span class="id">a</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof134')">Proof.</span></div>
-<div class="proofscript" id="proof134">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
+<div class="proofscript" id="proof135">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">destruct</span> (<span class="id"><a href="FormalML.lib_utils.LibUtilsListAdd.html#is_nil_dec">is_nil_dec</a></span> <span class="id">l</span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">subst</span>; <span class="id">simpl</span>. <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">rewrite</span> <span class="id"><a href="FormalML.utils.RealAdd.html#Rmin_list_ge_iff">Rmin_list_ge_iff</a></span>.<br/>
@@ -6709,8 +6737,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rmin_list_map_sub">Rmin_list_map_sub</a></span> {<span class="id">A</span>} (<span class="id">f</span> <span class="id">g</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span> - <span class="id">g</span> <span class="id">a</span>)) &lt;=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span>)) - (<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">g</span> <span class="id">a</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof135')">Proof.</span></div>
-<div class="proofscript" id="proof135">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
+<div class="proofscript" id="proof136">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#Rmin_list_map_add">Rmin_list_map_add</a></span> (<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span> - <span class="id">g</span> <span class="id">a</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">g</span> <span class="id">a</span>))); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Min_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; <span class="id">f</span> <span class="id">a</span> - <span class="id">g</span> <span class="id">a</span> + <span class="id">g</span> <span class="id">a</span>) =<br/>
@@ -6731,8 +6759,8 @@ Qed.</div>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rmax_list_map_sub">Rmax_list_map_sub</a></span> {<span class="id">A</span>} (<span class="id">f</span> <span class="id">g</span> : <span class="id">A</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">l</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#list">list</a></span> <span class="id">A</span>):<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Max_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span> - <span class="id">g</span> <span class="id">a</span>)) &gt;=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Max_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span>)) - (<span class="id">Max_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">g</span> <span class="id">a</span>))).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof136')">Proof.</span></div>
-<div class="proofscript" id="proof136">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
+<div class="proofscript" id="proof137">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.CertRL.qvalues.html#Rmax_list_map_add">Rmax_list_map_add</a></span> (<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">f</span> <span class="id">a</span> - <span class="id">g</span> <span class="id">a</span>))<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; (<span class="id">g</span> <span class="id">a</span>))); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">Max_</span>{ <span class="id">l</span>}(<span class="kwd">fun</span> <span class="id">a</span> : <span class="id">A</span> =&gt; <span class="id">f</span> <span class="id">a</span> - <span class="id">g</span> <span class="id">a</span> + <span class="id">g</span> <span class="id">a</span>) =<br/>
@@ -6756,8 +6784,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">forall</span> <span class="id">sa</span>,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rabs">Rabs</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span> <span class="id">x</span> <span class="id">sa</span> - <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span> <span class="id">y</span> <span class="id">sa</span>) &lt;=      <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;β * <span class="id"><a href="FormalML.CertRL.mdp.html#Rmax_norm">Rmax_norm</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) (<span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_minus">Rfct_minus</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) <span class="id">x</span> <span class="id">y</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof137')">Proof.</span></div>
-<div class="proofscript" id="proof137">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
+<div class="proofscript" id="proof138">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">replace</span>  (<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#FiniteExpectation">FiniteExpectation</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.cost">cost</a></span> <span class="id">sa</span>) +<br/>
@@ -6850,8 +6878,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.mdp.html#Rmax_norm">Rmax_norm</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) (<span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_minus">Rfct_minus</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span> <span class="id">x</span>) (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span> <span class="id">y</span>)) &lt;=      <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;β * <span class="id"><a href="FormalML.CertRL.mdp.html#Rmax_norm">Rmax_norm</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) (<span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_minus">Rfct_minus</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) <span class="id">x</span> <span class="id">y</span>).<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof138')">Proof.</span></div>
-<div class="proofscript" id="proof138">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
+<div class="proofscript" id="proof139">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF_contraction0">qlearn_XF_contraction0</a></span> <span class="id">H</span> <span class="id">x</span> <span class="id">y</span>); <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.mdp.html#Rmax_norm">Rmax_norm</a></span>.<br/>
@@ -6876,8 +6904,8 @@ Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="Rfct_minus_zero">Rfct_minus_zero</a></span> (<span class="id">x</span> : <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct">Rfct</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) :<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_minus">Rfct_minus</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>)) <span class="id">x</span> (<span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_zero">Rfct_zero</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Specif.html#sigT">sigT</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.M">M</a></span>.(<span class="id"><a href="FormalML.CertRL.mdp.html#act">act</a></span>))) = <span class="id">x</span>.<br/>
-<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof139')">Proof.</span></div>
-<div class="proofscript" id="proof139">
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
+<div class="proofscript" id="proof140">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_minus">Rfct_minus</a></span>, <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_zero">Rfct_zero</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.CertRL.mdp.html#Rfct_eq_ext">Rfct_eq_ext</a></span>.<br/>
@@ -6899,8 +6927,8 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kwd">let</span> <span class="id">XF</span> := <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span>  <span class="kwd">in</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">sa</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> (<span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.F">F</a></span> 0%<span class="id">nat</span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id">X</span> 0%<span class="id">nat</span> ω <span class="id">sa</span>)) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.Almost.html#almost">almost</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#MDP.prts">prts</a></span> (<span class="kwd">fun</span> ω =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Lim_seq.html#is_lim_seq">is_lim_seq</a></span> (<span class="kwd">fun</span> <span class="id">n</span> =&gt; <span class="id"><a href="FormalML.CertRL.mdp.html#Rmax_norm">Rmax_norm</a></span> <span class="id">_</span> (<span class="id">X</span> <span class="id">n</span> ω)) 0).<br/>
-<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof140')">Proof.</span></div>
-<div class="proofscript" id="proof140">
+<div>&nbsp;&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof141')">Proof.</span></div>
+<div class="proofscript" id="proof141">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">rvXF</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#finfun_sa">finfun_sa</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#finfun_sa">finfun_sa</a></span> <span class="id"><a href="FormalML.QLearn.Tsitsiklis.html#qlearn_XF">qlearn_XF</a></span>).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
