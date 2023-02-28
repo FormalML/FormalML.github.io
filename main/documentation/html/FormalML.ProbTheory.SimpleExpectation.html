@@ -1185,7 +1185,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">RealAdd.list_sum</a></span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">c</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#scale_val_indicator">scale_val_indicator</a></span> <span class="id">f</span> <span class="id">c</span> <span class="id">omega</span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#frf_vals">frf_vals</a></span>)))).<br/>
-<br/>
+&nbsp;&nbsp;<br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="frf_indicator_sum_helper">frf_indicator_sum_helper</a></span> <span class="id">f</span> <span class="id">l</span> <span class="id">a</span>:<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#NoDup">NoDup</a></span> <span class="id">l</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#In">In</a></span> (<span class="id">f</span> <span class="id">a</span>) <span class="id">l</span> -&gt;<br/>
@@ -3080,6 +3080,32 @@
 &nbsp;&nbsp;Qed.</div>
 <br/>
 <span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#indep">indep</a></span>.<br/>
+<br/>
+<span class="kwd">Section</span> <span class="id"><a name="more_stuff">more_stuff</a></span>.<br/>
+&nbsp;&nbsp;<span class="kwd">Context</span> {<span class="id">Ts</span>:<span class="kwd">Type</span>} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">dom</span>: <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">prts</span>:<span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>).<br/>
+<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="frf_indicator_sum_simple_expectation">frf_indicator_sum_simple_expectation</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> : <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#more_stuff.Ts">Ts</a></span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv</span>:<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#more_stuff.dom">dom</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">f</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">frf</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#FiniteRangeFunction">FiniteRangeFunction</a></span> <span class="id">f</span>} :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> <span class="id">f</span> =<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.utils.RealAdd.html#list_sum">RealAdd.list_sum</a></span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map">map</a></span> (<span class="kwd">fun</span> <span class="id">c</span> =&gt; <span class="id">c</span> * <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#val_indicator">val_indicator</a></span> <span class="id">f</span> <span class="id">c</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#nodup">nodup</a></span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Req_EM_T">Req_EM_T</a></span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#frf_vals">frf_vals</a></span>))).<br/>
+<div>&nbsp;&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof121')">Proof.</span></div>
+<div class="proofscript" id="proof121">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> (<span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation_transport">SimpleExpectation_transport</a></span> <span class="id">_</span> (<span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#frf_indicator_sum">frf_indicator_sum</a></span> <span class="id">f</span>)).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#frf_indicator">frf_indicator</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">erewrite</span> <span class="id">SimpleExpectation_list_sum_map_all</span>'.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f_equal</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Lists.List.html#map_ext">map_ext</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#scaleSimpleExpectation">scaleSimpleExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation_pf_irrel">SimpleExpectation_pf_irrel</a></span>.<br/>
+&nbsp;&nbsp;Qed.</div>
+<br/>
+<span class="kwd">End</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#more_stuff">more_stuff</a></span>.<br/>
 
 </div>
 <div class="footer"><hr/>Generated by <a href="https://github.com/xavierleroy/coq2html/">coq2html</a></div>
