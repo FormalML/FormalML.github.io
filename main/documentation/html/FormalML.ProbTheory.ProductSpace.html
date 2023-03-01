@@ -1979,14 +1979,43 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation_nneg">SimpleExpectation_nneg</a></span>.<br/>
 &nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;<span class="id">erewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Rbar_NonnegExpectation_ext">Rbar_NonnegExpectation_ext</a></span>.<br/>
-&nbsp;&nbsp;- <span class="id">erewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#simple_Rbar_NonnegExpectation">simple_Rbar_NonnegExpectation</a></span>.<br/>
+&nbsp;&nbsp;- <span class="id">assert</span> (<span class="id">rv3</span>':<span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ps_product.A">A</a></span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ps_product.X">X</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> (<span class="kwd">fun</span> <span class="id">y</span> : <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ps_product.Y">Y</a></span> =&gt; <span class="id">f</span> (<span class="id">x</span>, <span class="id">y</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#borel_Rbar_borel">borel_Rbar_borel</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">revert</span> <span class="id">rv3</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_proper">RandomVariable_proper</a></span>; <span class="id">try</span> <span class="id">reflexivity</span>; <span class="id">intros</span> ?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_NonnegExpectation">simple_NonnegExpectation</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+<br/>
+<span class="comment">(*&nbsp;&nbsp;&nbsp;&nbsp;assert&nbsp;(frf_comp:forall&nbsp;x,&nbsp;In&nbsp;((fun&nbsp;x&nbsp;:&nbsp;X&nbsp;=&gt;&nbsp;SimpleExpectation&nbsp;(fun&nbsp;y&nbsp;:&nbsp;Y&nbsp;=&gt;&nbsp;f&nbsp;(x,&nbsp;y)))&nbsp;x)&nbsp;(frf_vals&nbsp;(FiniteRangeFunction&nbsp;:=&nbsp;frf))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;admit.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+*)</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="id">frf</span>' : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#FiniteRangeFunction">FiniteRangeFunction</a></span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ps_product.X">X</a></span> =&gt; <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span> (<span class="kwd">fun</span> <span class="id">y</span> : <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#ps_product.Y">Y</a></span> =&gt; <span class="id">f</span> (<span class="id">x</span>, <span class="id">y</span>)))).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span>; <span class="id">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#list_sum_map_frf">list_sum_map_frf</a></span>; <span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#frfscale">frfscale</a></span>.<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- (<span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#simple_Rbar_NonnegExpectation">simple_Rbar_NonnegExpectation</a></span> <span class="id">_</span> (<span class="id">rv</span>:=<span class="id">rv3</span>') (<span class="id">frf</span>:=<span class="id">frf</span>')).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">(*&nbsp;(frf:=Build_FiniteRangeFunction&nbsp;_&nbsp;_&nbsp;frf_comp)).&nbsp;*)</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.SimpleExpectation.html#SimpleExpectation">SimpleExpectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Rbar_finite_eq">Rbar_finite_eq</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#tonelli_nnexp_section_fst_simple_rv">tonelli_nnexp_section_fst_simple_rv</a></span> <span class="id">f</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable_proper">RandomVariable_proper</a></span>; <span class="id">try</span> <span class="id">easy</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">erewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_NonnegExpectation">simple_NonnegExpectation</a></span>.<br/>
+<span class="comment">(*&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;generalize&nbsp;(tonelli_nnexp_section_fst_simple_rv&nbsp;f).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;apply&nbsp;RandomVariable_proper;&nbsp;try&nbsp;easy.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;intros&nbsp;?.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now&nbsp;erewrite&nbsp;&lt;-&nbsp;simple_NonnegExpectation.<br/>
+*)</span><br/>
 &nbsp;&nbsp;- <span class="id">intros</span> ?.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">now</span> <span class="id">erewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.Expectation.html#simple_NonnegExpectation">simple_NonnegExpectation</a></span>.<br/>
 &nbsp;&nbsp;Admitted.</div>
