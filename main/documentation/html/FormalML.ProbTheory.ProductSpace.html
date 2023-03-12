@@ -6618,40 +6618,42 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span> ?; <span class="id">reflexivity</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
-&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_mult_0_1_bounded">IsFiniteExpectation_mult_0_1_bounded</a></span> {<span class="id">Ts</span>} {<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} {<span class="id">prts</span> : <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> <span class="id">g</span> : <span class="id">Ts</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
+&nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="IsFiniteExpectation_mult_bounded">IsFiniteExpectation_mult_bounded</a></span> {<span class="id">Ts</span>} {<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} {<span class="id">prts</span> : <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">f</span> <span class="id">g</span> : <span class="id">Ts</span> -&gt; <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>) (<span class="id">gmin</span> <span class="id">gmax</span> : <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rdefinitions.html#RbaseSymbolsImpl.R">R</a></span>)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvf</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> <span class="id">f</span>}  :<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, 0 &lt;= <span class="id">g</span> <span class="id">x</span> &lt;= 1) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">forall</span> <span class="id">x</span>, <span class="id">gmin</span> &lt;= <span class="id">g</span> <span class="id">x</span> &lt;= <span class="id">gmax</span>) -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">prts</span> <span class="id">f</span> -&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">prts</span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">f</span> <span class="id">g</span>).<br/>
 <div>&nbsp;<span class="toggleproof" onclick="toggleDisplay('proof215')">Proof.</span></div>
 <div class="proofscript" id="proof215">
 &nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">a</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 &lt;= <span class="id">f</span> <span class="id">a</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f</span> <span class="id">a</span> * <span class="id">gmin</span>  &lt;= <span class="id">f</span> <span class="id">a</span> * <span class="id">g</span> <span class="id">a</span> &lt;= <span class="id">f</span> <span class="id">a</span> * <span class="id">gmax</span>).<br/>
+&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">split</span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_l">Rmult_le_compat_l</a></span>; <span class="id">trivial</span>; <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;<span class="id">assert</span> (<span class="kwd">forall</span> <span class="id">a</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f</span> <span class="id">a</span> &lt;= 0 -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">f</span> <span class="id">a</span> * <span class="id">gmax</span> &lt;= <span class="id">f</span> <span class="id">a</span> * <span class="id">g</span> <span class="id">a</span> &lt;= <span class="id">f</span> <span class="id">a</span> * <span class="id">gmin</span>).<br/>
+&nbsp;&nbsp;&nbsp;{<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>; <span class="id">split</span>; <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_neg_l">Rmult_le_compat_neg_l</a></span>; <span class="id">trivial</span>; <span class="id">apply</span> <span class="id">H</span>.<br/>
+&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_bounded">IsFiniteExpectation_bounded</a></span> <span class="kwd">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> := <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmin">rvmin</a></span> <span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)) <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X3</span> := <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmax">rvmax</a></span> <span class="id">f</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#const">const</a></span> 0)).<br/>
-&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_min">IsFiniteExpectation_min</a></span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_const">IsFiniteExpectation_const</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_max">IsFiniteExpectation_max</a></span>; <span class="id">trivial</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#rvconst">rvconst</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_const">IsFiniteExpectation_const</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X1</span> := <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmin">rvmin</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">gmin</span> <span class="id">f</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">gmax</span> <span class="id">f</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id">rv_X3</span> := <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmax">rvmax</a></span> (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">gmin</span> <span class="id">f</span>) (<span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvscale">rvscale</a></span> <span class="id">gmax</span> <span class="id">f</span>)).<br/>
+&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_min">IsFiniteExpectation_min</a></span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
+&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation_max">IsFiniteExpectation_max</a></span>; <span class="id">typeclasses</span> <span class="id">eauto</span>.<br/>
 &nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">a</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> &lt;- <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_1_r">Rmult_1_r</a></span> <span class="kwd">at</span> 1.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_neg_l">Rmult_le_compat_neg_l</a></span>; <span class="id">lra</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_pos">Rmult_le_pos</a></span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H2</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>;  <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmin">Rmin</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> 0 (<span class="id">f</span> <span class="id">a</span>)); <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;&nbsp;- <span class="id">intros</span> ?.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H</span> <span class="id">a</span>).<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">apply</span> <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rcomplements.html#Rmult_le_0_r">Rmult_le_0_r</a></span>; <span class="id">lra</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="id">rewrite</span> &lt;- <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_1_r">Rmult_1_r</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rmult_le_compat_l">Rmult_le_compat_l</a></span>; <span class="id">lra</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H1</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">specialize</span> (<span class="id">H2</span> <span class="id">a</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rv_unfold</span>;  <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.Rbasic_fun.html#Rmax">Rmax</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">destruct</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Reals.RIneq.html#Rle_dec">Rle_dec</a></span> 0 (<span class="id">f</span> <span class="id">a</span>)); <span class="id">lra</span>.<br/>
 &nbsp;&nbsp;Qed.</div>
 <br/>
 &nbsp;&nbsp;<span class="kwd">Lemma</span> <span class="id"><a name="freezing">freezing</a></span> {<span class="id">Ts</span>} {<span class="id">dom</span> : <span class="id"><a href="FormalML.ProbTheory.Event.html#SigmaAlgebra">SigmaAlgebra</a></span> <span class="id">Ts</span>} {<span class="id">prts</span> : <span class="id"><a href="FormalML.ProbTheory.ProbSpace.html#ProbSpace">ProbSpace</a></span> <span class="id">dom</span>}<br/>
@@ -6662,7 +6664,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvf2</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#borel_sa">borel_sa</a></span> (<span class="kwd">fun</span> ω : <span class="id">Ts</span> =&gt; <span class="id">rv_f</span> (<span class="id">rv_X</span> ω, <span class="id">rv_Y</span> ω))}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvX</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id">A</span> <span class="id">rv_X</span>}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rvY</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <span class="id">dom</span> <span class="id">B</span> <span class="id">rv_Y</span>} <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#product_ps">product_ps</a></span> <span class="id">ps1</span> <span class="id">ps2</span>) <span class="id">rv_f</span>}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe</span> : <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">prts</span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">Ts</span> =&gt; <span class="id">rv_f</span> (<span class="id">rv_X</span> <span class="id">x</span>, <span class="id">rv_Y</span> <span class="id">x</span>))} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">isfe2</span> : <span class="kwd">forall</span> <span class="id">x</span>, <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span> <span class="id">prts</span> (<span class="kwd">fun</span> ω0 =&gt; <span class="id">rv_f</span> (<span class="id">x</span>, <span class="id">rv_Y</span> ω0))} <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<span class="id">rv2</span>: <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#RandomVariable">RandomVariable</a></span> <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id"><a href="FormalML.ProbTheory.SigmaAlgebras.html#pullback_sa">pullback_sa</a></span> <span class="id">A</span> <span class="id">rv_X</span>) <span class="id"><a href="FormalML.ProbTheory.BorelSigmaAlgebra.html#Rbar_borel_sa">Rbar_borel_sa</a></span><br/>
@@ -6745,9 +6747,11 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Expectation_Rbar_Expectation">Expectation_Rbar_Expectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#pullback_law">pullback_law</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">admit</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="https://coq.inria.fr/library/Coq.Program.Basics.html#compose">compose</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#Real_Rbar_rv">Real_Rbar_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">Search</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<br/>
@@ -6755,7 +6759,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="kwd">fun</span> <span class="id">omega</span> : <span class="id">X</span> * <span class="id">Y</span> =&gt; <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#rvmult">rvmult</a></span> <span class="id">rv_f</span> (<span class="kwd">fun</span> <span class="id">x</span> : <span class="id">X</span> * <span class="id">Y</span> =&gt; <span class="id">g</span> (<span class="id"><a href="https://coq.inria.fr/library/Coq.Init.Datatypes.html#fst">fst</a></span> <span class="id">x</span>)) <span class="id">omega</span>)).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#IsFiniteExpectation_Rbar">IsFiniteExpectation_Rbar</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#IsFiniteExpectation_mult_0_1_bounded">IsFiniteExpectation_mult_0_1_bounded</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#IsFiniteExpectation_mult_bounded">IsFiniteExpectation_mult_bounded</a></span> <span class="kwd">with</span> (<span class="id">gmin</span> := 0) (<span class="id">gmax</span> := 1); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">g</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>.<br/>
@@ -6767,16 +6771,13 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;{<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#IsFiniteExpectation_Rbar">IsFiniteExpectation_Rbar</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#IsFiniteExpectation_mult_0_1_bounded">IsFiniteExpectation_mult_0_1_bounded</a></span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#IsFiniteExpectation_mult_bounded">IsFiniteExpectation_mult_bounded</a></span> <span class="kwd">with</span> (<span class="id">gmin</span> := 0) (<span class="id">gmax</span> := 1).<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">now</span> <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#prod_section_fst_rv">prod_section_fst_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">g</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">match_destr</span>; <span class="id">lra</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariableFinite.html#IsFiniteExpectation">IsFiniteExpectation</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#Expectation_Rbar_Expectation">Expectation_Rbar_Expectation</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">generalize</span> (<span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#pullback_law">pullback_law</a></span> <span class="id">rv_Y</span> (<span class="kwd">fun</span> <span class="id">x0</span> : <span class="id">Y</span> =&gt; <span class="id"><a href="http://coquelicot.saclay.inria.fr/html/Coquelicot.Rbar.html#Finite">Finite</a></span> (<span class="id">rv_f</span> (<span class="id">x</span>,  <span class="id">x0</span>)))); <span class="id">intros</span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">rewrite</span> &lt;- <span class="id">H10</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">Search</span> "<span class="id">section_fst</span>".<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">admit</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;}<br/>
 <br/>
@@ -6810,7 +6811,7 @@ Qed.</div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RealRandomVariable.html#EventIndicator_pre_rv">EventIndicator_pre_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RandomVariable.html#fst_rv">fst_rv</a></span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.RbarExpectation.html#IsFiniteExpectation_Rbar">IsFiniteExpectation_Rbar</a></span>.<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#IsFiniteExpectation_mult_0_1_bounded">IsFiniteExpectation_mult_0_1_bounded</a></span>; <span class="id">trivial</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">apply</span> <span class="id"><a href="FormalML.ProbTheory.ProductSpace.html#IsFiniteExpectation_mult_bounded">IsFiniteExpectation_mult_bounded</a></span> <span class="kwd">with</span> (<span class="id">gmin</span> := 0) (<span class="id">gmax</span> :=1); <span class="id">trivial</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">intros</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id">g</span>.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id">unfold</span> <span class="id"><a href="FormalML.ProbTheory.FunctionsToReal.html#EventIndicator">EventIndicator</a></span>.<br/>
